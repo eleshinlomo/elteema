@@ -9,10 +9,10 @@ const SupplierPage = ()=>{
             {/* Text */}
             <div className="pb-4">
             <h3 className='text-green-700 font-extrabold'>Hello Farmers,</h3>
-            <p className='flex flex-wrap w-full lg:w-1/2 '>We invite you to get onboard. Open an account and start
-             selling directly to millions of customers today. 
-            We are breaking the barriers that comes with traditional market by removing the need 
-            for farmers to transport their produce to the market before finding customers to purchase their produce.</p>
+            <p className='flex flex-wrap w-full lg:w-1/2 '>We invite you to join us and start selling directly to millions of customers today.
+             By opening an account, you'll benefit from our innovative platform that eliminates the traditional barriers in the market. 
+             We simplify the process by removing the need 
+            for farmers to transport their produce to the market before finding buyers.</p>
             </div>
             
             {/* Form */}
