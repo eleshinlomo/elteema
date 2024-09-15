@@ -5,7 +5,7 @@ import { ArrowRightCircleIcon } from "lucide-react"
 const BestsellerPage = ()=>{
 
     return (
-        <div>
+        <div className="bg-green-300">
             <div className="flex justify-between px-10 py-8">
                 <h3 className="font-extrabold text-2xl lg:text-3xl">BESTSELLER</h3>
                 <div className="flex">

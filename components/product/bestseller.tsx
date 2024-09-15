@@ -22,9 +22,7 @@ const BestsellerProducts = ()=>{
 
 
     return (
-        <div>
-        
-       
+        <div className=''>
         
         <div className="grid  md:grid-cols-4 lg:grid-cols-4 pb-2 items-center gap-5 px-4">
         {bestsellers.map((product, index)=>

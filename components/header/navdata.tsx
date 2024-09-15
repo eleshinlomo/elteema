@@ -17,13 +17,13 @@ const navData: NavProps[] = [
   {
     id: 2,
     title: "Fresh",
-    path: "/fresh",
+    path: "/",
     newTab: false,
   },
   {
     id: 3,
     title: "Diary",
-    path: "/diary",
+    path: "/",
     newTab: false,
   },
   {
@@ -40,19 +40,19 @@ const navData: NavProps[] = [
       {
         id: 41,
         title: "About us",
-        path: "/about",
+        path: "/",
         newTab: false,
       },
       {
         id: 42,
         title: "Contact us",
-        path: "/contact",
+        path: "/",
         newTab: false,
       },
       {
         id: 43,
         title: "Blog",
-        path: "/blog",
+        path: "/",
         newTab: false,
       },
      

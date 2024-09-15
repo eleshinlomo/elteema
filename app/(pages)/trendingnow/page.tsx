@@ -6,7 +6,7 @@ const TrendingNowPage = ()=>{
 
     return (
         <div>
-             <div className="flex justify-between px-10 py-8">
+             <div className="flex justify-between px-10 py-8 bg-green-300">
                 <h3 className="font-extrabold text-2xl lg:text-3xl">TRENDING NOW</h3>
                 <div className="flex">
                     <a href='' className="font-extrabold text-sm lg:text-xl">SEE ALL</a>

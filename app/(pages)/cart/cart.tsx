@@ -18,6 +18,7 @@ import { Products } from '@/components/product/data/products'
 import { ProductProps } from '@/components/product/data/products'
 import CartBasket from './cartbasket'
 import Image from 'next/image'
+import HeaderAlert from '@/components/header/headeralert'
 
 
 
@@ -49,8 +50,8 @@ const handleNoItem = ()=>{
       </SheetTrigger>
       <SheetContent className="bg-white ">
         <SheetHeader className='mt-16'>
-          <SheetTitle className="bg-black"><div className="mt-10 w-full text-white text-center  font-extrabold">
-             <h3><span className="text-green-400">FREE DELIVERY</span> in Lagos for all orders above N30,000 or more. T&Cs Apply</h3>
+          <SheetTitle className="bg-black w-full"><div className="mt-10">
+             <HeaderAlert />
             </div>
           </SheetTitle>
           <SheetDescription className='text-center'>

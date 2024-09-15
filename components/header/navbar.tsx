@@ -6,8 +6,6 @@ import { useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
 import navdata from "./navdata";
 import { Button } from "../ui/button";
-import HeaderAlert from "./headeralert";
-import { ShoppingBasketIcon } from "lucide-react";
 import Cart from "../../app/(pages)/cart/cart";
 
 
@@ -18,12 +16,14 @@ interface NavBarProps {
 const NavBar = ({isHome}: NavBarProps) => {
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const [sticky, setSticky] = useState(false);
+  
   const navbarToggleHandler = () => {
     setNavbarOpen(!navbarOpen);
   };
 
   // Sticky Navbar
-  const [sticky, setSticky] = useState(false);
+  
   const handleStickyNavbar = () => {
     if (window.scrollY >= 80) {
       setSticky(true);
@@ -58,10 +58,10 @@ const NavBar = ({isHome}: NavBarProps) => {
     <div>
       
       <header
-        className={`header left-0 ${isHome ? 'top-10': null }top-0 bg-green-300 px-6 z-40 flex w-full items-center ${
+        className={`header  bg-green-300   px-6 z-40 flex w-full items-center ${
           sticky ? 
-          "dark:bg-gray-dark dark:shadow-sticky-dark fixed top-0 z-[9999] bg-white !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
-            : "absolute bg-transparent"
+          "dark:bg-gray-dark dark:shadow-sticky-dark fixed top-0 z-[9999]  !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
+            : "absolute bg-green-300"
         }`}
       >
         <div className="container">
@@ -177,13 +177,13 @@ const NavBar = ({isHome}: NavBarProps) => {
               </div>
               <div className="flex items-center justify-end pr-16 lg:pr-0">
                 <Link
-                  href="/signin"
+                  href="/"
                   className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
                 >
                   Sign In
                 </Link>
                 <Link
-                  href="/signup">
+                  href="/">
                   <Button
                   className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-green-600 hover:bg-green-600
                   px-8  text-base font-medium text-white transition duration-300 hover:bg-opacity-90 

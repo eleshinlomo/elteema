@@ -147,9 +147,11 @@ const Footer = ()=>{
 
           {/* Copyrights note */}
           <div className="text-sm text-gray-600 mr-4">
-            &copy; <a href='https://myafros.com'>myafros.com</a>. All rights reserved 2024.</div>
+            &copy; confidential. All rights reserved 2024.</div>
 
         </div>
+
+        <div className='text-center pb-3'>Built by <a href='https://myafros.com' className='text-blue-500'>myafros.com</a></div>
 
       </div>
     </footer>

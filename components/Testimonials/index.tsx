@@ -15,28 +15,28 @@ interface TestimonialProps {
 const testimonialData: TestimonialProps[] = [
   {
     id: 1,
-    name: "Adetoun Waters",
-    designation: "Nurse",
+    name: "Zig Bluetzach",
+    designation: "Baltimore city",
     content:
-      "Petrolage played a crucial role in securing my current position. Their recruiters demonstrated unparalleled professionalism throughout the process.",
+      "I now enjoy fresh produce straight from the farm yet saving a lot on delivery.",
     image: "/images/testimonials/auth-01.png",
     star: 5,
   },
   {
     id: 2,
-    name: "Emilia Tokunbo",
-    designation: "Software Engineer",
+    name: "Emilia Angel",
+    designation: "Silver Spring",
     content:
-      "I found my current job on the petrolage's website. I recommend this platform to anyone looking for opportunities in the Nigerian tech. Big thanks to the team.",
+      "The opportunity to order fruits and dairy produce directly from farmers is great.",
     image: "/images/testimonials/auth-02.png",
     star: 5,
   },
   {
     id: 3,
-    name: "Shane Okoro",
-    designation: "Petroleum Engineer",
+    name: "Shane boyles",
+    designation: "Baltimore",
     content:
-      "After finishing my masters in Petroleum Engineering, I started applying for jobs on this platform. Today I work with a company I love. Grateful to the Petrolage team.",
+      "All my life, I have searched for a service like this. I am so glad I finally found you guys.",
     image: "/images/testimonials/auth-03.png",
     star: 5,
   },
@@ -48,7 +48,7 @@ const Testimonials = () => {
       <div className="container">
         <SectionTitle
           title="Testimonials"
-          paragraph="We don&apos;t blow our own trumpet. Here from our users."
+          paragraph="See what people are saying about our services."
           center
         />
 
