@@ -1,10 +1,4 @@
-import womandress1 from '@/public/images/products/woman-8996552_640.jpg'
-import womandress2 from '@/public/images/products/woman-7411414_640.png'
-import womandress3 from '@/public/images/products/woman-2178816_1280.jpg'
-import womandress4 from '@/public/images/products/model-5660011_640.jpg'
-import womandress5 from '@/public/images/products/fashion-3083861_640.jpg'
-import womandress6 from '@/public/images/products/bride-2319466_640.jpg'
-import React from 'react'
+
 
 import apple from '@/public/images/products/apples.jpg'
 import berries from '@/public/images/products/berries.jpg'
@@ -14,7 +8,8 @@ import garlic from '@/public/images/products/garlic.jpg'
 import grape from '@/public/images/products/grapes.jpg'
 import onion from '@/public/images/products/onions.jpg'
 import orange from '@/public/images/products/oranges.jpg'
-import pepperoni from '@/public/images/products/pepperoni.jpg'
+import { ReactNode } from 'react'
+// import pepperoni from '@/public/images/products/pepperoni.jpg'
 
 
 export interface ProductProps {

@@ -68,7 +68,7 @@ const handleNoItem = ()=>{
          {cart.length > 0 ? 
          <div>
           {cart.map((item: ProductProps)=>
-          <div className='text-center my-4'>
+          <div className='text-center my-4' key={item.id}>
          
           <p>{item.name}</p>
 

@@ -58,7 +58,7 @@ const NavBar = ({isHome}: NavBarProps) => {
     <div>
       
       <header
-        className={`header left-0 ${isHome ? 'top-13 bg-green-200': 'top-0'} px-6 z-40 flex w-full items-center ${
+        className={`header left-0 ${isHome ? 'top-10': null }top-0 bg-green-300 px-6 z-40 flex w-full items-center ${
           sticky ? 
           "dark:bg-gray-dark dark:shadow-sticky-dark fixed top-0 z-[9999] bg-white !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
             : "absolute bg-transparent"

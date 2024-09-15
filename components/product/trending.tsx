@@ -1,7 +1,6 @@
 'use client'
-import React, {useState, useEffect, FormEvent} from 'react'
+import React, {useState, useEffect} from 'react'
 import AddToCartButton from "../../app/(pages)/cart/addtocartbtn"
-import { Button } from "../ui/button"
 import { Products, ProductProps } from "./data/products"
 import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
