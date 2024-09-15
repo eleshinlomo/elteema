@@ -1,0 +1,19 @@
+import { ShoppingBasketIcon } from "lucide-react"
+import { useContext } from "react"
+import { CartContext } from "@/components/contextproviders/cartcontext"
+
+const CartBasket = ()=>{
+    
+    const {totalItems} = useContext(CartContext)
+
+    return (
+        <div>
+      <a className="relative ">
+                  <p className="absolute top-[-13px] left-[-8px] lg:top-[-15px] lg:right-2.5 text-xl text-green-800 font-extrabold">{totalItems}</p>
+                <ShoppingBasketIcon className="mt-2 lg:h-8 lg:w-8" />
+          </a>
+        </div>
+    )
+}
+
+export default CartBasket
