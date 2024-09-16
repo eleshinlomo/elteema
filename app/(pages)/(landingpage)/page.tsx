@@ -7,6 +7,7 @@ import TrendingNowPage from "../trendingnow/page";
 import BestsellerPage from "../bestseller/page";
 import Testimonials from "@/components/Testimonials";
 import CookieWarningPage from "@/components/cookiewarning";
+import Proposition from "@/components/proposition";
 
 export default function Home() {
 
@@ -21,6 +22,7 @@ export default function Home() {
     
       <div className=" text-center ">
         <Hero  />
+        <Proposition />
         <TrendingNowPage />
         <BestsellerPage />
         <Testimonials />

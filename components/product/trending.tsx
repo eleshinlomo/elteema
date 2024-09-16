@@ -46,12 +46,12 @@ const TrendingProducts = ()=>{
         <div className='flex flex-col justify-center items-center'>
         
          <div>
-            <p className='text-2xl font-extrabold text-green-800'>Search food stuff</p>
+            <p className='text-2xl font-extrabold text-green-800'>Search food</p>
             <input value={itemToSearch} onChange={handleChange} className='border border-green-800 rounded-2xl my-2 px-4'  />
          </div>
 
         {searchedItem.length > 0 ?
-        <div className="grid  md:grid-cols-4 lg:grid-cols-4 pb-2 items-center gap-5 px-4 ">
+        <div className="grid  md:grid-cols-2 lg:grid-cols-4 pb-2 items-center gap-5 px-4 ">
         {searchedItem.map((item, index)=>
         <div  key={index} className="">
         <div  className=" ">
@@ -61,6 +61,8 @@ const TrendingProducts = ()=>{
          <p className="font-semibold text-2xl">{item.name}</p>
          <p>${item.price}</p>
          <AddToCartButton targetid={item.id}  />
+         <p><span className='font-bold'>Supplier</span>: {item.supplierName}</p>
+         <a href='/' className='bg-green-100 text-green-500 px-2'>Contact Supplier</a>
         </div>
 
          </div>

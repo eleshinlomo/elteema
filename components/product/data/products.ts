@@ -18,7 +18,10 @@ export interface ProductProps {
     price: number;
     trending: boolean;
     bestseller: boolean;
-    src: any
+    supplierName: string;
+    supplierEmail: string;
+    src: any;
+    quantity: number;
 }
 
 export const Products: ProductProps[] = [
@@ -27,15 +30,21 @@ export const Products: ProductProps[] = [
         price: 7.7,
         trending: true,
         bestseller: false,
-        src: apple
+        src: apple,
+        supplierName:'Evelyn Cairo',
+        supplierEmail: 'eve@something.com',
+        quantity: 1
 
     },
     {   id: 2,
-        name: 'berries',
+        name: 'rasberry',
         price: 5.56,
         trending: true,
         bestseller: false,
-        src: berries
+        src: berries,
+        supplierName:'Justin Blakes',
+        supplierEmail: 'justin@something.com',
+        quantity: 1
 
     },
     {   id: 3,
@@ -43,15 +52,21 @@ export const Products: ProductProps[] = [
         price: 6.78,
         trending: true,
         bestseller: false,
-        src: bellpepper
+        src: bellpepper,
+        supplierName:'Anthony Perez',
+        supplierEmail: 'anthony@something.com',
+        quantity: 1
 
     },
     {   id: 4,
-        name: 'tomatoes',
+        name: 'tomatoe',
         price: 5.7,
         trending: true,
         bestseller: false,
-        src: cherrytomatoes
+        src: cherrytomatoes,
+        supplierName:'Lekan Badmus',
+        supplierEmail: 'lekan@something.com',
+        quantity: 1
 
     },
     {   id: 5,
@@ -59,7 +74,10 @@ export const Products: ProductProps[] = [
         price: 5,
         trending: false,
         bestseller: true,
-        src: garlic
+        src: garlic,
+        supplierName:'Alonzo Murai',
+        supplierEmail: 'alonzo@something.com',
+        quantity: 1
 
     },
     {   id: 6,
@@ -67,7 +85,10 @@ export const Products: ProductProps[] = [
         price: 8.2,
         trending: false,
         bestseller: true,
-        src: grape
+        src: grape,
+        supplierName:'Chenzeng Fujito',
+        supplierEmail: 'chen@something.com',
+        quantity: 1
 
     },
     {   id: 7,
@@ -75,7 +96,10 @@ export const Products: ProductProps[] = [
         price: 5.5,
         trending: false,
         bestseller: true,
-        src: onion
+        src: onion,
+        supplierName:'Gil Andrez',
+        supplierEmail: 'gil@something.com',
+        quantity: 1
 
     },
     {   id: 8,
@@ -83,7 +107,10 @@ export const Products: ProductProps[] = [
         price: 6.75,
         trending: false,
         bestseller: true,
-        src: orange
+        src: orange,
+        supplierName:'Ulio Perez',
+        supplierEmail: 'u@something.com',
+        quantity: 1
 
     }
 ]

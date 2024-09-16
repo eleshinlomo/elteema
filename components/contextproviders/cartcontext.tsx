@@ -2,7 +2,8 @@
 import React, { createContext, useState } from "react";
 import { Products } from "../product/data/products";
 import { ProductProps } from "../product/data/products";
-import { addPrice } from "../utils";
+import { addPrice, getItemQuantity } from "../utils";
+import {IncreaseItemQuantity} from '../utils'
 
 
 
@@ -21,7 +22,10 @@ const defaultValues = {
         cartButtonText: '',
         removeItem: (targetid: number)=>{},
         totalPrice: 0,
-        isLoggedIn: false
+        isLoggedIn: false,
+        quantity: 0,
+        handleIncreaseQuantity: (targetid: number)=>{}
+        
 
 }
 
@@ -36,6 +40,8 @@ export const CartProvider = ({children} : CartContextProps)=>{
     const [cartButtonText, setCartButtonText] = useState('ADD TO CART')
     const [totalPrice, setTotalPrice] = useState<number>(0)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [quantity, setQuantity] = useState<number>(0)
+  
 
 
     const handleTotalPrice =()=>{
@@ -43,8 +49,10 @@ export const CartProvider = ({children} : CartContextProps)=>{
         setTotalPrice(price)
     }
 
+    
+//    Add new item to cart
     const addToCart = (targetid: number)=>{
-        const newProduct = Products.find((product)=>product.id === targetid)
+        const newProduct: any = Products.find((product)=>product.id === targetid)
         if(newProduct){
         const productExists = cart.find((product: any)=>product.id === newProduct.id)
 
@@ -55,9 +63,12 @@ export const CartProvider = ({children} : CartContextProps)=>{
         setTotalItems(totalItems + 1)
         const price = addPrice(cart) 
         setTotalPrice(Math.floor(price))
-        }       
+        setQuantity(getItemQuantity(targetid))
+        }   
+        
     }
 
+    // Remove Item
     const removeItem = (targetid: number)=>{
         if(cart.length == 0) return cart
         setCart(cart.filter((item: any)=>item.id !== targetid))
@@ -65,6 +76,11 @@ export const CartProvider = ({children} : CartContextProps)=>{
         const price = addPrice(cart) 
         setTotalPrice(price)
 
+    }
+
+    // Increase quantity
+    const handleIncreaseQuantity = (targetid: number)=>{
+        setQuantity(IncreaseItemQuantity(targetid))
     }
 
    
@@ -78,7 +94,9 @@ export const CartProvider = ({children} : CartContextProps)=>{
         cartButtonText,
         removeItem,
         totalPrice,
-        isLoggedIn
+        isLoggedIn,
+        quantity,
+        handleIncreaseQuantity
         
     }
 

@@ -15,9 +15,9 @@ const AddToCartButton = ({targetid}: AddToCartBtnProps)=>{
         <div>
             
              <p></p>
-            <Button className="bg-green-600 hover:bg-green-600 rounded-2xl text-white"
+            <button className="bg-green-600 hover:bg-green-600 rounded-2xl text-white px-2"
             onClick={()=>addToCart(targetid)}
-            >{cartButtonText}</Button>
+            >{cartButtonText}</button>
             
            
         </div>

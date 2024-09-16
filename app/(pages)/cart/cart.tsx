@@ -19,15 +19,18 @@ import { ProductProps } from '@/components/product/data/products'
 import CartBasket from './cartbasket'
 import Image from 'next/image'
 import HeaderAlert from '@/components/header/headeralert'
+import { IncreaseItemQuantity } from '@/components/utils'
+
 
 
 
 
 const Cart = ()=> {
 
- const {totalItems, cart, removeItem, totalPrice, isLoggedIn} = useContext(CartContext)
+ const {totalItems, cart, removeItem, totalPrice, isLoggedIn, quantity, handleIncreaseQuantity} = useContext(CartContext)
  const [message, setMessage] = useState('You have nothing in your cart.')
  const [checkoutText, setCheckoutText] = useState<string>('CHECK OUT')
+ 
  
 const handleNoItem = ()=>{
   if(totalItems === 0){
@@ -40,6 +43,8 @@ const handleNoItem = ()=>{
     return
   }
 }
+
+
  
 
   return (
@@ -71,10 +76,10 @@ const handleNoItem = ()=>{
           {cart.map((item: ProductProps)=>
           <div className='text-center my-4' key={item.id}>
          
-          <p>{item.name}</p>
+          <p>{item.name}<span>({item.quantity})</span></p>
 
           <div className='flex '>
-          <Button size='icon' className='text-3xl font-extrabold'>+</Button>
+          <Button size='icon' className='text-3xl font-extrabold' onClick={()=>IncreaseItemQuantity(item.quantity)} >+</Button>
           <button className='bg-green-600 hover:bg-green-600 rounded-2xl text-white px-2 h-8' 
           onClick={()=>removeItem(item.id)}>Remove item</button>
           <Button size='icon' className='text-3xl font-extrabold'>-</Button>
