@@ -19,7 +19,7 @@ import { ProductProps } from '@/components/product/data/products'
 import CartBasket from './cartbasket'
 import Image from 'next/image'
 import HeaderAlert from '@/components/header/headeralert'
-import { IncreaseItemQuantity } from '@/components/utils'
+
 
 
 
@@ -27,7 +27,13 @@ import { IncreaseItemQuantity } from '@/components/utils'
 
 const Cart = ()=> {
 
- const {totalItems, cart, removeItem, totalPrice, isLoggedIn, quantity, handleIncreaseQuantity} = useContext(CartContext)
+ const {totalItems, 
+  cart, removeItem, 
+  totalPrice, isLoggedIn, 
+  handleQuantityIncrease, 
+  handleQuantityDecrease
+} = useContext(CartContext)
+
  const [message, setMessage] = useState('You have nothing in your cart.')
  const [checkoutText, setCheckoutText] = useState<string>('CHECK OUT')
  
@@ -62,7 +68,7 @@ const handleNoItem = ()=>{
           <SheetDescription className='text-center'>
             <div>
             <Button  className="bg-black hover:bg-black text-white w-full" onClick={handleNoItem}>{checkoutText}</Button>
-            <p>Total Price: ${totalPrice}</p>
+            <p>Total Price:<span className='font-extrabold text-lg'> ${totalPrice}</span></p>
             {cart.length <= 1 ?
             <h2>There is <span className='text-green-800 font-extrabold text-lg'>{totalItems}</span> item in your cart.</h2>:
             <h2>There are <span className='text-green-800 font-extrabold text-lg'>{totalItems}</span> items in your cart.</h2>
@@ -79,10 +85,10 @@ const handleNoItem = ()=>{
           <p>{item.name}<span>({item.quantity})</span></p>
 
           <div className='flex '>
-          <Button size='icon' className='text-3xl font-extrabold' onClick={()=>IncreaseItemQuantity(item.quantity)} >+</Button>
+          <Button size='icon' className='text-3xl font-extrabold' onClick={()=>handleQuantityIncrease(item.id)} >+</Button>
           <button className='bg-green-600 hover:bg-green-600 rounded-2xl text-white px-2 h-8' 
           onClick={()=>removeItem(item.id)}>Remove item</button>
-          <Button size='icon' className='text-3xl font-extrabold'>-</Button>
+          <Button size='icon' className='text-3xl font-extrabold' onClick={()=>handleQuantityDecrease(item.id)}>-</Button>
           </div>
 
           </div>

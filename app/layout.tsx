@@ -8,8 +8,8 @@ import "../styles/globals.css";
 
 
 export const metadata: Metadata = {
-  title: "Teema Store",
-  description: "Shop like you run the world",
+  title: "Efarms",
+  description: "Shop directly from farms",
 };
 
 export default function RootLayout({

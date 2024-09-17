@@ -26,7 +26,23 @@ export const getItemQuantity = (targetid: number)=>{
    
 }
 
-export const IncreaseItemQuantity = (quantity: number)=>{
-  console.log(quantity)
-  return quantity += 1
+export const increaseItemQuantity = (targetid: number, cart: any[])=>{
+  const index = cart.findIndex((item)=>item.id === targetid)
+  if (index === -1) return cart
+  const modifiedCart = [...cart]
+  return modifiedCart[index].quantity += 1
+  
+}
+
+export const decreaseItemQuantity = (targetid: number, cart: any[])=>{
+  const index = cart.findIndex((item)=>item.id === targetid)
+  if (index === -1) return cart
+  const modifiedCart = [...cart]
+  if (modifiedCart[index].quantity === 0){
+    return modifiedCart.splice(index)
+  }else{
+    return modifiedCart[index].quantity -= 1 
+  }
+  
+  
 }
