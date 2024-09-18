@@ -27,9 +27,15 @@ const navData: NavProps[] = [
     newTab: false,
   },
   {
-    id: 33,
-    title: "Suppliers",
-    path: "/suppliers",
+    id: 4,
+    title: "Farmers",
+    path: "/farmerspage",
+    newTab: false,
+  },
+  {
+    id: 5,
+    title: "Drive for us",
+    path: "/driverspage",
     newTab: false,
   },
   {

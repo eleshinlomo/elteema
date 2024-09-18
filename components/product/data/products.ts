@@ -22,6 +22,7 @@ export interface ProductProps {
     supplierEmail: string;
     src: any;
     quantity: number;
+    star: string;
 }
 
 export const Products: ProductProps[] = [
@@ -33,7 +34,8 @@ export const Products: ProductProps[] = [
         src: apple,
         supplierName:'Evelyn Cairo',
         supplierEmail: 'eve@something.com',
-        quantity: 1
+        quantity: 1,
+        star: '★'
 
     },
     {   id: 2,
@@ -44,7 +46,8 @@ export const Products: ProductProps[] = [
         src: berries,
         supplierName:'Justin Blakes',
         supplierEmail: 'justin@something.com',
-        quantity: 1
+        quantity: 1,
+         star: '★'
 
     },
     {   id: 3,
@@ -55,7 +58,8 @@ export const Products: ProductProps[] = [
         src: bellpepper,
         supplierName:'Anthony Perez',
         supplierEmail: 'anthony@something.com',
-        quantity: 1
+        quantity: 1,
+         star: '★'
 
     },
     {   id: 4,
@@ -66,7 +70,8 @@ export const Products: ProductProps[] = [
         src: cherrytomatoes,
         supplierName:'Lekan Badmus',
         supplierEmail: 'lekan@something.com',
-        quantity: 1
+        quantity: 1,
+         star: '★'
 
     },
     {   id: 5,
@@ -77,7 +82,8 @@ export const Products: ProductProps[] = [
         src: garlic,
         supplierName:'Alonzo Murai',
         supplierEmail: 'alonzo@something.com',
-        quantity: 1
+        quantity: 1,
+         star: '★'
 
     },
     {   id: 6,
@@ -88,7 +94,8 @@ export const Products: ProductProps[] = [
         src: grape,
         supplierName:'Chenzeng Fujito',
         supplierEmail: 'chen@something.com',
-        quantity: 1
+        quantity: 1,
+         star: '★'
 
     },
     {   id: 7,
@@ -99,7 +106,8 @@ export const Products: ProductProps[] = [
         src: onion,
         supplierName:'Gil Andrez',
         supplierEmail: 'gil@something.com',
-        quantity: 1
+        quantity: 1,
+         star: '★'
 
     },
     {   id: 8,
@@ -110,7 +118,8 @@ export const Products: ProductProps[] = [
         src: orange,
         supplierName:'Ulio Perez',
         supplierEmail: 'u@something.com',
-        quantity: 1
+        quantity: 1,
+         star: '★'
 
     }
 ]

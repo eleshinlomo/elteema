@@ -36,8 +36,9 @@ const BestsellerProducts = ()=>{
          <p className="font-semibold text-2xl">{product.name}</p>
          <p>${product.price}</p>
          <AddToCartButton targetid={product.id} />
-         <p><span className='font-bold'>Supplier</span>: {product.supplierName}</p>
-         <a href='/' className='bg-white text-green-500 px-2'>Contact Supplier</a>
+         <p><span className='font-bold'>Farmer</span>: {product.supplierName}</p>
+         <p className='text-green-800 text-xl'>{product.star + product.star + product.star + product.star + product.star}</p>
+         <a href='/' className='bg-white text-green-500 p-2 rounded-2xl'>Contact Supplier</a>
         </div>:null}
 
          </div>

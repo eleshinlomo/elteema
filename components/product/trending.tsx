@@ -61,8 +61,9 @@ const TrendingProducts = ()=>{
          <p className="font-semibold text-2xl">{item.name}</p>
          <p>${item.price}</p>
          <AddToCartButton targetid={item.id}  />
-         <p><span className='font-bold'>Supplier</span>: {item.supplierName}</p>
-         <a href='/' className='bg-green-100 text-green-500 px-2'>Contact Supplier</a>
+         <p><span className='font-bold'>Farmer</span>: {item.supplierName}</p>
+         <p className='text-green-800 text-xl'>{item.star + item.star + item.star + item.star + item.star}</p>
+         <a href='/' className='bg-green-100 text-green-500 p-2 rounded-2xl'>Contact Supplier</a>
         </div>
 
          </div>

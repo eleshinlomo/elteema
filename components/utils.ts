@@ -38,7 +38,7 @@ export const decreaseItemQuantity = (targetid: number, cart: any[])=>{
   const index = cart.findIndex((item)=>item.id === targetid)
   if (index === -1) return cart
   const modifiedCart = [...cart]
-  if (modifiedCart[index].quantity === 0){
+  if (modifiedCart[index].quantity === 1){
     return modifiedCart.splice(index)
   }else{
     return modifiedCart[index].quantity -= 1 
