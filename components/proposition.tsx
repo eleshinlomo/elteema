@@ -1,6 +1,6 @@
 export default function Proposition() {
     return (
-      <section className="relative shadow-2xl bg-green-200 rounded-2xl">
+      <section className="relative shadow-2xl bg-white/50 rounded-2xl">
   
         {/* Section background (needs .relative class on parent and next sibling elements) */}
         <div className="absolute inset-0 top-1/2 md:mt-24 lg:mt-0  pointer-events-none" aria-hidden="true"></div>
