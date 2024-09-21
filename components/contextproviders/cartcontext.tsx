@@ -3,6 +3,7 @@ import React, { createContext, useState } from "react";
 import { Products } from "../product/productdata/products";
 import { ProductProps } from "../product/productdata/products";
 import { addPrice} from "../utils";
+import banana from '@/public/images/products/bananas.jpg'
 
 
 
@@ -18,14 +19,19 @@ interface CartProps {
     cart: ProductProps[]
 }
 
+
+
 const defaultValues = {
-        
+    cart:Products,
+    isLoggedIn: false,
     handleQuantityIncrease: (targetid: number)=>{},
     handleQuantityDecrease: (targetid: number)=>{},
     addToCart: (targetid: number)=>{},
     cartButtonText: '',
     removeItem: (targetid: number)=>{},
-    totalItems: 0
+    totalItems: 0,
+    totalPrice: 0,
+    quantity: 0
 }
 
 
