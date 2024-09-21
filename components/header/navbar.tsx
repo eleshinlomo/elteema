@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
 import navdata from "./navdata";
 import { Button } from "../ui/button";
-import Cart from "../../app/(pages)/cart/cart";
+import Cart from "../../app/(pages)/cartpage/cart";
+import Logo from '@/public/images/logos/efarms_logo.png'
 
 
 interface NavBarProps {
@@ -74,17 +75,17 @@ const NavBar = ({isHome}: NavBarProps) => {
                 } `}
               >
                 <Image
-                  src="/images/logo/petrolage_logo.png"
+                  src={Logo}
                   alt="logo"
                   width={140}
-                  height={30}
+                  height={80}
                   className="w-12 dark:hidden"
                 />
                 <Image
-                  src="/images/logo/petrolage_logo.png"
+                  src={Logo}
                   alt="logo"
                   width={140}
-                  height={30}
+                  height={80}
                   className="hidden w-12 dark:block"
                 />
               </Link>

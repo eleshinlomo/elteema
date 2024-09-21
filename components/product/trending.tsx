@@ -1,16 +1,17 @@
 'use client'
 import React, {useState, useEffect} from 'react'
-import AddToCartButton from "../../app/(pages)/cart/addtocartbtn"
-import { Products, ProductProps } from "./data/products"
+import AddToCartButton from "../../app/(pages)/cartpage/addtocartbtn"
+import { Products, ProductProps } from "./productdata/products"
 import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
 
 
 
 const TrendingProducts = ()=>{
-    const [trending, setTrending] = useState<ProductProps[]>([])
-    const [searchedItem, setSearchedItem] = useState(trending)
+    
+    const [trendingItems, setTrendingItems] = useState<ProductProps[]>([])
     const [itemToSearch, setItemToSearch ] = useState('')
+    const originalItems = Products.filter((item)=>item.trending === true)
     
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
@@ -18,42 +19,39 @@ const TrendingProducts = ()=>{
     }
 
 
-    const handleSingleProductSearch = ()=>{
-        const item: any = searchSingleProduct(itemToSearch)
-        if(item){
-         setSearchedItem(item)
-        }
-    }
-   
-
-    useEffect(()=>{
-        handleSingleProductSearch()
-    }, [itemToSearch])
-
     const getTrendingItems  = ()=>{
-        const trendingItems = Products.filter((item: ProductProps)=>item.trending === true)
-        if(trendingItems.length > 0){
-            setTrending(trendingItems)
-        }
+        
+    
+        const filteredItems = searchSingleProduct(itemToSearch, originalItems)
+        setTrendingItems(filteredItems)
+       
      }
 
      useEffect(()=>{
         getTrendingItems()
-     }, [])
+     }, [itemToSearch])
+
+     useEffect(()=>{
+        setTrendingItems(originalItems)
+     },[])
+
+     
 
 
     return (
         <div className='flex flex-col justify-center items-center'>
         
          <div>
-            <p className='text-2xl font-extrabold text-green-800'>Search food</p>
-            <input value={itemToSearch} onChange={handleChange} className='border border-green-800 rounded-2xl my-2 px-4'  />
+            {/* Search */}
+            <input value={itemToSearch} onChange={handleChange}
+            placeholder='Search food'
+             className='border border-green-900  rounded-2xl my-2 px-2 '  />
          </div>
 
-        {searchedItem.length > 0 ?
+        {trendingItems.length > 0 ?
         <div className="grid  md:grid-cols-2 lg:grid-cols-4 pb-2 items-center gap-5 px-4 ">
-        {searchedItem.map((item, index)=>
-        <div  key={index} className="">
+        {trendingItems.map((item, index)=>
+        <div  key={index} className="shadow-2xl w-full md:w-[300px] rounded-2xl">
         <div  className=" ">
         <div className="relative h-[150px] w-[300px]">
         <Image src={item.src} alt='woman image' fill />
@@ -61,7 +59,7 @@ const TrendingProducts = ()=>{
          <p className="font-semibold text-2xl">{item.name}</p>
          <p>${item.price}</p>
          <AddToCartButton targetid={item.id}  />
-         <p><span className='font-bold'>Farmer</span>: {item.supplierName}</p>
+         <p><span className='font-bold'>Supplier</span>: {item.supplierName}</p>
          <p className='text-green-800 text-xl'>{item.star + item.star + item.star + item.star + item.star}</p>
          <a href='/' className='bg-green-100 text-green-500 p-2 rounded-2xl'>Contact Supplier</a>
         </div>

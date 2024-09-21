@@ -1,13 +1,13 @@
-import BestsellerProducts from "@/components/product/bestseller"
+import TrendingProducts from "@/components/product/trending"
 import Trending from "@/components/product/trending"
 import { ArrowRightCircleIcon } from "lucide-react"
 
-const BestsellerPage = ()=>{
+const TrendingPage = ()=>{
 
     return (
-        <div className="bg-green-100  pb-4">
-            <div className="flex justify-between px-10 py-8">
-                <h3 className="font-extrabold text-2xl lg:text-3xl shadow-2xl">BESTSELLER</h3>
+        <div>
+             <div className="flex justify-between px-10 py-8 bg-green-100 shadow-2xl">
+                <h3 className="font-extrabold text-2xl lg:text-3xl">TRENDING NOW</h3>
                 <div className="flex">
                     <a href='' className="font-extrabold text-sm lg:text-xl">SEE ALL</a>
                     <ArrowRightCircleIcon className="mt-1" />
@@ -16,10 +16,10 @@ const BestsellerPage = ()=>{
 
              {/* Data */}
             <div>
-             <BestsellerProducts />
+             <TrendingProducts />
             </div>
         </div>
     )
 }
 
-export default BestsellerPage
+export default TrendingPage

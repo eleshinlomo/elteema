@@ -1,6 +1,5 @@
 'use client'
 import React from "react"
-import dresses from '@/public/images/dresses.jpg'
 import Image from "next/image"
 import { HeroData } from "./herodata"
 import {useState, useEffect} from 'react'
@@ -19,14 +18,18 @@ const Hero = ()=>{
         HeroData.map((data)=>{
          setTimeout(()=>{
            setHerocontent(
-           <div className="relative w-full h-[500px]">
+            
+            <div className="relative text-center grid grid-row w-full h-[500px]">
            <Image src={data.src} alt='image' fill />
-           <div className="absolute top-12 left-0 right-0 bottom-0 md:top-56 md:left-0 lg:top-56 lg:left-0">
-            <p className={`text-white py-12 px-4  text-2xl font-extrabold`}>{data.content}</p>
-           <Button className=" bg-green-600 text-white ">SHOP NOW</Button>
-            </div>
+           <p className={`absolute top-[200px] right-[0px] left-[0px] z-[50] text-white py-12 px-4  
+            text-2xl font-extrabold`}>{data.content}</p>
+           <a className="absolute top-[350px] left-0 right-0  md:top-[350px] lg:top-[350px]" href="/"><Button className=" 
+           bg-green-600 hover:bg-green-600 text-white font-extrabold ">SHOP NOW</Button></a>
 
-           </div>)
+           
+           </div>
+           
+           )
          }, 0)
 
 

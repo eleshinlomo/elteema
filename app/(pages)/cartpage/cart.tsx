@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/sheet"
 import { ShoppingBasketIcon } from "lucide-react"
 import Link from "next/link"
-import { Products } from '@/components/product/data/products'
-import { ProductProps } from '@/components/product/data/products'
+import { Products } from '@/components/product/productdata/products'
+import { ProductProps } from '@/components/product/productdata/products'
 import CartBasket from './cartbasket'
 import Image from 'next/image'
 import HeaderAlert from '@/components/header/headeralert'

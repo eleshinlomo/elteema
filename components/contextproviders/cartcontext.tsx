@@ -1,8 +1,8 @@
 
 import React, { createContext, useState } from "react";
-import { Products } from "../product/data/products";
-import { ProductProps } from "../product/data/products";
-import { addPrice, decreaseItemQuantity, getItemQuantity, increaseItemQuantity } from "../utils";
+import { Products } from "../product/productdata/products";
+import { ProductProps } from "../product/productdata/products";
+import { addPrice} from "../utils";
 
 
 
@@ -20,19 +20,12 @@ interface CartProps {
 
 const defaultValues = {
         
-        cart: [],
-        handleQuantityIncrease: (targetid: number)=>{},
-        handleQuantityDecrease: (targetid: number)=>{},
-        totalItems: 0,
-        addToCart: (targetid: number)=>{},
-        cartButtonText: '',
-        removeItem: (targetid: number)=>{},
-        totalPrice: 0,
-        isLoggedIn: false,
-        quantity: 0,
-       
-        
-
+    handleQuantityIncrease: (targetid: number)=>{},
+    handleQuantityDecrease: (targetid: number)=>{},
+    addToCart: (targetid: number)=>{},
+    cartButtonText: '',
+    removeItem: (targetid: number)=>{},
+    totalItems: 0
 }
 
 
@@ -41,60 +34,72 @@ export const CartContext = createContext(defaultValues)
 
 export const CartProvider = ({children} : CartContextProps)=>{
     
-    const [cart, setCart] = useState<any | null>([])
+    const [totalPrice, setTotalPrice] = useState<number>(0)
+    const [cart, setCart] = useState<any[]>([])
     const [totalItems, setTotalItems] = useState<number>(0)
     const [cartButtonText, setCartButtonText] = useState('ADD TO CART')
-    const [totalPrice, setTotalPrice] = useState<number>(0)
+    
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [quantity, setQuantity] = useState<number | any>(0)
+    const [quantity, setQuantity] = useState<number>(0)
   
 
 
   const handleQuantityIncrease = (targetid: number)=>{
-
-    setQuantity(increaseItemQuantity(targetid, cart))
-    setTotalPrice(addPrice(cart))
+    const product = cart.find((item)=>item.id === targetid)
+    if(product)
+    setQuantity(product.quantity += 1)
+    setTotalPrice(Number((addPrice(cart) * product.quantity).toFixed(2)))
   }
 
   const handleQuantityDecrease = (targetid: number)=>{
-    const updatedCart = decreaseItemQuantity(targetid, cart)
-    setQuantity(updatedCart)
-    setTotalPrice(addPrice(cart))
+    const product = cart.find((item)=>item.id === targetid)
+    if(product)
+    if(product.quantity === 1)return 1
+    setQuantity(product.quantity -= 1)
+    setTotalPrice(Number((addPrice(cart) * product.quantity).toFixed(2)))
   }
     
 //    Add new item to cart
     const addToCart = (targetid: number)=>{
         const newProduct: any = Products.find((product)=>product.id === targetid)
         if(newProduct){
-        const productExists = cart?.find((product: any)=>product.id === newProduct.id)
+        const productExists = cart.find((product: any)=>product.id === newProduct.id)
 
         if(productExists){
             return cart
         }
         setCart((prevItems: any)=>[...prevItems, newProduct])
         setTotalItems(totalItems + 1)
-        const quantity = getItemQuantity(targetid)
-        setQuantity(quantity + 1)
-        const price = addPrice(cart) 
-        setTotalPrice((price))
+        
+        setQuantity(newProduct.quantity = 1)
+        setTotalPrice(Number((totalPrice + newProduct.price).toFixed(2)))
         
         }   
         
     }
 
     // Remove Item
-    const removeItem = (targetid: number)=>{
-        const index = cart.findIndex((item: any)=>item.id === targetid)
-        console.log(index)
+    const removeItem = (targetid: number) => {
+        // Find the product to remove
+        const productToRemove = cart.find((item) => item.id === targetid);
         
-        setCart(cart[index].quantity = 0)
-        cart[index].price = 0
-        const price = addPrice(cart) 
-        setTotalPrice(price)
-        setCart(cart.filter((item: any)=>item.id !== cart[index].id))
-        setTotalItems(totalItems - 1)
-    }
-
+        // If the product is found
+        if (productToRemove) {
+            // Calculate the new total price excluding the removed product
+            const newTotalPrice = cart.reduce((total, product) => {
+                if (product.id !== targetid) {
+                    return total + product.price;
+                }
+                return total; // Don't add the removed item's price
+            }, 0);
+    
+            // Update the state
+            setCart(cart.filter((item) => item.id !== targetid)); // Remove item from cart
+            setTotalPrice(parseFloat(newTotalPrice.toFixed(2))); // Set new total price
+            setTotalItems(totalItems - 1); // Update total items count
+        }
+    };
+    
 
    
     

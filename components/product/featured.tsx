@@ -6,13 +6,13 @@ import { ProductProps, Products } from "./productdata/products"
 import Image from 'next/image'
 
 
-const BestsellerProducts = ()=>{
- const [bestsellers, setBestsellers] = useState<ProductProps[]>([])
+const FeaturedProducts = ()=>{
+ const [featured, setFeatured] = useState<ProductProps[]>([])
 
  const getBestsellers  = ()=>{
-    const bestsellerItems = Products.filter((item: ProductProps)=>item.bestseller === true)
+    const bestsellerItems = Products.filter((item: ProductProps)=>item.featured === true)
     if(bestsellerItems.length > 0){
-        setBestsellers(bestsellerItems)
+        setFeatured(bestsellerItems)
     }
  }
 
@@ -24,9 +24,9 @@ const BestsellerProducts = ()=>{
     return (
         <div className='flex flex-col justify-center items-center'>
         
-        <div className="grid  md:grid-cols-2 lg:grid-cols-4 pb-2 items-center gap-5 px-4 ">
-        {bestsellers.map((product, index)=>
-        <div  key={index} className='shadow-2xl w-full md:w-[300px] rounded-2xl'>
+        <div className="grid  md:grid-cols-2 lg:grid-cols-4 pb-2 items-center gap-5 px-4">
+        {featured.map((product, index)=>
+        <div  key={index} className='shadow-2xl w-full md:w-[300px] rounded-2x'>
 
          {product?
         <div  className="">
@@ -48,4 +48,4 @@ const BestsellerProducts = ()=>{
     )
 }
 
-export default BestsellerProducts
+export default FeaturedProducts
