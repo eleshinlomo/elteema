@@ -1,3 +1,4 @@
+'use client'
 import {useState, useEffect} from 'react'
 import FeaturedProducts from "@/components/product/featured"
 import { ArrowRightCircleIcon } from "lucide-react"

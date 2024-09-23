@@ -1,3 +1,4 @@
+'use client'
 import AllItems from "@/components/product/allitems"
 import BestsellerProducts from "@/components/product/bestseller"
 import Trending from "@/components/product/trending"

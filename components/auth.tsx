@@ -1,6 +1,6 @@
 
 
-export const login = (setIsLoggedIn: boolean)=>{
-   setIsLoggedIn = true
+export const login = ()=>{
+   
    window.location.href = '/dashboards/dashboardpages'
 }
