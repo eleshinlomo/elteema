@@ -7,11 +7,11 @@ import { searchSingleProduct } from '../utils'
 
 
 
-const TrendingProducts = ()=>{
+const AllItems = ()=>{
     
     const [trendingItems, setTrendingItems] = useState<ProductProps[]>([])
     const [itemToSearch, setItemToSearch ] = useState('')
-    const originalItems = Products.filter((item)=>item.trending === true)
+    const originalItems = Products.filter((item)=>item.bestseller === true)
     
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
@@ -40,7 +40,13 @@ const TrendingProducts = ()=>{
     return (
         <div className='text-center flex flex-col justify-center items-center'>
         
-        
+         <div>
+            {/* Search */}
+            <input value={itemToSearch} onChange={handleChange}
+            placeholder='Search food'
+             className='border border-green-900  rounded-2xl my-2 px-2 '  />
+         </div>
+
         {trendingItems.length > 0 ?
         <div className="grid  md:grid-cols-2 lg:grid-cols-4 pb-2 items-center gap-5 px-4 ">
         {trendingItems.map((item, index)=>
@@ -68,4 +74,4 @@ const TrendingProducts = ()=>{
     )
 }
 
-export default TrendingProducts
+export default AllItems

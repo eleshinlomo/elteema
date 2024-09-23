@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import HeaderAlert from "@/components/header/headeralert"
 import { CartProvider, CartContext } from "@/components/contextproviders/cartcontext"
 import Footer from "@/components/footer"
+import { PagesContext, PagesProvider } from "@/components/contextproviders/pagescontext"
 
 
 
@@ -19,6 +20,8 @@ const AllroutesLayout = ({children} : AllRoutesProps)=>{
     const pathname = usePathname()
     const [isHome, setIsHome] = useState(pathname === '/' ? true : false)
     const [isHeaderAlert, setIsHeaderAlert] = useState(true)
+    const pagesContext = useContext(PagesContext)
+    const {isLoggedIn} = pagesContext
     
 
 //   useEffect(()=>{
@@ -33,14 +36,16 @@ const AllroutesLayout = ({children} : AllRoutesProps)=>{
 
 
     return (
+            <PagesProvider>
             <CartProvider>
             <div>
             {isHeaderAlert ? <HeaderAlert />: null}
-            <NavBar isHome={isHome}   />
+            <NavBar isLoggedIn={isLoggedIn} />
             {children}
             <Footer />
             </div>
             </CartProvider>
+            </PagesProvider>
         
     )
 

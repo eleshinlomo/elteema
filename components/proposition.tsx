@@ -7,13 +7,13 @@ export default function Proposition() {
         
   
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="py-12 md:py-20">
+          <div className="py-8">
   
             {/* Section header */}
-            <div className="max-w-3xl mx-auto text-center pb-4 md:pb-4">
+            {/* <div className="max-w-3xl mx-auto text-center pb-4 md:pb-4">
               <h2 className="text-2xl mb-4">Shop with ease from qualified Farmers</h2>
               <p className="text-xl text-gray-600">Why join us.</p>
-            </div>
+            </div> */}
   
             {/* Items */}
             <div className="max-w-sm mx-auto text-white grid gap-6 md:grid-cols-2 lg:grid-cols-3 

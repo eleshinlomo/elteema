@@ -9,22 +9,21 @@ import Testimonials from "@/components/Testimonials";
 import CookieWarningPage from "@/components/cookiewarning";
 import Proposition from "@/components/proposition";
 import FeaturedPage from "../featuredpage/page";
+import AllItemsPage from "../allitems/page";
 
 export default function Home() {
 
   
   
-  const [isHome, setIsHome] = useState<boolean>(true)
-  
-
 
   return (
     
     
-      <div className=" text-center ">
+      <div className="   ">
         <Hero  />
         <FeaturedPage />
         <Proposition />
+        <AllItemsPage />
         <TrendingPage />
         <BestsellerPage />
         <Testimonials />

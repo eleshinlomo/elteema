@@ -3,7 +3,7 @@ import React, { createContext, useState } from "react";
 import { Products } from "../product/productdata/products";
 import { ProductProps } from "../product/productdata/products";
 import { addPrice} from "../utils";
-import banana from '@/public/images/products/bananas.jpg'
+
 
 
 

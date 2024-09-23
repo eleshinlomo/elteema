@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "../styles/globals.css";
+import { PagesProvider } from "@/components/contextproviders/pagescontext";
 
 
 
@@ -19,11 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={` antialiased`}
-      > 
-      
+      <body className={` antialiased`}> 
+        
         {children}
+       
       </body>
     </html>
   );

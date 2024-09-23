@@ -28,35 +28,42 @@ const navData: NavProps[] = [
   },
   {
     id: 4,
-    title: "Farmers",
-    path: "/farmerspage",
+    title: "Dashboard",
+    path: "/dashboards/dashboardpage",
     newTab: false,
   },
-  {
-    id: 5,
-    title: "Drive for us",
-    path: "/driverspage",
-    newTab: false,
-  },
+
   {
     id: 4,
     title: "Quick links",
     newTab: false,
     submenu: [
       {
-        id: 41,
+        id: 1,
+        title: "Farmers",
+        path: "/farmerspage",
+        newTab: false,
+      },
+      {
+        id: 2,
+        title: "Drive for us",
+        path: "/driverspage",
+        newTab: false,
+      },
+      {
+        id:3,
         title: "About us",
         path: "/",
         newTab: false,
       },
       {
-        id: 42,
+        id: 4,
         title: "Contact us",
         path: "/",
         newTab: false,
       },
       {
-        id: 43,
+        id: 5,
         title: "Blog",
         path: "/",
         newTab: false,

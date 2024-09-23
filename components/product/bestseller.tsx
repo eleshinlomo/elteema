@@ -22,7 +22,7 @@ const BestsellerProducts = ()=>{
 
 
     return (
-        <div className='flex flex-col justify-center items-center'>
+        <div className='text-center flex flex-col justify-center items-center'>
         
         <div className="grid  md:grid-cols-2 lg:grid-cols-4 pb-2 items-center gap-5 px-4 ">
         {bestsellers.map((product, index)=>
@@ -30,7 +30,7 @@ const BestsellerProducts = ()=>{
 
          {product?
         <div  className="">
-         <div className="relative h-[150px] w-[300px]">
+         <div className="relative h-[150px] w-[300px] border border-green-900">
         <Image src={product.src} alt='woman image' fill />
         </div>
          <p className="font-semibold text-2xl">{product.name}</p>

@@ -10,11 +10,14 @@ import Cart from "../../app/(pages)/cartpage/cart";
 import Logo from '@/public/images/logos/efarms_logo.png'
 
 
+
 interface NavBarProps {
-  isHome: boolean
+  isLoggedIn: boolean;
+  username: string
 }
 
-const NavBar = ({isHome}: NavBarProps) => {
+const NavBar = ({isLoggedIn, username}: NavBarProps) => {
+  console.log('Username', username, 'IsLoggin',isLoggedIn)
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [sticky, setSticky] = useState(false);
@@ -59,10 +62,10 @@ const NavBar = ({isHome}: NavBarProps) => {
     <div>
       
       <header
-        className={`header  bg-green-300   px-6 z-40 flex w-full items-center ${
+        className={`header bg-green-200  text-green-700    px-6 z-40 flex w-full items-center ${
           sticky ? 
           "dark:bg-gray-dark dark:shadow-sticky-dark fixed top-0 z-[9999]  !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
-            : "absolute bg-green-300"
+            : "absolute top-10"
         }`}
       >
         <div className="container">
@@ -176,30 +179,53 @@ const NavBar = ({isHome}: NavBarProps) => {
                   </ul>
                 </nav>
               </div>
+
+              
               <div className="flex items-center justify-end pr-16 lg:pr-0">
+
+              {/* Sign in */}
+              {isLoggedIn ? <p>Hi {username}</p> :
+
                 <Link
-                  href="/"
+                  href="/authpages/signin"
                   className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
                 >
                   Sign In
-                </Link>
-                <Link
-                  href="/">
+                </Link>}
+
+                {/* Sign up */}
+                {isLoggedIn? <Link
+                  href="/authpages/signin">
                   <Button
                   className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-green-600 hover:bg-green-600
                   px-8  text-base font-medium text-white transition duration-300 hover:bg-opacity-90 
                   md:block md:px-9 lg:px-6 xl:px-9 rounded-2xl">
                 
-                  Sign Up
+                  Sign Out
                   </Button>
+                </Link>:
+                <Link
+                href="/authpages/signup">
+                <Button
+                className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-green-600 hover:bg-green-600
+                px-8  text-base font-medium text-white transition duration-300 hover:bg-opacity-90 
+                md:block md:px-9 lg:px-6 xl:px-9 rounded-2xl">
+              
+                Sign Up
+                </Button>
                 </Link>
+                }
+
                 <div>
                   <ThemeToggler />
                 </div>
-                <div>
+              
+              <div>
                  <Cart  />
                 </div>
               </div>
+
+              
             </div>
           </div>
         </div>
