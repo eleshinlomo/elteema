@@ -1,5 +1,5 @@
 'use client'
-import {useState, useEffect, useContext} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { Button } from "@/components/ui/button"
 import { CartContext } from '@/components/contextproviders/cartcontext'
 import {
@@ -35,7 +35,9 @@ const Cart = ()=> {
 } = useContext(CartContext)
 
  const [message, setMessage] = useState('You have nothing in your cart.')
- const [checkoutText, setCheckoutText] = useState<string>('CHECK OUT')
+ const [checkoutText, setCheckoutText] = useState<string | React.ReactNode>('CHECK OUT')
+
+ const notLoggedInMessage = (<div>Please <a href='/authpages/signin' className='text-green-500 font-extrabold'>Sign in</a> to checkout</div>)
  
  
 const handleNoItem = ()=>{
@@ -45,7 +47,7 @@ const handleNoItem = ()=>{
   }
 
   if(!isLoggedIn){
-    setCheckoutText('Please Sign in to checkout')
+    setCheckoutText(notLoggedInMessage)
     return
   }
 }
