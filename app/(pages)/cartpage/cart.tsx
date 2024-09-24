@@ -61,16 +61,16 @@ const handleNoItem = ()=>{
       <SheetTrigger asChild>
       <button><CartBasket /></button>
       </SheetTrigger>
-      <SheetContent className="bg-white ">
+      <SheetContent className="bg-white lg:max-w-screen-sm overflow-y-scroll max-h-screen">
         <SheetHeader className='mt-16'>
           <SheetTitle className="bg-black w-full"><div className="mt-10">
              <HeaderAlert />
             </div>
           </SheetTitle>
           <SheetDescription className='text-center'>
-            <div>
-            <Button  className="bg-black hover:bg-black text-white w-full" onClick={handleNoItem}>{checkoutText}</Button>
-            <p>Total Price:<span className='font-extrabold text-lg'> ${totalPrice}</span></p>
+            <div className='flex flex-col justify-center items-center'>
+            <Button  className="bg-green-700 hover:bg-green-700 text-white rounded-2xl " onClick={handleNoItem}>{checkoutText}</Button>
+            <p className='text-green-600'>Total Price:<span className='font-extrabold text-lg'> ${totalPrice}</span></p>
             {cart.length <= 1 ?
             <h2>There is <span className='text-green-800 font-extrabold text-lg'>{totalItems}</span> item in your cart.</h2>:
             <h2>There are <span className='text-green-800 font-extrabold text-lg'>{totalItems}</span> items in your cart.</h2>
@@ -78,7 +78,7 @@ const handleNoItem = ()=>{
             </div>
           </SheetDescription>
         </SheetHeader>
-        <div className="flex flex-col items-center overflow-y-scroll">
+        <div className="flex flex-col justify-center items-center ">
          {cart.length > 0 ? 
          <div>
           {cart.map((item: ProductProps)=>

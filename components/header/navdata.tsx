@@ -51,17 +51,18 @@ const navData: NavProps[] = [
         newTab: false,
       },
       {
-        id:3,
+        id: 3,
+        title: "Contact us",
+        path: "/contactpage",
+        newTab: false,
+      },
+      {
+        id:4,
         title: "About us",
         path: "/",
         newTab: false,
       },
-      {
-        id: 4,
-        title: "Contact us",
-        path: "/",
-        newTab: false,
-      },
+    
       {
         id: 5,
         title: "Blog",

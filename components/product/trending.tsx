@@ -4,6 +4,7 @@ import AddToCartButton from "../../app/(pages)/cartpage/addtocartbtn"
 import { Products, ProductProps } from "./productdata/products"
 import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
+import ContactSeller from '../contactseller'
 
 
 
@@ -54,7 +55,7 @@ const TrendingProducts = ()=>{
          <AddToCartButton targetid={item.id}  />
          <p><span className='font-bold'>Supplier</span>: {item.supplierName}</p>
          <p className='text-green-800 text-xl'>{item.star + item.star + item.star + item.star + item.star}</p>
-         <a href='/' className='bg-green-100 text-green-500 p-2 rounded-2xl'>Contact Supplier</a>
+         <ContactSeller />
         </div>
 
          </div>

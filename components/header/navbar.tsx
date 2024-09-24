@@ -63,10 +63,10 @@ const NavBar = ({isLoggedIn, username}: NavBarProps) => {
     <div>
       
       <header
-        className={`header bg-green-200  text-green-700    px-6 z-40 flex w-full items-center ${
+        className={`header bg-green-200  text-green-700    px-6  flex w-full items-center ${
           sticky ? 
           "dark:bg-gray-dark dark:shadow-sticky-dark fixed top-0 z-[9999]  !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
-            : "absolute top-15"
+            : "absolute shadow-sticky backdrop-blur-sm top-15 z-[9999]"
         }`}
       >
         <div className="container">

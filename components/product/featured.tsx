@@ -4,6 +4,7 @@ import AddToCartButton from "../../app/(pages)/cartpage/addtocartbtn"
 import { Button } from "../ui/button"
 import { ProductProps, Products } from "./productdata/products"
 import Image from 'next/image'
+import ContactSeller from '../contactseller'
 
 
 const FeaturedProducts = ()=>{
@@ -38,7 +39,7 @@ const FeaturedProducts = ()=>{
          <AddToCartButton targetid={product.id} />
          <p><span className='font-bold'>Supplier</span>: {product.supplierName}</p>
          <p className='text-green-800 text-xl'>{product.star + product.star + product.star + product.star + product.star}</p>
-         <a href='/' className='bg-white text-green-500 p-2 rounded-2xl'>Contact Supplier</a>
+         <ContactSeller />
         </div>:null}
 
          </div>
