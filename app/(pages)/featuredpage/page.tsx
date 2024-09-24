@@ -23,7 +23,6 @@ const FeaturedPage = ()=>{
             <div className="flex justify-between px-4 py-4 ">
                 <h3 className="font-extrabold text-2xl lg:text-3xl">NEW & FRESH</h3>
                 <div className="flex">
-                    <a href='' className="font-extrabold text-sm lg:text-xl">SEE ALL</a>
                     <ArrowRightCircleIcon className="mt-1" />
                 </div>
             </div>

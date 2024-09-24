@@ -22,6 +22,7 @@ const NavBar = ({isLoggedIn, username}: NavBarProps) => {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [sticky, setSticky] = useState(false);
   
+  
   const navbarToggleHandler = () => {
     setNavbarOpen(!navbarOpen);
   };
@@ -65,7 +66,7 @@ const NavBar = ({isLoggedIn, username}: NavBarProps) => {
         className={`header bg-green-200  text-green-700    px-6 z-40 flex w-full items-center ${
           sticky ? 
           "dark:bg-gray-dark dark:shadow-sticky-dark fixed top-0 z-[9999]  !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
-            : "absolute top-10"
+            : "absolute top-15"
         }`}
       >
         <div className="container">
