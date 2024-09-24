@@ -14,7 +14,7 @@ import { Button } from "./ui/button"
   return (
   <div>
     <Dialog>
-  <DialogTrigger><button className="bg-green-200 rounded-2xl text-green px-2">Contact Seller</button></DialogTrigger>
+  <DialogTrigger><button className=" rounded-2xl text-green-500 px-2">Contact Seller</button></DialogTrigger>
   <DialogContent className="bg-green-900 text-white text-center flex flex-col justify-center items-center">
     <DialogHeader>
       <DialogTitle className="py-8"> Send a message to the Seller</DialogTitle>
