@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 const SupplierPage = ()=>{
     return (
         <div className="px-4">
-            <h1 className=" mt-16 text-green-700 font-extrabold text-center pt-8">ARE YOU A FARMER OR DO YOU HAVE A FARM?</h1>
+            <h1 className=" mt-32 text-green-700 font-extrabold text-center pt-8">ARE YOU A FARMER OR DO YOU HAVE A FARM?</h1>
 
             <div className=" gap-5 py-2">
             {/* Text */}

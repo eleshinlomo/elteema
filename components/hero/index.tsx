@@ -16,7 +16,7 @@ const Hero = ()=>{
     const loadImages = ()=>{
 
         HeroData.map((data)=>{
-         setTimeout(()=>{
+         
            setHerocontent(
             
             <div className="relative text-center grid grid-row w-full h-[500px]">
@@ -30,7 +30,6 @@ const Hero = ()=>{
            </div>
            
            )
-         }, 0)
 
 
 

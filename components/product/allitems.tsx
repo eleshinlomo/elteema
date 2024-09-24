@@ -44,7 +44,7 @@ const AllItems = ()=>{
          <div>
             {/* Search */}
             <input value={itemToSearch} onChange={handleChange}
-            placeholder='Search food'
+            placeholder='Search for farm produce '
              className='border border-green-900  rounded-2xl my-2 px-2 '  />
          </div>
 

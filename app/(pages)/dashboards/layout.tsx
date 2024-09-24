@@ -24,7 +24,7 @@ const DashboardLayout = ({children} : DashboardProps)=>{
             <DashboardProvider>
             {children}
             </DashboardProvider> :
-            <div className="pt-[100px] flex flex-col justify-center items-center pb-6">
+            <div className="text-center pt-[200px] flex flex-col justify-center items-center pb-6 px-2">
 
                 <p>You need to be loggedin to view the dashboard</p>
                 <Link href='/authpages/signin'><Button className="bg-green-500 hover:bg-green-500 text-white rounded-2xl mt-4">Please sign</Button></Link>

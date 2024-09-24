@@ -8,13 +8,7 @@ import ricefield from '@/public/images/hero/rice_field.jpg'
 
 
 export const HeroData = [
-  {
-    
-    content: 'Select best of African attires.',
-    url: '/allitems',
-    src: dresses,
-    color: 'green'
-  },
+
   {
     
     content: 'Buy fresh from over 100 suppliers in the US.',
