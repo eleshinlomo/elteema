@@ -16,11 +16,12 @@ const DashboardLayout = ({children} : DashboardProps)=>{
   const pagesContext = useContext(PagesContext)
 
   const {isLoggedIn} = pagesContext
+  console.log('Is LoggedIn dashboard layout', isLoggedIn)
 
     return (
            
          <div>
-            {isLoggedIn ?
+            {isLoggedIn && isLoggedIn === true ?
             <DashboardProvider>
             {children}
             </DashboardProvider> :

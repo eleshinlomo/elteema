@@ -8,7 +8,6 @@ interface PageContextProps {
 
 const defaultValue = {
  isLoggedIn: false,
- username: "Guest"
 }
 
 export const PagesContext = createContext(defaultValue)
@@ -16,11 +15,31 @@ export const PagesContext = createContext(defaultValue)
 export const PagesProvider = ({children}: PageContextProps)=>{
 
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
-    const [username, setUsername] = useState<string>('Guest')
+    
+
+   
+
+    const getUser = ()=>{
+      const userEmail = localStorage.getItem('email')
+      if(userEmail) {
+        console.log('Usermail', userEmail)
+        setIsLoggedIn(false)
+        console.log('IsLoggedIn PageContext', isLoggedIn)
+      }else{
+        console.log('User email not found')
+
+      }
+
+      
+    }
+    
+    useEffect(()=>{
+      getUser()
+    }, [isLoggedIn])
 
     const value = {
       isLoggedIn,
-      username
+
     }
 
     return (

@@ -21,7 +21,8 @@ const AllroutesLayout = ({children} : AllRoutesProps)=>{
     const [isHome, setIsHome] = useState(pathname === '/' ? true : false)
     const [isHeaderAlert, setIsHeaderAlert] = useState(true)
     const pagesContext = useContext(PagesContext)
-    const {username, isLoggedIn} = pagesContext
+    const {isLoggedIn} = pagesContext
+    console.log('isLoggedin Layout', isLoggedIn)
     
 
 //   useEffect(()=>{
@@ -40,7 +41,7 @@ const AllroutesLayout = ({children} : AllRoutesProps)=>{
             <CartProvider>
             <div>
             {isHeaderAlert ? <HeaderAlert />: null}
-            <NavBar isLoggedIn={isLoggedIn} username={username} />
+            <NavBar isLoggedIn={isLoggedIn}  />
             {children}
             <Footer />
             </div>

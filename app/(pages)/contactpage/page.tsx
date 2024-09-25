@@ -1,7 +1,6 @@
 'use client'
 import Link from "next/link";
 import { Metadata } from "next";
-import { login } from "@/components/auth";
 import {useState, useEffect} from 'react'
 
 
@@ -9,10 +8,26 @@ import {useState, useEffect} from 'react'
 const ContactPage = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  const [user, setUser] = useState<any[]>([])
 
   const handleLogin = ()=>{
     setIsLoggedIn(true)
   }
+
+  const getUser = ()=>{
+    if(window !== undefined){
+    const existingUser = localStorage.getItem('user')
+    if (existingUser) user.push(existingUser)
+    }
+    console.log('No user found')
+
+  }
+
+  useEffect(()=>{
+    getUser()
+  }, [])
+
+  
 
   return (
     <>

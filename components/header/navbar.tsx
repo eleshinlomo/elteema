@@ -13,11 +13,11 @@ import Logo from '@/public/images/logos/efarms_logo.png'
 
 interface NavBarProps {
   isLoggedIn: boolean;
-  username: string
+  
 }
 
-const NavBar = ({isLoggedIn, username}: NavBarProps) => {
-  console.log('Username', username, 'IsLoggin',isLoggedIn)
+const NavBar = ({isLoggedIn}: NavBarProps) => {
+  console.log('IsLoggin',isLoggedIn)
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [sticky, setSticky] = useState(false);
@@ -185,7 +185,7 @@ const NavBar = ({isLoggedIn, username}: NavBarProps) => {
               <div className="flex items-center justify-end pr-16 lg:pr-0">
 
               {/* Sign in */}
-              {isLoggedIn ? <p>Hi {username}</p> :
+              {isLoggedIn ? <p>Hi Guest</p> :
 
                 <Link
                   href="/authpages/signin"
