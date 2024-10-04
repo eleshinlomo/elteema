@@ -21,9 +21,9 @@ export default function Home() {
     
       <div className="   ">
         <Hero  />
-        <FeaturedPage />
-        <Proposition />
         <AllItemsPage />
+        <Proposition />
+        <FeaturedPage />
         <TrendingPage />
         <BestsellerPage />
         <Testimonials />

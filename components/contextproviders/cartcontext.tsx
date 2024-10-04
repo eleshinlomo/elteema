@@ -1,8 +1,10 @@
 
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Products } from "../product/productdata/products";
 import { ProductProps } from "../product/productdata/products";
 import { addPrice} from "../utils";
+import { fetchCart } from "../utils";
+import { saveCart } from "../utils";
 
 
 
@@ -50,11 +52,20 @@ export const CartProvider = ({children} : CartContextProps)=>{
   
 
 
+
+useEffect(()=>{
+    const savedCart = fetchCart()
+    console.log('Saved Cart',cart)
+    setTotalItems(savedCart && savedCart.length > 0 ? savedCart.length : 0)
+}, [])
+
+
   const handleQuantityIncrease = (targetid: number)=>{
     const product = cart.find((item)=>item.id === targetid)
     if(product)
     setQuantity(product.quantity += 1)
     setTotalPrice(Number((addPrice(cart) * product.quantity).toFixed(2)))
+    saveCart(cart)
   }
 
   const handleQuantityDecrease = (targetid: number)=>{
@@ -63,6 +74,7 @@ export const CartProvider = ({children} : CartContextProps)=>{
     if(product.quantity === 1)return 1
     setQuantity(product.quantity -= 1)
     setTotalPrice(Number((addPrice(cart) * product.quantity).toFixed(2)))
+    saveCart(cart)
   }
     
 //    Add new item to cart
@@ -79,6 +91,7 @@ export const CartProvider = ({children} : CartContextProps)=>{
         
         setQuantity(newProduct.quantity = 1)
         setTotalPrice(Number((totalPrice + newProduct.price).toFixed(2)))
+        saveCart(cart)
         
         }   
         
@@ -103,6 +116,7 @@ export const CartProvider = ({children} : CartContextProps)=>{
             setCart(cart.filter((item) => item.id !== targetid)); // Remove item from cart
             setTotalPrice(parseFloat(newTotalPrice.toFixed(2))); // Set new total price
             setTotalItems(totalItems - 1); // Update total items count
+            saveCart(cart)
         }
     };
     

@@ -15,7 +15,24 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
     console.log('Searched item', itemToSearch)
 }
 
-export const searchSingleProduct = (item: string, originalItems: ProductProps[])=>{
+export const saveCart = (cart: ProductProps[])=>{
+    if(window !== null){
+        localStorage.setItem('cart', JSON.stringify(cart))
+        console.log('Cart saved')
+    }
+}
+
+export const fetchCart = ()=>{
+    if(window !== null){
+    const cart = localStorage.getItem('cart')
+    if(cart){
+        return JSON.parse(cart)
+    }
+
+    }
+}
+
+export const searchSingleProduct = (item: string, originalItems: any[])=>{
     saveSearchedProduct(item)
     const ItemFound = originalItems.filter((product)=>product.name.toLowerCase().includes(item.toLowerCase()))
     return ItemFound

@@ -10,9 +10,11 @@ import ContactSeller from '../contactseller'
 
 const AllItems = ()=>{
     
-    const [trendingItems, setTrendingItems] = useState<ProductProps[]>([])
-    const [itemToSearch, setItemToSearch ] = useState('')
-    const originalItems = Products.filter((item)=>item.bestseller === true)
+    const [allProducts, setAllProducts] = useState<ProductProps[]>([])
+    const [itemToSearch, setItemToSearch ] = useState<string>('')
+    const [searchedItemList, setSearchItemList] = useState<any[]>([])
+    const [searchedItemFound, setSearchedItemFound] = useState(false)
+   //  const originalItems = Products.filter((item)=>item.bestseller === true)
     
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
@@ -20,20 +22,29 @@ const AllItems = ()=>{
     }
 
 
-    const getTrendingItems  = ()=>{
-        
-        const filteredItems = searchSingleProduct(itemToSearch, originalItems)
-        setTrendingItems(filteredItems)
+    const getSearchedItems  = ()=>{
+        if(itemToSearch === '') {
+         setSearchItemList([])
+         return
+        }
+      
+        setSearchItemList(Products.filter((item)=>item.name.toLowerCase().includes(itemToSearch.toLowerCase())))
+        setSearchedItemFound(true)
+        return
        
      }
 
      useEffect(()=>{
-        getTrendingItems()
+        getSearchedItems()
      }, [itemToSearch])
 
      useEffect(()=>{
-        setTrendingItems(originalItems)
+        setAllProducts(Products)
      },[])
+
+   //   useEffect(()=>{
+   //    setSearchItemList(Products)
+   // },[itemToSearch])
 
      
 
@@ -48,11 +59,11 @@ const AllItems = ()=>{
              className='border border-green-900  rounded-2xl my-2 px-2 '  />
          </div>
 
-        {trendingItems.length > 0 ?
-        <div className="grid  md:grid-cols-2 lg:grid-cols-4 pb-2 items-center gap-5 px-4 ">
-        {trendingItems.map((item, index)=>
-        <div  key={index} className="shadow-2xl w-full md:w-[300px] rounded-2xl">
-        <div  className=" ">
+        {searchedItemFound && searchedItemList.length > 0 ?
+        <div className="grid md:grid-cols-3 items-center  pb-2  gap-5 px-4 ">
+
+        {searchedItemList.slice(0, 3).map((item, index)=>
+        <div  key={index} className="shadow-2xl w-full   rounded-2xl">
         <div className="relative h-[150px] w-[300px] border border-green-900">
         <Image src={item.src} alt='woman image' fill />
         </div>
@@ -63,13 +74,29 @@ const AllItems = ()=>{
          <p className='text-green-800 text-xl'>{item.star + item.star + item.star + item.star + item.star}</p>
          <ContactSeller />
         </div>
+           )}
 
+        </div>: 
+
+         <div className="grid  md:grid-cols-2 lg:grid-cols-4 pb-2 items-center gap-5 px-4 ">
+
+         {allProducts.slice(0, 4).map((item, index)=>
+         <div  key={index} className="shadow-2xl w-full md:w-[300px] rounded-2xl">
+         <div className="relative h-[150px] w-[300px] border border-green-900">
+         <Image src={item.src} alt='woman image' fill />
          </div>
-        )}
-        </div>:
-        <div><p className='text-2xl'>We cannot find the item you are looking for.</p></div>
+         <p className="font-semibold text-2xl">{item.name}</p>
+         <p>${item.price}</p>
+         <AddToCartButton targetid={item.id}  />
+         <p><span className='font-bold'>Supplier</span>: {item.supplierName}</p>
+         <p className='text-green-800 text-xl'>{item.star + item.star + item.star + item.star + item.star}</p>
+         <ContactSeller />
+         </div>
+         )}
+         </div>
+   
          }
-        
+
 
         </div>
     )
