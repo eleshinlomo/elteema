@@ -17,17 +17,23 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
 
 export const saveCart = (cart: ProductProps[])=>{
     if(window !== null){
+        if(cart.length > 0){
         localStorage.setItem('cart', JSON.stringify(cart))
         console.log('Cart saved')
+        }
+
+        return
     }
 }
 
-export const fetchCart = ()=>{
+export const fetchCart = (cart: ProductProps[])=>{
     if(window !== null){
-    const cart = localStorage.getItem('cart')
-    if(cart){
-        return JSON.parse(cart)
+    const savedCart = localStorage.getItem('cart')
+    if(savedCart){
+        return JSON.parse(savedCart)
     }
+
+    return cart
 
     }
 }

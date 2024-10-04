@@ -51,13 +51,16 @@ export const CartProvider = ({children} : CartContextProps)=>{
     const [quantity, setQuantity] = useState<number>(0)
   
 
+useEffect(()=>{
+    saveCart(cart)
+}, [cart, totalItems])
 
 
 useEffect(()=>{
-    const savedCart = fetchCart()
-    console.log('Saved Cart',cart)
-    setTotalItems(savedCart && savedCart.length > 0 ? savedCart.length : 0)
-}, [])
+    const savedCart = fetchCart(cart)
+    console.log('Saved Cart',savedCart)
+    setTotalItems(savedCart && savedCart.length >= 0 ? savedCart.length : cart.length)
+}, [cart])
 
 
   const handleQuantityIncrease = (targetid: number)=>{
@@ -65,7 +68,7 @@ useEffect(()=>{
     if(product)
     setQuantity(product.quantity += 1)
     setTotalPrice(Number((addPrice(cart) * product.quantity).toFixed(2)))
-    saveCart(cart)
+    
   }
 
   const handleQuantityDecrease = (targetid: number)=>{
@@ -87,7 +90,7 @@ useEffect(()=>{
             return cart
         }
         setCart((prevItems: any)=>[...prevItems, newProduct])
-        setTotalItems(totalItems + 1)
+        setTotalItems(totalItems - 1)
         
         setQuantity(newProduct.quantity = 1)
         setTotalPrice(Number((totalPrice + newProduct.price).toFixed(2)))
@@ -115,8 +118,10 @@ useEffect(()=>{
             // Update the state
             setCart(cart.filter((item) => item.id !== targetid)); // Remove item from cart
             setTotalPrice(parseFloat(newTotalPrice.toFixed(2))); // Set new total price
-            setTotalItems(totalItems - 1); // Update total items count
+            setTotalItems(cart.length); // Update total items count
+            setQuantity(productToRemove.quantity - 1)
             saveCart(cart)
+            
         }
     };
     
