@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
 import navdata from "./navdata";
 import { Button } from "../ui/button";
-import Cart from "../../app/(pages)/cartpage/cart";
 import Logo from '@/public/images/logos/efarms_logo.png'
 import HeaderAlert from "./headeralert";
+import CartSideBar from "../cartpage/cartSideBar";
 
 
 
@@ -223,9 +223,9 @@ const NavBar = ({isLoggedIn}: NavBarProps) => {
                 <div>
                   <ThemeToggler />
                 </div>
-              
+              {/* Cart sidebar */}
               <div>
-                 <Cart  />
+                 <CartSideBar />
                 </div>
               </div>
 

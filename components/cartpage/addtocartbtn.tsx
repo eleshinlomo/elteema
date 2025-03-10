@@ -1,6 +1,6 @@
-import { Button } from "../../../components/ui/button"
+import { Button } from "../ui/button"
 import { useContext } from "react"
-import { CartContext } from "../../../components/contextproviders/cartcontext"
+import { CartContext } from "@/contextproviders/cartcontext"
 
 interface AddToCartBtnProps {
     targetid: number

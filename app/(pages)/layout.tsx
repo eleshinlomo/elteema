@@ -2,10 +2,9 @@
 import NavBar from "@/components/header/navbar"
 import { useState, useEffect, useContext} from "react"
 import { usePathname } from "next/navigation"
-import HeaderAlert from "@/components/header/headeralert"
-import { CartProvider, CartContext } from "@/components/contextproviders/cartcontext"
+import { CartProvider } from "@/contextproviders/cartcontext"
 import Footer from "@/components/footer"
-import { PagesContext, PagesProvider } from "@/components/contextproviders/pagescontext"
+import { PagesProvider, PagesContext } from "@/contextproviders/pagescontext"
 
 
 

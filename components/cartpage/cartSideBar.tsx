@@ -1,7 +1,7 @@
 'use client'
 import React, {useState, useEffect, useContext} from 'react'
 import { Button } from "@/components/ui/button"
-import { CartContext } from '@/components/contextproviders/cartcontext'
+import { CartContext } from '@/contextproviders/cartcontext'
 import {
   Sheet,
   SheetClose,
@@ -12,9 +12,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { ShoppingBasketIcon } from "lucide-react"
-import Link from "next/link"
-import { Products } from '@/components/product/productsdata'
 import { ProductProps } from '@/components/product/productsdata'
 import CartBasket from './cartbasket'
 import Image from 'next/image'
@@ -25,7 +22,7 @@ import HeaderAlert from '@/components/header/headeralert'
 
 
 
-const Cart = ()=> {
+const CartSideBar = ()=> {
 
  const {totalItems, 
   cart, removeItem, 
@@ -62,7 +59,7 @@ const handleNoItem = ()=>{
       <button><CartBasket /></button>
       </SheetTrigger>
       <SheetContent className="bg-green-100 lg:max-w-screen-sm overflow-y-scroll max-h-screen z-[9999]">
-        <SheetHeader className='mt-16'>
+        <SheetHeader className=''>
           <SheetTitle className="bg-black w-full"><div className="mt-10">
              <HeaderAlert />
             </div>
@@ -84,13 +81,17 @@ const handleNoItem = ()=>{
           {cart.map((item: ProductProps)=>
           <div className='text-center my-4' key={item.id}>
          
-          <p>{item.name}<span>({item.quantity})</span></p>
+          <div className='flex'>
+          <Button size='icon' className='text-3xl font-extrabold' onClick={()=>handleQuantityDecrease(item.id)}>-</Button>
+            <span className='mt-3'>{item.name} ({item.quantity})</span>
+          <Button size='icon' className='text-3xl font-extrabold mt-1' onClick={()=>handleQuantityIncrease(item.id)} >+</Button>
+          </div>
 
-          <div className='flex '>
-          <Button size='icon' className='text-3xl font-extrabold' onClick={()=>handleQuantityIncrease(item.id)} >+</Button>
+          <div className=''>
+          
           <button className='bg-green-600 hover:bg-green-600 rounded-2xl text-white px-2 h-8' 
           onClick={()=>removeItem(item.id)}>Remove item</button>
-          <Button size='icon' className='text-3xl font-extrabold' onClick={()=>handleQuantityDecrease(item.id)}>-</Button>
+          
           </div>
 
           </div>
@@ -111,4 +112,4 @@ const handleNoItem = ()=>{
   )
 }
 
-export default Cart
+export default CartSideBar

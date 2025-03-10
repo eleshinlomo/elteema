@@ -1,6 +1,6 @@
 import { ShoppingBasketIcon } from "lucide-react"
 import { useContext } from "react"
-import { CartContext } from "@/components/contextproviders/cartcontext"
+import { CartContext } from "@/contextproviders/cartcontext"
 
 const CartBasket = ()=>{
     

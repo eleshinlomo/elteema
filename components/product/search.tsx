@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import AddToCartButton from "../../app/(pages)/cartpage/addtocartbtn";
+import AddToCartButton from "../cartpage/addtocartbtn";
 import { Products, ProductProps } from "./productsdata";
 import Image from 'next/image';
 import ContactSeller from './details';

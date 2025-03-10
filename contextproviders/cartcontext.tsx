@@ -1,10 +1,10 @@
 
 import React, { createContext, useEffect, useState } from "react";
-import { Products } from "../product/productsdata";
-import { ProductProps } from "../product/productsdata";
-import { addPrice} from "../utils";
-import { fetchCart } from "../utils";
-import { saveCart } from "../utils";
+import { Products } from "@/components/product/productsdata";
+import { ProductProps } from "@/components/product/productsdata";
+import { addPrice } from "@/components/utils";
+import { fetchCart } from "@/components/utils";
+import { saveCart } from "@/components/utils";
 
 
 

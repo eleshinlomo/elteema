@@ -1,6 +1,6 @@
 'use client'
 import {useState, useEffect} from 'react'
-import AddToCartButton from "../../app/(pages)/cartpage/addtocartbtn"
+import AddToCartButton from "../cartpage/addtocartbtn"
 import { Button } from "../ui/button"
 import { ProductProps, Products } from "./productsdata"
 import Image from 'next/image'

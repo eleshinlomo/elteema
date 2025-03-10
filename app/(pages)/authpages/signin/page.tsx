@@ -2,9 +2,8 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import {useState, useEffect, FormEvent, useContext} from 'react'
-import { PagesContext } from "@/components/contextproviders/pagescontext";
-import { useNavigate } from "react-router-dom";
-import DashboardPage from "../../dashboards/dashboardpage/page";
+import { PagesContext } from "@/contextproviders/pagescontext";
+
 
 
 
@@ -42,7 +41,7 @@ console.log('IS Loggedin SignPage', isLoggedIn)
     return (
       <>
         
-        <DashboardPage /> :
+      
           <section className="relative z-10 overflow-hidden pb-16 pt-20 md:pb-20 lg:pb-6 ">
           <div className="container">
             <div className="-mx-4 flex flex-wrap">
