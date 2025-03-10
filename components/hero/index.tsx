@@ -18,9 +18,9 @@ const Hero = () => {
     return (
         <div className="w-full  hover-bg-green-300 transition-all duration-200 transform hover:scale-100">
 
-          {HeroData.map((data) => 
+          {HeroData.map((data, index) => 
             
-              <div className="relative w-full h-[200px] md:h-[200px] lg:h-[200px] overflow-hidden">
+              <div key={index} className="relative w-full h-[200px] md:h-[200px] lg:h-[200px] overflow-hidden">
                 <Image
                   src={data.src}
                   alt="hero image"
