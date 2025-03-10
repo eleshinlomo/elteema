@@ -1,6 +1,4 @@
 'use client'
-
-import Hero from "@/components/hero";
 import Image from "next/image";
 import { useEffect, useState, useContext } from "react";
 import Testimonials from "@/components/Testimonials";
