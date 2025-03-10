@@ -6,18 +6,18 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
-import { Button } from "./ui/button"
+import { Button } from "../ui/button"
   
 
-  const ContactSeller = ()=>{
+  const Details = ()=>{
 
   return (
   <div>
     <Dialog>
-  <DialogTrigger><button className=" rounded-2xl text-green-500 px-2">Contact Seller</button></DialogTrigger>
+  <DialogTrigger><button className=" rounded-2xl font-extrabold text-green-800 px-2">Details</button></DialogTrigger>
   <DialogContent className="bg-green-900 text-white text-center flex flex-col justify-center items-center">
     <DialogHeader>
-      <DialogTitle className="py-8"> Send a message to the Seller</DialogTitle>
+      <DialogTitle className="py-8"> More Info</DialogTitle>
       <DialogDescription>
         This feature is currently not available.
       </DialogDescription>
@@ -28,4 +28,4 @@ import { Button } from "./ui/button"
 )
   }
 
-  export default ContactSeller
+  export default Details

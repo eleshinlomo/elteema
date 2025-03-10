@@ -1,51 +1,49 @@
 'use client'
-import React from "react"
-import Image from "next/image"
-import { HeroData } from "./herodata"
-import {useState, useEffect} from 'react'
-import { Button } from "../ui/button"
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { HeroData } from './herodata';
+import { Button } from '../ui/button';
 
-interface HeroProps {
-    herocontent: string | React.ReactNode
-}
+const Hero = () => {
+    const [herocontent, setHerocontent] = useState<React.ReactNode>();
 
-const Hero = ()=>{
+    const loadImages = () => {
+        
+    };
 
-    const [herocontent, setHerocontent] = useState<React.ReactNode>()
+    useEffect(() => {
+        loadImages();
+    }, []);
 
-    const loadImages = ()=>{
+    return (
+        <div className="w-full  hover-bg-green-300 transition-all duration-200 transform hover:scale-100">
 
-        HeroData.map((data)=>{
-         
-           setHerocontent(
+          {HeroData.map((data) => 
             
-            <div className="relative text-center grid grid-row w-full h-[500px]">
-           <Image src={data.src} alt='image' fill />
-           <p className={`absolute top-[200px] right-[0px] left-[0px] z-[50] text-white py-12 px-4  
-            text-2xl font-extrabold`}>{data.content}</p>
-           <a className="absolute top-[350px] left-0 right-0  md:top-[350px] lg:top-[350px]" href="/"><Button className=" 
-           bg-green-600 hover:bg-green-600 text-white font-extrabold ">SHOP NOW</Button></a>
+              <div className="relative w-full h-[200px] md:h-[200px] lg:h-[200px] overflow-hidden">
+                <Image
+                  src={data.src}
+                  alt="hero image"
+                  fill
+                  className="object-cover"
+                  />
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center">
+                  <p className="text-white text-2xl font-extrabold mb-4 px-4">
+                      {data.content}
+                  </p>
+                  <a href="/">
+                            <Button className="bg-green-600 hover:bg-green-700 text-white font-extrabold py-3 px-6 text-lg transition-all duration-300 transform hover:scale-105">
+                                SHOP NOW
+                            </Button>
+                        </a>
+                </div>
+              </div>
+            )
+          };
+          
+            
+        </div>
+    );
+};
 
-           
-           </div>
-           
-           )
-
-
-
-        })
-    }
-
-    useEffect(()=>{
-        loadImages()
-    }, [])
-    
-  return (
-    <div className="flex flex-col justify-center items-center shadow-2xl mt-4 "> 
-    
-     {herocontent}
-    </div>
-  )
-}
-
-export default Hero
+export default Hero;

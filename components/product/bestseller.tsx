@@ -2,12 +2,12 @@
 import {useState, useEffect} from 'react'
 import AddToCartButton from "../../app/(pages)/cartpage/addtocartbtn"
 import { Button } from "../ui/button"
-import { ProductProps, Products } from "./productdata/products"
+import { ProductProps, Products } from "./productsdata"
 import Image from 'next/image'
-import ContactSeller from '../contactseller'
+import ContactSeller from './details'
 
 
-const BestsellerProducts = ()=>{
+const Bestsellers = ()=>{
  const [bestsellers, setBestsellers] = useState<ProductProps[]>([])
 
  const getBestsellers  = ()=>{
@@ -23,30 +23,36 @@ const BestsellerProducts = ()=>{
 
 
     return (
-        <div className='text-center flex flex-col justify-center items-center'>
-        
-        <div className="grid  md:grid-cols-2 lg:grid-cols-4 pb-2 items-center gap-5 px-4 ">
-        {bestsellers.map((product, index)=>
-        <div  key={index} className='shadow-2xl w-full md:w-[300px] rounded-2xl'>
-
-         {product?
-        <div  className="">
-         <div className="relative h-[150px] w-[300px] border border-green-900">
-        <Image src={product.src} alt='woman image' fill />
-        </div>
-         <p className="font-semibold text-2xl">{product.name}</p>
-         <p>${product.price}</p>
-         <AddToCartButton targetid={product.id} />
-         <p><span className='font-bold'>Supplier</span>: {product.supplierName}</p>
-         <p className='text-green-800 text-xl'>{product.star + product.star + product.star + product.star + product.star}</p>
-         <ContactSeller />
-        </div>:null}
-
-         </div>
-        )}
-        </div>
-        </div>
+        <div id='bestsellers'>
+            <p className='text-center py-2 font-extrabold uppercase'>Bestsellers</p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 ">
+            
+        {bestsellers.slice(0, 4).map((item, index) => (
+            <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
+                <div className="relative h-48 w-full">
+                    <Image src={item.src} alt={item.name} layout="fill" objectFit="cover" />
+                </div>
+                <div className="p-4">
+                    <p className="font-semibold text-xl mb-2">{item.name}</p>
+                    <p className="text-green-600 text-lg font-bold">N{item.price}</p>
+                    <p className="text-sm text-gray-600"><span className="font-bold">Supplier</span>: {item.supplierName}</p>
+                    <div className="flex items-center mt-2">
+                        {Array(5).fill(null).map((_, i) => (
+                            <span key={i} className="text-yellow-400">★</span>
+                        ))}
+                    </div>
+                    <div className="mt-4">
+                        <AddToCartButton targetid={item.id} />
+                    </div>
+                    <div className="mt-2">
+                        <ContactSeller />
+                    </div>
+                </div>
+            </div>
+        ))}
+    </div>
+    </div>
     )
 }
 
-export default BestsellerProducts
+export default Bestsellers

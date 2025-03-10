@@ -8,6 +8,7 @@ import navdata from "./navdata";
 import { Button } from "../ui/button";
 import Cart from "../../app/(pages)/cartpage/cart";
 import Logo from '@/public/images/logos/efarms_logo.png'
+import HeaderAlert from "./headeralert";
 
 
 
@@ -38,6 +39,7 @@ const NavBar = ({isLoggedIn}: NavBarProps) => {
   };
   useEffect(() => {
     window.addEventListener("scroll", handleStickyNavbar);
+    window.removeEventListener('scroll', ()=>{})
   });
 
 
@@ -61,6 +63,7 @@ const NavBar = ({isLoggedIn}: NavBarProps) => {
   
   return (
     <div>
+      <div><HeaderAlert /></div>
       
       <header
         className={`header bg-green-200  text-green-700    px-6  flex w-full items-center ${

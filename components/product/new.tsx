@@ -8,7 +8,7 @@ import ContactSeller from './details'
 
 
 
-const Trending = ()=>{
+const New = ()=>{
     
     const [trendingItems, setTrendingItems] = useState<ProductProps[]>([])
     const [itemToSearch, setItemToSearch ] = useState('')
@@ -39,8 +39,8 @@ const Trending = ()=>{
 
 
     return (
-      <div>
-            <p className='text-center py-4 font-extrabold uppercase'>Trending</p>
+      <div id='new'>
+            <p className='text-center py-4 font-extrabold uppercase'>New</p>
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 ">
       {trendingItems.slice(0, 4).map((item, index) => (
           <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
@@ -71,4 +71,4 @@ const Trending = ()=>{
     )
 }
 
-export default Trending
+export default New

@@ -1,18 +1,14 @@
 
 
-import apple from '@/public/images/products/apples.jpg'
-import berries from '@/public/images/products/berries.jpg'
-import bellpepper from '@/public/images/products/bell-peppers.jpg'
-import cherrytomatoes from '@/public/images/products/cherry-tomatoes.jpg'
-import garlic from '@/public/images/products/garlic.jpg'
-import grape from '@/public/images/products/grapes.jpg'
-import onion from '@/public/images/products/onions.jpg'
-import orange from '@/public/images/products/oranges.jpg'
-import pepperoni from '@/public/images/products/pepperoni.jpg'
-import pears from '@/public/images/products/pears.jpg'
-import banana from '@/public/images/products/bananas.jpg'
-import olives from '@/public/images/products/olives.jpg'
 import { ReactNode } from 'react'
+import african_drum from '@/public/images/products/african_drum.jpg'
+import dopechick from '@/public/images/products/women/clothes/ankara.jpg'
+import senatorBassey from '@/public/images/products/men/clothes/senator_bassey.jpg'
+import igaraChicken from '@/public/images/products/men/clothes/men_lace.jpg'
+import woman_portrait from '@/public/images/products/woman_portrait.jpg'
+import beads from '@/public/images/products/beads.jpg'
+import sexy_red_flamingo from '@/public/images/products/women/shoes/sexy_red_flamingo.png'
+import freakyheels from '@/public/images/products/women/shoes/freaky_heels.png'
 // import pepperoni from '@/public/images/products/pepperoni.jpg'
 
 
@@ -32,12 +28,12 @@ export interface ProductProps {
 
 export const Products: ProductProps[] = [
     {   id: 1,
-        name: 'apples',
-        price: 7.7,
+        name: 'African Drum',
+        price: 10000,
         featured: false,
         trending: true,
         bestseller: false,
-        src: apple,
+        src: african_drum,
         supplierName:'Evelyn Cairo',
         supplierEmail: 'eve@something.com',
         quantity: 1,
@@ -45,12 +41,12 @@ export const Products: ProductProps[] = [
 
     },
     {   id: 2,
-        name: 'rasberries',
-        price: 5.56,
+        name: 'Dope Chick',
+        price: 12000,
         featured: false,
         trending: true,
         bestseller: false,
-        src: berries,
+        src: dopechick,
         supplierName:'Justin Blakes',
         supplierEmail: 'justin@something.com',
         quantity: 1,
@@ -58,12 +54,12 @@ export const Products: ProductProps[] = [
 
     },
     {   id: 3,
-        name: 'bell peppers',
-        price: 6.78,
+        name: 'Senator Bassey',
+        price: 8000,
         featured: false,
         trending: true,
         bestseller: false,
-        src: bellpepper,
+        src: senatorBassey,
         supplierName:'Anthony Perez',
         supplierEmail: 'anthony@something.com',
         quantity: 1,
@@ -71,12 +67,12 @@ export const Products: ProductProps[] = [
 
     },
     {   id: 4,
-        name: 'tomatoes',
+        name: 'Igara Chicken',
         price: 5.7,
         featured: false,
         trending: true,
         bestseller: false,
-        src: cherrytomatoes,
+        src: igaraChicken,
         supplierName:'Lekan Badmus',
         supplierEmail: 'lekan@something.com',
         quantity: 1,
@@ -84,12 +80,12 @@ export const Products: ProductProps[] = [
 
     },
     {   id: 5,
-        name: 'garlics',
+        name: 'Sexy Red Flamingo',
         price: 5,
         featured: false,
         trending: false,
         bestseller: true,
-        src: garlic,
+        src: sexy_red_flamingo,
         supplierName:'Alonzo Murai',
         supplierEmail: 'alonzo@something.com',
         quantity: 1,
@@ -97,12 +93,12 @@ export const Products: ProductProps[] = [
 
     },
     {   id: 6,
-        name: 'grapes',
+        name: 'Freaky Heels',
         price: 8.2,
         featured: false,
         trending: false,
         bestseller: true,
-        src: grape,
+        src: freakyheels,
         supplierName:'Chenzeng Fujito',
         supplierEmail: 'chen@something.com',
         quantity: 1,
@@ -110,12 +106,12 @@ export const Products: ProductProps[] = [
 
     },
     {   id: 7,
-        name: 'onions',
+        name: 'Woman Bead',
         price: 5.5,
         featured: false,
         trending: false,
         bestseller: true,
-        src: onion,
+        src: beads,
         supplierName:'Gil Andrez',
         supplierEmail: 'gil@something.com',
         quantity: 1,
@@ -123,12 +119,12 @@ export const Products: ProductProps[] = [
 
     },
     {   id: 8,
-        name: 'oranges',
+        name: 'Woman Portrait by Fikor',
         price: 6.75,
         featured: false,
         trending: false,
         bestseller: true,
-        src: orange,
+        src: woman_portrait,
         supplierName:'Ulio Perez',
         supplierEmail: 'u@something.com',
         quantity: 1,
@@ -136,55 +132,55 @@ export const Products: ProductProps[] = [
 
     },
     {   id: 9,
-        name: 'pepperoni',
-        price: 7.7,
-        featured: true,
+        name: 'Woman Portrait by Fikor',
+        price: 6.75,
+        featured: false,
         trending: false,
-        bestseller: false,
-        src: pepperoni,
-        supplierName:'Shibi Lanre',
-        supplierEmail: 'eve@something.com',
+        bestseller: true,
+        src: woman_portrait,
+        supplierName:'Ulio Perez',
+        supplierEmail: 'u@something.com',
         quantity: 1,
-        star: '★'
+         star: '★'
 
     },
     {   id: 10,
-        name: 'pears',
-        price: 7.7,
-        featured: true,
+        name: 'Woman Portrait by Fikor',
+        price: 6.75,
+        featured: false,
         trending: false,
-        bestseller: false,
-        src: pears,
-        supplierName:'Shibi Lanre',
-        supplierEmail: 'eve@something.com',
+        bestseller: true,
+        src: woman_portrait,
+        supplierName:'Ulio Perez',
+        supplierEmail: 'u@something.com',
         quantity: 1,
-        star: '★'
-
-    },
-    {   id: 11,
-        name: 'olives',
-        price: 7.7,
-        featured: true,
-        trending: false,
-        bestseller: false,
-        src: olives,
-        supplierName:'Shibi Lanre',
-        supplierEmail: 'eve@something.com',
-        quantity: 1,
-        star: '★'
+         star: '★'
 
     },
     {   id: 12,
-        name: 'bananas',
-        price: 7.7,
-        featured: true,
+        name: 'Woman Bead',
+        price: 5.5,
+        featured: false,
         trending: false,
-        bestseller: false,
-        src: banana,
-        supplierName:'Shibi Lanre',
-        supplierEmail: 'eve@something.com',
+        bestseller: true,
+        src: beads,
+        supplierName:'Gil Andrez',
+        supplierEmail: 'gil@something.com',
         quantity: 1,
-        star: '★'
+         star: '★'
+
+    },
+    {   id: 13,
+        name: 'Woman Bead',
+        price: 5.5,
+        featured: false,
+        trending: false,
+        bestseller: true,
+        src: beads,
+        supplierName:'Gil Andrez',
+        supplierEmail: 'gil@something.com',
+        quantity: 1,
+         star: '★'
 
     },
 ]

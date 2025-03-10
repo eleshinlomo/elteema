@@ -1,5 +1,5 @@
-import { ProductProps } from "./product/productdata/products"
-import { Products } from "./product/productdata/products"
+import { ProductProps } from "./product/productsdata"
+import { Products } from "./product/productsdata"
 
 
 // Add prices
@@ -22,7 +22,7 @@ export const saveCart = (cart: ProductProps[])=>{
         console.log('Cart saved')
         }
 
-        return
+        return 
     }
 }
 

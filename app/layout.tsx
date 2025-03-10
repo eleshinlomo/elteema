@@ -9,8 +9,8 @@ import { PagesProvider } from "@/components/contextproviders/pagescontext";
 
 
 export const metadata: Metadata = {
-  title: "Efarms",
-  description: "Shop directly from farms",
+  title: "Elteema",
+  description: "Buy Nigerian products",
 };
 
 export default function RootLayout({

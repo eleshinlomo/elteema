@@ -40,7 +40,6 @@ const AllroutesLayout = ({children} : AllRoutesProps)=>{
             <PagesProvider>
             <CartProvider>
             <div>
-            {isHeaderAlert ? <HeaderAlert />: null}
             <NavBar isLoggedIn={isLoggedIn}  />
             {children}
             <Footer />

@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/sheet"
 import { ShoppingBasketIcon } from "lucide-react"
 import Link from "next/link"
-import { Products } from '@/components/product/productdata/products'
-import { ProductProps } from '@/components/product/productdata/products'
+import { Products } from '@/components/product/productsdata'
+import { ProductProps } from '@/components/product/productsdata'
 import CartBasket from './cartbasket'
 import Image from 'next/image'
 import HeaderAlert from '@/components/header/headeralert'
@@ -57,11 +57,11 @@ const handleNoItem = ()=>{
 
   return (
 
-    <Sheet >
+    <Sheet>
       <SheetTrigger asChild>
       <button><CartBasket /></button>
       </SheetTrigger>
-      <SheetContent className="bg-white lg:max-w-screen-sm overflow-y-scroll max-h-screen">
+      <SheetContent className="bg-green-100 lg:max-w-screen-sm overflow-y-scroll max-h-screen z-[9999]">
         <SheetHeader className='mt-16'>
           <SheetTitle className="bg-black w-full"><div className="mt-10">
              <HeaderAlert />

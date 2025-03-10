@@ -6,7 +6,7 @@ import SingleTestimonial from "./SingleTestimonial";
 interface TestimonialProps {
   id: number;
   name: string;
-  designation: string;
+  location: string;
   content: string;
   image: string;
   star: number;
@@ -16,7 +16,7 @@ const testimonialData: TestimonialProps[] = [
   {
     id: 1,
     name: "Zig Bluetzach",
-    designation: "Baltimore city",
+    location: "Baltimore city",
     content:
       "I now enjoy fresh produce straight from the farm yet saving a lot on delivery.",
     image: "/images/testimonials/auth-01.png",
@@ -25,7 +25,7 @@ const testimonialData: TestimonialProps[] = [
   {
     id: 2,
     name: "Emilia Angel",
-    designation: "Silver Spring",
+    location: "Silver Spring",
     content:
       "The opportunity to order fruits and dairy produce directly from farmers is great.",
     image: "/images/testimonials/auth-02.png",
@@ -34,7 +34,7 @@ const testimonialData: TestimonialProps[] = [
   {
     id: 3,
     name: "Shane boyles",
-    designation: "Baltimore",
+    location: "Baltimore",
     content:
       "All my life, I have searched for a service like this. I am so glad I finally found you guys.",
     image: "/images/testimonials/auth-03.png",
@@ -44,7 +44,7 @@ const testimonialData: TestimonialProps[] = [
 
 const Testimonials = () => {
   return (
-    <section className="dark:bg-bg-color-dark bg-gray-light relative z-10 py-6">
+    <section className="dark:bg-bg-color-dark bg-gray-light relative z-10 pt-5">
       <div className="container">
         <SectionTitle
           title="Testimonials"
