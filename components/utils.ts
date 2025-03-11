@@ -17,13 +17,12 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
 
 export const saveCart = (cart: ProductProps[])=>{
     if(window !== null){
-        if(cart.length > 0){
         localStorage.setItem('cart', JSON.stringify(cart))
         console.log('Cart saved')
         }
 
         return 
-    }
+    
 }
 
 export const fetchCart = (cart: ProductProps[])=>{

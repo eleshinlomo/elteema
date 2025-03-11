@@ -12,9 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { ShoppingBasketIcon } from "lucide-react"
 import Link from "next/link"
-import { Products } from '@/components/product/productsdata'
 import { ProductProps } from '@/components/product/productsdata'
 import CartBasket from './cartbasket'
 import Image from 'next/image'

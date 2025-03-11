@@ -105,45 +105,16 @@ useEffect(()=>{
 
     const removeItem = (targetid: number) => {
         const updatedCart = cart.filter(item => item.id !== targetid);
-        const newTotalPrice = updatedCart.reduce((total, item) => total + item.price * item.quantity, 0);
+        const newQuantity = updatedCart.length
+        const newTotalPrice = updatedCart.reduce((total, item) => total + item.price * newQuantity, 0);
 
         setCart(updatedCart);
         setTotalPrice(newTotalPrice);
-        setTotalItems(updatedCart.length);
+        setTotalItems(newQuantity);
         saveCart(updatedCart)
     };
 
-    // // Remove Item
-    // const removeItem = (targetid: number) => {
-    //     // Find the product to remove
-    //     const productToRemove = cart.find((item) => item.id === targetid);
-        
-    //     // If the product is found
-    //     if (productToRemove) {
-    //         // Calculate the new total price excluding the removed product
-    //         const newTotalPrice = cart.reduce((total, product) => {
-    //             if (product.id !== targetid) {
-    //                 return total + product.price;
-    //             }
-    //             return total; // Don't add the removed item's price
-    //         }, 0);
-    
-    //         // Remove the item from the cart
-    //         const updatedCart = cart.filter((item) => item.id !== targetid);
-    //         // Save updated cart to localStorage
-    //         saveCart(updatedCart);
-            
-    //         // Update the state
-    //         setCart(updatedCart); // Set new cart
-    //         setTotalPrice(parseFloat(newTotalPrice.toFixed(2))); // Set new total price
-    //         setQuantity(productToRemove.quantity - 1)
-            
-    //         // Update total items count based on the new cart length
-    //         setTotalItems(updatedCart.length); 
-    
-            
-    //     }
-    // };
+
     
     
 

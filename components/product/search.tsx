@@ -5,6 +5,7 @@ import { Products, ProductProps } from "./productsdata";
 import Image from 'next/image';
 import ContactSeller from './details';
 import Hero from '../hero';
+import { SkeletonPage } from '../skeleton';
 
 const Search = () => {
     const [allProducts, setAllProducts] = useState<ProductProps[]>([]);
@@ -47,7 +48,7 @@ const Search = () => {
                         />
                     </div>
                 </div>
-                 
+                
                 {searchedItemFound && searchedItemList.length > 0 ? (
                     <div>
                         <p className='text-center text-lg font-bold mb-4'>Search results</p>
@@ -80,19 +81,21 @@ const Search = () => {
                 ) : (
                     // Defualt display
                     <div>
+                        {}
                         <div  className="">
                             <Hero />
                         </div>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 ">
-                            {allProducts.slice(0, 4).map((item, index) => (
-                                <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
-                                    <div className="relative h-48 w-full">
-                                        <Image src={item.src} alt={item.name} fill objectFit='cover' />
-                                    </div>
-                                    <div className="p-4">
-                                        <p className="font-semibold text-xl mb-2">{item.name}</p>
-                                        <p className="text-green-600 text-lg font-bold">N{item.price}</p>
-                                        <p className="text-sm text-gray-600"><span className="font-bold">Supplier</span>: {item.supplierName}</p>
+                        {allProducts.length > 0 ?
+                            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 ">
+                                {allProducts.slice(0, 4).map((item, index) => (
+                                    <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
+                                        <div className="relative h-48 w-full">
+                                            <Image src={item.src} alt={item.name} fill objectFit='cover' />
+                                        </div>
+                                        <div className="p-4">
+                                            <p className="font-semibold text-xl mb-2">{item.name}</p>
+                                            <p className="text-green-600 text-lg font-bold">N{item.price}</p>
+                                            <p className="text-sm text-gray-600"><span className="font-bold">Supplier</span>: {item.supplierName}</p>
                                         <div className="flex items-center mt-2">
                                             {Array(5).fill(null).map((_, i) => (
                                                 <span key={i} className="text-yellow-400">★</span>
@@ -107,7 +110,11 @@ const Search = () => {
                                     </div>
                                 </div>
                             ))}
-                        </div>
+                        </div>: 
+                        <div className='text-center'>
+                            <p>Loading...</p>
+                            <SkeletonPage />
+                        </div>}
                         
                     </div>
                 )}
