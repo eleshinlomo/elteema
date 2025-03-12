@@ -2,6 +2,15 @@ import { ProductProps } from "./product/productsdata"
 import { Products } from "./product/productsdata"
 
 
+
+export const getProduct = (id: number)=>{
+   const product = Products.find((item)=>item.id === id)
+   if(product){
+    return product
+   }
+   return 'Product not found'
+}
+
 // Add prices
 export const addPrice = (cart: ProductProps[]): any => {
   return cart.reduce((total: any, curr) => {

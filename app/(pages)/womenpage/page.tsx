@@ -5,7 +5,7 @@ import React, {useState, useEffect} from 'react'
 
 
 
-const DriversPage = ()=>{
+const WomenPage = ()=>{
     const [message, setMessage] = useState<string | React.ReactNode>('Driver Lounge')
 
     const handleClick = ()=>{
@@ -32,4 +32,4 @@ const DriversPage = ()=>{
     )
 }
 
-export default DriversPage
+export default WomenPage

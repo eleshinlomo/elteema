@@ -53,11 +53,11 @@ const CartSideBar = () => {
       <SheetTrigger asChild>
         <button className="relative">
           <CartBasket />
-          {totalItems > 0 && (
+          
             <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2 py-1">
               {totalItems}
             </span>
-          )}
+          
         </button>
       </SheetTrigger>
       <SheetContent className="bg-green-50 lg:max-w-screen-sm overflow-y-scroll max-h-screen z-[9999]">
@@ -73,13 +73,12 @@ const CartSideBar = () => {
               >
                 {checkoutText}
               </Button>
-              <p className='text-green-600'>
-                Total Price: <span className='font-extrabold text-lg'>${totalPrice}</span>
+              <p className='text-green-600 flex font-extrabold text-lg'>
+                <span>Subtotal</span>
+                <span>({totalItems}):</span>
+                <span className='pl-3'> N{totalPrice}</span>
               </p>
-              {cart.length <= 1 ?
-                <h2>There is <span className='text-green-800 font-extrabold text-lg'>{totalItems}</span> item in your cart.</h2> :
-                <h2>There are <span className='text-green-800 font-extrabold text-lg'>{totalItems}</span> items in your cart.</h2>
-              }
+             
             </div>
           </SheetDescription>
         </SheetHeader>
@@ -96,7 +95,10 @@ const CartSideBar = () => {
                     >
                       -
                     </Button>
-                    <span className='mt-3 text-lg font-semibold'>{item.name} ({item.quantity})</span>
+                    <div className='flex flex-col'>
+                    <span className='mt-1 text-md font-semibold'>Price: {item.price}</span>
+                    <span className='mt-1 text-md font-semibold'>{item.name} ({item.quantity})</span>
+                    </div>
                     <Button
                       size='icon'
                       className='text-3xl font-extrabold mt-1 bg-green-100 hover:bg-green-200 text-green-700'
@@ -107,7 +109,7 @@ const CartSideBar = () => {
                   </div>
                   <div className='mt-4'>
                     <button
-                      className='bg-green-600 hover:bg-green-700 rounded-2xl text-white px-4 py-2 transition-all duration-300'
+                      className='bg-green-600 hover:bg-green-700 rounded-2xl text-white px-4 py-1 transition-all duration-300'
                       onClick={() => removeItem(item.id)}
                     >
                       Remove item

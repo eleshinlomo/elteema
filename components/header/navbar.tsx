@@ -8,7 +8,7 @@ import navdata from "./navdata";
 import { Button } from "../ui/button";
 import Logo from '@/public/images/logos/efarms_logo.png'
 import HeaderAlert from "./headeralert";
-import CartSideBar from "../cartpage/cartSideBar";
+import CartSideBar from "../cart/cartSideBar";
 
 
 

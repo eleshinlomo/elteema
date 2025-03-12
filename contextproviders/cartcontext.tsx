@@ -58,30 +58,41 @@ useEffect(()=>{
 }, [quantity, totalItems])
 
 
-useEffect(()=>{
-    const savedCart = fetchCart(cart)
-    console.log('Saved Cart',savedCart)
-    setTotalItems(savedCart && savedCart.length >= 0 ? savedCart.length : cart.length)
-    setCart(savedCart)
-}, [quantity, totalItems])
 
 
-  const handleQuantityIncrease = (targetid: number)=>{
-    const product = cart.find((item)=>item.id === targetid)
-    if(product)
-    setQuantity(product.quantity += 1)
-    setTotalPrice(Number((addPrice(cart) * product.quantity).toFixed(2)))
-    
-  }
 
-  const handleQuantityDecrease = (targetid: number)=>{
-    const product = cart.find((item)=>item.id === targetid)
-    if(product)
-    if(product.quantity === 1)return 1
-    setQuantity(product.quantity -= 1)
-    setTotalPrice(Number((addPrice(cart) * product.quantity).toFixed(2)))
-    saveCart(cart)
-  }
+const handleQuantityIncrease = (targetId: number) => {
+    setCart(prevCart => {
+        const updatedCart = prevCart.map(item =>
+            item.id === targetId ? { ...item, quantity: item.quantity + 1 } : item
+        );
+        const totalItems = updatedCart.reduce((sum, item) => sum + item.quantity, 0);
+        const totalPrice = Number(updatedCart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2));
+        
+        setTotalItems(totalItems);
+        setTotalPrice(totalPrice);
+        saveCart(updatedCart);
+        
+        return updatedCart;
+    });
+};
+
+const handleQuantityDecrease = (targetId: number) => {
+    setCart(prevCart => {
+        const updatedCart = prevCart.map(item =>
+            item.id === targetId ? { ...item, quantity: item.quantity - 1 } : item
+        ).filter(item => item.quantity > 0); // Remove items with quantity <= 0
+
+        const totalItems = updatedCart.reduce((sum, item) => sum + item.quantity, 0);
+        const totalPrice = Number(updatedCart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2));
+        
+        setTotalItems(totalItems);
+        setTotalPrice(totalPrice);
+        saveCart(updatedCart);
+        
+        return updatedCart;
+    });
+};
     
 //    Add new item to cart
     const addToCart = (targetid: number)=>{

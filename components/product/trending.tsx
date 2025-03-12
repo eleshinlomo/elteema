@@ -1,10 +1,11 @@
 'use client'
 import React, {useState, useEffect} from 'react'
-import AddToCartButton from "../cartpage/addtocartbtn"
+import AddToCartButton from "../cart/addtocartbtn"
 import { Products, ProductProps } from "./productsdata"
 import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
-import ContactSeller from './details'
+import ContactSeller from './productdetails'
+import ProductDetails from './productdetails'
 
 
 
@@ -56,12 +57,11 @@ const Trending = ()=>{
                           <span key={i} className="text-yellow-400">★</span>
                       ))}
                   </div>
-                  <div className="mt-4">
-                      <AddToCartButton targetid={item.id} />
+                  <div className="mt-4 flex gap-4">
+                  <AddToCartButton targetid={item.id} />
+                  <ProductDetails id={item.id} />
                   </div>
-                  <div className="mt-2">
-                      <ContactSeller />
-                  </div>
+                 
               </div>
           </div>
       ))}
