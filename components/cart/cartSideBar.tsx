@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useContext } from 'react';
-import { Button } from "@/components/ui/button";
-import { CartContext } from '@/contextproviders/cartcontext';
+import { Button } from '../ui/button';
+import { CartContext } from '../../contextproviders/cartcontext';
 import {
   Sheet,
   SheetContent,
@@ -10,11 +10,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { ProductProps } from '@/components/product/productsdata';
+} from "../ui/sheet";
 import CartBasket from './cartbasket';
 import Image from 'next/image';
-import HeaderAlert from '@/components/header/headeralert';
+import HeaderAlert from '../header/headeralert';
+import { ProductProps } from '../product/productsdata';
 
 const CartSideBar = () => {
   const {

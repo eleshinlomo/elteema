@@ -4,7 +4,7 @@ import AddToCartButton from "../cart/addtocartbtn";
 import { Products, ProductProps } from "./productsdata";
 import Image from 'next/image';
 import Hero from '../hero';
-import { SkeletonPage } from '../skeleton';
+import { SkeletonPage } from '../skeletonPage';
 import ProductDetails from './productdetails';
 
 const Search = () => {

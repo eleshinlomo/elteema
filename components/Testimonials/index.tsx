@@ -1,193 +1,87 @@
+import React from "react";
+import { motion } from "framer-motion";
 
-import SectionTitle from "../Common/SectionTitle";
-import SingleTestimonial from "./SingleTestimonial";
-
-
-interface TestimonialProps {
-  id: number;
-  name: string;
-  location: string;
-  content: string;
-  image: string;
-  star: number;
-}
-
-const testimonialData: TestimonialProps[] = [
+// Testimonial data
+const testimonials = [
   {
     id: 1,
-    name: "Zig Bluetzach",
-    location: "Baltimore city",
-    content:
-      "I now enjoy fresh produce straight from the farm yet saving a lot on delivery.",
-    image: "/images/testimonials/auth-01.png",
-    star: 5,
+    name: "Afonso Ogbebor",
+    role: "Happy Customer",
+    comment: "This store has the best products! I've never been disappointed with my purchases. Highly recommended!",
+    image: "https://via.placeholder.com/150", // Replace with actual image URL
   },
   {
     id: 2,
-    name: "Emilia Angel",
-    location: "Silver Spring",
-    content:
-      "The opportunity to order fruits and dairy produce directly from farmers is great.",
-    image: "/images/testimonials/auth-02.png",
-    star: 5,
+    name: "Jane Smith",
+    role: "Frequent Shopper",
+    comment: "The customer service is amazing, and the delivery is always on time. I love shopping here!",
+    image: "https://via.placeholder.com/150", // Replace with actual image URL
   },
   {
     id: 3,
-    name: "Shane boyles",
-    location: "Baltimore",
-    content:
-      "All my life, I have searched for a service like this. I am so glad I finally found you guys.",
-    image: "/images/testimonials/auth-03.png",
-    star: 5,
+    name: "Tunde Bakare",
+    role: "Satisfied Buyer",
+    comment: "Great quality products at affordable prices. This is my go-to store for all my needs!",
+    image: "https://via.placeholder.com/150", // Replace with actual image URL
   },
 ];
 
-const Testimonials = () => {
-  return (
-    <section className="dark:bg-bg-color-dark bg-gray-light relative z-10 pt-5">
-      <div className="container">
-        <SectionTitle
-          title="Testimonials"
-          paragraph="See what people are saying about our services."
-          center
-        />
+// Animation variants for Framer Motion
+const cardVariants = {
+  offscreen: {
+    y: 50,
+    opacity: 0,
+  },
+  onscreen: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      bounce: 0.4,
+      duration: 0.8,
+    },
+  },
+};
 
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
-          {testimonialData.map((testimonial) => (
-            <SingleTestimonial key={testimonial.id} testimonial={testimonial} />
+const TestimonialsPage = () => {
+  return (
+    <div className="py-8 bg-gradient-to-br from-purple-100 to-blue-100  px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-5xl font-bold text-center text-gray-900 mb-12 font-sans">
+          What Our Customers Say
+        </h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          {testimonials.map((testimonial) => (
+            <motion.div
+              key={testimonial.id}
+              className="bg-white rounded-xl shadow-2xl p-8 hover:shadow-3xl transition-shadow duration-300 transform hover:-translate-y-2"
+              initial="offscreen"
+              whileInView="onscreen"
+              viewport={{ once: true, amount: 0.8 }}
+              variants={cardVariants}
+            >
+              <div className="flex items-center space-x-6 mb-6">
+                <img
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  className="w-16 h-16 rounded-full object-cover border-4 border-purple-200"
+                />
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-900 font-sans">
+                    {testimonial.name}
+                  </h2>
+                  <p className="text-sm text-gray-600">{testimonial.role}</p>
+                </div>
+              </div>
+              <p className="text-gray-700 italic text-lg leading-relaxed">
+                "{testimonial.comment}"
+              </p>
+            </motion.div>
           ))}
         </div>
       </div>
-      <div className="absolute right-0 top-5 z-[-1]">
-        <svg
-          width="238"
-          height="531"
-          viewBox="0 0 238 531"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            opacity="0.3"
-            x="422.819"
-            y="-70.8145"
-            width="196"
-            height="541.607"
-            rx="2"
-            transform="rotate(51.2997 422.819 -70.8145)"
-            fill="url(#paint0_linear_83:2)"
-          />
-          <rect
-            opacity="0.3"
-            x="426.568"
-            y="144.886"
-            width="59.7544"
-            height="541.607"
-            rx="2"
-            transform="rotate(51.2997 426.568 144.886)"
-            fill="url(#paint1_linear_83:2)"
-          />
-          <defs>
-            <linearGradient
-              id="paint0_linear_83:2"
-              x1="517.152"
-              y1="-251.373"
-              x2="517.152"
-              y2="459.865"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" />
-              <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-            </linearGradient>
-            <linearGradient
-              id="paint1_linear_83:2"
-              x1="455.327"
-              y1="-35.673"
-              x2="455.327"
-              y2="675.565"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" />
-              <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-      <div className="absolute bottom-5 left-0 z-[-1]">
-        <svg
-          width="279"
-          height="106"
-          viewBox="0 0 279 106"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g opacity="0.5">
-            <path
-              d="M-57 12L50.0728 74.8548C55.5501 79.0219 70.8513 85.7589 88.2373 79.3692C109.97 71.3821 116.861 60.9642 156.615 63.7423C178.778 65.291 195.31 69.2985 205.911 62.3533C216.513 55.408 224.994 47.7682 243.016 49.1572C255.835 50.1453 265.278 50.8936 278 45.3373"
-              stroke="url(#paint0_linear_72:302)"
-            />
-            <path
-              d="M-57 1L50.0728 63.8548C55.5501 68.0219 70.8513 74.7589 88.2373 68.3692C109.97 60.3821 116.861 49.9642 156.615 52.7423C178.778 54.291 195.31 58.2985 205.911 51.3533C216.513 44.408 224.994 36.7682 243.016 38.1572C255.835 39.1453 265.278 39.8936 278 34.3373"
-              stroke="url(#paint1_linear_72:302)"
-            />
-            <path
-              d="M-57 23L50.0728 85.8548C55.5501 90.0219 70.8513 96.7589 88.2373 90.3692C109.97 82.3821 116.861 71.9642 156.615 74.7423C178.778 76.291 195.31 80.2985 205.911 73.3533C216.513 66.408 224.994 58.7682 243.016 60.1572C255.835 61.1453 265.278 61.8936 278 56.3373"
-              stroke="url(#paint2_linear_72:302)"
-            />
-            <path
-              d="M-57 35L50.0728 97.8548C55.5501 102.022 70.8513 108.759 88.2373 102.369C109.97 94.3821 116.861 83.9642 156.615 86.7423C178.778 88.291 195.31 92.2985 205.911 85.3533C216.513 78.408 224.994 70.7682 243.016 72.1572C255.835 73.1453 265.278 73.8936 278 68.3373"
-              stroke="url(#paint3_linear_72:302)"
-            />
-          </g>
-          <defs>
-            <linearGradient
-              id="paint0_linear_72:302"
-              x1="256.267"
-              y1="53.6717"
-              x2="-40.8688"
-              y2="8.15715"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" stopOpacity="0" />
-              <stop offset="1" stopColor="#4A6CF7" />
-            </linearGradient>
-            <linearGradient
-              id="paint1_linear_72:302"
-              x1="256.267"
-              y1="42.6717"
-              x2="-40.8688"
-              y2="-2.84285"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" stopOpacity="0" />
-              <stop offset="1" stopColor="#4A6CF7" />
-            </linearGradient>
-            <linearGradient
-              id="paint2_linear_72:302"
-              x1="256.267"
-              y1="64.6717"
-              x2="-40.8688"
-              y2="19.1572"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" stopOpacity="0" />
-              <stop offset="1" stopColor="#4A6CF7" />
-            </linearGradient>
-            <linearGradient
-              id="paint3_linear_72:302"
-              x1="256.267"
-              y1="76.6717"
-              x2="-40.8688"
-              y2="31.1572"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" stopOpacity="0" />
-              <stop offset="1" stopColor="#4A6CF7" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-    </section>
+    </div>
   );
 };
 
-export default Testimonials;
+export default TestimonialsPage;

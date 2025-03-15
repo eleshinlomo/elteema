@@ -5,10 +5,12 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-  } from "@/components/ui/dialog"
+  } from "../../components/ui/dialog"
 import { Button } from "../ui/button"
 import { getProduct } from "../utils";
 import { useState, useEffect } from "react";
+import Image from 'next/image'
+import AddToCartButton from "../cart/addtocartbtn";
 
 interface DetailsProps {
   id: number;
@@ -20,10 +22,11 @@ interface DetailsProps {
     const [product, setProduct] = useState<any | null>(null)
     const [error, setError] = useState('')
 
-    const handleGetProduct = async ()=>{
-       const product: any = await getProduct(id)
+    const handleGetProduct =  ()=>{
+       const product: any = getProduct(id)
        if(product){
        console.log(product)
+       setProduct(product)
        return product
        }else{
         console.log(product)
@@ -45,17 +48,33 @@ interface DetailsProps {
         MORE
   </button>
   </DialogTrigger>
-  <DialogContent className="bg-green-900 text-white text-center flex flex-col justify-center items-center">
-  <DialogHeader>
-      <DialogTitle className="py-8"> {product ? product.name : 'No Product found'}</DialogTitle>
-      <DialogDescription>
-        This feature is currently not available.
-      </DialogDescription>
-    </DialogHeader>
-    {/* Content */}
-    <div>
-    <div>{error ? error : null}</div>
+  <DialogContent className="bg-green-200  text-center flex flex-col ">
+  {product ? <div>
+     <p className="text-center">{error}</p>
+     <DialogHeader className="text-center">
+          <DialogTitle className="py-8"> {product.name}</DialogTitle>
+          {/* <DialogDescription>
+            Ideal for parties and comes in high quality material.
+          </DialogDescription> */}
+        </DialogHeader>
+    <div className="flex justify-between">
+      {/* Left side */}
+       <div>
+       <div className='relative h-72 w-[200px]'>
+        <Image src={product.src} alt='product image' fill />
+        </div>
+      </div>
+
+        {/* Right side */}
+      <div>
+          <p><span className="font-extrabold">Price:</span> N{product.price}</p>
+          <AddToCartButton targetid={product.id} />
+      </div>
     </div>
+    
+    
+      
+    </div> : <div>No product found</div>}
   </DialogContent>
 </Dialog>
 </div> 

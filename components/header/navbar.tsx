@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
 import navdata from "./navdata";
 import { Button } from "../ui/button";
-import Logo from '@/public/images/logos/efarms_logo.png'
+// import Logo from '/images/logos/efarms_logo.png'
 import HeaderAlert from "./headeralert";
 import CartSideBar from "../cart/cartSideBar";
 
@@ -82,14 +82,14 @@ const NavBar = ({isLoggedIn}: NavBarProps) => {
                 } `}
               >
                 <Image
-                  src={Logo}
+                  src='/images/logos/efarms_logo.png'
                   alt="logo"
                   width={140}
                   height={80}
                   className="w-12 dark:hidden"
                 />
                 <Image
-                  src={Logo}
+                  src='/images/logos/efarms_logo.png'
                   alt="logo"
                   width={140}
                   height={80}

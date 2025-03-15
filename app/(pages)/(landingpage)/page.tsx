@@ -1,12 +1,12 @@
 'use client'
 import Image from "next/image";
 import { useEffect, useState, useContext } from "react";
-import Testimonials from "@/components/Testimonials";
-import Search from "@/components/product/search";
-import ScrollTopButton from "@/components/scrollTopButton";
-import Bestsellers from "@/components/product/bestseller";
-import Trending from "@/components/product/trending";
-import New from "@/components/product/new";
+import TestimonialsPage from "../../../components/Testimonials";
+import Search from "../../../components/product/search";
+import ScrollTopButton from "../../../components/scrollTopButton";
+import Bestsellers from "../../../components/product/bestseller";
+import Trending from "../../../components/product/trending";
+import New from "../../../components/product/new";
 
 
 export default function Home() {
@@ -22,7 +22,7 @@ export default function Home() {
         <New />
         <Trending />
        <Bestsellers />
-        <Testimonials />
+        <TestimonialsPage />
         <ScrollTopButton />
       
         {/* <CookieWarningPage /> */}

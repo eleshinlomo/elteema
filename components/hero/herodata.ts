@@ -1,5 +1,5 @@
 
-import africanLadyImage from '@/public/images/hero/african_lady.jpg'
+import africanLadyImage from '../../public/images/hero/african_lady.jpg'
 
 
 

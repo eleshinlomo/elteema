@@ -1,10 +1,10 @@
 'use client'
-import NavBar from "@/components/header/navbar"
+import NavBar from "../../components/header/navbar"
 import { useState, useEffect, useContext} from "react"
 import { usePathname } from "next/navigation"
-import { CartProvider } from "@/contextproviders/cartcontext"
-import Footer from "@/components/footer"
-import { PagesProvider, PagesContext } from "@/contextproviders/pagescontext"
+import { CartProvider} from '../../contextproviders/cartcontext'
+import Footer from "../../components/footer"
+import { PagesProvider, PagesContext } from "../../contextproviders/pagescontext"
 
 
 
