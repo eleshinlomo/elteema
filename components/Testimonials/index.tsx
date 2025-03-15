@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Image from 'next/image';
 
 // Testimonial data
 const testimonials = [
@@ -7,7 +8,7 @@ const testimonials = [
     id: 1,
     name: "Afonso Ogbebor",
     role: "Happy Customer",
-    comment: "This store has the best products! I've never been disappointed with my purchases. Highly recommended!",
+    comment: "This store has the best products! I have never been disappointed with my purchases. Highly recommended!",
     image: "https://via.placeholder.com/150", // Replace with actual image URL
   },
   {
@@ -45,7 +46,7 @@ const cardVariants = {
 
 const TestimonialsPage = () => {
   return (
-    <div className="py-8 bg-gradient-to-br from-purple-100 to-blue-100  px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+    <div className="py-8 bg-gradient-to-br from-purple-100 to-blue-100 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-5xl font-bold text-center text-gray-900 mb-12 font-sans">
           What Our Customers Say
@@ -61,10 +62,12 @@ const TestimonialsPage = () => {
               variants={cardVariants}
             >
               <div className="flex items-center space-x-6 mb-6">
-                <img
+                <Image
                   src={testimonial.image}
                   alt={testimonial.name}
                   className="w-16 h-16 rounded-full object-cover border-4 border-purple-200"
+                  width={64}
+                  height={64}
                 />
                 <div>
                   <h2 className="text-xl font-semibold text-gray-900 font-sans">
@@ -74,7 +77,7 @@ const TestimonialsPage = () => {
                 </div>
               </div>
               <p className="text-gray-700 italic text-lg leading-relaxed">
-                "{testimonial.comment}"
+                &quot;{testimonial.comment}&quot;
               </p>
             </motion.div>
           ))}
