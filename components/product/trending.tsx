@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
 import ContactSeller from './productdetails'
 import ProductDetails from './productdetails'
+import AllProductDisplay from './allProductDisplay'
 
 
 
@@ -13,7 +14,7 @@ const Trending = ()=>{
     
     const [trendingItems, setTrendingItems] = useState<ProductProps[]>([])
     const [itemToSearch, setItemToSearch ] = useState('')
-    const originalItems = Products.filter((item)=>item.trending === true)
+    const originalItems = Products.filter((item)=>item.category === 'trending')
     
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
@@ -42,30 +43,7 @@ const Trending = ()=>{
     return (
       <div>
             <p className='text-center py-4 font-extrabold uppercase'>Trending</p>
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 ">
-      {trendingItems.slice(0, 4).map((item, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
-              <div className="relative h-48 w-full">
-                  <Image src={item.src} alt={item.name} layout="fill" objectFit="cover" />
-              </div>
-              <div className="p-4">
-                  <p className="font-semibold text-xl mb-2">{item.name}</p>
-                  <p className="text-green-600 text-lg font-bold">N{item.price}</p>
-                  <p className="text-sm text-gray-600"><span className="font-bold">Supplier</span>: {item.supplierName}</p>
-                  <div className="flex items-center mt-2">
-                      {Array(5).fill(null).map((_, i) => (
-                          <span key={i} className="text-yellow-400">★</span>
-                      ))}
-                  </div>
-                  <div className="mt-4 flex gap-4">
-                  <AddToCartButton targetid={item.id} />
-                  <ProductDetails id={item.id} />
-                  </div>
-                 
-              </div>
-          </div>
-      ))}
-  </div>
+            <AllProductDisplay productArray={trendingItems} />
 
   </div>
     )

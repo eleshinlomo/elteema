@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Hero from '../hero';
 import { SkeletonPage } from '../skeletonPage';
 import ProductDetails from './productdetails';
+import AllProductDisplay from './allProductDisplay';
 
 const Search = () => {
     const [allProducts, setAllProducts] = useState<ProductProps[]>([]);
@@ -38,81 +39,37 @@ const Search = () => {
     return (
         <div id='search' className=" bg-gray-50 mt-32 ">
             <div className="container mx-auto px-4">
-                <div className="flex justify-center">
-                    <div className="w-sm max-w-md my-4">
-                        <input
-                            value={itemToSearch}
-                            onChange={handleChange}
-                            placeholder="Search african products"
-                            className="w-full px-4 py-1 border border-green-500 rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                        />
-                    </div>
-                </div>
+            
+            <div className="flex justify-around items-center flex-1 bg-gray-50 p-4 shadow-sm rounded-lg">
+    <a href="#new" className="hidden md:flex text-green-600 hover:text-green-700 font-semibold transition-colors duration-300">
+        NEW ARRIVALS
+    </a>
+    <div className="w-sm max-w-md mx-4">
+        <input
+            value={itemToSearch}
+            onChange={handleChange}
+            placeholder="Search African products"
+            className="w-full px-6 py-2 border-2 border-green-300 rounded-full focus:outline-none focus:ring-4 focus:ring-green-200 focus:border-green-500 transition-all placeholder-gray-400 text-gray-700"
+        />
+    </div>
+    <a href="#new" className="hidden md:flex text-green-600 hover:text-green-700 font-semibold transition-colors duration-300">
+        BESTSELLERS
+    </a>
+</div>
                 
                 {searchedItemFound && searchedItemList.length > 0 ? (
                     <div>
-                        <p className='text-center text-lg font-bold mb-4'>Search results</p>
-                        <div className="grid md:grid-cols-3 gap-6 ">
-                            {searchedItemList.map((item, index) => (
-                                <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
-                                    <div className="relative h-48 w-full">
-                                        <Image src={item.src} alt={item.name} layout="fill" objectFit="cover" />
-                                    </div>
-                                    <div className="p-4">
-                                        <p className="font-semibold text-xl mb-2">{item.name}</p>
-                                        <p className="text-green-600 text-lg font-bold">N{item.price}</p>
-                                        <p className="text-sm text-gray-600"><span className="font-bold">Supplier</span>: {item.supplierName}</p>
-                                        <div className="flex items-center mt-2">
-                                            {Array(5).fill(null).map((_, i) => (
-                                            <span key={i} className="text-yellow-400">★</span>
-                                            ))}
-                                        </div>
-                                    <div className="mt-4 flex gap-4">
-                                        <AddToCartButton targetid={item.id} />
-                                        <ProductDetails id={item.id} />
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        ))}
-                        </div>
+                       <AllProductDisplay productArray={searchedItemList} />
                     </div>
                 ) : (
                     // Defualt display
                     <div>
-                        {}
+                        
                         <div  className="">
                             <Hero />
                         </div>
-                        {allProducts.length > 0 ?
-                            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 ">
-                                {allProducts.slice(0, 4).map((item, index) => (
-                                    <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
-                                        <div className="relative h-48 w-full">
-                                            <Image src={item.src} alt={item.name} fill objectFit='cover' />
-                                        </div>
-                                        <div className="p-4">
-                                            <p className="font-semibold text-xl mb-2">{item.name}</p>
-                                            <p className="text-green-600 text-lg font-bold">N{item.price}</p>
-                                            <p className="text-sm text-gray-600"><span className="font-bold">Supplier</span>: {item.supplierName}</p>
-                                        <div className="flex items-center mt-2">
-                                            {Array(5).fill(null).map((_, i) => (
-                                                <span key={i} className="text-yellow-400">★</span>
-                                            ))}
-                                        </div>
-                                        <div className="mt-4 flex gap-4">
-                                        <AddToCartButton targetid={item.id} />
-                                        <ProductDetails id={item.id} />
-                                        </div>
-                                       
-                                    </div>
-                                </div>
-                            ))}
-                        </div>: 
-                        <div className='text-center'>
-                            <p>Loading...</p>
-                            <SkeletonPage />
-                        </div>}
+                        
+                       <AllProductDisplay productArray={Products} />
                         
                     </div>
                 )}

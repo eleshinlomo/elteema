@@ -1,20 +1,25 @@
-import { ShoppingBasketIcon } from "lucide-react"
-import { useContext } from "react"
-import { CartContext } from "../../contextproviders/cartcontext"
+import { ShoppingBasketIcon } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
+import { CartContext } from "../../contextproviders/cartcontext";
+import { fetchCart } from "../utils";
+import { ProductProps } from "../product/productsdata";
 
-const CartBasket = ()=>{
+const CartBasket = () => {
+    const { totalItems } = useContext(CartContext);
     
-    const {totalItems} = useContext(CartContext)
+
+
 
     return (
         <div>
-      <a className="relative ">
-                  <p className="absolute top-[-15px] left-[-7px] lg:top-[-15px] lg:right-2.5 
-                  text-xl text-green-800 font-extrabold">{totalItems}</p>
+            <a className="relative cursor-pointer">
+                <p className="absolute top-[-12px] right-[-2px] lg:right-[3px] bg-red-500 text-white text-xs rounded-full px-2 py-1">
+                    {totalItems}
+                </p>
                 <ShoppingBasketIcon className="mt-2 lg:h-8 lg:w-8" />
-          </a>
+            </a>
         </div>
-    )
-}
+    );
+};
 
-export default CartBasket
+export default CartBasket;

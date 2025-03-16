@@ -16,210 +16,158 @@ export interface ProductProps {
     id: number;
     name: string;
     price: number;
-    new: boolean;
-    trending: boolean;
-    bestseller: boolean;
-    supplierName: string;
-    supplierEmail: string;
     src: any;
     quantity: number;
-    star: string;
-    totalVotes: number,
-    sold: number,
-    isAdded: boolean
+    star: number;
+    totalVotes: number;
+    numOfItemsSold: number;
+    isAdded: boolean;
+    category: string;
 }
 
 export const Products: ProductProps[] = [
     {   id: 1,
         name: 'African Drum',
         price: 10000,
-        new: true,
-        trending: false,
-        bestseller: false,
         src: african_drum,
-        supplierName:'Evelyn Cairo',
-        supplierEmail: 'eve@something.com',
+        numOfItemsSold: 8,
         quantity: 1,
-        star: '★',
+        star: 3,
         totalVotes: 200,
-        sold: 10,
-        isAdded: false
+        isAdded: false,
+        category: 'new'
 
     },
     {   id: 2,
         name: 'Dope Chick',
         price: 12000,
-        new: true,
-        trending: false,
-        bestseller: true,
         src: dopechick,
-        supplierName:'Justin Blakes',
-        supplierEmail: 'justin@something.com',
         quantity: 1,
-        star: '★',
+        star: 4,
         totalVotes: 8,
-        sold: 5,
-        isAdded: false
+        numOfItemsSold: 10,
+        isAdded: false,
+        category: 'new'
 
     },
     {   id: 3,
         name: 'Senator Bassey',
         price: 8000,
-        new: false,
-        trending: true,
-        bestseller: false,
         src: senatorBassey,
-        supplierName:'Anthony Perez',
-        supplierEmail: 'anthony@something.com',
         quantity: 1,
-         star: '★',
+         star: 5,
          totalVotes: 7,
-         sold: 25,
-         isAdded: false
+         numOfItemsSold: 3,
+         isAdded: false,
+         category: 'trending'
 
     },
     {   id: 4,
         name: 'Igara Chicken',
         price: 5000,
-        new: false,
-        trending: true,
-        bestseller: false,
         src: igaraChicken,
-        supplierName:'Lekan Badmus',
-        supplierEmail: 'lekan@something.com',
         quantity: 1,
-        star: '★',
+        star: 5,
         totalVotes: 5,
-        sold: 37,
-        isAdded: false
+        numOfItemsSold: 5,
+        isAdded: false,
+        category: 'trending'
 
     },
     {   id: 5,
         name: 'Sexy Red Flamingo',
         price: 6000,
-        new: true,
-        trending: false,
-        bestseller: false,
         src: woman_portrait,
-        supplierName:'Alonzo Murai',
-        supplierEmail: 'alonzo@something.com',
         quantity: 1,
-         star: '★',
-         totalVotes: 5,
-        sold: 5,
-        isAdded: false
+        star: 5,
+        totalVotes: 5,
+        numOfItemsSold: 6,
+        isAdded: false,
+        category: 'new'
 
     },
     {   id: 6,
         name: 'Freaky Heels',
         price: 20000,
-        new: false,
-        trending: false,
-        bestseller: true,
         src: beads,
-        supplierName:'Chenzeng Fujito',
-        supplierEmail: 'chen@something.com',
         quantity: 1,
-         star: '★',
-         totalVotes: 5,
-        sold: 7,
-        isAdded: false
+        star: 5,
+        totalVotes: 5,
+        numOfItemsSold: 4,
+        isAdded: false,
+        category: 'bestseller'
 
     },
     {   id: 7,
         name: 'Woman Bead',
         price: 10000,
-        new: true,
-        trending: false,
-        bestseller: true,
         src: sexy_red_flamingo,
-        supplierName:'Gil Andrez',
-        supplierEmail: 'gil@something.com',
         quantity: 1,
-         star: '★',
+         star: 5,
          totalVotes: 2,
-        sold: 14,
-        isAdded: false
+         numOfItemsSold: 9,
+        isAdded: false,
+        category: 'bestseller'
 
     },
     {   id: 8,
         name: 'Woman Portrait by Fikor',
         price: 7000,
-        new: false,
-        trending: false,
-        bestseller: true,
         src: woman_portrait,
-        supplierName:'Ulio Perez',
-        supplierEmail: 'u@something.com',
         quantity: 1,
-         star: '★',
-         totalVotes: 1,
-        sold: 13,
-        isAdded: false
+        star: 5,
+        totalVotes: 1,
+        numOfItemsSold: 8,
+        isAdded: false,
+        category: 'bestseller'
 
     },
     {   id: 9,
         name: 'Woman Portrait by Fikor',
         price: 4000,
-        new: false,
-        trending: true,
-        bestseller: false,
         src: freakyheels,
-        supplierName:'Ulio Perez',
-        supplierEmail: 'u@something.com',
         quantity: 1,
-        star: '★',
+        star: 5,
         totalVotes: 9,
-        sold: 20,
-        isAdded: false
+        numOfItemsSold: 8,
+        isAdded: false,
+        category: 'trending'
 
     },
     {   id: 10,
         name: 'Woman Portrait by Fikor',
         price: 3000,
-        new: false,
-        trending: true,
-        bestseller: false,
         src: woman_portrait,
-        supplierName:'Ulio Perez',
-        supplierEmail: 'u@something.com',
         quantity: 1,
-        star: '★',
+        star: 5,
         totalVotes: 11,
-        sold: 17,
-        isAdded: false
+        numOfItemsSold: 7,
+        isAdded: false,
+        category: 'trending'
 
     },
     {   id: 12,
         name: 'Woman Bead',
         price: 15000,
-        new: false,
-        trending: false,
-        bestseller: true,
         src: sexy_red_flamingo,
-        supplierName:'Gil Andrez',
-        supplierEmail: 'gil@something.com',
         quantity: 1,
-        star: '★',
+        star: 5,
         totalVotes: 5,
-        sold: 17,
-        isAdded: false
+        numOfItemsSold: 5,
+        isAdded: false,
+        category: 'bestseller'
 
     },
     {   id: 13,
         name: 'Woman Bead',
         price: 5000,
-        new: false,
-        trending: false,
-        bestseller: true,
         src: woman_portrait,
-        supplierName:'Gil Andrez',
-        supplierEmail: 'gil@something.com',
         quantity: 1,
-        star: '★',
+        star: 5,
         totalVotes: 5,
-        sold: 6,
-        isAdded: false
+        numOfItemsSold: 10,
+        isAdded: false,
+        category: 'new'
 
     },
 ]

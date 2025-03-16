@@ -40,9 +40,9 @@ interface DetailsProps {
     <div>
     
     <Dialog>
-  <DialogTrigger>
+  <DialogTrigger asChild>
   <button 
-        className="text-center rounded-2xl font-extrabold  px-4 bg-green-300"
+        className="text-center rounded-2xl font-extrabold  py-2 px-4 bg-green-300"
         onClick={handleGetProduct}
   >
         MORE
@@ -67,7 +67,7 @@ interface DetailsProps {
 
         {/* Right side */}
       <div>
-          <p><span className="font-extrabold">Price:</span> N{product.price}</p>
+          <div><span className="font-extrabold">Price:</span> N{product.price}</div>
           <AddToCartButton targetid={product.id} />
       </div>
     </div>

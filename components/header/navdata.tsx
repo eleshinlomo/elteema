@@ -16,37 +16,32 @@ const navData: NavProps[] = [
   },
   {
     id: 2,
-    title: "New",
-    path: "/#new",
+    title: "Contact",
+    path: "/contactpage",
     newTab: false,
   },
+
   {
     id: 3,
-    title: "BestSellers",
-    path: "#bestsellers",
-    newTab: false,
-  },
-  {
-    id: 5,
     title: "Men",
     newTab: false,
     submenu: [
       {
         id: 1,
-        title: "Bags",
-        path: "/farmerspage",
+        title: "Accessories",
+        path: "/men/accessories",
         newTab: false,
       },
       {
         id: 2,
         title: "Shoes",
-        path: "/driverspage",
+        path: "/men/shoes",
         newTab: false,
       },
       {
         id: 3,
         title: "Clothings",
-        path: "/driverspage",
+        path: "/men/clothings",
         newTab: false,
       },
     
@@ -54,52 +49,53 @@ const navData: NavProps[] = [
   },
 
   {
-    id: 6,
+    id: 4,
     title: "Women",
     newTab: false,
     submenu: [
+  
       {
         id: 1,
-        title: "Bags",
-        path: "/farmerspage",
+        title: "Accessories",
+        path: "/women/accessories",
         newTab: false,
       },
       {
         id: 2,
         title: "Shoes",
-        path: "/driverspage",
+        path: "/women/shoes",
         newTab: false,
       },
       {
         id: 3,
         title: "Clothings",
-        path: "/driverspage",
+        path: "/women/clothings",
         newTab: false,
       },
     
     ],
   },
   {
-    id: 7,
+    id: 4,
     title: "Kids",
     newTab: false,
     submenu: [
       {
         id: 1,
-        title: "Bags",
-        path: "/farmerspage",
+        title: "Accessories",
+        path: "/kids/accessories",
         newTab: false,
       },
       {
         id: 2,
         title: "Shoes",
-        path: "/driverspage",
+        path: "/kids/shoes",
         newTab: false,
       },
       {
         id: 3,
         title: "Clothings",
-        path: "/driverspage",
+        path: "/kids/clothings",
         newTab: false,
       },
     

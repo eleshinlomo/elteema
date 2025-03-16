@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { CartContext } from '../../contextproviders/cartcontext';
 import {
@@ -15,11 +15,14 @@ import CartBasket from './cartbasket';
 import Image from 'next/image';
 import HeaderAlert from '../header/headeralert';
 import { ProductProps } from '../product/productsdata';
+import { fetchCart } from '../utils';
 
 const CartSideBar = () => {
   const {
-    totalItems,
     cart,
+    totalItems,
+    setTotalItems,
+    setTotalPrice,
     removeItem,
     totalPrice,
     isLoggedIn,
@@ -29,6 +32,7 @@ const CartSideBar = () => {
 
   const [message, setMessage] = useState('You have nothing in your cart.');
   const [checkoutText, setCheckoutText] = useState<string | React.ReactNode>('CHECK OUT');
+  const [savedCart, setSavedCart] = useState<ProductProps[]>([])
 
   const notLoggedInMessage = (
     <div>
@@ -48,20 +52,21 @@ const CartSideBar = () => {
     }
   };
 
+ 
+
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="relative">
-          <CartBasket />
-          
-            <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2 py-1">
-              {totalItems}
-            </span>
-          
-        </button>
+        <div className="">
+          <CartBasket />  
+        </div>
       </SheetTrigger>
       <SheetContent className="bg-green-50 lg:max-w-screen-sm overflow-y-scroll max-h-screen z-[9999]">
+      <div>
+            <CartBasket />
+          </div>
         <SheetHeader>
+       
           <SheetTitle className="bg-black w-full p-4 rounded-t-lg">
             <HeaderAlert />
           </SheetTitle>

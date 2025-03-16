@@ -1,12 +1,8 @@
 'use client'
 import React, {useState, useEffect} from 'react'
-import AddToCartButton from "../cart/addtocartbtn"
 import { Products, ProductProps } from "./productsdata"
 import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
-import ContactSeller from './productdetails'
-import { SkeletonPage } from '../skeletonPage'
-import ProductDetails from './productdetails'
 import AllProductDisplay from './allProductDisplay'
 
 
@@ -15,7 +11,7 @@ const New = ()=>{
     
     const [newItems, setNewItems] = useState<ProductProps[]>([])
     const [itemToSearch, setItemToSearch ] = useState('')
-    const originalItems = Products.filter((item)=>item.new === true)
+    const originalItems = Products.filter((item)=>item.category === 'new')
     
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
@@ -43,13 +39,13 @@ const New = ()=>{
 
     return (
       <div id='new'>
-            <p className='text-center py-4 font-extrabold uppercase'>New</p>
-      <div >
+            <p className='text-center py-4 font-extrabold uppercase animate-pulse text-green-600 tracking-wide text-xl'>New ARRIVALS</p>
+            <div >
     
        
                 <AllProductDisplay productArray={newItems} />
     
-  </div>
+            </div>
 
   </div>
     )

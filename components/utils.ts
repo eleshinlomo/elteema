@@ -13,10 +13,7 @@ export const getProduct = (id: number)=>{
 
 // Add prices
 export const addPrice = (cart: ProductProps[]): any => {
-  return cart.reduce((total: any, curr) => {
-      const price = Number(curr.price); // Ensure price is a number
-       return total + price || 0; // Add to total, default to 0 if NaN
-  }, 0);
+  return cart.reduce((total: any, product) => total + product.price, 0);
 }
 
 // Save Searched Items
@@ -26,22 +23,25 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
 
 export const saveCart = (cart: ProductProps[])=>{
     if(window !== null){
+        
         localStorage.setItem('cart', JSON.stringify(cart))
         console.log('Cart saved')
-        }
+        
+    }
 
         return 
     
 }
 
-export const fetchCart = (cart: ProductProps[])=>{
+export const fetchCart = ()=>{
     if(window !== null){
     const savedCart = localStorage.getItem('cart')
     if(savedCart){
+        console.log(savedCart)
         return JSON.parse(savedCart)
     }
-
-    return cart
+    
+    return []
 
     }
 }
