@@ -1,7 +1,7 @@
 'use client'
 import React, {useState, useEffect} from 'react'
 import AddToCartButton from "../cart/addtocartbtn"
-import { Products, ProductProps } from "./productsdata"
+import { Products, ProductProps } from "../data/productsdata"
 import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
 import ContactSeller from './productdetails'

@@ -2,7 +2,7 @@
 import {useState, useEffect} from 'react'
 import AddToCartButton from "../cart/addtocartbtn"
 import { Button } from "../ui/button"
-import { ProductProps, Products } from "./productsdata"
+import { ProductProps, Products } from "../data/productsdata"
 import Image from 'next/image'
 import ContactSeller from './productdetails'
 import ProductDetails from './productdetails'

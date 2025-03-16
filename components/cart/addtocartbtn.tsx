@@ -1,7 +1,7 @@
 import { Button } from "../ui/button"
 import { useContext, useState, useEffect } from "react"
 import { CartContext } from "../../contextproviders/cartcontext"
-import { ProductProps } from "../product/productsdata"
+import { ProductProps } from "../data/productsdata"
 
 interface AddToCartBtnProps {
     targetid: number,

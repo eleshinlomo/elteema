@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
-import navdata from "./navdata";
+import navdata from "../data/navdata";
 import { Button } from "../ui/button";
 // import Logo from '/images/logos/efarms_logo.png'
 import HeaderAlert from "./headeralert";

@@ -1,6 +1,6 @@
 'use client'
 import React, {useState, useEffect} from 'react'
-import { Products, ProductProps } from "./productsdata"
+import { Products, ProductProps } from "../data/productsdata"
 import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
 import AllProductDisplay from './allProductDisplay'

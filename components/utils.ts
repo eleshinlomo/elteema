@@ -1,5 +1,6 @@
-import { ProductProps } from "./product/productsdata"
-import { Products } from "./product/productsdata"
+import { ProductProps } from "./data/productsdata"
+import { Products } from "./data/productsdata"
+import { UserProps, user, saveUser } from "./data/userdata"
 
 
 
@@ -21,24 +22,23 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
     console.log('Searched item', itemToSearch)
 }
 
-export const saveCart = (cart: ProductProps[])=>{
+export const saveCart = (updatedCart: ProductProps[])=>{
     if(window !== null){
-        
-        localStorage.setItem('cart', JSON.stringify(cart))
+        const updatedUserCart: UserProps = {...user, cart: updatedCart}
+        saveUser(updatedUserCart)
         console.log('Cart saved')
         
     }
-
         return 
-    
 }
 
 export const fetchCart = ()=>{
     if(window !== null){
-    const savedCart = localStorage.getItem('cart')
-    if(savedCart){
-        console.log(savedCart)
-        return JSON.parse(savedCart)
+    const userString = localStorage.getItem('user')
+    if(userString){
+        const userData = JSON.parse(userString)
+        const savedCart = userData.cart
+        return savedCart
     }
     
     return []

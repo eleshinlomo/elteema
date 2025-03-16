@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
-import { Products } from "../components/product/productsdata";
-import { ProductProps } from "../components/product/productsdata";
+import { Products } from "../components/data/productsdata";
+import { ProductProps } from "../components/data/productsdata";
 import { addPrice, fetchCart, saveCart } from "../components/utils";
 
 interface CartContextProps {

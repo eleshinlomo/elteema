@@ -14,7 +14,7 @@ import {
 import CartBasket from './cartbasket';
 import Image from 'next/image';
 import HeaderAlert from '../header/headeralert';
-import { ProductProps } from '../product/productsdata';
+import { ProductProps } from '../data/productsdata';
 import { fetchCart } from '../utils';
 
 const CartSideBar = () => {

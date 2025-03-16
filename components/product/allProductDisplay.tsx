@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import AddToCartButton from '../cart/addtocartbtn'
 import ProductDetails from './productdetails'
-import { ProductProps } from './productsdata'
+import { ProductProps } from '../data/productsdata'
 import { SkeletonPage } from '../skeletonPage'
 
 
