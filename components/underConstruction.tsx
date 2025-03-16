@@ -6,7 +6,7 @@ const PageUnderConstruction = () => {
                     🚧 Under Construction 🚧
                 </h1>
                 <p className="text-lg text-gray-600 mb-6">
-                    We're working hard to bring you something amazing. Please check back soon!
+                    We&apos;re working hard to bring you something amazing. Please check back soon!
                 </p>
                 <div className="flex justify-center">
                     <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center animate-bounce">
