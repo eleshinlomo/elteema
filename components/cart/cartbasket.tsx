@@ -1,6 +1,6 @@
 import { ShoppingBasketIcon } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { CartContext } from "../../contextproviders/cartcontext";
+import { CartContext } from "../../contextProviders/cartcontext";
 import { fetchCart } from "../utils";
 import { ProductProps } from "../data/productsdata";
 

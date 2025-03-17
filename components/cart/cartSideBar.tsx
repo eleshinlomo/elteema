@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useContext, useEffect } from 'react';
 import { Button } from '../ui/button';
-import { CartContext } from '../../contextproviders/cartcontext';
+import { CartContext } from '../../contextProviders/cartcontext';
 import {
   Sheet,
   SheetContent,
@@ -61,10 +61,10 @@ const CartSideBar = () => {
           <CartBasket />  
         </div>
       </SheetTrigger>
-      <SheetContent className="bg-green-50 lg:max-w-screen-sm overflow-y-scroll max-h-screen z-[9999]">
-      <div>
-            <CartBasket />
-          </div>
+      <SheetContent className="  bg-green-50 lg:max-w-screen-sm overflow-y-scroll max-h-screen z-[9999]">
+      <span className=" absolute top-2 left-[10px] bg-red-500 text-white text-xs rounded-full py-3 px-4">
+          {totalItems}  
+        </span>
         <SheetHeader>
        
           <SheetTitle className="bg-black w-full p-4 rounded-t-lg">

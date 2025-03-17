@@ -1,38 +1,36 @@
 'use client'
-import React, {useState, useEffect} from 'react'
-import { Products, ProductProps } from "../data/productsdata"
+import React, {useState, useEffect, useContext} from 'react'
+import { ProductProps } from "../data/productsdata"
 import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
 import AllProductDisplay from './allProductDisplay'
+import { CartContext } from '../../contextProviders/cartcontext'
 
 
 
 const New = ()=>{
     
-    const [newItems, setNewItems] = useState<ProductProps[]>([])
-    const [itemToSearch, setItemToSearch ] = useState('')
-    const originalItems = Products.filter((item)=>item.category === 'new')
+    const [newList, setNewList] = useState<ProductProps[]>([])
+    const cartContext = useContext(CartContext)
+    const {Products} = cartContext
+
+    
     
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
-       setItemToSearch(e.target.value)
-    }
 
-
-    const getTrendingItems  = ()=>{
-        
-        const filteredItems = searchSingleProduct(itemToSearch, originalItems)
-        setNewItems(filteredItems)
+    const getNewItems  = ()=>{
+      const newItems = Products.filter((item)=>item.category === 'new')
+      if(newItems.length > 0){
+         setNewList(newItems)
+      }
        
      }
 
      useEffect(()=>{
-        getTrendingItems()
-     }, [itemToSearch])
+        getNewItems()
+     }, [Products])
 
-     useEffect(()=>{
-        setNewItems(originalItems)
-     },[])
+   
 
      
 
@@ -43,7 +41,7 @@ const New = ()=>{
             <div >
     
        
-                <AllProductDisplay productArray={newItems} />
+                <AllProductDisplay productArray={newList} />
     
             </div>
 

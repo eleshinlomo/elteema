@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import {useState, useEffect, FormEvent, useContext} from 'react'
-import { PagesContext } from "../../../../contextproviders/pagescontext";
+import { PagesContext } from "../../../../contextProviders/pagescontext";
 
 
 

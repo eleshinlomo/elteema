@@ -1,12 +1,13 @@
 'use client'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import AddToCartButton from "../cart/addtocartbtn"
-import { Products, ProductProps } from "../data/productsdata"
+import { ProductProps } from "../data/productsdata"
 import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
 import ContactSeller from './productdetails'
 import ProductDetails from './productdetails'
 import AllProductDisplay from './allProductDisplay'
+import { CartContext } from '../../contextProviders/cartcontext'
 
 
 
@@ -14,29 +15,22 @@ const Trending = ()=>{
     
     const [trendingItems, setTrendingItems] = useState<ProductProps[]>([])
     const [itemToSearch, setItemToSearch ] = useState('')
+    const cartContext = useContext(CartContext)
+    const {Products} = cartContext
     const originalItems = Products.filter((item)=>item.category === 'trending')
     
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
-       setItemToSearch(e.target.value)
-    }
-
-
-    const getTrendingItems  = ()=>{
-        
-        const filteredItems = searchSingleProduct(itemToSearch, originalItems)
-        setTrendingItems(filteredItems)
+   const getTrendingItems  = ()=>{
+      const items = Products.filter((item)=>item.category === 'new')
+      if(items.length > 0){
+         setTrendingItems(items)
+      }
        
      }
 
      useEffect(()=>{
         getTrendingItems()
-     }, [itemToSearch])
-
-     useEffect(()=>{
-        setTrendingItems(originalItems)
-     },[])
-
+     }, [Products])
      
 
 

@@ -1,16 +1,16 @@
 'use client'
-import {useState, useEffect} from 'react'
-import AddToCartButton from "../cart/addtocartbtn"
+import {useState, useEffect, useContext} from 'react'
 import { Button } from "../ui/button"
-import { ProductProps, Products } from "../data/productsdata"
+import { ProductProps} from "../data/productsdata"
 import Image from 'next/image'
-import ContactSeller from './productdetails'
-import ProductDetails from './productdetails'
 import AllProductDisplay from './allProductDisplay'
+import { CartContext } from '../../contextProviders/cartcontext'
 
 
 const Bestsellers = ()=>{
  const [bestsellers, setBestsellers] = useState<ProductProps[]>([])
+ const cartContext = useContext(CartContext)
+ const {Products} = cartContext
 
  const getBestsellers  = ()=>{
     const bestSellerItems = Products.filter((item: ProductProps)=>item.category === 'bestseller')
@@ -21,7 +21,7 @@ const Bestsellers = ()=>{
 
  useEffect(()=>{
     getBestsellers()
- }, [])
+ }, [Products])
 
 
     return (

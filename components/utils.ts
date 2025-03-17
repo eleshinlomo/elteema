@@ -1,10 +1,9 @@
 import { ProductProps } from "./data/productsdata"
-import { Products } from "./data/productsdata"
 import { UserProps, user, saveUser } from "./data/userdata"
 
 
 
-export const getProduct = (id: number)=>{
+export const getProduct = (id: number, Products: ProductProps[])=>{
    const product = Products.find((item)=>item.id === id)
    if(product){
     return product
@@ -54,7 +53,7 @@ export const searchSingleProduct = (item: string, originalItems: any[])=>{
   
 }
 
-export const getItemQuantity = (targetid: number)=>{
+export const getItemQuantity = (targetid: number, Products: ProductProps[])=>{
    const product = Products.find((item)=> item.id === targetid)
    return product ? product.quantity : 0
    

@@ -1,6 +1,6 @@
 import { Button } from "../ui/button"
 import { useContext, useState, useEffect } from "react"
-import { CartContext } from "../../contextproviders/cartcontext"
+import { CartContext } from "../../contextProviders/cartcontext"
 import { ProductProps } from "../data/productsdata"
 
 interface AddToCartBtnProps {

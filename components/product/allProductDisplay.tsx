@@ -17,15 +17,15 @@ const AllProductDisplay = ({productArray} : AllProductDisplayProps)=>{
 
         <div>
 
-            {productArray.length > 0 ?
+            {productArray && productArray.length > 0 ?
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6  ">
 
              {productArray?.slice(0, 4).map((item, index) => (
             <div key={index} className="bg-green-100 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
                               
-                <div className="relative h-48 w-full">
+                {/* <div className="relative h-48 w-full">
                   <Image src={item.src} alt={item.name} layout="fill" objectFit="cover" />
-                </div>
+                </div> */}
                 <div className="p-4">
                   <p className="font-semibold text-xl mb-2">{item.name}</p>
                   <p className="text-green-600 text-lg font-bold">N{item.price}</p>
@@ -37,6 +37,7 @@ const AllProductDisplay = ({productArray} : AllProductDisplayProps)=>{
                    </div> */}
 
                    <span className='text-yellow-700 font-extrabold'>Sold: {item.numOfItemsSold}</span>
+                   <span className='text-yellow-700 font-extrabold'>Category: {item.category}</span>
                    <div className="mt-4 flex gap-4">
                    <AddToCartButton targetid={item.id}   />
                    <ProductDetails id={item.id} />

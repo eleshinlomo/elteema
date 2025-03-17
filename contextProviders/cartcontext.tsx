@@ -1,7 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
-import { Products } from "../components/data/productsdata";
+import { getProductData} from "../components/data/productsdata";
 import { ProductProps } from "../components/data/productsdata";
 import { addPrice, fetchCart, saveCart } from "../components/utils";
+import { getUserData } from "../components/data/userdata";
 
 interface CartContextProps {
     children: React.ReactNode;
@@ -19,6 +20,7 @@ interface CartContextValue {
     totalPrice: number;
     setTotalPrice: (value: number)=>void;
     quantity: number;
+    Products: ProductProps[];
 }
 
 const defaultValues: CartContextValue = {
@@ -33,6 +35,7 @@ const defaultValues: CartContextValue = {
     totalItems: 0,
     totalPrice: 0,
     quantity: 0,
+    Products: []
 };
 
 export const CartContext = createContext<CartContextValue>(defaultValues);
@@ -45,6 +48,7 @@ export const CartProvider: React.FC<CartContextProps> = ({ children }) => {
     const [isAdded, setIsAdded] = useState<boolean>(false);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [quantity, setQuantity] = useState<number>(0);
+    const [Products, setProducts] = useState<ProductProps[]>([])
 
      // This we use to set saved Cart values and also update whenever new item is added to the cart
       const getCart = ()=>{
@@ -58,6 +62,20 @@ export const CartProvider: React.FC<CartContextProps> = ({ children }) => {
       useEffect(()=>{
         getCart()
       }, [isAdded, totalItems, totalPrice, quantity])
+
+
+      const handleGetData = async()=>{
+        const user = await getUserData()
+        const products = await getProductData()
+        if(products){
+            console.log('Product', products.product)
+            setProducts(products.product)
+        }
+      }
+
+      useEffect(()=>{
+       handleGetData()
+      }, [])
 
 
 
@@ -151,7 +169,8 @@ export const CartProvider: React.FC<CartContextProps> = ({ children }) => {
         quantity,
         handleQuantityIncrease,
         handleQuantityDecrease,
-        setTotalPrice
+        setTotalPrice,
+        Products
     };
 
     return (

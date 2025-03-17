@@ -1,6 +1,5 @@
 'use client'
 import Image from "next/image";
-import { useEffect, useState, useContext } from "react";
 import TestimonialsPage from "../../../components/Testimonials";
 import Search from "../../../components/product/search";
 import ScrollTopButton from "../../../components/scrollTopButton";

@@ -1,3 +1,4 @@
+import { useState, useEffect, useContext } from "react";
 import {
     Dialog,
     DialogContent,
@@ -7,10 +8,10 @@ import {
     DialogTrigger,
   } from "../../components/ui/dialog"
 import { Button } from "../ui/button"
-import { getProduct } from "../utils";
-import { useState, useEffect } from "react";
 import Image from 'next/image'
 import AddToCartButton from "../cart/addtocartbtn";
+import { CartContext } from "../../contextProviders/cartcontext";
+import { getProduct } from "../utils";
 
 interface DetailsProps {
   id: number;
@@ -21,9 +22,11 @@ interface DetailsProps {
 
     const [product, setProduct] = useState<any | null>(null)
     const [error, setError] = useState('')
+    const cartContext = useContext(CartContext)
+    const {Products} = cartContext
 
     const handleGetProduct =  ()=>{
-       const product: any = getProduct(id)
+       const product: any = getProduct(id, Products)
        if(product){
        console.log(product)
        setProduct(product)
@@ -60,9 +63,9 @@ interface DetailsProps {
     <div className="flex justify-between">
       {/* Left side */}
        <div>
-       <div className='relative h-72 w-[200px]'>
+       {/* <div className='relative h-72 w-[200px]'>
         <Image src={product.src} alt='product image' fill />
-        </div>
+        </div> */}
       </div>
 
         {/* Right side */}

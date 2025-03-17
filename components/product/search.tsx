@@ -1,18 +1,20 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react'
 import AddToCartButton from "../cart/addtocartbtn";
-import { Products, ProductProps } from "../data/productsdata";
+import {ProductProps } from "../data/productsdata";
 import Image from 'next/image';
 import Hero from '../hero';
-import { SkeletonPage } from '../skeletonPage';
-import ProductDetails from './productdetails';
 import AllProductDisplay from './allProductDisplay';
+import { CartContext } from '../../contextProviders/cartcontext'
 
 const Search = () => {
     const [allProducts, setAllProducts] = useState<ProductProps[]>([]);
     const [itemToSearch, setItemToSearch] = useState<string>('');
     const [searchedItemList, setSearchItemList] = useState<ProductProps[]>([]);
     const [searchedItemFound, setSearchedItemFound] = useState(false);
+
+    const cartContext = useContext(CartContext)
+        const {Products} = cartContext
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setItemToSearch(e.target.value);
