@@ -23,10 +23,10 @@ const AllProductDisplay = ({productArray} : AllProductDisplayProps)=>{
              {productArray?.slice(0, 4).map((item, index) => (
             <div key={index} className="bg-green-100 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
                               
-                {/* <div className="relative h-48 w-full">
+                <div className="relative h-48 w-full">
                   <Image src={item.src} alt={item.name} layout="fill" objectFit="cover" />
-                </div> */}
-                <div className="p-4">
+                </div>
+                <div className="p-4 flex flex-col">
                   <p className="font-semibold text-xl mb-2">{item.name}</p>
                   <p className="text-green-600 text-lg font-bold">N{item.price}</p>
                   {/* <div className="flex items-center mt-2">

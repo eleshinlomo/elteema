@@ -63,9 +63,9 @@ interface DetailsProps {
     <div className="flex justify-between">
       {/* Left side */}
        <div>
-       {/* <div className='relative h-72 w-[200px]'>
+       <div className='relative h-72 w-[200px]'>
         <Image src={product.src} alt='product image' fill />
-        </div> */}
+        </div>
       </div>
 
         {/* Right side */}

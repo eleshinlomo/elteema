@@ -16,7 +16,7 @@ export interface ProductProps {
     id: number;
     name: string;
     price: number;
-    // src: any;
+    src: any;
     quantity: number;
     star: number;
     totalVotes: number;
