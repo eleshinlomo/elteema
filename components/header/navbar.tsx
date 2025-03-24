@@ -184,8 +184,10 @@ const NavBar = ({isLoggedIn}: NavBarProps) => {
                 </nav>
               </div>
 
-              
+              {/* Right Side */}
               <div className="flex items-center justify-end pr-16 lg:pr-0">
+
+                <button disabled className="bg-green-500 rounded-2xl p-2 text-white">BETA</button>
 
               {/* Sign in */}
               {isLoggedIn ? <p>Hi Guest</p> :
