@@ -97,6 +97,8 @@ const NavBar = ({isLoggedIn}: NavBarProps) => {
                 />
               </Link>
             </div>
+
+            {/* Mobile */}
             <div className="flex w-full items-center justify-between px-4">
               <div>
                 <button
@@ -185,7 +187,7 @@ const NavBar = ({isLoggedIn}: NavBarProps) => {
               </div>
 
               {/* Right Side */}
-              <div className="flex items-center justify-end pr-16 lg:pr-0">
+              <div className="flex items-center gap-5 justify-end pr-16 lg:pr-0">
 
                 <button disabled className="bg-green-500 rounded-2xl p-2 text-white">BETA</button>
 
@@ -222,9 +224,9 @@ const NavBar = ({isLoggedIn}: NavBarProps) => {
                 </Link>
                 }
 
-                <div>
+                {/* <div>
                   <ThemeToggler />
-                </div>
+                </div> */}
               {/* Cart sidebar */}
               <div>
                  <CartSideBar />
