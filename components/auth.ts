@@ -25,3 +25,22 @@ export const register = async ({email, username} : RegisterProps)=>{
     return err
 }
 }
+
+
+export const login = async (email: string)=>{
+   try{
+   const response = await fetch(`${BASE_URL}/login`, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {"Content-Type": 'application/json'},
+    body: JSON.stringify({email})
+   })
+
+   if(!response) return 'No response from server'
+   const data: any = await response.json()
+   return data
+  }
+  catch(err){
+    console.log(err)
+  }
+}

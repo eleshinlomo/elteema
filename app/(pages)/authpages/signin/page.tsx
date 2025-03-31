@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Metadata } from "next";
 import {useState, useEffect, FormEvent, useContext} from 'react'
 import { PagesContext } from "../../../../contextProviders/pagescontext";
+import { login } from "../../../../components/auth";
+import ReactMarkdown from 'react-markdown';
 
 
 
@@ -13,22 +15,28 @@ const SigninPage = () => {
 
 const [email, setEmail] = useState('')
 const [password, setPassword] = useState('')
+const [error, setError] = useState('')
+const [message, setMessage] = useState('Login to your account for a faster checkout.')
 const pageContext = useContext(PagesContext)
 const {isLoggedIn} = pageContext
 console.log('IS Loggedin SignPage', isLoggedIn)
 
 
-// const handleChange = (e: FormEvent)=>{
-//   e.preventDefault()
-//   const value = e.target
-//   return value
-// }
 
-  const login = (e: FormEvent)=>{
+
+  const handleLogin = async (e: FormEvent)=>{
+    setError('')
     e.preventDefault()
-    localStorage.setItem('email', email)
-    setEmail('')
-    setPassword('')
+    const response: any = await login(email)
+    if(response.ok){
+      console.log(response)
+      setMessage(response.message)
+      setEmail('')
+    }else{
+      console.log(response.error)
+      setError(response.error)
+      
+    }
   }
 
   useEffect(()=>{
@@ -51,9 +59,10 @@ console.log('IS Loggedin SignPage', isLoggedIn)
                   <h3 className="mb-3 text-center text-2xl font-bold text-black dark:text-white sm:text-3xl">
                     Sign in to your account
                   </h3>
-                  <p className="mb-11 text-center text-base font-medium text-body-color">
-                    Login to your account for a faster checkout.
-                  </p>
+                  <div className={error ? "text-red-500 mb-2 text-center text-base font-medium "
+                   : "mb-11 text-center text-base font-medium text-green-800"}>
+                  {error ? error : <ReactMarkdown>{message}</ReactMarkdown>}
+                </div>
                   
   
                   <form>
@@ -75,7 +84,7 @@ console.log('IS Loggedin SignPage', isLoggedIn)
                       />
                     </div>
               
-                    <div className="mb-8 flex flex-col justify-between sm:flex-row sm:items-center">
+                    <div className="mb-2 flex flex-col justify-between sm:flex-row sm:items-center">
                       <div className="mb-4 sm:mb-0">
                         <label
                           htmlFor="checkboxLabel"
@@ -109,26 +118,19 @@ console.log('IS Loggedin SignPage', isLoggedIn)
                           Keep me signed in
                         </label>
                       </div>
-                      <div>
-                        <a
-                          href="#0"
-                          className="text-sm font-medium text-green-500 hover:underline"
-                        >
-                          Forgot Password?
-                        </a>
-                      </div>
+                
                     </div>
                     <div className="mb-6">
                       <button className="shadow-submit dark:shadow-submit-dark flex w-full items-center justify-center
                        rounded-sm bg-green-700 px-9 py-4 text-base font-medium text-white duration-300 hover:bg-green-700"
-                       onClick={login}
+                       onClick={handleLogin}
                        >
                         Get magic link
                       </button>
                     </div>
                   </form>
                   <p className="text-center text-base font-medium text-body-color">
-                    Don&apos;t you have an account?{" "}
+                    Fast Sign up. Register in 1 min. {" "}
                     <Link href="/authpages/signup" className="text-green-500 hover:underline">
                       Sign up
                     </Link>

@@ -36,6 +36,7 @@ const SignupPage = () => {
       setUsername('')
       setEmail('')
       setMessage(response.message)
+      window.location.href = '/authpages/signin'
       return
     }
      console.log(response.error)
@@ -54,7 +55,8 @@ const SignupPage = () => {
                 <h3 className="mb-3 pt-4 text-center text-2xl font-bold text-black dark:text-white sm:text-3xl">
                   Create your account
                 </h3>
-                <p className="mb-11 text-center text-base font-medium text-body-color">
+                <p className={error ? "text-red-500 mb-2 text-center text-base font-medium "
+                   : "mb-11 text-center text-base font-medium text-body-color"}>
                   {error ? error : message}
                 </p>
                
