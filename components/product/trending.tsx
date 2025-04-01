@@ -13,25 +13,18 @@ import { CartContext } from '../../contextProviders/cartcontext'
 
 const Trending = ()=>{
     
-    const [trendingItems, setTrendingItems] = useState<ProductProps[]>([])
-    const [itemToSearch, setItemToSearch ] = useState('')
+   const [trendingItems, setTrendingItems] = useState<ProductProps | any>([])
     const cartContext = useContext(CartContext)
     const {Products} = cartContext
-    const originalItems = Products.filter((item)=>item.category === 'trending')
-    
 
-   const getTrendingItems  = ()=>{
-      const items = Products.filter((item)=>item.category === 'new')
-      if(items.length > 0){
-         setTrendingItems(items)
-      }
-       
-     }
+    useEffect(()=>{
+    if(Products && Products.length > 0){
+      const items: any = Products.filter((item)=>item.category === 'trending')
+      setTrendingItems(items)
+    }
+    }, [Products])
 
-     useEffect(()=>{
-        getTrendingItems()
-     }, [Products])
-     
+   
 
 
     return (

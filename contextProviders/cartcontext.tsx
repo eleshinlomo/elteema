@@ -68,8 +68,8 @@ export const CartProvider: React.FC<CartContextProps> = ({ children }) => {
         const user = await getUserData()
         const products = await getProductData()
         if(products){
-            console.log('Product', products.product)
-            setProducts(products.product)
+            console.log('Product', products.products)
+            setProducts(products.products)
         }
       }
 

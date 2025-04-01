@@ -31,7 +31,7 @@ const BASE_URL  = process.env.NEXT_PUBLIC_BASE_URL
 export const getProductData = async ()=>{
 
     try{
-    const response = await fetch(`${BASE_URL}/productdata`, {
+    const response = await fetch(`${BASE_URL}/products`, {
        mode: 'cors'
     })
     if(!response) return
