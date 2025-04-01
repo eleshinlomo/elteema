@@ -1,14 +1,6 @@
 
 
-import { ReactNode } from 'react'
-import african_drum from '../../public/images/products/african_drum.jpg'
-import dopechick from '../../public/images/products/women/clothes/ankara.jpg'
-import senatorBassey from '../../public/images/products/men/clothes/senator_bassey.jpg'
-import igaraChicken from '../../public/images/products/men/clothes/men_lace.jpg'
-import woman_portrait from '../../public/images/products/woman_portrait.jpg'
-import beads from '../../public/images/products/beads.jpg'
-import sexy_red_flamingo from '../../public/images/products/women/shoes/sexy_red_flamingo.png'
-import freakyheels from '../../public/images/products/women/shoes/freaky_heels.png'
+
 // import pepperoni from '@/public/images/products/pepperoni.jpg'
 
 
