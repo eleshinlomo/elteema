@@ -52,14 +52,10 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
      // This we use to set saved Cart values and also update whenever new item is added to the cart
       const getCart = ()=>{
         const updatedCart: ProductProps[] = fetchCart()
-        if(updatedCart && updatedCart.length > 0){
-        setCart((prev: ProductProps[])=>[...prev, ...updatedCart])
+        if(updatedCart && updatedCart.length >= 0)
+        setCart(updatedCart)
         setTotalItems(updatedCart?.reduce((sum, item)=> sum + item.quantity, 0))
         setTotalPrice(updatedCart?.reduce((sum, item)=> sum + item.price * item.quantity, 0))
-        }else{
-            setCart([])
-        }
-      
       }
     
       useEffect(()=>{

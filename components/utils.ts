@@ -34,21 +34,21 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
 }
 
 export const saveCart = (updatedCart: ProductProps[])=>{
-    if(window !== null){
+    if(window && typeof window !== null){
         const user: any = getUser()
         if(!user) {
             console.log('No user found')
-            return [] // Cart must always return an array to prevent error
+            return 
         }
         const updatedUserCart: UserProps = {...user, cart: updatedCart}
         saveUser(updatedUserCart)
         console.log('Cart saved')
     }
-        return []
+        return 
 }
 
 export const fetchCart = ()=>{
-    if(window !== null){
+    if(window && typeof window !== null){
         const user: any = getUser()
         if(!user) {
             console.log('No user found')
