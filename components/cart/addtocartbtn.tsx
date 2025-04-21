@@ -18,7 +18,7 @@ const AddToCartButton = ({targetid}: AddToCartBtnProps)=>{
 
    const handleAddToCart = ()=>{
        addToCart(targetid)
-       const isProductInCart = cart.find((item)=> item.isAdded)
+       const isProductInCart = cart?.find((item)=> item.isAdded)
        if(isProductInCart){
         setIsAdded(isProductInCart)
        }
