@@ -3,8 +3,9 @@ import React, {useState, useEffect, useContext} from 'react'
 import { ProductProps } from "../data/productsdata"
 import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
-import AllProductDisplay from './allProductDisplay'
+import AllProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
+import SkeletonPage from '../skeletonPage'
 
 
 
@@ -13,7 +14,7 @@ const New = ()=>{
     const [newList, setNewList] = useState<ProductProps[]>([])
     const cartContext = useContext(CartContext)
     const {Products} = cartContext
-
+    const message = 'Loading new items...'
     
     
 
@@ -41,7 +42,9 @@ const New = ()=>{
             <div >
     
        
-                <AllProductDisplay productArray={newList} />
+                {newList && newList.length > 0 ?<AllProductDisplay productArray={newList} />:
+                <SkeletonPage message={message} />
+                }
     
             </div>
 

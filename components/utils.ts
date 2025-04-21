@@ -34,7 +34,7 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
 }
 
 export const saveCart = (updatedCart: ProductProps[])=>{
-    if(window && typeof window !== null){
+    if(typeof window !== 'undefined'){
         const user: any = getUser()
         if(!user) {
             console.log('No user found')
@@ -48,7 +48,7 @@ export const saveCart = (updatedCart: ProductProps[])=>{
 }
 
 export const fetchCart = ()=>{
-    if(window && typeof window !== null){
+    if(typeof window !== 'undefined'){
         const user: any = getUser()
         if(!user) {
             console.log('No user found')

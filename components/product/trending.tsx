@@ -6,8 +6,9 @@ import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
 import ContactSeller from './productdetails'
 import ProductDetails from './productdetails'
-import AllProductDisplay from './allProductDisplay'
+import AllProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
+import SkeletonPage from '../skeletonPage'
 
 
 
@@ -24,13 +25,14 @@ const Trending = ()=>{
     }
     }, [Products])
 
-   
+   const message = "Loading trending items..."
 
 
     return (
       <div>
             <p className='text-center py-4 font-extrabold uppercase'>Trending</p>
-            <AllProductDisplay productArray={trendingItems} />
+            {trendingItems && trendingItems.length > 0 ? <AllProductDisplay productArray={trendingItems} />
+            : <SkeletonPage message={message} />}
 
   </div>
     )

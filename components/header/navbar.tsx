@@ -3,9 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useContext } from "react";
-import ThemeToggler from "./ThemeToggler";
 import navdata from "../data/navdata";
-
 import { Button } from "../ui/button";
 // import Logo from '/images/logos/efarms_logo.png'
 import HeaderAlert from "./headeralert";
@@ -84,22 +82,22 @@ const NavBar = () => {
             <div className="w-60 max-w-full px-4 xl:mr-12">
               <Link
                 href="/"
-                className={`header-logo block w-full ${
+                className={`header-logo block  w-full ${
                   sticky ? "py-5 lg:py-2" : "py-8"
                 } `}
               >
                 <Image
-                  src='/images/logos/efarms_logo.png'
+                  src='/images/logos/elteema_logo.png'
                   alt="logo"
-                  width={140}
-                  height={80}
+                  width={180}
+                  height={100}
                   className="w-12 dark:hidden"
                 />
                 <Image
-                  src='/images/logos/efarms_logo.png'
+                  src='/images/logos/elteema_logo.png'
                   alt="logo"
-                  width={140}
-                  height={80}
+                  width={180}
+                  height={100}
                   className="hidden w-12 dark:block"
                 />
               </Link>
@@ -197,7 +195,7 @@ const NavBar = () => {
               </div>
 
               <CartSideBar />
-
+          
             </div>
           </div>
         </div>

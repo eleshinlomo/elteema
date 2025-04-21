@@ -43,14 +43,18 @@ const Cart = ()=>{
 
  
   const sendToCheckout = ()=>{
-    if(!isLoggedIn){
-      setCheckoutText('Please sign in to check out')
-    }
 
-    if (totalItems === 0) {
+    if (totalItems === 0 || !totalItems) {
       setMessage('You cannot checkout 0 item.');
       return;
     }
+    
+    if(!isLoggedIn){
+      setCheckoutText('Please sign in to check out')
+
+    }
+
+    
    
     router.push('/checkoutpage')
 
@@ -64,7 +68,7 @@ const Cart = ()=>{
 
 <div>
       <span className=" absolute top-2 left-[10px] bg-red-500 text-white text-xs rounded-full py-3 px-4">
-          {totalItems}  
+          {totalItems ? totalItems : 0}  
         </span>
         <div>
        
@@ -82,8 +86,8 @@ const Cart = ()=>{
               </Button>
               <p className='text-green-600 flex font-extrabold text-lg'>
                 <span>Subtotal</span>
-                <span>({totalItems}):</span>
-                <span className='pl-3'> N{totalPrice}</span>
+                <span>({totalItems ? totalItems : 0}):</span>
+                <span className='pl-3'> ₦{totalPrice ? totalPrice : 0}</span>
               </p>
              
             </div>
@@ -104,7 +108,7 @@ const Cart = ()=>{
                       -
                     </Button>
                     <div className='flex flex-col'>
-                    <span className='mt-1 text-md font-semibold'>Price: {item.price}</span>
+                    <span className='mt-1 text-md font-semibold'>Price: ₦{item.price}</span>
                     <span className='mt-1 text-md font-semibold'>{item.name} ({item.quantity})</span>
                     </div>
                     <Button

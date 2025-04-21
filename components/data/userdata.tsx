@@ -1,22 +1,33 @@
-import { cookieData } from "./cookiedata";
-import { ProductProps } from "./productsdata";
+'use client'
+
 
 
 export interface UserProps {
+    id:number;
+    name:  string;
+    authCode: string;
     username: string;
+    email: string;
+    cart: [],
+    isLoggedIn: boolean;
+    type:  string;
+    role:  string;
+    createdAt:  string;
     cookiesAccepted: boolean;
-    isLogged: boolean;
-    cart: ProductProps[]
+    phone:  string;
+    address:  string;
+    ewsletter: boolean;
+    location: string;
 }
 
 
 const BASE_URL  = process.env.NEXT_PUBLIC_BASE_URL
 
 export const getUser = ()=>{
-    if(window && typeof window !== null){
+    if(typeof window !== 'undefined'){
         const userString = localStorage.getItem('ptlgUser')
         if(userString){
-           return JSON.parse(userString) as UserProps
+           return JSON.parse(userString) 
         }
         
     }
@@ -26,7 +37,7 @@ export const getUser = ()=>{
 
 
 export const saveUser = (updatedUser: UserProps)=>{
-    if(window && typeof window  !== null){
+    if(typeof window  !== 'undefined'){
        localStorage.setItem('ptlgUser', JSON.stringify(updatedUser)) 
     }
     return

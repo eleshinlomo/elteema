@@ -1,5 +1,4 @@
 'use client'
-import Image from "next/image";
 import TestimonialsPage from "../../../../components/Testimonials";
 import Search from "../../../../components/product/search";
 import ScrollTopButton from "../../../../components/scrollTopButton";
@@ -11,8 +10,8 @@ import CookiePolicy from "../../../../components/cookieAcceptPage";
 export default function Home() {
   return (
     <div id='top' className="overflow-hidden min-h-screen" style={{
-      background: 'linear-gradient(135deg, #e6f4ea 0%, #f0f8f2 100%)', // Light green gradient
-      backgroundAttachment: 'fixed', // Ensures the background stays fixed while scrolling
+      background: 'linear-gradient(135deg, #e6f4ea 0%, #f0f8f2 100%)',
+      backgroundAttachment: 'fixed',
     }}>
       <Search />
       <New />

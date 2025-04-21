@@ -3,8 +3,9 @@ import {useState, useEffect, useContext} from 'react'
 import { Button } from "../ui/button"
 import { ProductProps} from "../data/productsdata"
 import Image from 'next/image'
-import AllProductDisplay from './allProductDisplay'
+import AllProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
+import SkeletonPage from '../skeletonPage'
 
 
 const Bestsellers = ()=>{
@@ -23,11 +24,13 @@ const Bestsellers = ()=>{
     getBestsellers()
  }, [Products])
 
-
+  const message = 'Loading bestselling items...'
     return (
         <div id='bestsellers'>
             <p className='text-center py-2 font-extrabold uppercase'>Bestsellers</p>
-            <AllProductDisplay productArray={bestsellers} />
+            {bestsellers && bestsellers.length > 0 ? <AllProductDisplay productArray={bestsellers} />:
+            <SkeletonPage message={message} />
+            }
         
     </div>
     )

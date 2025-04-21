@@ -2,7 +2,7 @@ import Image from 'next/image'
 import AddToCartButton from '../cart/addtocartbtn'
 import ProductDetails from './productdetails'
 import { ProductProps } from '../data/productsdata'
-import { SkeletonPage } from '../skeletonPage'
+import  SkeletonPage  from '../skeletonPage'
 
 
 interface AllProductDisplayProps {
@@ -10,8 +10,11 @@ interface AllProductDisplayProps {
   
 }
 
+
+
 const AllProductDisplay = ({productArray} : AllProductDisplayProps)=>{
    
+
 
     let star = '★'
     return (
@@ -50,8 +53,6 @@ const AllProductDisplay = ({productArray} : AllProductDisplayProps)=>{
 
     </div>: 
     <div className='text-center flex flex-col justify-center items-center'>
-        <p>Loading...</p>
-        <SkeletonPage />
     </div>}
         </div>
     )

@@ -1,20 +1,63 @@
 'use client'
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { GeneralContext } from '../../../../contextProviders/GeneralProvider'
 import SigninPage from '../authpages/signin/page'
 import { getUser } from '../../../../components/data/userdata'
 import { capitalize, totalPriceForCustomer } from '../../../../components/utils'
 import { CartContext } from '../../../../contextProviders/cartcontext'
+import { UserProps } from '../../../../components/data/userdata'
+
 
 const CheckoutPage = () => {
   const generalContext = useContext(GeneralContext)
   const { isLoggedIn } = generalContext
   const cartcontext = useContext(CartContext)
   const { cart }: any = cartcontext
-  const user = getUser()
   const [payBtnText, setPayBtnText] = useState('Proceed to Payment')
+  const [eta, setEta] = useState('')
+  const [customerStateOfResidence, setCustomerStateOfResidence] = useState('')
+  const [user, setUser] = useState<any>(null)
 
-  if (!isLoggedIn) return <SigninPage />
+  
+  
+
+ 
+ useEffect(()=>{
+  if(typeof window !== 'undefined'){
+    const u: UserProps = getUser()
+    if(u){
+      setUser(u)
+      setCustomerStateOfResidence(u.location)
+    }
+  }
+ }, [user]) 
+
+  
+  // Default page to send customers who are yet to fill their profile
+  const linkToUpdateProfile = (<div>
+    <a href={`dashboard/` + user?.type}><button 
+    className='bg-green-600 rounded-2xl px-2 text-white mx-2'>
+     Click here to add your information on file</button></a>
+     </div>
+  )
+
+ 
+
+  useEffect(()=>{
+    const findEta = ()=>{
+      if(!user) return
+      if(customerStateOfResidence === 'Lagos State'){
+       setEta('3 days')
+      }else if(customerStateOfResidence === 'Outside Nigeria'){
+        setEta('3 months')
+      }else if(customerStateOfResidence === ''){
+        setEta('Please update your address so we can calculate your ETA')
+      }else{
+       setEta('2 weeks')
+      }
+   }
+   findEta()
+  }, [customerStateOfResidence])
 
   const handlePayBtn = ()=>{
     if(cart && cart.length === 0){
@@ -25,9 +68,11 @@ const CheckoutPage = () => {
     alert('This feature is not ready!')
   }
 
+
+
   return (
     <div className="">
-      {user && (
+      {user && isLoggedIn ?
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
           {/* Header */}
           <div className="text-center mb-12">
@@ -37,6 +82,14 @@ const CheckoutPage = () => {
             <p className="mt-4 text-xl text-gray-600">
               Review your order before payment
             </p>
+            <a href='/'><button className='bg-green-100 px-4 rounded-2xl py-2  animate-pulse'>Continue shopping</button></a>
+            <div className='my-4 flex flex-col justify-center items-center gap-2'>
+                <span className='flex'>Shipping to:{user.name ? user.name : linkToUpdateProfile}</span>
+                <span className='flex'>Address: {user.address ? user.address : linkToUpdateProfile}</span>
+                <span className='flex'>Phone number: {user.phone ? user.phone : linkToUpdateProfile}</span>
+                <span className='bg-green-200 px-4 rounded-2xl'>Estimated time of delivery(ETA): {eta}</span>
+                 
+            </div>
           </div>
 
           {/* Cart Items */}
@@ -92,8 +145,9 @@ const CheckoutPage = () => {
               </button>
             </div>
           </div>
-        </div>
-      )}
+        </div>:
+        <SigninPage />
+      }
     </div>
   )
 }

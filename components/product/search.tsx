@@ -4,7 +4,7 @@ import AddToCartButton from "../cart/addtocartbtn";
 import {ProductProps } from "../data/productsdata";
 import Image from 'next/image';
 import Hero from '../hero';
-import AllProductDisplay from './allProductDisplay';
+import ProductDisplay from './ProductsDisplay';
 import { CartContext } from '../../contextProviders/cartcontext'
 
 const Search = () => {
@@ -61,7 +61,7 @@ const Search = () => {
                 
                 {searchedItemFound && searchedItemList.length > 0 ? (
                     <div>
-                       <AllProductDisplay productArray={searchedItemList} />
+                       <ProductDisplay productArray={searchedItemList} />
                     </div>
                 ) : (
                     // Defualt display
@@ -71,7 +71,7 @@ const Search = () => {
                             <Hero />
                         </div>
                         
-                       <AllProductDisplay productArray={Products} />
+                       <ProductDisplay productArray={Products} />
                         
                     </div>
                 )}

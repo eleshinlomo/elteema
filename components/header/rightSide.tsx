@@ -35,10 +35,10 @@ const handleLogout = ()=>{
 
 
 {/* IsLogged in*/}
-{ isLoggedIn ? 
+{ isLoggedIn && user ? 
 
 <div className="flex gap-4 mt-5">
-<a href={`/dashboard/${user? user.type: ""}`}><button className="mt-2">Dashboard</button></a>
+<a href={`/dashboard/` + user.type}><button className="mt-2">Dashboard</button></a>
 <Button
   className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-green-600 hover:bg-green-600
   px-8  text-base font-medium text-white transition duration-300 hover:bg-opacity-90 
