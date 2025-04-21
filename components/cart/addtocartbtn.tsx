@@ -1,3 +1,4 @@
+'use client'
 import { Button } from "../ui/button"
 import { useContext, useState, useEffect } from "react"
 import { CartContext } from "../../contextProviders/cartcontext"
