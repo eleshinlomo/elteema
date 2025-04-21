@@ -2,26 +2,29 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import ThemeToggler from "./ThemeToggler";
 import navdata from "../data/navdata";
+
 import { Button } from "../ui/button";
 // import Logo from '/images/logos/efarms_logo.png'
 import HeaderAlert from "./headeralert";
 import CartSideBar from "../cart/cartSideBar";
+import NavRightSide from "./rightSide";
+import { GeneralContext, GeneralContextInitialProps } from "../../contextProviders/GeneralProvider";
 
 
 
-interface NavBarProps {
-  isLoggedIn: boolean;
+
+
+
+const NavBar = () => {
   
-}
-
-const NavBar = ({isLoggedIn}: NavBarProps) => {
-  console.log('IsLoggin',isLoggedIn)
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [sticky, setSticky] = useState(false);
+  const generalContext = useContext(GeneralContext)
+  const {isLoggedIn, setIsLoggedIn}: GeneralContextInitialProps = generalContext
   
   
   const navbarToggleHandler = () => {
@@ -57,6 +60,10 @@ const NavBar = ({isLoggedIn}: NavBarProps) => {
 
   
   const pathName = usePathname();
+
+  useEffect(()=>{
+
+  }, [isLoggedIn])
   
   
 
@@ -182,58 +189,15 @@ const NavBar = ({isLoggedIn}: NavBarProps) => {
                         )}
                       </li>
                     ))}
+                     {/* Toggle Right Side */}
+              <NavRightSide isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+             
                   </ul>
                 </nav>
               </div>
 
-              {/* Right Side */}
-              <div className="flex items-center gap-5 justify-end pr-16 lg:pr-0">
+              <CartSideBar />
 
-                <button disabled className="bg-green-500 rounded-2xl p-2 text-white">BETA</button>
-
-              {/* Sign in */}
-              {isLoggedIn ? <p>Hi Guest</p> :
-
-                <Link
-                  href="/authpages/signin"
-                  className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
-                >
-                  Sign In
-                </Link>}
-
-                {/* Sign up */}
-                {isLoggedIn? <Link
-                  href="/authpages/signin">
-                  <Button
-                  className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-green-600 hover:bg-green-600
-                  px-8  text-base font-medium text-white transition duration-300 hover:bg-opacity-90 
-                  md:block md:px-9 lg:px-6 xl:px-9 rounded-2xl">
-                
-                  Sign Out
-                  </Button>
-                </Link>:
-                <Link
-                href="/authpages/signup">
-                <Button
-                className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-green-600 hover:bg-green-600
-                px-8  text-base font-medium text-white transition duration-300 hover:bg-opacity-90 
-                md:block md:px-9 lg:px-6 xl:px-9 rounded-2xl">
-              
-                Sign Up
-                </Button>
-                </Link>
-                }
-
-                {/* <div>
-                  <ThemeToggler />
-                </div> */}
-              {/* Cart sidebar */}
-              <div>
-                 <CartSideBar />
-                </div>
-              </div>
-
-              
             </div>
           </div>
         </div>

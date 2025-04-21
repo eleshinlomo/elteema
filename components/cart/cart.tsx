@@ -16,6 +16,8 @@ import CartBasket from './cartbasket';
 import Image from 'next/image';
 import { ProductProps } from '../data/productsdata';
 import { fetchCart } from '../utils';
+import { GeneralContext } from "../../contextProviders/GeneralProvider";
+import { useRouter } from "next/navigation";
 
 
 const Cart = ()=>{
@@ -27,32 +29,34 @@ const Cart = ()=>{
     setTotalPrice,
     removeItem,
     totalPrice,
-    isLoggedIn,
     handleQuantityIncrease,
     handleQuantityDecrease,
   } = useContext(CartContext);
 
+  const generalContext = useContext(GeneralContext)
+  const {isLoggedIn} = generalContext
+
   const [message, setMessage] = useState('You have nothing in your cart.');
   const [checkoutText, setCheckoutText] = useState<string | React.ReactNode>('CHECK OUT');
   const [savedCart, setSavedCart] = useState<ProductProps[]>([])
+  const router = useRouter()
 
-  const notLoggedInMessage = (
-    <div>
-      Please <a href='/authpages/signin' className='text-green-500 font-extrabold hover:underline'>Sign in</a> to checkout
-    </div>
-  );
+ 
+  const sendToCheckout = ()=>{
+    if(!isLoggedIn){
+      setCheckoutText('Please sign in to check out')
+    }
 
-  const handleNoItem = () => {
     if (totalItems === 0) {
       setMessage('You cannot checkout 0 item.');
       return;
     }
+   
+    router.push('/checkoutpage')
 
-    if (!isLoggedIn) {
-      setCheckoutText(notLoggedInMessage);
-      return;
-    }
-  };
+
+  }
+
 
 
   return (
@@ -69,9 +73,10 @@ const Cart = ()=>{
           </div>
           <div className='text-center mt-4'>
             <div className='flex flex-col justify-center items-center space-y-4'>
+              {/* Checkout button */}
               <Button
                 className="bg-green-700 hover:bg-green-800 text-white rounded-2xl px-8 py-2 transition-all duration-300"
-                onClick={handleNoItem}
+                onClick={sendToCheckout}
               >
                 {checkoutText}
               </Button>
@@ -85,10 +90,11 @@ const Cart = ()=>{
           </div>
         </div>
         <div className="flex flex-col justify-center items-center mt-6">
-          {cart.length > 0 ?
+          {cart?.length > 0 ?
             <div className="w-full">
               {cart.map((item: ProductProps) => (
-                <div className='text-center my-4 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300' key={item.id}>
+                <div className='text-center my-4 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300' 
+                key={item.id}>
                   <div className='flex gap-6 flex-1 items-center justify-center'>
                     <Button
                       size='icon'

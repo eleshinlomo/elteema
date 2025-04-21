@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {getUser, saveUser, user} from './data/userdata'
+import {getUser, saveUser} from './data/userdata'
 import { UserProps } from './data/userdata';
 
 
@@ -30,13 +30,21 @@ const CookiePolicy = () => {
 
   const handleAcceptCookies = () => {
     // Set a flag in localStorage to remember the user's choice
-    const updatedUserCookie: any = {...user, cookiesAccepted: true};
-    saveUser(updatedUserCookie)
+    let user: any = getUser()
+    if(!user) {
+      user = {}
+    }
+    const updatedUser: any = {...user, cookiesAccepted: true};
+    saveUser(updatedUser)
     setShowBanner(false);
   };
 
   const handleDeclineCookies = () => {
     // Handle the case where the user declines cookies
+    let user: any = getUser()
+    if(!user) {
+      user = {}
+    }
     const updatedUserCookie: any = {...user, cookiesAccepted: false};
     saveUser(updatedUserCookie)
     setShowBanner(false);

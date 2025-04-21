@@ -1,53 +1,45 @@
 'use client'
+ 
 import NavBar from "../../components/header/navbar"
-import { useState, useEffect, useContext} from "react"
+import { useState, useEffect, useContext, Suspense} from "react"
 import { usePathname } from "next/navigation"
 import { CartProvider} from '../../contextProviders/cartcontext'
 import Footer from "../../components/footer"
-import { PagesProvider, PagesContext } from "../../contextProviders/pagescontext"
+import { GeneralProvider } from "../../contextProviders/GeneralProvider"
+import { GeneralContext } from "../../contextProviders/GeneralProvider"
+import { useSearchParams } from "next/navigation"
 
 
 
-interface AllRoutesProps {
+interface PagesRoutesProps {
     children: React.ReactNode
 }
 
 
 
 
-const AllroutesLayout = ({children} : AllRoutesProps)=>{
+const PagesLayout = ({children} : PagesRoutesProps)=>{
     const pathname = usePathname()
-    const [isHome, setIsHome] = useState(pathname === '/' ? true : false)
-    const [isHeaderAlert, setIsHeaderAlert] = useState(true)
-    const pagesContext = useContext(PagesContext)
-    const {isLoggedIn} = pagesContext
-    console.log('isLoggedin Layout', isLoggedIn)
-    
-
-//   useEffect(()=>{
-//     if(window.scrollY >= 10)
-//     setIsHeaderAlert(false)
-//   },[])
-
-
-
+  
 
     
 
+    
+    
 
     return (
-            <PagesProvider>
+            <Suspense>
+            <GeneralProvider>
             <CartProvider>
-            <div>
-            <NavBar isLoggedIn={isLoggedIn}  />
+            <NavBar />
             {children}
             <Footer />
-            </div>
             </CartProvider>
-            </PagesProvider>
+            </GeneralProvider>
+            </Suspense>
         
     )
 
 }
 
-export default AllroutesLayout
+export default PagesLayout

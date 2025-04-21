@@ -3,6 +3,7 @@
 // import Logo from './logo'
 import Link from 'next/link'
 import { Button } from './ui/button'
+import { year } from './utils'
 
 
 const Footer = ()=>{
@@ -147,7 +148,7 @@ const Footer = ()=>{
 
           {/* Copyrights note */}
           <div className="text-sm text-gray-600 mr-4">
-            &copy; confidential. All rights reserved 2024.</div>
+            &copy; confidential. All rights reserved {year}.</div>
 
         </div>
 

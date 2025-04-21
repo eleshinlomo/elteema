@@ -2,15 +2,14 @@ import React, { createContext, useEffect, useState } from "react";
 import { getProductData} from "../components/data/productsdata";
 import { ProductProps } from "../components/data/productsdata";
 import {  fetchCart, saveCart } from "../components/utils";
-import { getUserData } from "../components/data/userdata";
 
-interface CartContextProps {
+
+interface CartProps {
     children: React.ReactNode;
 }
 
-interface CartContextValue {
+interface CartContextProps {
     cart: ProductProps[];
-    isLoggedIn: boolean;
     handleQuantityIncrease: (targetId: number) => void;
     handleQuantityDecrease: (targetId: number) => void;
     addToCart: (targetId: number) => void;
@@ -23,9 +22,8 @@ interface CartContextValue {
     Products: ProductProps[];
 }
 
-const defaultValues: CartContextValue = {
+const defaultValues: CartContextProps = {
     cart: [],
-    isLoggedIn: false,
     handleQuantityIncrease: () => {},
     handleQuantityDecrease: () => {},
     setTotalItems: ()=>{},
@@ -38,24 +36,24 @@ const defaultValues: CartContextValue = {
     Products: []
 };
 
-export const CartContext = createContext<CartContextValue>(defaultValues);
+export const CartContext = createContext<CartContextProps>(defaultValues);
 
-export const CartProvider: React.FC<CartContextProps> = ({ children }) => {
+export const CartProvider: React.FC<CartProps> = ({ children }) => {
 
     const [totalPrice, setTotalPrice] = useState<number>(0);
     const [cart, setCart] = useState<ProductProps[]>([]);
     const [totalItems, setTotalItems] = useState<number>(0);
     const [isAdded, setIsAdded] = useState<boolean>(false);
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [quantity, setQuantity] = useState<number>(0);
     const [Products, setProducts] = useState<ProductProps[]>([])
 
      // This we use to set saved Cart values and also update whenever new item is added to the cart
       const getCart = ()=>{
         const updatedCart: ProductProps[] = fetchCart()
+        if(updatedCart && updatedCart.length === 0) return
         setCart(updatedCart)
-        setTotalItems(updatedCart.reduce((sum, item)=> sum + item.quantity, 0))
-        setTotalPrice(updatedCart.reduce((sum, item)=> sum + item.price * item.quantity, 0))
+        setTotalItems(updatedCart?.reduce((sum, item)=> sum + item.quantity, 0))
+        setTotalPrice(updatedCart?.reduce((sum, item)=> sum + item.price * item.quantity, 0))
       
       }
     
@@ -64,8 +62,7 @@ export const CartProvider: React.FC<CartContextProps> = ({ children }) => {
       }, [isAdded, totalItems, totalPrice, quantity])
 
 
-      const handleGetData = async()=>{
-        const user = await getUserData()
+      const handleGetProducts = async()=>{
         const products = await getProductData()
         if(products){
             console.log('Product', products.products)
@@ -74,7 +71,7 @@ export const CartProvider: React.FC<CartContextProps> = ({ children }) => {
       }
 
       useEffect(()=>{
-       handleGetData()
+       handleGetProducts()
       }, [])
 
 
@@ -116,7 +113,7 @@ export const CartProvider: React.FC<CartContextProps> = ({ children }) => {
 
     const addToCart = (targetId: number) => {
         // Check if the product already exists in the cart
-        const isProductExists = cart.find(product => product.id === targetId);
+        const isProductExists = cart?.find(product => product.id === targetId);
     
         if (isProductExists) {
             // If the product already exists, do nothing
@@ -124,7 +121,7 @@ export const CartProvider: React.FC<CartContextProps> = ({ children }) => {
         }
     
         // Find the product in the Products array
-        const productToAdd = Products.find(product => product.id === targetId);
+        const productToAdd = Products?.find(product => product.id === targetId);
     
         if (productToAdd) {
             setCart(prevCart => {
@@ -158,14 +155,13 @@ export const CartProvider: React.FC<CartContextProps> = ({ children }) => {
         });
     };
 
-    const value: CartContextValue = {
+    const value: CartContextProps = {
         cart,
         totalItems,
         setTotalItems,
         addToCart,
         removeItem,
         totalPrice,
-        isLoggedIn,
         quantity,
         handleQuantityIncrease,
         handleQuantityDecrease,

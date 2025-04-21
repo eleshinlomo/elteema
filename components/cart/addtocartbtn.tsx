@@ -10,7 +10,6 @@ interface AddToCartBtnProps {
 const AddToCartButton = ({targetid}: AddToCartBtnProps)=>{
 
 
-   const [productAdded, setProductAdded] = useState<boolean>(false)
    const [buttonText, setButtonText] = useState('Add To Cart')
    const [isAdded,setIsAdded] = useState<ProductProps | null>(null)
    const cartContext = useContext(CartContext)
@@ -26,7 +25,7 @@ const AddToCartButton = ({targetid}: AddToCartBtnProps)=>{
    }
 
    useEffect(()=>{
-    const itemAdded = cart.some((item)=> item.id === targetid && item.isAdded)
+    const itemAdded = cart?.some((item)=> item.id === targetid && item.isAdded)
     if(itemAdded){
         setButtonText('Added')
     }else{

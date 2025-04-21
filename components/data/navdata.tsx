@@ -77,27 +77,22 @@ const navData: NavProps[] = [
   },
   {
     id: 4,
-    title: "Kids",
+    title: "Quick links",
     newTab: false,
     submenu: [
       {
         id: 1,
-        title: "Accessories",
-        path: "/kids/accessories",
+        title: "Checkout page",
+        path: "/checkoutpage",
         newTab: false,
       },
       {
         id: 2,
-        title: "Shoes",
-        path: "/kids/shoes",
+        title: "Continue shopping",
+        path: "/",
         newTab: false,
       },
-      {
-        id: 3,
-        title: "Clothings",
-        path: "/kids/clothings",
-        newTab: false,
-      },
+     
     
     ],
   },

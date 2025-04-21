@@ -11,6 +11,7 @@ interface AllProductDisplayProps {
 }
 
 const AllProductDisplay = ({productArray} : AllProductDisplayProps)=>{
+   
 
     let star = '★'
     return (

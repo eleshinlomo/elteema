@@ -1,7 +1,19 @@
+import { summary } from "framer-motion/client"
 import { ProductProps } from "./data/productsdata"
-import { UserProps, user, saveUser } from "./data/userdata"
+import { UserProps, getUser, saveUser } from "./data/userdata"
 
+const date = new Date()
+export const year = date.getFullYear()
 
+export const capitalize = (text: string)=>{
+    if(text){
+        return text.charAt(0).toUpperCase() + text.slice(1)
+    }
+}
+
+export const totalPriceForCustomer = (cart: Array<{price: number, quantity: number}>): number => {
+    return cart?.reduce((sum: number, item: {price: number, quantity: number}) => sum + (item.price * item.quantity), 0) || 0
+ }
 
 export const getProduct = (id: number, Products: ProductProps[])=>{
    const product = Products.find((item)=>item.id === id)
@@ -23,26 +35,30 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
 
 export const saveCart = (updatedCart: ProductProps[])=>{
     if(window !== null){
+        const user: any = getUser()
+        if(!user) {
+            console.log('No user found')
+            return [] // Cart must always return an array to prevent error
+        }
         const updatedUserCart: UserProps = {...user, cart: updatedCart}
         saveUser(updatedUserCart)
         console.log('Cart saved')
-        
     }
-        return 
+        return []
 }
 
 export const fetchCart = ()=>{
     if(window !== null){
-    const userString = localStorage.getItem('user')
-    if(userString){
-        const userData = JSON.parse(userString)
-        const savedCart = userData.cart
-        return savedCart
-    }
+        const user: any = getUser()
+        if(!user) {
+            console.log('No user found')
+            return [] // Cart must always return an array to prevent error
+        }
     
-    return []
+       return user.cart
 
     }
+    return []
 }
 
 export const searchSingleProduct = (item: string, originalItems: any[])=>{
