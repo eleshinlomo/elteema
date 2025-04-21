@@ -13,7 +13,7 @@ export interface UserProps {
 const BASE_URL  = process.env.NEXT_PUBLIC_BASE_URL
 
 export const getUser = ()=>{
-    if(window !== null){
+    if(window && typeof window !== null){
         const userString = localStorage.getItem('ptlgUser')
         if(userString){
            return JSON.parse(userString) as UserProps
@@ -26,7 +26,7 @@ export const getUser = ()=>{
 
 
 export const saveUser = (updatedUser: UserProps)=>{
-    if(window  !== null){
+    if(window && typeof window  !== null){
        localStorage.setItem('ptlgUser', JSON.stringify(updatedUser)) 
     }
     return
