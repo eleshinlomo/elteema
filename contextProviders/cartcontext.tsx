@@ -1,3 +1,5 @@
+
+'use client'
 import React, { createContext, useEffect, useState } from "react";
 import { getProductData} from "../components/data/productsdata";
 import { ProductProps } from "../components/data/productsdata";
