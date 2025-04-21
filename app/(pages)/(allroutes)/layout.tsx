@@ -70,6 +70,8 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
 
   useEffect(() => {
     const verifyPersistentLogin = async () => {
+      if(window === null) return
+      
       console.log('VERIFYING TOKEN IN USE EFFECT...')
       const userStr: any = localStorage.getItem('ptlgUser')
       let user: any = {}

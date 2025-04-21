@@ -1,17 +1,25 @@
 'use client'
-import { useState, FormEvent} from 'react';
+import { useState, FormEvent, useEffect} from 'react';
 import { getUser } from '../../../../../components/data/userdata';
 
 
 
 const CustomerDashboard = () => {
-  const user: any = getUser()
-  const [userData, setUserData] = useState(user);
-
+ 
+  const [userData, setUserData] = useState<any>(null);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  
+  useEffect(()=>{
+  if(window !== null){
+    const user: any = getUser()
+  if(user){
+    setUserData(user)
+  }
+  }
+}, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, type, checked, value } = e.target;
@@ -46,11 +54,11 @@ const CustomerDashboard = () => {
               <div className="flex flex-col items-center mb-6">
                 <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
                   <span className="text-3xl text-emerald-600 font-bold">
-                    {userData.name.charAt(0)}
+                    {userData && userData?.name?.charAt(0)}
                   </span>
                 </div>
-                <h2 className="text-xl font-semibold text-gray-800">{userData.name}</h2>
-                <p className="text-gray-500">{userData.email}</p>
+                <h2 className="text-xl font-semibold text-gray-800">{userData?.name}</h2>
+                <p className="text-gray-500">{userData?.email}</p>
               </div>
               
               <nav>
@@ -105,9 +113,10 @@ const CustomerDashboard = () => {
                     <input
                       type="text"
                       name="name"
-                      value={userData.name}
+                      value={userData?.name}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
+                      focus:border-emerald-500 transition"
                     />
                   </div>
                   
@@ -116,9 +125,10 @@ const CustomerDashboard = () => {
                     <input
                       type="email"
                       name="email"
-                      value={userData.email}
+                      value={userData?.email}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500
+                       focus:border-emerald-500 transition"
                     />
                   </div>
                   
@@ -127,9 +137,10 @@ const CustomerDashboard = () => {
                     <input
                       type="tel"
                       name="phone"
-                      value={userData.phone}
+                      value={userData?.phone}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
+                      focus:border-emerald-500 transition"
                     />
                   </div>
                   
@@ -138,9 +149,10 @@ const CustomerDashboard = () => {
                     <input
                       type="text"
                       name="address"
-                      value={userData.address}
+                      value={userData?.address}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
+                      focus:border-emerald-500 transition"
                     />
                   </div>
                   
@@ -149,7 +161,7 @@ const CustomerDashboard = () => {
                       <input
                         type="checkbox"
                         name="newsletter"
-                        checked={userData.newsletter}
+                        checked={userData?.newsletter}
                         onChange={handleInputChange}
                         className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
                       />
@@ -163,7 +175,8 @@ const CustomerDashboard = () => {
                 <div className="mt-8 flex justify-end">
                   <button
                     type="submit"
-                    className="px-6 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition"
+                    className="px-6 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 
+                    focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition"
                   >
                     Save Changes
                   </button>
@@ -199,13 +212,16 @@ const CustomerDashboard = () => {
             <div className="flex justify-end space-x-4">
               <button
                 onClick={() => setIsDeleteModalOpen(false)}
-                className="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition"
+                className="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 
+                
+                focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDeleteAccount}
-                className="px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition"
+                className="px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700
+                 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition"
               >
                 Yes, delete my account
               </button>
