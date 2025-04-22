@@ -7,21 +7,32 @@ interface GeneralProps {
 
 export interface GeneralContextInitialProps {
     isLoggedIn: boolean,
-    setIsLoggedIn: (value: boolean)=> void
+    setIsLoggedIn: (value: boolean)=> void,
+    user: any | null,
+    setUser: (value: null)=>void
+
 }
 const initialValues : GeneralContextInitialProps = {
   isLoggedIn: false,
-  setIsLoggedIn: ()=>{}
+  setIsLoggedIn: ()=>{},
+  user: null,
+  setUser: ()=>{}
 }
+
 
 export const GeneralContext = createContext(initialValues)
 export const GeneralProvider = ({children}: GeneralProps)=>{
 
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+    const [user, setUser] = useState<any | null>(null)
+
+    
 
 const values : GeneralContextInitialProps = {
     isLoggedIn,
-    setIsLoggedIn
+    setIsLoggedIn,
+    user,
+    setUser
 }
     return (
     <GeneralContext.Provider value={values}>

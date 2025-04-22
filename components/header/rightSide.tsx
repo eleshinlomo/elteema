@@ -1,26 +1,26 @@
 'use client'
-import {useState, useEffect} from "react"
+import {useState, useEffect, useContext} from "react"
 import CartSideBar from "../cart/cartSideBar"
 import Link from "next/link"
 import { Button } from "../ui/button";
 import { getUser } from "../data/userdata";
 import { logout } from "../auth";
-import { GeneralContextInitialProps } from "../../contextProviders/GeneralProvider";
+import { GeneralContext, GeneralContextInitialProps } from "../../contextProviders/GeneralProvider";
 import {useRouter} from 'next/navigation'
 
 
 
 
-const NavRightSide = ({isLoggedIn, setIsLoggedIn}: GeneralContextInitialProps)=>{
-  const [user, setUser] = useState<any>(null)
+const NavRightSide = ()=>{
+
+  const generalContext = useContext(GeneralContext)
+  const {isLoggedIn, setIsLoggedIn, user}: GeneralContextInitialProps = generalContext
+  
   const router = useRouter()
  
   useEffect(()=>{
 
-  const u: any = getUser()
-  if(u){
-    setUser(u)
-  }
+
 }, [isLoggedIn])
 
 const handleLogout = async ()=>{

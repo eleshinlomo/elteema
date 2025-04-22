@@ -5,6 +5,7 @@ import { GeneralContext } from "../../../contextProviders/GeneralProvider"
 import { getUser } from "../../../components/data/userdata"
 import { verifyCode } from "../../../components/auth"
 import { useRouter } from "next/navigation"
+import { staticGenerationAsyncStorage } from "next/dist/client/components/static-generation-async-storage-instance"
 
 interface AllRoutesProps {
     children: React.ReactNode
@@ -31,7 +32,11 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
   }, [])
   
   const generalContext = useContext(GeneralContext)
-  const {isLoggedIn, setIsLoggedIn} = generalContext
+  const {isLoggedIn, setIsLoggedIn, setUser} = generalContext
+
+  // Just to watch changes in staticGenerationAsyncStorage. Not used anywhere
+  const [userEmail, setUserEmail] = useState('')
+  const [username, setUsername] = useState('')
 
 
 
@@ -79,6 +84,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
       const veriedFiedUser: any =  await verifyCode(user.authCode, user.email)
       if(veriedFiedUser.ok){
           setIsLoggedIn(user.isLoggedIn)
+          setUser(user)
       }else{
         localStorage.removeItem('ptlgUser') // If we get this far and user not verified, remove stale data.
       }

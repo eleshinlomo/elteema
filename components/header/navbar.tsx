@@ -22,7 +22,7 @@ const NavBar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [sticky, setSticky] = useState(false);
   const generalContext = useContext(GeneralContext)
-  const {isLoggedIn, setIsLoggedIn}: GeneralContextInitialProps = generalContext
+  const {isLoggedIn, setIsLoggedIn, user}: GeneralContextInitialProps = generalContext
   
   
   const navbarToggleHandler = () => {
@@ -188,7 +188,7 @@ const NavBar = () => {
                       </li>
                     ))}
                      {/* Toggle Right Side */}
-              <NavRightSide isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+              <NavRightSide  />
              
                   </ul>
                 </nav>
