@@ -21,11 +21,12 @@ const NavRightSide = ({isLoggedIn, setIsLoggedIn}: GeneralContextInitialProps)=>
   if(u){
     setUser(u)
   }
-}, [])
+}, [isLoggedIn])
 
-const handleLogout = ()=>{
-  logout()
+const handleLogout = async ()=>{
   setIsLoggedIn(false)
+  const response = await logout(user?.email)
+  console.log(response)
   router.push('/authpages/signin')
 }
 
@@ -40,8 +41,8 @@ const handleLogout = ()=>{
 <div className="flex gap-4 mt-5">
 <a href={`/dashboard/` + user.type}><button className="mt-2">Dashboard</button></a>
 <Button
-  className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-green-600 hover:bg-green-600
-  px-8  text-base font-medium text-white transition duration-300 hover:bg-opacity-90 
+  className="ease-in-up shadow-btn hover:shadow-btn-hover  rounded-sm bg-green-600 hover:bg-green-600
+  px-3  text-base font-medium text-white transition duration-300 hover:bg-opacity-90 
   md:block md:px-9 lg:px-6 xl:px-9 rounded-2xl"
   onClick={handleLogout}
   >

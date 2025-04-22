@@ -67,8 +67,20 @@ export const verifyCode = async (authCode: string, authEmail: string)=>{
 
 }
 
-export const logout = ()=>{
+export const logout = async (email: string)=>{
+  if(!email) return 'missing email'
+
   if(window !== null){
     localStorage.removeItem('ptlgUser')
   }
+  const response: any = await fetch(`${BASE_URL}/logout`, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({email})
+
+  })
+  if(!response) return 'No response from server'
+  const data = await response.json()
+  return data
 }

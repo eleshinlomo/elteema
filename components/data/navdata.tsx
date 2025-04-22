@@ -82,14 +82,14 @@ const navData: NavProps[] = [
     submenu: [
       {
         id: 1,
-        title: "Checkout page",
-        path: "/checkoutpage",
+        title: "FAQ",
+        path: "/faq",
         newTab: false,
       },
       {
         id: 2,
-        title: "Continue shopping",
-        path: "/",
+        title: "Allstores",
+        path: "/allstores",
         newTab: false,
       },
      

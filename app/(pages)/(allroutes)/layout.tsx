@@ -28,7 +28,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
       setConfirmedCode(code)
       setConfirmedEmail(email)
     }
-  }, [code, email])
+  }, [])
   
   const generalContext = useContext(GeneralContext)
   const {isLoggedIn, setIsLoggedIn} = generalContext
@@ -46,14 +46,13 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
           if(code && email){
              
              const data: any = await verifyCode(code, email)
-              console.log('DATA', data)
               
               if(data.ok){
-                  setIsLoggedIn(data.user.isLoggedIn)
                   const stringifiedData = JSON.stringify(data.user)
                   localStorage.setItem('ptlgUser', stringifiedData)
-                  router.push('/')
-                  //We should clear both authEmail and authCode to ensure verifyCode does run when user still logged in.
+                  verifyPersistentLogin()
+                  router.push('/allstores')
+                
               } 
               setIsLoading(false)
               return
@@ -66,33 +65,32 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
       }
   }
 
-  
+  const verifyPersistentLogin = async () => {
+    
+    
+    console.log('VERIFYING TOKEN IN USE EFFECT...')
+    const userStr: any = localStorage.getItem('ptlgUser')
+    let user: any = {}
+    if (userStr) {
+      user = JSON.parse(userStr)
+    }
+
+    if (user && user.authCode && user.email) {
+      const veriedFiedUser: any =  await verifyCode(user.authCode, user.email)
+      if(veriedFiedUser.ok){
+          setIsLoggedIn(user.isLoggedIn)
+      }else{
+        localStorage.removeItem('ptlgUser') // If we get this far and user not verified, remove stale data.
+      }
+      return
+      
+    } else {
+      console.log('MOVING TO HANDLE VERIFY HANDLER...')
+      handleVerify()
+    }
+  }
 
   useEffect(() => {
-    const verifyPersistentLogin = async () => {
-      if(window === null) return
-      
-      console.log('VERIFYING TOKEN IN USE EFFECT...')
-      const userStr: any = localStorage.getItem('ptlgUser')
-      let user: any = {}
-      if (userStr) {
-        user = JSON.parse(userStr)
-      }
-  
-      if (user && user.authCode && user.email) {
-        const veriedFiedUser: any =  await verifyCode(user.authCode, user.email)
-        if(veriedFiedUser.ok){
-            setIsLoggedIn(user.isLoggedIn)
-        }else{
-          localStorage.removeItem('ptlgUser') // If we get this far and user not verified, remove stale data.
-        }
-        
-      } else {
-        console.log('MOVING TO HANDLE VERIFY HANDLER...')
-        handleVerify()
-      }
-    }
-  
     verifyPersistentLogin()
   }, [isLoggedIn])
   

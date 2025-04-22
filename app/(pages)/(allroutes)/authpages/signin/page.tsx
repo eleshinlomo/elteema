@@ -53,8 +53,8 @@ const SigninPage = () => {
                   </p>
                 </div>
 
-                <div className={`mb-6 text-center text-sm font-medium ${
-                  error ? "text-red-600 dark:text-red-400" : "text-green-500 "
+                <div className={`mb-6 text-center text-md font-medium ${
+                  error ? "text-red-600 dark:text-red-400" : "text-green-700 "
                 }`}>
                   {error ? error : <ReactMarkdown>{message}</ReactMarkdown>}
                 </div>

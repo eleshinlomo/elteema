@@ -46,6 +46,7 @@ const Cart = ()=>{
 
     if (totalItems === 0 || !totalItems) {
       setMessage('You cannot checkout 0 item.');
+      router.push('/')
       return;
     }
     

@@ -27,10 +27,10 @@ const CheckoutPage = () => {
     const u: UserProps = getUser()
     if(u){
       setUser(u)
-      setCustomerStateOfResidence(u.location)
+      setCustomerStateOfResidence(u.state)
     }
   }
- }, [user]) 
+ }, []) 
 
   
   // Default page to send customers who are yet to fill their profile
@@ -50,14 +50,14 @@ const CheckoutPage = () => {
        setEta('3 days')
       }else if(customerStateOfResidence === 'Outside Nigeria'){
         setEta('3 months')
-      }else if(customerStateOfResidence === ''){
+      }else if(!customerStateOfResidence || customerStateOfResidence === ''){
         setEta('Please update your address so we can calculate your ETA')
       }else{
        setEta('2 weeks')
       }
    }
    findEta()
-  }, [customerStateOfResidence])
+  }, [customerStateOfResidence, eta])
 
   const handlePayBtn = ()=>{
     if(cart && cart.length === 0){
@@ -82,11 +82,11 @@ const CheckoutPage = () => {
             <p className="mt-4 text-xl text-gray-600">
               Review your order before payment
             </p>
-            <a href='/'><button className='bg-green-100 px-4 rounded-2xl py-2  animate-pulse'>Continue shopping</button></a>
+            <a href='/allstores'><button className='bg-green-100 px-4 rounded-2xl py-2  animate-pulse'>Continue shopping</button></a>
             <div className='my-4 flex flex-col justify-center items-center gap-2'>
-                <span className='flex'>Shipping to:{user.name ? user.name : linkToUpdateProfile}</span>
-                <span className='flex'>Address: {user.address ? user.address : linkToUpdateProfile}</span>
-                <span className='flex'>Phone number: {user.phone ? user.phone : linkToUpdateProfile}</span>
+                <div className='flex text-sm'><span className=' font-extrabold mx-2'>Shipping to:</span>{user.name ? user.name : linkToUpdateProfile}</div>
+                <div className='flex text-sm'><span className=' font-extrabold mx-2'>Address:</span> {user.address ? user.address : linkToUpdateProfile}</div>
+                <div className='flex text-sm'><span className=' font-extrabold mx-2'>Phone number:</span> {user.phone ? user.phone : linkToUpdateProfile}</div>
                 <span className='bg-green-200 px-4 rounded-2xl'>Estimated time of delivery(ETA): {eta}</span>
                  
             </div>

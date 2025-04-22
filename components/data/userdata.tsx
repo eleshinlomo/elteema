@@ -16,8 +16,9 @@ export interface UserProps {
     cookiesAccepted: boolean;
     phone:  string;
     address:  string;
+    state: string;
     ewsletter: boolean;
-    location: string;
+    
 }
 
 
