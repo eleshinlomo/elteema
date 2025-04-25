@@ -1,5 +1,5 @@
 
-import africanLadyImage from '../../public/images/hero/african_lady.jpg'
+import africanLadyImage from '../../public/images/hero/vegetables-basket.jpg'
 
 
 
@@ -8,7 +8,7 @@ export const HeroData = [
 
   {
     
-    content: 'The Largest African Market In Nigeria',
+    content: 'Online shopping for Nigerian-made goods',
     url: '/',
     src: africanLadyImage,
     color: 'green'

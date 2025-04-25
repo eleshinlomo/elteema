@@ -1,36 +1,27 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useContext } from "react";
 import navdata from "../data/navdata";
-import { Button } from "../ui/button";
-// import Logo from '/images/logos/efarms_logo.png'
 import HeaderAlert from "./headeralert";
-import CartSideBar from "../cart/cartSideBar";
 import NavRightSide from "./rightSide";
 import { GeneralContext, GeneralContextInitialProps } from "../../contextProviders/GeneralProvider";
-
-
-
-
-
+import Cart from "../cart/cart";
 
 const NavBar = () => {
-  
-  // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [sticky, setSticky] = useState(false);
-  const generalContext = useContext(GeneralContext)
-  const {isLoggedIn, setIsLoggedIn, user}: GeneralContextInitialProps = generalContext
-  
-  
-  const navbarToggleHandler = () => {
-    setNavbarOpen(!navbarOpen);
-  };
+  const [openIndex, setOpenIndex] = useState(-1);
 
-  // Sticky Navbar
-  
+  const generalContext = useContext(GeneralContext);
+  const { isLoggedIn, setIsLoggedIn, user }: GeneralContextInitialProps = generalContext;
+
+  const pathName = usePathname();
+
+  const navbarToggleHandler = () => setNavbarOpen(!navbarOpen);
+
   const handleStickyNavbar = () => {
     if (window.scrollY >= 80) {
       setSticky(true);
@@ -38,63 +29,44 @@ const NavBar = () => {
       setSticky(false);
     }
   };
-  useEffect(() => {
-    window.addEventListener("scroll", handleStickyNavbar);
-    window.removeEventListener('scroll', ()=>{})
-  });
 
-
- 
-
-  // submenu handler
-  const [openIndex, setOpenIndex] = useState(-1);
-  const handleSubmenu = (index : number) => {
-    if (openIndex === index) {
-      setOpenIndex(-1);
-    } else {
-      setOpenIndex(index);
-    }
+  const handleSubmenu = (index: number) => {
+    setOpenIndex(openIndex === index ? -1 : index);
   };
 
-  
-  const pathName = usePathname();
+  useEffect(() => {
+    window.addEventListener("scroll", handleStickyNavbar);
+    return () => window.removeEventListener("scroll", handleStickyNavbar);
+  }, []);
 
-  useEffect(()=>{
+  useEffect(() => {}, [isLoggedIn]);
 
-  }, [isLoggedIn])
-  
-  
-
-  
   return (
     <div>
       <div><HeaderAlert /></div>
-      
+
       <header
-        className={`header bg-green-200  text-green-700    px-6  flex w-full items-center ${
-          sticky ? 
-          "dark:bg-gray-dark dark:shadow-sticky-dark fixed top-0 z-[9999]  !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
+        className={`header bg-black text-green-300 px-6 flex w-full items-center ${
+          sticky
+            ? "dark:bg-gray-dark dark:shadow-sticky-dark fixed top-0 z-[9999] !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
             : "absolute shadow-sticky backdrop-blur-sm top-15 z-[9999]"
         }`}
       >
         <div className="container">
           <div className="relative -mx-4 flex items-center justify-between">
+
+            {/* === Logo === */}
             <div className="w-60 max-w-full px-4 xl:mr-12">
-              <Link
-                href="/"
-                className={`header-logo block  w-full ${
-                  sticky ? "py-5 lg:py-2" : "py-8"
-                } `}
-              >
+              <Link href="/" className={`header-logo block w-full ${sticky ? "py-5 lg:py-2" : "py-8"}`}>
                 <Image
-                  src='/images/logos/elteema_logo.png'
+                  src="/images/logos/elteema_logo.png"
                   alt="logo"
                   width={180}
                   height={100}
                   className="w-12 dark:hidden"
                 />
                 <Image
-                  src='/images/logos/elteema_logo.png'
+                  src="/images/logos/elteema_logo.png"
                   alt="logo"
                   width={180}
                   height={100}
@@ -103,37 +75,26 @@ const NavBar = () => {
               </Link>
             </div>
 
-            {/* Mobile */}
-            <div className="flex w-full items-center justify-between px-4">
+            {/* === Mobile + Right Side Container === */}
+            <div className="flex w-full items-center justify-between px-8 text-green-700">
               <div>
+                {/* === Mobile Toggle Button === */}
                 <button
                   onClick={navbarToggleHandler}
                   id="navbarToggler"
                   aria-label="Mobile Menu"
-                  className="absolute right-4 top-1/2 block translate-y-[-50%] rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
+                  className="absolute bg-gray-600 right-12 block translate-y-[-50%] rounded-lg px-3 py-[-12px] ring-primary focus:ring-2 lg:hidden"
                 >
-                  <span
-                    className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
-                      navbarOpen ? " top-[7px] rotate-45" : " "
-                    }`}
-                  />
-                  <span
-                    className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
-                      navbarOpen ? "opacity-0 " : " "
-                    }`}
-                  />
-                  <span
-                    className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
-                      navbarOpen ? " top-[-8px] -rotate-45" : " "
-                    }`}
-                  />
+                  <span className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${navbarOpen ? "top-[7px] rotate-45" : ""}`} />
+                  <span className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${navbarOpen ? "opacity-0" : ""}`} />
+                  <span className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${navbarOpen ? "top-[-8px] -rotate-45" : ""}`} />
                 </button>
+
+                {/* === Nav Menu === */}
                 <nav
                   id="navbarCollapse"
                   className={`navbar absolute right-0 z-30 w-[250px] rounded border-[.5px] border-body-color/50 bg-white px-6 py-4 duration-300 dark:border-body-color/20 dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 ${
-                    navbarOpen
-                      ? "visibility top-full opacity-100"
-                      : "invisible top-[120%] opacity-0"
+                    navbarOpen ? "visibility top-full opacity-100" : "invisible top-[120%] opacity-0"
                   }`}
                 >
                   <ul className="block lg:flex lg:space-x-12">
@@ -169,14 +130,14 @@ const NavBar = () => {
                               </span>
                             </p>
                             <div
-                              className={`submenu relative left-0 top-full rounded-sm bg-white transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
+                              className={`submenu relative left-0 top-full rounded-sm bg-white text-green-700 transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
                                 openIndex === index ? "block" : "hidden"
                               }`}
                             >
-                              {menuItem.submenu.map((submenuItem : any, index: any) => (
+                              {menuItem.submenu.map((submenuItem: any, subIndex: any) => (
                                 <Link
                                   href={submenuItem.path}
-                                  key={index}
+                                  key={subIndex}
                                   className="block rounded py-2.5 text-sm text-dark hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3"
                                 >
                                   {submenuItem.title}
@@ -187,15 +148,15 @@ const NavBar = () => {
                         )}
                       </li>
                     ))}
-                     {/* Toggle Right Side */}
-              <NavRightSide  />
-             
+
+                    {/* === Right Side (User, Auth, etc.) === */}
+                    <NavRightSide />
                   </ul>
                 </nav>
               </div>
 
-              <CartSideBar />
-          
+              {/* === Cart === */}
+              <Cart />
             </div>
           </div>
         </div>

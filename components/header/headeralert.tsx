@@ -7,8 +7,9 @@ const HeaderAlert = ()=>{
     return (
         <div>
             <div className="bg-black  text-white text-center py-4 px-4 font-extrabold">
-             <h3><span className="text-green-400">FREE DELIVERY</span> in Ikorodu
-              for all orders above N2000 or more. T&Cs Apply</h3>
+             <h3> 
+             From local farms to global shelves. <span className="text-green-400">ELTEEMA</span> makes it possible!
+             </h3>
             </div>
 
         </div>

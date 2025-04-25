@@ -2,10 +2,11 @@
 import { useSearchParams } from "next/navigation"
 import { useContext, useState, useEffect, Suspense } from "react"
 import { GeneralContext } from "../../../contextProviders/GeneralProvider"
-import { getUser } from "../../../components/data/userdata"
+import { getLocalUser, saveUser } from "../../../components/data/userdata"
 import { verifyCode } from "../../../components/auth"
 import { useRouter } from "next/navigation"
 import { staticGenerationAsyncStorage } from "next/dist/client/components/static-generation-async-storage-instance"
+import ScrollTopButton from "../../../components/scrollTopButton"
 
 interface AllRoutesProps {
     children: React.ReactNode
@@ -46,7 +47,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
          
           
         
-          // if(!confirmedCode && !confirmedEmail) return
+          // User login fallback
           
           if(code && email){
              
@@ -55,7 +56,6 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
               if(data.ok){
                   const stringifiedData = JSON.stringify(data.user)
                   localStorage.setItem('ptlgUser', stringifiedData)
-                  verifyPersistentLogin()
                   router.push('/allstores')
                 
               } 
@@ -71,34 +71,34 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
   }
 
   const verifyPersistentLogin = async () => {
+    if (isLoggedIn) return; // Skip if already logged in
     
-    
-    console.log('VERIFYING TOKEN IN USE EFFECT...')
-    const userStr: any = localStorage.getItem('ptlgUser')
-    let user: any = {}
-    if (userStr) {
-      user = JSON.parse(userStr)
-    }
-
-    if (user && user.authCode && user.email) {
-      const veriedFiedUser: any =  await verifyCode(user.authCode, user.email)
-      if(veriedFiedUser.ok){
-          setIsLoggedIn(user.isLoggedIn)
-          setUser(user)
-      }else{
-        localStorage.removeItem('ptlgUser') // If we get this far and user not verified, remove stale data.
+    try {
+      console.log('VERIFYING TOKEN IN USE EFFECT...');
+      const localUser: any = getLocalUser();
+  
+      if (localUser && localUser.authCode && localUser.email) {
+        const veriedFiedUser: any = await verifyCode(localUser.authCode, localUser.email);
+        if (veriedFiedUser.ok) {
+          setIsLoggedIn(localUser.isLoggedIn);
+          setUser(localUser);
+          return;
+        } else {
+          localStorage.removeItem('ptlgUser');
+          return;
+        }
+      } else if (code && email) {
+        // Only call handleVerify if we have code and email
+        handleVerify();
       }
-      return
-      
-    } else {
-      console.log('MOVING TO HANDLE VERIFY HANDLER...')
-      handleVerify()
+    } catch(err) {
+      console.log(err);
     }
-  }
+  };
 
   useEffect(() => {
     verifyPersistentLogin()
-  }, [isLoggedIn])
+  }, [code, email])
   
 
  
@@ -107,6 +107,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
     <Suspense>
       <div>
           {children}
+          <ScrollTopButton />
       </div>
       </Suspense>
   )

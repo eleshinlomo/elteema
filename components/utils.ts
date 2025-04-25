@@ -1,6 +1,6 @@
 import { summary } from "framer-motion/client"
 import { ProductProps } from "./data/productsdata"
-import { UserProps, getUser, saveUser } from "./data/userdata"
+import { UserProps, getLocalUser, saveUser } from "./data/userdata"
 
 const date = new Date()
 export const year = date.getFullYear()
@@ -33,29 +33,38 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
     console.log('Searched item', itemToSearch)
 }
 
-export const saveCart = (updatedCart: ProductProps[])=>{
-    if(typeof window !== 'undefined'){
-        const user: any = getUser()
-        if(!user) {
-            console.log('No user found')
-            return 
-        }
-        const updatedUserCart: UserProps = {...user, cart: updatedCart}
-        saveUser(updatedUserCart)
-        console.log('Cart saved')
+export const saveCart = (updatedCart: ProductProps[], user: UserProps | null) => {
+    if (typeof window !== 'undefined') {
+      if (!user) {
+        console.log('No user found');
+  
+        // // We reate a minimal new user with cart
+        // const user: any = {cart: updatedCart};
+  
+        // saveUser(user);
+        return;
+      }
+  
+      const updatedUser: UserProps = {
+        ...user,
+        cart: updatedCart
+      };
+  
+      saveUser(updatedUser);
+      console.log('Cart saved');
     }
-        return 
-}
+  };
+  
 
 export const fetchCart = ()=>{
     if(typeof window !== 'undefined'){
-        const user: any = getUser()
-        if(!user) {
-            console.log('No user found')
-            return [] // Cart must always return an array to prevent error
+        const userString: any = localStorage.getItem('ptlgUser')
+        let stringifiedUser: any = {cart: []}
+        if(userString){
+            stringifiedUser = JSON.parse(userString)
+            return stringifiedUser.cart
+            
         }
-    
-       return user.cart
 
     }
     return []

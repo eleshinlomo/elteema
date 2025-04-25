@@ -1,5 +1,5 @@
 'use client'
-
+import { ProductProps } from "./productsdata";
 
 
 export interface UserProps {
@@ -8,7 +8,7 @@ export interface UserProps {
     authCode: string;
     username: string;
     email: string;
-    cart: [],
+    cart: ProductProps[],
     isLoggedIn: boolean;
     type:  string;
     role:  string;
@@ -24,7 +24,8 @@ export interface UserProps {
 
 const BASE_URL  = process.env.NEXT_PUBLIC_BASE_URL
 
-export const getUser = ()=>{
+export const getLocalUser = ()=>{
+    
     if(typeof window !== 'undefined'){
         const userString = localStorage.getItem('ptlgUser')
         if(userString){

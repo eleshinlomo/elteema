@@ -2,8 +2,8 @@
 
 // import Logo from './logo'
 import Link from 'next/link'
-import { Button } from './ui/button'
 import { year } from './utils'
+import Image from 'next/image'
 
 
 const Footer = ()=>{
@@ -17,8 +17,8 @@ const Footer = ()=>{
 
           {/* 1st block */}
           <div className="sm:col-span-12 lg:col-span-3">
-            <div className="mb-2">
-              {/* <Logo /> */}
+            <div className="relative h-16 w-16 mb-2">
+              <Image src='/images/logos/elteema_logo.png' alt='logo' fill />
             </div>
             <div className="text-sm text-white">
               <a href="terms" className="  hover:underline transition duration-150 ease-in-out">Terms</a> · 
@@ -36,21 +36,21 @@ const Footer = ()=>{
                 transition duration-150 ease-in-out">Clearance</Link>
               </li>
               <li className="mb-2">
-                <Link href="/" className=" hover:text-gray-900 
+                <Link href="/" className=" hover:text-green-400 
                 transition duration-150 ease-in-out">Same day delivery</Link>
               </li>
               
               <li className="mb-2">
-                <a href="/" className=" hover:text-gray-900 
-                transition duration-150 ease-in-out">Direct farm devliver</a>
+                <a href="/" className=" hover:text-green-400 
+                transition duration-150 ease-in-out">Elteema Ads </a>
               </li>
               <li className="mb-2">
-                <a href="https://crm.myafros.com/dashboard/genai/voicerecorder" className=" hover:text-gray-900 
+                <a href="#" className=" hover:text-green-400 
                 transition duration-150 ease-in-out">Bulk supply</a>
               </li>
               <li className="mb-2">
-                <a href="https://crm.myafros.com/dashboard/genai/contentwriter" className=" hover:text-gray-900 
-                transition duration-150 ease-in-out">Content Writer</a>
+                <a href="#" className=" hover:text-green-400 
+                transition duration-150 ease-in-out">Sell on Elteema</a>
               </li>
             </ul>
           </div>
@@ -64,16 +64,16 @@ const Footer = ()=>{
                 transition duration-150 ease-in-out">Documentation</a>
               </li>
               <li className="mb-2">
-                <a href="#0" className=" hover:text-gray-900 transition duration-150 ease-in-out">Tutorials & Guides</a>
+                <a href="#0" className=" hover:text-green-400  transition duration-150 ease-in-out">Tutorials & Guides</a>
               </li>
               <li className="mb-2">
-                <a href="#0" className=" hover:text-gray-900 transition duration-150 ease-in-out">Blog</a>
+                <a href="#0" className=" hover:text-green-400  transition duration-150 ease-in-out">Blog</a>
               </li>
               <li className="mb-2">
-                <a href="#0" className="hover:text-gray-900 transition duration-150 ease-in-out">Support Center</a>
+                <a href="#0" className="hover:text-green-400  transition duration-150 ease-in-out">Support Center</a>
               </li>
               <li className="mb-2">
-                <a href="#0" className=" hover:text-gray-900 transition duration-150 ease-in-out">Partners</a>
+                <a href="#0" className=" hover:text-green-400  transition duration-150 ease-in-out">Partners</a>
               </li>
             </ul>
           </div>
@@ -88,16 +88,16 @@ const Footer = ()=>{
               </li>
               </Link>
               <li className="mb-2">
-                <a href="/aboutpage" className=" hover:text-gray-900 transition duration-150 ease-in-out">About us</a>
+                <a href="/aboutpage" className=" hover:text-green-400  transition duration-150 ease-in-out">About us</a>
               </li>
               <li className="mb-2">
-                <a href="#0" className=" hover:text-gray-900 transition duration-150 ease-in-out">Company values</a>
+                <a href="#0" className=" hover:text-green-400  transition duration-150 ease-in-out">Company values</a>
               </li>
               <li className="mb-2">
-                <a href="#0" className=" hover:text-gray-900 transition duration-150 ease-in-out">Pricing</a>
+                <a href="#0" className=" hover:text-green-400  transition duration-150 ease-in-out">Pricing</a>
               </li>
               <li className="mb-2">
-                <Link href="/privacy" className=" hover:text-gray-900 
+                <Link href="/privacy" className=" hover:text-green-400 
                 transition duration-150 ease-in-out">Privacy Policy</Link>
               </li>
             </ul>
@@ -108,7 +108,7 @@ const Footer = ()=>{
             <h6 className=" font-medium mb-2 text-green-300">Newsletter</h6>
             <p className="text-sm  mb-4">Get the latest news and articles to your inbox every month.</p>
             
-                <Button className='bg-green-800 rounded-2xl'>Shop for discounts</Button>
+                <button className='bg-green-800 rounded-2xl px-4 py-2'>Shop for discounts</button>
           </div>
           
 

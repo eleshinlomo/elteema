@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import {getUser, saveUser} from './data/userdata'
+import React, { useState, useEffect, useContext } from 'react';
+import {saveUser} from './data/userdata'
 import { UserProps } from './data/userdata';
+import { GeneralContext } from '../contextProviders/GeneralProvider';
+
 
 
 
 
 const CookiePolicy = () => {
   const [showBanner, setShowBanner] = useState(false);
+  const generalContext = useContext(GeneralContext)
+  const {user, setUser} = generalContext
 
 //   const updateUser = ()=>{
 //      const updatedUser: any = {...user, cookieAccepted: true}
@@ -15,9 +19,9 @@ const CookiePolicy = () => {
 
   useEffect(() => {
 
-    const userData: UserProps | null = getUser()
-    if(userData){
-    const {cookiesAccepted} = userData
+  
+    if(user){
+    const {cookiesAccepted} = user
     if(cookiesAccepted){
         setShowBanner(false)
     }
@@ -30,10 +34,7 @@ const CookiePolicy = () => {
 
   const handleAcceptCookies = () => {
     // Set a flag in localStorage to remember the user's choice
-    let user: any = getUser()
-    if(!user) {
-      user = {}
-    }
+  
     const updatedUser: any = {...user, cookiesAccepted: true};
     saveUser(updatedUser)
     setShowBanner(false);
@@ -41,10 +42,6 @@ const CookiePolicy = () => {
 
   const handleDeclineCookies = () => {
     // Handle the case where the user declines cookies
-    let user: any = getUser()
-    if(!user) {
-      user = {}
-    }
     const updatedUserCookie: any = {...user, cookiesAccepted: false};
     saveUser(updatedUserCookie)
     setShowBanner(false);

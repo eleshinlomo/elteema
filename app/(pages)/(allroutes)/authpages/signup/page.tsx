@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { register } from "../../../../../components/auth";
+import Image from "next/image";
 
 const SignupPage = () => {
   const [username, setUsername] = useState<string>('');
@@ -48,6 +49,15 @@ const SignupPage = () => {
           <div className="flex flex-wrap justify-center">
             <div className="w-full max-w-md">
               <div className="shadow-lg rounded-xl bg-white/90 backdrop-blur-sm px-8 py-12 dark:bg-gray-900/80">
+                <div className="relative h-16 w-24">
+                    <Image
+                                    src='/images/logos/elteema_logo.png'
+                                    alt="logo"
+                                    width={180}
+                                    height={100}
+                                    className="w-12 dark:hidden"
+                                  />
+                </div>
                 <div className="text-center mb-8">
                   <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     Create Your Account

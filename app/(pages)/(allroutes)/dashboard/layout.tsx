@@ -4,6 +4,7 @@ import { useContext, useEffect } from "react"
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
 import SigninPage from "../authpages/signin/page"
+import Image from 'next/image'
 
 
 interface DashboardProps {
@@ -18,20 +19,21 @@ const DashboardLayout = ({children}: DashboardProps)=>{
   const {isLoggedIn} = generalContext
   const router = useRouter()
 
-  // useEffect(()=>{
-  //   if(!isLoggedIn){
-  //     router.push('/authpages/signin')
-  //    }
-  // }, [isLoggedIn])
-  
+ 
     
   return (
     <div>
+        
         {isLoggedIn ?
         <div>
         {children}
-        </div>: <SigninPage />
-        }
+        </div>: 
+        <div>
+          {/* <Image src='../../' /> */}
+          <div>
+          </div>Unauthorized access prevented.
+          </div>}
+        
     </div>
   )
 }

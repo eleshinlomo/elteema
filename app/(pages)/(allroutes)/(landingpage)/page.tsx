@@ -9,16 +9,13 @@ import CookiePolicy from "../../../../components/cookieAcceptPage";
 
 export default function Home() {
   return (
-    <div id='top' className="overflow-hidden min-h-screen" style={{
-      background: 'linear-gradient(135deg, #e6f4ea 0%, #f0f8f2 100%)',
-      backgroundAttachment: 'fixed',
-    }}>
+    <div id='top' className="overflow-hidden min-h-screen">
+      
       <Search />
+      <Bestsellers />
       <New />
       <Trending />
-      <Bestsellers />
       <TestimonialsPage />
-      <ScrollTopButton />
       <CookiePolicy />
     </div>
   );

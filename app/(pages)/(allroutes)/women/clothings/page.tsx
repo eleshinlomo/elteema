@@ -2,9 +2,11 @@ import PageUnderConstruction from "../../../../../components/underConstruction"
 
 const WomenClothings = ()=>{
 
+     const message = 'We&apos;re working hard to bring you something amazing. Please check back soon!'
+
     return (
         <div>
-            <PageUnderConstruction />
+            <PageUnderConstruction message={message} />
         </div>
     )
 }

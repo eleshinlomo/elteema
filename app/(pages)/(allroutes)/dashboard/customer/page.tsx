@@ -1,33 +1,28 @@
 'use client'
-import { useState, FormEvent, useEffect} from 'react';
-import { getUser } from '../../../../../components/data/userdata';
-
+import { useState, FormEvent, useEffect, useContext} from 'react';
+import { GeneralContext } from '../../../../../contextProviders/GeneralProvider';
+import { UserProps } from '../../../../../components/data/userdata';
 
 
 const CustomerDashboard = () => {
  
-  const [userData, setUserData] = useState<any>(null);
+  
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const generalContext = useContext(GeneralContext)
+  const {user, setUser} = generalContext
   
-  useEffect(()=>{
-  if(window !== null){
-    const user: any = getUser()
-  if(user){
-    setUserData(user)
-  }
-  }
-}, [])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, type, checked, value } = e.target;
-    setUserData((prev: any) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
-  };
+
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, type, checked, value } = e.target;
+  //   setUser((prev: UserProps) => ({
+  //     ...prev,
+  //     [name]: type === 'checkbox' ? checked : value
+  //   }));
+  // };
   
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -43,7 +38,7 @@ const CustomerDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className=" bg-gray-50 px-6 pt-32">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 mb-8">Account Settings</h1>
         
@@ -54,11 +49,11 @@ const CustomerDashboard = () => {
               <div className="flex flex-col items-center mb-6">
                 <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
                   <span className="text-3xl text-emerald-600 font-bold">
-                    {userData && userData?.name?.charAt(0)}
+                    {user && user?.name?.charAt(0)}
                   </span>
                 </div>
-                <h2 className="text-xl font-semibold text-gray-800">{userData?.name}</h2>
-                <p className="text-gray-500">{userData?.email}</p>
+                <h2 className="text-xl font-semibold text-gray-800">{user?.name}</h2>
+                <p className="text-gray-500">{user?.email}</p>
               </div>
               
               <nav>
@@ -113,8 +108,8 @@ const CustomerDashboard = () => {
                     <input
                       type="text"
                       name="name"
-                      value={userData?.name}
-                      onChange={handleInputChange}
+                      value={user?.name}
+                      // onChange={(e)=>setName}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                     />
@@ -125,8 +120,8 @@ const CustomerDashboard = () => {
                     <input
                       type="email"
                       name="email"
-                      value={userData?.email}
-                      onChange={handleInputChange}
+                      value={user?.email}
+                      // onChange={handleInputChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500
                        focus:border-emerald-500 transition"
                     />
@@ -137,8 +132,8 @@ const CustomerDashboard = () => {
                     <input
                       type="tel"
                       name="phone"
-                      value={userData?.phone}
-                      onChange={handleInputChange}
+                      value={user?.phone}
+                      // onChange={handleInputChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                     />
@@ -149,8 +144,8 @@ const CustomerDashboard = () => {
                     <input
                       type="text"
                       name="address"
-                      value={userData?.address}
-                      onChange={handleInputChange}
+                      value={user?.address}
+                      // onChange={handleInputChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                     />
@@ -161,8 +156,8 @@ const CustomerDashboard = () => {
                       <input
                         type="checkbox"
                         name="newsletter"
-                        checked={userData?.newsletter}
-                        onChange={handleInputChange}
+                        checked={user?.newsletter}
+                        // onChange={handleInputChange}
                         className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
                       />
                       <label className="ml-2 block text-sm text-gray-700">

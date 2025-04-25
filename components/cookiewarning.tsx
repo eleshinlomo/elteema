@@ -1,4 +1,4 @@
-import { Button } from "./ui/button"
+
 
 const CookieWarningPage = ()=>{
     return (
@@ -13,9 +13,9 @@ const CookieWarningPage = ()=>{
                 it will be honored. Further information is available in our Cookie Policy</p>
 
                 <div className="absolute right-5 flex flex-col gap-5">
-                    <Button className="bg-green-600 text-white ">Do not sell or share my personal information</Button>
-                    <Button className="bg-green-600 text-white">Reject All</Button>
-                    <Button className="bg-green-600 text-white">Accept Cookies</Button>
+                    <button className="bg-green-600 text-white ">Do not sell or share my personal information</button>
+                    <button className="bg-green-600 text-white">Reject All</button>
+                    <button className="bg-green-600 text-white">Accept Cookies</button>
                 </div>
             </div>
         </div>

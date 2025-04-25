@@ -30,7 +30,7 @@ const Trending = ()=>{
 
     return (
       <div>
-            <p className='text-center py-4 font-extrabold uppercase'>Trending</p>
+           <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Trending</h2>
             {trendingItems && trendingItems.length > 0 ? <AllProductDisplay productArray={trendingItems} />
             : <SkeletonPage message={message} />}
 

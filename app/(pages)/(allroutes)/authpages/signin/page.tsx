@@ -5,7 +5,7 @@ import { useState, useEffect, FormEvent, useContext } from 'react';
 import { login } from "../../../../../components/auth";
 import ReactMarkdown from 'react-markdown';
 import { GeneralContext } from "../../../../../contextProviders/GeneralProvider";
-import { getUser } from "../../../../../components/data/userdata";
+
 
 const SigninPage = () => {
   const [email, setEmail] = useState('');

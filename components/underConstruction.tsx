@@ -1,4 +1,10 @@
-const PageUnderConstruction = () => {
+
+interface UnderConstructionProps {
+    message: string
+}
+
+
+const PageUnderConstruction = ({message}: UnderConstructionProps) => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-green-500 to-peach-600">
             <div className="text-center p-8 bg-white rounded-lg shadow-2xl transform transition-all hover:scale-105">
@@ -6,7 +12,7 @@ const PageUnderConstruction = () => {
                     🚧 Under Construction 🚧
                 </h1>
                 <p className="text-lg text-gray-600 mb-6">
-                    We&apos;re working hard to bring you something amazing. Please check back soon!
+                    {message}
                 </p>
                 <div className="flex justify-center">
                     <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center animate-bounce">

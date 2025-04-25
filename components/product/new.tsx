@@ -37,8 +37,8 @@ const New = ()=>{
 
 
     return (
-      <div id='new'>
-            <p className='text-center py-4 font-extrabold uppercase animate-pulse text-green-600 tracking-wide text-xl'>New ARRIVALS</p>
+      <div id='new' className='pt-2'>
+            <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">New Arrivals</h2>
             <div >
     
        

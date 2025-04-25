@@ -46,7 +46,8 @@ export const login = async (email: string)=>{
 }
 
 export const verifyCode = async (authCode: string, authEmail: string)=>{
- if(!authCode && !authEmail){
+  try{
+ if(!authCode || !authEmail){
   return 'authCode and authEmail not found'
 }
   const payload = {authCode, authEmail}
@@ -64,6 +65,9 @@ export const verifyCode = async (authCode: string, authEmail: string)=>{
   
   const data: any = await response.json()
   return data
+}catch(err){
+  console.log(err)
+}
 
 }
 

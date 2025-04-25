@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { HeroData } from './herodata';
-import { Button } from '../ui/button';
+
 
 const Hero = () => {
     const [herocontent, setHerocontent] = useState<React.ReactNode>();
@@ -31,10 +31,10 @@ const Hero = () => {
                   <p className="text-white text-2xl font-extrabold mb-4 px-4">
                       {data.content}
                   </p>
-                  <a href="/">
-                            <Button className="bg-green-600 hover:bg-green-700 text-white font-extrabold py-3 px-6 text-lg transition-all duration-300 transform hover:scale-105">
+                  <a href="/allstores">
+                            <button className="bg-green-600 hover:bg-green-700 text-white font-extrabold py-3 px-6 text-lg transition-all duration-300 transform hover:scale-105">
                                 SHOP NOW
-                            </Button>
+                            </button>
                         </a>
                 </div>
               </div>

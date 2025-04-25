@@ -1,146 +1,164 @@
 'use client'
-import HeaderAlert from "../header/headeralert"
-import { SheetDescription } from "../ui/sheet"
-import React, { useState, useContext, useEffect } from 'react';
-import { Button } from '../ui/button';
-import { CartContext } from '../../contextProviders/cartcontext';
-import {
-  Sheet,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "../ui/sheet";
-import CartBasket from './cartbasket';
-import Image from 'next/image';
-import { ProductProps } from '../data/productsdata';
-import { fetchCart } from '../utils';
-import { GeneralContext } from "../../contextProviders/GeneralProvider";
+
+import React, { useContext, useEffect, useRef, useState,  } from 'react';
+import { usePathname } from 'next/navigation';
 import { useRouter } from "next/navigation";
+import { CartContext } from '../../contextProviders/cartcontext';
+import { GeneralContext } from "../../contextProviders/GeneralProvider";
+import HeaderAlert from "../header/headeralert";
+import CartBasket from "./cartbasket";
+import { SidebarCloseIcon } from "lucide-react";
 
 
-const Cart = ()=>{
 
+const Cart = () => {
   const {
     cart,
     totalItems,
-    setTotalItems,
-    setTotalPrice,
-    removeItem,
     totalPrice,
+    removeItem,
     handleQuantityIncrease,
     handleQuantityDecrease,
   } = useContext(CartContext);
 
-  const generalContext = useContext(GeneralContext)
-  const {isLoggedIn} = generalContext
+  const { isLoggedIn } = useContext(GeneralContext);
+  const router = useRouter();
 
   const [message, setMessage] = useState('You have nothing in your cart.');
-  const [checkoutText, setCheckoutText] = useState<string | React.ReactNode>('CHECK OUT');
-  const [savedCart, setSavedCart] = useState<ProductProps[]>([])
-  const router = useRouter()
+  const [checkoutText, setCheckoutText] = useState('CHECK OUT');
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const path = usePathname()
 
- 
-  const sendToCheckout = ()=>{
+  // Handle outside clicks
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (drawerRef.current && !drawerRef.current.contains(event.target as Node)) {
+        setDrawerOpen(false);
+      }
+    };
+  
+    if (isDrawerOpen) {
+      document.body.style.overflowY = 'hidden';
+      document.body.style.overflowX = 'hidden'; // ⬅️ Prevent horizontal scroll
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.body.style.overflowY = 'auto';
+      document.body.style.overflowX = 'auto';
+    }
+  
+    return () => {
+      document.body.style.overflowY = 'auto';
+      document.body.style.overflowX = 'auto';
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDrawerOpen]);
+  
 
-    if (totalItems === 0 || !totalItems) {
+  // Send to checkout
+  const sendToCheckout = () => {
+    if (!totalItems) {
       setMessage('You cannot checkout 0 item.');
-      router.push('/')
+      router.push('/');
       return;
     }
-    
-    if(!isLoggedIn){
-      setCheckoutText('Please sign in to check out')
 
+    if (!isLoggedIn) {
+      setCheckoutText('Please sign in to check out');
+      return;
     }
 
-    
-   
-    router.push('/checkoutpage')
-
-
-  }
-
-
+    router.push('/checkoutpage');
+  };
 
   return (
-    <div>
+    <div className="relative z-50">
+      {/* Cart Button */}
+      <button
+        onClick={() => setDrawerOpen(true)}
+        className="fixed top-6 right-6 p-3 z-50 rounded-full  shadow-lg hover:scale-110 transition"
+        aria-label="Open cart"
+      >
+        <CartBasket />
+      </button>
 
-<div>
-      <span className=" absolute top-2 left-[10px] bg-red-500 text-white text-xs rounded-full py-3 px-4">
-          {totalItems ? totalItems : 0}  
-        </span>
-        <div>
-       
-          <div className="bg-black w-full p-4 rounded-t-lg">
-            <HeaderAlert />
-          </div>
-          <div className='text-center mt-4'>
-            <div className='flex flex-col justify-center items-center space-y-4'>
-              {/* Checkout button */}
-              <Button
-                className="bg-green-700 hover:bg-green-800 text-white rounded-2xl px-8 py-2 transition-all duration-300"
-                onClick={sendToCheckout}
-              >
-                {checkoutText}
-              </Button>
-              <p className='text-green-600 flex font-extrabold text-lg'>
-                <span>Subtotal</span>
-                <span>({totalItems ? totalItems : 0}):</span>
-                <span className='pl-3'> ₦{totalPrice ? totalPrice : 0}</span>
-              </p>
-             
-            </div>
-          </div>
+      {/* Overlay */}
+      {isDrawerOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 backdrop-blur-sm" />
+      )}
+
+      {/* Drawer */}
+      <div
+        ref={drawerRef}
+        className={`fixed top-0 right-0 h-screen w-full sm:w-96 bg-white z-50 shadow-xl transform transition-transform
+           duration-300 flex flex-col ${
+          isDrawerOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 bg-green-800 text-white">
+          <HeaderAlert />
+          <button onClick={() => setDrawerOpen(false)} className="p-1" aria-label="Close cart">
+            <SidebarCloseIcon />
+          </button>
         </div>
-        <div className="flex flex-col justify-center items-center mt-6">
-          {cart?.length > 0 ?
-            <div className="w-full">
-              {cart.map((item: ProductProps) => (
-                <div className='text-center my-4 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300' 
-                key={item.id}>
-                  <div className='flex gap-6 flex-1 items-center justify-center'>
-                    <Button
-                      size='icon'
-                      className='text-3xl font-extrabold bg-green-100 hover:bg-green-200 text-green-700'
+
+        {/* Subtotal Section */}
+        <div className="p-4 bg-green-100 border-b border-green-200">
+          <p className="text-green-800 font-bold text-lg">
+            Subtotal ({totalItems ?? 0}): ₦{totalPrice?.toLocaleString() ?? 0}
+          </p>
+          <button
+            onClick={sendToCheckout}
+            className="mt-4 w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg shadow-md transition"
+          >
+            {checkoutText}
+          </button>
+        </div>
+
+        {/* Cart Items - this MUST take remaining height and be scrollable */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {cart && cart.length > 0 ? (
+            cart.map((item) => (
+              <div key={item.id} className="border rounded-lg p-4 bg-white shadow-sm">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h3 className="font-semibold text-green-800">{item.name}</h3>
+                    <p className="text-green-600">₦{item.price.toLocaleString()}</p>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <button
                       onClick={() => handleQuantityDecrease(item.id)}
+                      className="w-8 h-8 bg-green-100 hover:bg-green-200 text-green-700 rounded-full"
                     >
                       -
-                    </Button>
-                    <div className='flex flex-col'>
-                    <span className='mt-1 text-md font-semibold'>Price: ₦{item.price}</span>
-                    <span className='mt-1 text-md font-semibold'>{item.name} ({item.quantity})</span>
-                    </div>
-                    <Button
-                      size='icon'
-                      className='text-3xl font-extrabold mt-1 bg-green-100 hover:bg-green-200 text-green-700'
+                    </button>
+                    <span className="w-6 text-center">{item.quantity}</span>
+                    <button
                       onClick={() => handleQuantityIncrease(item.id)}
+                      className="w-8 h-8 bg-green-100 hover:bg-green-200 text-green-700 rounded-full"
                     >
                       +
-                    </Button>
-                  </div>
-                  <div className='mt-4'>
-                    <button
-                      className='bg-green-600 hover:bg-green-700 rounded-2xl text-white px-4 py-1 transition-all duration-300'
-                      onClick={() => removeItem(item.id)}
-                    >
-                      Remove item
                     </button>
                   </div>
                 </div>
-              ))}
-            </div> :
-            <div className='text-center'>
-              <p className='font-extrabold text-red-500'>{message}</p>
+                <button
+                  onClick={() => removeItem(item.id)}
+                  className="mt-3 w-full text-red-700 bg-red-100 hover:bg-red-200 rounded-lg py-2 transition"
+                >
+                  Remove
+                </button>
+              </div>
+            ))
+          ) : (
+            <div className="flex items-center justify-center h-full text-green-700 font-semibold">
+              {message}
             </div>
-          }
+          )}
         </div>
-     
-        </div>
-
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;

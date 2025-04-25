@@ -1,9 +1,10 @@
 
 'use client'
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { getProductData} from "../components/data/productsdata";
 import { ProductProps } from "../components/data/productsdata";
 import {  fetchCart, saveCart } from "../components/utils";
+import { GeneralContext } from "./GeneralProvider";
 
 
 interface CartProps {
@@ -48,16 +49,19 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
     const [isAdded, setIsAdded] = useState<boolean>(false);
     const [quantity, setQuantity] = useState<number>(0);
     const [Products, setProducts] = useState<ProductProps[]>([])
+    const generalContext: any = useContext(GeneralContext)
+    const {user, setUser} = generalContext
 
      // This we use to set saved Cart values and also update whenever new item is added to the cart
       const getCart = ()=>{
         const updatedCart: ProductProps[] = fetchCart()
-        if(updatedCart && updatedCart.length >= 0)
+        if(updatedCart){
         setCart(updatedCart)
         setTotalItems(updatedCart?.reduce((sum, item)=> sum + item.quantity, 0))
         setTotalPrice(updatedCart?.reduce((sum, item)=> sum + item.price * item.quantity, 0))
+        }
+        
       }
-    
       useEffect(()=>{
         getCart()
       }, [isAdded, totalItems, totalPrice, quantity])
@@ -82,7 +86,7 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
             const updatedCart = prevCart.map(item =>
                 item.id === targetId ? { ...item, quantity: item.quantity + 1 } : item
             );
-            saveCart(updatedCart);
+            saveCart(updatedCart, user);
             const updatedTotalItems = updatedCart.reduce((sum, item) => sum + item.quantity, 0);
             const updatedTotalPrice = Number(updatedCart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2));
             
@@ -99,7 +103,7 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
             const updatedCart = prevCart.map(item =>
                 item.id === targetId ? { ...item, quantity: item.quantity - 1 } : item
             ).filter(item => item.quantity > 0); // Remove items with quantity <= 0
-            saveCart(updatedCart);
+            saveCart(updatedCart, user);
 
             const totalItems = updatedCart.reduce((sum, item) => sum + item.quantity, 0);
             const totalPrice = Number(updatedCart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2));
@@ -118,7 +122,7 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
     
         if (isProductExists) {
             // If the product already exists, do nothing
-            return;
+            return cart;
         }
     
         // Find the product in the Products array
@@ -128,7 +132,7 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
             setCart(prevCart => {
                 // Add the new product to the cart with a default quantity of 1
                 const updatedCart = [...prevCart, { ...productToAdd, quantity: 1, isAdded: true }];
-                saveCart(updatedCart);
+                saveCart(updatedCart, user);
     
                 // Update total items and total price
                 const totalItems = updatedCart.reduce((sum, item) => sum + item.quantity, 0);
@@ -145,7 +149,7 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
     const removeItem = (targetId: number) => {
         setCart(prevCart => {
             const updatedCart = prevCart.filter(item => item.id !== targetId);
-            saveCart(updatedCart);
+            saveCart(updatedCart, user);
             const totalPrice = updatedCart.reduce((total, item) => total + item.price * item.quantity, 0);
             const totalItems = updatedCart.reduce((sum, item) => sum + item.quantity, 0);
             

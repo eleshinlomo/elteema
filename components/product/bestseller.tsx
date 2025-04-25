@@ -1,6 +1,5 @@
 'use client'
 import {useState, useEffect, useContext} from 'react'
-import { Button } from "../ui/button"
 import { ProductProps} from "../data/productsdata"
 import Image from 'next/image'
 import AllProductDisplay from './ProductsDisplay'
@@ -27,7 +26,7 @@ const Bestsellers = ()=>{
   const message = 'Loading bestselling items...'
     return (
         <div id='bestsellers'>
-            <p className='text-center py-2 font-extrabold uppercase'>Bestsellers</p>
+            <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Bestsellers</h2>
             {bestsellers && bestsellers.length > 0 ? <AllProductDisplay productArray={bestsellers} />:
             <SkeletonPage message={message} />
             }

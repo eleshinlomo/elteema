@@ -1,4 +1,4 @@
-import { Skeleton } from "./ui/skeleton"
+
 
 interface SkeletonProps {
   message: string
@@ -7,12 +7,8 @@ function SkeletonPage({message}: SkeletonProps) {
 
   return (
     <div className="flex flex-col space-y-3 text-center">
-      <p className="animate pulse font-bold">{message}</p>
-      <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-      <div className="space-y-2">
-        <Skeleton className="h-4 w-[250px]" />
-        <Skeleton className="h-4 w-[200px]" />
-      </div>
+      <p className="animate-pulse font-bold">{message}</p>
+      
     </div>
   )
 }
