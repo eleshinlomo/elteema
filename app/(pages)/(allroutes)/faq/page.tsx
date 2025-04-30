@@ -1,9 +1,13 @@
 'use client'
 import { ChevronDown, HelpCircle, Truck, CreditCard, ShieldCheck, Mail, Phone, SearchIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const FaqPage = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [question, setQuestion] = useState('')
+  const [category, setCategory] = useState<any>(null)
+  const [isMatched, setIsMatched] = useState(false)
+
 
   const toggleAccordion = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -47,6 +51,34 @@ const FaqPage = () => {
       ]
     },
     {
+      title: "Email & Contact",
+      icon: <CreditCard className="w-5 h-5 text-green-600" />,
+      questions: [
+        {
+          question: "What is your email?",
+          answer: "You can message us on support@petrolagegroup.com."
+        },
+      ]
+    },
+    {
+      title: "Selling on Elteema",
+      icon: <CreditCard className="w-5 h-5 text-green-600" />,
+      questions: [
+        {
+          question: "How do I sell on Elteema?",
+          answer: "Elteema will soon open the platform for everyone to bring their stores online and sell to the world."
+        },
+        {
+          question: "When exactly will I be able to sell on Elteema?",
+          answer: "We are looking at the 3rd quarter of 2025 or earlier."
+        },
+        {
+          question: "Can I pre-register?",
+          answer: "Yes! We advise that all interested sellers should pre-register their store on our page www.elteema.com/store."
+        }
+      ]
+    },
+    {
       title: "Returns & Refunds",
       icon: <ShieldCheck className="w-5 h-5 text-green-600" />,
       questions: [
@@ -74,8 +106,37 @@ const FaqPage = () => {
     "Where is my order confirmation email?"
   ];
 
+  
+  const searchForWords = (searchTerm: string) => {
+    if (!searchTerm.trim()) return null;
+    
+    const lowerCaseSearch = searchTerm.toLowerCase();
+    
+    // Search through categories and questions
+    const matchingCategory = faqCategories.find(category => {
+      // Check category title
+      if (category.title.toLowerCase().includes(lowerCaseSearch)) {
+        return true;
+      }
+      
+      // Check questions in this category
+      return category.questions.some(q => 
+        q.question.toLowerCase().includes(lowerCaseSearch) || 
+        q.answer.toLowerCase().includes(lowerCaseSearch)
+      );
+    });
+    
+    return matchingCategory || null;
+  };
+
+  useEffect(()=>{
+    const matchingCategory: any = searchForWords(question)
+    setCategory(matchingCategory)
+    setIsMatched(true)
+  }, [question])
+
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-28 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-16">
@@ -90,6 +151,8 @@ const FaqPage = () => {
           {/* Search Bar */}
           <div className="mt-8 max-w-md mx-auto relative">
             <input
+              value={question}
+              onChange={(e)=>setQuestion(e.target.value)}
               type="text"
               placeholder="Search FAQs..."
               className="w-full px-6 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm"
@@ -97,9 +160,33 @@ const FaqPage = () => {
             <SearchIcon className="absolute right-4 top-3.5 h-5 w-5 text-gray-400" />
           </div>
         </div>
+      
+      
+        {category ?
 
-        {/* Popular Questions */}
-        <div className="mb-16">
+          
+<div className="divide-y divide-gray-100">
+{category?.questions.map((item:any, index: any) => (
+  <div key={index} className="px-6 py-4">
+    <button
+      onClick={() => toggleAccordion(index * 10 + index)}
+      className="flex justify-between items-center w-full text-left"
+    >
+      <span className="text-lg font-medium text-gray-800">{item.question}</span>
+      <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform ${activeIndex === index * 10 + index ? 'transform rotate-180' : ''}`} />
+    </button>
+    {activeIndex === index * 10 + index && (
+      <div className="mt-3 text-gray-600">
+        <p>{item.answer}</p>
+      </div>
+    )}
+  </div>
+))}
+</div>:
+       <div>
+
+         {/* Popular Questions */}
+         <div className="mb-16">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Popular Questions</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {popularQuestions.map((question, index) => (
@@ -114,7 +201,7 @@ const FaqPage = () => {
           </div>
         </div>
 
-        {/* FAQ Categories */}
+          {/* FAQ Categories */}
         <div id="faq-section" className="space-y-8">
           {faqCategories.map((category, categoryIndex) => (
             <div key={categoryIndex} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
@@ -144,6 +231,8 @@ const FaqPage = () => {
             </div>
           ))}
         </div>
+        </div>
+        }
 
         {/* Contact Support */}
         <div className="mt-16 bg-gradient-to-r from-green-50 to-green-100 rounded-xl p-8 text-center">
@@ -153,7 +242,7 @@ const FaqPage = () => {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a 
-              href="mailto:support@elteema.com" 
+              href="mailto:support@petrolagegroup.com" 
               className="flex items-center justify-center bg-white px-6 py-3 rounded-lg shadow-sm hover:shadow-md transition-all text-gray-800 font-medium"
             >
               <Mail className="w-5 h-5 mr-2 text-green-600" />

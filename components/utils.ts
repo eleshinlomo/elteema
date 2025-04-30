@@ -35,35 +35,36 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
 
 export const saveCart = (updatedCart: ProductProps[], user: UserProps | null) => {
     if (typeof window !== 'undefined') {
-      if (!user) {
-        console.log('No user found');
+ 
   
-        // // We reate a minimal new user with cart
-        // const user: any = {cart: updatedCart};
-  
-        // saveUser(user);
-        return;
-      }
-  
-      const updatedUser: UserProps = {
+    
+     if(user){
+     let updatedUser: UserProps = {
         ...user,
         cart: updatedCart
       };
-  
       saveUser(updatedUser);
-      console.log('Cart saved');
+    }
+    else{
+      let user: any = {}
+      user = {...user, cart: updatedCart}
+      saveUser(user)
+    }
+    
+    
+  
+
     }
   };
   
 
-export const fetchCart = ()=>{
+export const fetchCart = (user: UserProps)=>{
     if(typeof window !== 'undefined'){
         const userString: any = localStorage.getItem('ptlgUser')
-        let stringifiedUser: any = {cart: []}
         if(userString){
-            stringifiedUser = JSON.parse(userString)
-            return stringifiedUser.cart
+            let stringifiedUser = JSON.parse(userString)
             
+            return stringifiedUser.cart || []
         }
 
     }

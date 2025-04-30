@@ -148,7 +148,7 @@ const Footer = ()=>{
 
           {/* Copyrights note */}
           <div className="text-sm text-gray-600 mr-4">
-            &copy; confidential. All rights reserved {year}.</div>
+            &copy; Elteema. All rights reserved {year}.</div>
 
         </div>
 

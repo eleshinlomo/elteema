@@ -143,9 +143,11 @@ const TestimonialsPage = () => {
             <p className="text-green-100 mb-6 max-w-2xl mx-auto">
               Join thousands of satisfied customers who trust us for authentic African products
             </p>
+            <a href='/allstores'>
             <button className="bg-white text-green-700 font-semibold px-8 py-3 rounded-full hover:bg-gray-50 transition-all shadow-md hover:shadow-lg">
               Shop Now
             </button>
+            </a>
           </div>
         </motion.div>
       </div>

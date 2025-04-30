@@ -71,7 +71,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
   }
 
   const verifyPersistentLogin = async () => {
-    if (isLoggedIn) return; // Skip if already logged in
+    if (isLoggedIn) return; 
     
     try {
       console.log('VERIFYING TOKEN IN USE EFFECT...');
@@ -83,10 +83,11 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
           setIsLoggedIn(localUser.isLoggedIn);
           setUser(localUser);
           return;
-        } else {
-          localStorage.removeItem('ptlgUser');
-          return;
         }
+        //  else {
+        //   localStorage.removeItem('ptlgUser');
+        //   return;
+        // }
       } else if (code && email) {
         // Only call handleVerify if we have code and email
         handleVerify();
@@ -97,7 +98,9 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
   };
 
   useEffect(() => {
+    if(!isLoggedIn){
     verifyPersistentLogin()
+    }
   }, [code, email])
   
 
