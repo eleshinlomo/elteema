@@ -85,6 +85,14 @@ export const getItemQuantity = (targetid: number, Products: ProductProps[])=>{
    
 }
 
+export const formatCurrency = (symbol:string, amount: number)=>{
+  const currency = new Intl.NumberFormat('en-US', {
+    currency: symbol,
+    style: 'currency'
+  }).format(amount)
+  return currency
+}
+
 
   
   

@@ -4,6 +4,8 @@ import Image from 'next/image';
 import AddToCartButton from "../cart/addtocartbtn";
 import { CartContext } from "../../contextProviders/cartcontext";
 import { getProduct } from "../utils";
+import ProductSize from "./productSize";
+import BuyNowButton from "../cart/buyNowBtn";
 
 interface DetailsProps {
   id: number;
@@ -54,7 +56,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-2xl w-full max-w-md mx-4 overflow-hidden">
               <div className="bg-green-600 p-4 flex justify-between items-center">
-                <h3 className="text-white text-xl font-bold">Product Details</h3>
+                <h3 className="text-white text-xl font-bold">Product Images</h3>
                 <button
                   onClick={() => setOpenWarning(false)}
                   className="text-white hover:text-gray-200 text-2xl font-bold"
@@ -63,7 +65,35 @@ const ProductDetails = ({ id }: DetailsProps) => {
                 </button>
               </div>
               <div className="p-6">
-                <p className="text-gray-700 mb-4">Here are more details about {product.name}</p>
+                <p className="text-gray-700 mb-4 text-center font-bold text-2xl">{product.name}</p>
+              {/* Images */}
+              <div className="flex gap-4 w-full justify-center py-8">
+                <div>
+                  <p>Front</p>
+                  <div className="relative h-16 w-16 ">
+                    <Image src={product.src} alt='no image' fill />
+                  </div>
+                </div>
+                <div>
+                  <p>Back</p>
+                  <div className="relative h-16 w-16">
+                    <Image src={product.src} alt='no image' fill />
+                  </div>
+                </div>
+                <div>
+                  <p>Right</p>
+                  <div className="relative h-16 w-16">
+                    <Image src={product.src} alt='no image' fill />
+                  </div>
+                </div>
+                <div>
+                  <p>Left</p>
+                  <div className="relative h-16 w-16 ">
+                    <Image src='' alt='no image' fill />
+                  </div>
+                </div>
+                
+              </div>
                 <button
                   onClick={() => setOpenWarning(false)}
                   className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors"
@@ -99,15 +129,21 @@ const ProductDetails = ({ id }: DetailsProps) => {
               </div>
               <p className="text-gray-600 mb-6">{product.description || 'No description available'}</p>
             </div>
-
-            <div className="space-y-4">
+            
+            {/* Size */}
+            <ProductSize />
+            
+            <div className="space-y-4 ">
+              <div className="flex gap-4">
               <AddToCartButton targetid={product.id} />
+              <BuyNowButton targetid={product.id} />
+              </div>
               
               <button
                 onClick={() => setOpenWarning(true)}
                 className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-3 px-6 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center"
               >
-                <span>More Details</span>
+                <span>More Images</span>
                 <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>

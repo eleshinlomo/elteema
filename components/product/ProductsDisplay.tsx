@@ -3,6 +3,7 @@ import AddToCartButton from '../cart/addtocartbtn'
 import ProductDetails from './productdetails'
 import { ProductProps } from '../data/productsdata'
 import SkeletonPage from '../skeletonPage'
+import { formatCurrency } from '../utils'
 
 interface AllProductDisplayProps {
     productArray: ProductProps[]
@@ -20,6 +21,7 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
                         >
                             {/* Product Image with hover effect */}
                             <div className="relative h-60 w-full overflow-hidden">
+                            <a href={`/productpage/${item.id}`}>
                                 <Image 
                                     src={item.src} 
                                     alt={item.name} 
@@ -28,40 +30,36 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
                                     className="transition-transform duration-500 group-hover:scale-110"
                                 />
                                 {/* Badge for popular items */}
-                                {item.numOfItemsSold > 50 && (
+                                {item.numOfItemsSold > 5 && (
                                     <div className="absolute top-2 right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                                         Popular
                                     </div>
                                 )}
+                                </a>
                             </div>
                             
                             {/* Product Info */}
                             <div className="p-5 flex flex-col space-y-3">
                                 <div>
-                                    <p className="font-bold text-lg text-gray-800 mb-1 line-clamp-1">{item.name}</p>
-                                    <p className="text-green-600 text-xl font-extrabold">₦{item.price.toLocaleString()}</p>
+                                    <a href={`/productpage/${item.id}`}>
+                                        <p className="font-bold text-lg text-gray-800 mb-1 line-clamp-1">{item.name}</p>
+                                        <p className="text-green-600 text-xl font-extrabold">{formatCurrency('NGN', item.price)}</p>
+                                    </a>
                                 </div>
                                 
                                 {/* Category and Sales */}
                                 <div className="flex justify-between items-center text-sm">
-                                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                                <a href={`/productcategorypage/${item.category}`}>
+                                    <span className="bg-green-100 text-green-800 px-4 py-1 rounded-full">
                                         {item.category}
                                     </span>
+                                </a>
                                     <span className="text-amber-700 font-semibold">
                                         Sold: {item.numOfItemsSold}
                                     </span>
                                 </div>
                                 
-                                {/* Action Buttons */}
-                                <div className="flex gap-3 pt-2">
-                                    <AddToCartButton 
-                                        targetid={item.id} 
-                                        
-                                    />
-                                    <button className="flex-1 border border-green-600 text-green-600 hover:bg-green-50 py-2 px-4 rounded-lg transition-colors">
-                                        View Details
-                                    </button>
-                                </div>
+                              
                             </div>
                         </div>
                     ))}

@@ -8,6 +8,7 @@ import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import HeaderAlert from "../header/headeralert";
 import CartBasket from "./cartbasket";
 import { SidebarCloseIcon } from "lucide-react";
+import { formatCurrency } from '../utils';
 
 
 
@@ -106,7 +107,7 @@ const Cart = () => {
         {/* Subtotal Section */}
         <div className="p-4 bg-green-100 border-b border-green-200">
           <p className="text-green-800 font-bold text-lg">
-            Subtotal ({totalItems ?? 0}): ₦{totalPrice?.toLocaleString() ?? 0}
+            Subtotal ({totalItems ?? 0}): {formatCurrency('NGN', totalPrice) ?? 0}
           </p>
           <button
             onClick={sendToCheckout}
@@ -124,7 +125,7 @@ const Cart = () => {
                 <div className="flex justify-between items-center">
                   <div>
                     <h3 className="font-semibold text-green-800">{item.name}</h3>
-                    <p className="text-green-600">₦{item.price.toLocaleString()}</p>
+                    <p className="text-green-600">{formatCurrency('NGN', item.price)}</p>
                   </div>
                   <div className="flex items-center space-x-2">
                     <button
