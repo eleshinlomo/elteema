@@ -29,7 +29,7 @@ const ProductCategory = ({category}: CateroryProps)=>{
 
     return (
       <div>
-           <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">{capitalize(decodeURIComponent(category))} Items</h2>
+           <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">{capitalize(decodeURIComponent(category))}</h2>
             {categoryItems && categoryItems.length > 0 ? <AllProductDisplay productArray={categoryItems} />
             : <SkeletonPage message={message} />}
 
