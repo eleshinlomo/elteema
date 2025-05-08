@@ -12,7 +12,7 @@ const AddToCartButton = ({ targetid, size }: AddToCartBtnProps) => {
     const [buttonText, setButtonText] = useState('Add To Cart')
     const [error, setError] = useState('')
     const [color, setColor] = useState('black')
-    const [isAdded, setIsAdded] = useState<ProductProps | null>(null)
+    const [isAdded, setIsAdded] = useState<boolean>(false)
     const [isAnimating, setIsAnimating] = useState(false)
     const cartContext = useContext(CartContext)
     const { addToCart, cart } = cartContext
@@ -25,20 +25,22 @@ const AddToCartButton = ({ targetid, size }: AddToCartBtnProps) => {
         }
         addToCart(targetid)
         const isProductInCart = cart?.find((item) => item.isAdded)
-        if (isProductInCart) {
-            setIsAdded(isProductInCart)
-        }
+        // if (isProductInCart) {
+        //     setIsAdded(isProductInCart)
+        // }
         setTimeout(() => setIsAnimating(false), 1000)
     }
 
     useEffect(() => {
-        const itemAdded = cart?.some((item) => item.id === targetid && item.isAdded)
-        if (itemAdded) {
+        const isAdded = cart?.some((item) => item.id === targetid && item.isAdded)
+        if (isAdded) {
+            setIsAdded(true)
+            setError('')
             setButtonText('Added ✓')
         } else {
             setButtonText('Add To Cart')
         }
-    }, [isAdded, cart])
+    }, [isAdded, cart, error])
 
     return (
         <div>
