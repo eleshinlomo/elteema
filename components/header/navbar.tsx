@@ -42,14 +42,14 @@ const NavBar = () => {
   useEffect(() => {}, [isLoggedIn]);
 
   return (
-    <div>
+    <div className="">
       <div><HeaderAlert /></div>
 
       <header
         className={`header bg-black text-green-300 px-6 flex w-full items-center ${
           sticky
-            ? "dark:bg-gray-dark dark:shadow-sticky-dark fixed top-0 z-[9999] !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
-            : "absolute shadow-sticky backdrop-blur-sm top-15 z-[9999]"
+            ? "dark:bg-gray-dark dark:shadow-sticky-dark fixed top-0 z-[100] !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
+            : "absolute shadow-sticky backdrop-blur-sm top-15 z-[100]"
         }`}
       >
         <div className="container">
@@ -151,12 +151,14 @@ const NavBar = () => {
 
                     {/* === Right Side (User, Auth, etc.) === */}
                     <NavRightSide />
+                   
+                    
                   </ul>
                 </nav>
               </div>
 
-              {/* === Cart === */}
-              <Cart />
+               {/* === Cart === */}
+               <Cart />
             </div>
           </div>
         </div>

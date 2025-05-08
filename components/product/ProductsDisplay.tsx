@@ -1,6 +1,4 @@
 import Image from 'next/image'
-import AddToCartButton from '../cart/addtocartbtn'
-import ProductDetails from './productdetails'
 import { ProductProps } from '../data/productsdata'
 import SkeletonPage from '../skeletonPage'
 import { formatCurrency } from '../utils'
@@ -49,11 +47,17 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
                                 
                                 {/* Category and Sales */}
                                 <div className="flex justify-between items-center text-sm">
-                                <a href={`/productcategorypage/${item.category}`}>
-                                    <span className="bg-green-100 text-green-800 px-4 py-1 rounded-full">
-                                        {item.category}
-                                    </span>
-                                </a>
+                                
+                                    <div >
+                                    
+                                        {item.category.map((cat, index)=>
+                                        <a key={index} href={`/productcategorypage/${encodeURIComponent(cat)}`} className="bg-green-100 text-green-800 px-4 py-1 rounded-full">
+                                            {cat}
+                                        </a>
+                                        )}
+                                    
+                                    </div>
+                                
                                     <span className="text-amber-700 font-semibold">
                                         Sold: {item.numOfItemsSold}
                                     </span>

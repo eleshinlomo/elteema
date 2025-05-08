@@ -19,7 +19,7 @@ const ProductCategory = ({category}: CateroryProps)=>{
 
     useEffect(()=>{
     if(Products && Products.length > 0){
-      const items: any = Products.filter((item)=>item.category === category)
+      const items: any = Products.filter((item)=>item.category.some((cat)=>cat === decodeURIComponent(category)))
       setCategoryItems(items)
     }
     }, [Products])
@@ -29,7 +29,7 @@ const ProductCategory = ({category}: CateroryProps)=>{
 
     return (
       <div>
-           <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">{capitalize(category)} Items</h2>
+           <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">{capitalize(decodeURIComponent(category))} Items</h2>
             {categoryItems && categoryItems.length > 0 ? <AllProductDisplay productArray={categoryItems} />
             : <SkeletonPage message={message} />}
 

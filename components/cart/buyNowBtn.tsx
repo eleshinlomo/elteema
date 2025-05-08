@@ -10,6 +10,7 @@ interface AddToCartBtnProps {
 
 const BuyNowButton = ({ targetid }: AddToCartBtnProps) => {
     const [buttonText, setButtonText] = useState('Buy Now')
+    const [error, setError] = useState('')
     const [isAdded, setIsAdded] = useState<ProductProps | null>(null)
     const [isAnimating, setIsAnimating] = useState(false)
     const cartContext = useContext(CartContext)
@@ -28,10 +29,13 @@ const BuyNowButton = ({ targetid }: AddToCartBtnProps) => {
    
 
     return (
+        <div>
+            
         <button
             className={`
-                relative overflow-hidden
-                px-6 py-3 rounded-full
+                w-full
+               
+                px-8 py-2 rounded-full
                 font-medium text-white
                 bg-gradient-to-r from-green-500 to-emerald-600
                 hover:from-green-600 hover:to-emerald-700
@@ -50,6 +54,8 @@ const BuyNowButton = ({ targetid }: AddToCartBtnProps) => {
                 <span className="absolute inset-0 bg-white opacity-30 rounded-full scale-0 animate-ripple" />
             )}
         </button>
+        <p className="text-center  font-bold py-8">{error}</p>
+        </div>
     )
 }
 

@@ -38,19 +38,19 @@ const Cart = () => {
         setDrawerOpen(false);
       }
     };
-  
+    document.body.style.overflowX = 'hidden'; // 
     if (isDrawerOpen) {
-      document.body.style.overflowY = 'hidden';
-      document.body.style.overflowX = 'hidden'; // ⬅️ Prevent horizontal scroll
+     
       document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.body.style.overflowY = 'auto';
-      document.body.style.overflowX = 'auto';
-    }
+    } 
+    // else {
+    //   document.body.style.overflowY = 'auto';
+    //   document.body.style.overflowX = 'auto';
+    // }
   
     return () => {
-      document.body.style.overflowY = 'auto';
-      document.body.style.overflowX = 'auto';
+      // document.body.style.overflowY = 'auto';
+      // document.body.style.overflowX = 'auto';
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isDrawerOpen]);
@@ -73,11 +73,11 @@ const Cart = () => {
   };
 
   return (
-    <div className="relative z-50">
+    <div className="relative ">
       {/* Cart Button */}
       <button
         onClick={() => setDrawerOpen(true)}
-        className="fixed top-6 right-6 p-3 z-50 rounded-full  shadow-lg hover:scale-110 transition"
+        className=" rounded-full  shadow-lg hover:scale-110 transition"
         aria-label="Open cart"
       >
         <CartBasket />
@@ -85,13 +85,13 @@ const Cart = () => {
 
       {/* Overlay */}
       {isDrawerOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 backdrop-blur-sm" />
+        <div className=" inset-0 bg-black bg-opacity-50 z-40 backdrop-blur-sm" />
       )}
 
       {/* Drawer */}
       <div
         ref={drawerRef}
-        className={`fixed top-0 right-0 h-screen w-full sm:w-96 bg-white z-50 shadow-xl transform transition-transform
+        className={` fixed top-0 right-0 h-screen w-full sm:w-96 bg-white z-50 shadow-xl transform transition-transform
            duration-300 flex flex-col ${
           isDrawerOpen ? 'translate-x-0' : 'translate-x-full'
         }`}

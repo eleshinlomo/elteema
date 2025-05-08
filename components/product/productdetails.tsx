@@ -15,6 +15,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
   const [product, setProduct] = useState<any | null>(null);
   const [error, setError] = useState('');
   const [openWarning, setOpenWarning] = useState(false);
+  const [size, setSize] = useState<string>('')
   const cartContext = useContext(CartContext);
   const { Products } = cartContext;
 
@@ -47,6 +48,8 @@ const ProductDetails = ({ id }: DetailsProps) => {
       </div>
     );
   }
+
+
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -84,6 +87,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
                   <p>Right</p>
                   <div className="relative h-16 w-16">
                     <Image src={product.src} alt='no image' fill />
+
                   </div>
                 </div>
                 <div>
@@ -131,11 +135,11 @@ const ProductDetails = ({ id }: DetailsProps) => {
             </div>
             
             {/* Size */}
-            <ProductSize />
+            <ProductSize size={size} setSize={setSize} />
             
             <div className="space-y-4 ">
               <div className="flex gap-4">
-              <AddToCartButton targetid={product.id} />
+              <AddToCartButton targetid={product.id} size={size} />
               <BuyNowButton targetid={product.id} />
               </div>
               

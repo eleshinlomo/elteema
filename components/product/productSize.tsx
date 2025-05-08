@@ -1,17 +1,21 @@
 'use client'
-import {useState} from 'react'
+import {ChangeEvent, useState} from 'react'
+
+interface ProductSizeProps {
+    size: string;
+    setSize: (value: string)=>void;
+}
 
 
+const ProductSize = ({setSize, size}: ProductSizeProps)=> {
 
-const ProductSize = ()=> {
-
-    const [size, setSize] = useState('')
+    
 
     return (
 
         <div className='md:flex gap-4 mb-3'>
-            <select onChange={(e)=>setSize(e.target.value)}>
-                <option>Please choose your size</option>
+            <select onChange={(e: React.ChangeEvent<HTMLSelectElement>)=>setSize(e.target.value)}>
+                <option>Choose your size</option>
                 <option value="S">S</option>
                 <option value="M">M</option>
                 <option value="L">L</option>

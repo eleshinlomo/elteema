@@ -3,6 +3,15 @@
 
 // import pepperoni from '@/public/images/products/pepperoni.jpg'
 
+// export interface CategoryProps {
+//    men: string;
+//    women: string;
+//    bestseller: string;
+//    new: string;
+//    trending: string;
+   
+
+// }
 
 export interface ProductProps {
     id: number;
@@ -14,7 +23,9 @@ export interface ProductProps {
     totalVotes: number;
     numOfItemsSold: number;
     isAdded: boolean;
-    category: string;
+    category: string[];
+    description: string;
+    stock: number,
 }
 
 

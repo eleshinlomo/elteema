@@ -5,10 +5,13 @@ import { ProductProps } from "../data/productsdata"
 
 interface AddToCartBtnProps {
     targetid: number,
+    size: string;
 }
 
-const AddToCartButton = ({ targetid }: AddToCartBtnProps) => {
+const AddToCartButton = ({ targetid, size }: AddToCartBtnProps) => {
     const [buttonText, setButtonText] = useState('Add To Cart')
+    const [error, setError] = useState('')
+    const [color, setColor] = useState('black')
     const [isAdded, setIsAdded] = useState<ProductProps | null>(null)
     const [isAnimating, setIsAnimating] = useState(false)
     const cartContext = useContext(CartContext)
@@ -16,6 +19,10 @@ const AddToCartButton = ({ targetid }: AddToCartBtnProps) => {
 
     const handleAddToCart = () => {
         setIsAnimating(true)
+        if(!size){
+            setError('Please choose a size')
+            return
+        }
         addToCart(targetid)
         const isProductInCart = cart?.find((item) => item.isAdded)
         if (isProductInCart) {
@@ -34,11 +41,13 @@ const AddToCartButton = ({ targetid }: AddToCartBtnProps) => {
     }, [isAdded, cart])
 
     return (
+        <div>
+            
         <button
             onClick={handleAddToCart}
             className={`
-                relative overflow-hidden
-                px-6 py-3 rounded-full
+                w-full
+                px-8 py-2 rounded-full
                 font-medium text-white
                 bg-gradient-to-r from-green-500 to-emerald-600
                 hover:from-green-600 hover:to-emerald-700
@@ -57,6 +66,8 @@ const AddToCartButton = ({ targetid }: AddToCartBtnProps) => {
                 <span className="absolute inset-0 bg-white opacity-30 rounded-full scale-0 animate-ripple" />
             )}
         </button>
+        <p className={`text-center text-red-500 font-bold py-2`}>{error}</p>
+        </div>
     )
 }
 

@@ -1,11 +1,7 @@
 'use client'
 import React, {useState, useEffect, useContext} from 'react'
-import AddToCartButton from "../cart/addtocartbtn"
 import { ProductProps } from "../data/productsdata"
 import Image from 'next/image'
-import { searchSingleProduct } from '../utils'
-import ContactSeller from './productdetails'
-import ProductDetails from './productdetails'
 import AllProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
 import SkeletonPage from '../skeletonPage'
@@ -20,7 +16,7 @@ const Trending = ()=>{
 
     useEffect(()=>{
     if(Products && Products.length > 0){
-      const items: any = Products.filter((item)=>item.category === 'trending')
+      const items: any = Products.filter((item)=>item.category.includes('trending'))
       setTrendingItems(items)
     }
     }, [Products])

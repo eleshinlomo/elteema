@@ -20,7 +20,7 @@ const New = ()=>{
 
 
     const getNewItems  = ()=>{
-      const newItems = Products.filter((item)=>item.category === 'new')
+      const newItems = Products.filter((item)=>item.category.some((cat)=> cat === 'new'))
       if(newItems.length > 0){
          setNewList(newItems)
       }
