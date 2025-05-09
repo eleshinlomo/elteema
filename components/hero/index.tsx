@@ -31,7 +31,7 @@ const Hero = () => {
                   <p className="text-white text-2xl font-extrabold mb-4 px-4">
                       {data.content}
                   </p>
-                  <a href="/allstores">
+                  <a href="/allstorespage">
                             <button className="bg-green-600 hover:bg-green-700 text-white font-extrabold py-3 px-6 text-lg transition-all duration-300 transform hover:scale-105">
                                 SHOP NOW
                             </button>

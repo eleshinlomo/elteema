@@ -56,7 +56,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
               if(data.ok){
                   const stringifiedData = JSON.stringify(data.user)
                   localStorage.setItem('ptlgUser', stringifiedData)
-                  router.push('/allstores')
+                  router.push('/allstorespage')
                 
               } 
               setIsLoading(false)

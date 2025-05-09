@@ -129,7 +129,7 @@ const navData: NavProps[] = [
       {
         id: 2,
         title: "Allstores",
-        path: "/allstores",
+        path: "/allstorespage",
         newTab: false,
       },
       {
@@ -141,7 +141,7 @@ const navData: NavProps[] = [
       {
         id: 3,
         title: "Sell on Elteema",
-        path: `/store`,
+        path: `/sellerspage`,
         newTab: false,
       },
      
