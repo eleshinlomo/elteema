@@ -6,13 +6,14 @@ import { CartContext } from "../../contextProviders/cartcontext";
 import { getProduct } from "../utils";
 import ProductSize from "./productSize";
 import BuyNowButton from "../cart/buyNowBtn";
+import { ProductProps } from "../data/productsdata";
 
 interface DetailsProps {
   id: number;
 }
 
 const ProductDetails = ({ id }: DetailsProps) => {
-  const [product, setProduct] = useState<any | null>(null);
+  const [product, setProduct] = useState<ProductProps | null>(null);
   const [error, setError] = useState('');
   const [openWarning, setOpenWarning] = useState(false);
   const [size, setSize] = useState<string>('')
@@ -21,7 +22,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
 
   useEffect(() => {
     const fetchProduct = () => {
-      const p = getProduct(id, Products);
+      const p: any = getProduct(id, Products);
       if (p) {
         setProduct(p);
       } else {
@@ -128,6 +129,12 @@ const ProductDetails = ({ id }: DetailsProps) => {
           <div className="md:w-1/2 p-6 flex flex-col justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-800 mb-2">{product.name}</h1>
+              <div className="flex gap-1"><p>in</p>
+              {product?.category?.map((cat, index)=><a className="pr-1 text-green-700"
+              href={`/productcategorypage/${encodeURIComponent(cat)}`}
+                key={index}>{cat}
+                </a>)}
+                </div>
               <div className="flex items-center mb-4">
                 <span className="text-2xl font-bold text-green-600">N{product.price}</span>
               </div>
@@ -145,7 +152,8 @@ const ProductDetails = ({ id }: DetailsProps) => {
               
               <button
                 onClick={() => setOpenWarning(true)}
-                className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-3 px-6 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center"
+                className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-3 px-6 rounded-lg 
+                font-medium transition-colors duration-300 flex items-center justify-center"
               >
                 <span>More Images</span>
                 <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

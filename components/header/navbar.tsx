@@ -43,7 +43,7 @@ const NavBar = () => {
 
   return (
     <div className="">
-      <div><HeaderAlert /></div>
+      <HeaderAlert />
 
       <header
         className={`header bg-black text-green-300 px-6 flex w-full items-center ${
@@ -100,9 +100,9 @@ const NavBar = () => {
                   <ul className="block lg:flex lg:space-x-12">
                     {navdata.map((menuItem, index) => (
                       <li key={index} className="group relative">
-                        {menuItem.path ? (
+                        {menuItem.path  ? 
                           <Link
-                            href={menuItem.path}
+                            href={menuItem.path} 
                             className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 ${
                               pathName === menuItem.path
                                 ? "text-primary dark:text-white"
@@ -111,7 +111,7 @@ const NavBar = () => {
                           >
                             {menuItem.title}
                           </Link>
-                        ) : (
+                        : 
                           <>
                             <p
                               onClick={() => handleSubmenu(index)}
@@ -136,7 +136,8 @@ const NavBar = () => {
                             >
                               {menuItem.submenu.map((submenuItem: any, subIndex: any) => (
                                 <Link
-                                  href={submenuItem.path}
+                                  href={pathName  !== '/productcategorypage' ?  
+                                  `productcategorypage/${encodeURIComponent(submenuItem.title)} `: ''} 
                                   key={subIndex}
                                   className="block rounded py-2.5 text-sm text-dark hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3"
                                 >
@@ -145,7 +146,7 @@ const NavBar = () => {
                               ))}
                             </div>
                           </>
-                        )}
+                        }
                       </li>
                     ))}
 

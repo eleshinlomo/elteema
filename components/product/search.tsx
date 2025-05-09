@@ -61,10 +61,11 @@ const Search = () => {
                     
                     <div className="w-full md:w-1/2 mx-4 my-4 md:my-0 relative">
                         <div className="flex justify-center mb-3">
-                            <button className="flex items-center rounded-full bg-gradient-to-r from-green-600 to-green-800 text-white px-6 py-2 shadow-md hover:shadow-lg transition-all hover:scale-105">
+                            <a href='sellerspage'><button className="flex items-center rounded-full bg-gradient-to-r from-green-600 to-green-800 text-white px-6 py-2 shadow-md hover:shadow-lg transition-all hover:scale-105">
                                 <ShoppingBag className="mr-2 h-5 w-5" />
                                 SELL ON ELTEEMA
                             </button>
+                            </a>
                         </div>
                         <div className={`relative transition-all duration-300 ${isFocused ? 'ring-4 ring-green-200 rounded-full' : ''}`}>
                             <input

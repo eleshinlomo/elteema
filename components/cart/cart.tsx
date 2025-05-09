@@ -60,16 +60,19 @@ const Cart = () => {
   const sendToCheckout = () => {
     if (!totalItems) {
       setMessage('You cannot checkout 0 item.');
-      router.push('/');
-      return;
+      return 
     }
 
     if (!isLoggedIn) {
       setCheckoutText('Please sign in to check out');
-      return;
+      setDrawerOpen(false)
+      router.push('/authpages/signin');
+    }else{
+      router.push('/checkoutpage');
+      setDrawerOpen(false)
     }
-
-    router.push('/checkoutpage');
+    return
+    
   };
 
   return (
@@ -117,8 +120,8 @@ const Cart = () => {
           </button>
         </div>
 
-        {/* Cart Items - this MUST take remaining height and be scrollable */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {/* Cart Items  */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-4">
           {cart && cart.length > 0 ? (
             cart.map((item) => (
               <div key={item.id} className="border rounded-lg p-4 bg-white shadow-sm">
