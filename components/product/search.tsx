@@ -61,12 +61,12 @@ const Search = () => {
                     
                     <div className="w-full md:w-1/2 mx-4 my-4 md:my-0 relative">
                           {/* Search Bar Section */}
-                          {/* <div className={`relative transition-all duration-300 ${isFocused ? 'ring-4 ring-green-200 rounded-full z-30' : ''}`}>
+                          <div className={`relative transition-all duration-300 ${isFocused ? 'ring-4 ring-green-200 rounded-full z-30' : ''}`}>
                             <input
                                 value={itemToSearch}
                                 onChange={handleChange}
-                                // onFocus={() => setIsFocused(true)}
-                                // onBlur={() => setIsFocused(false)}
+                                onFocus={() => setIsFocused(true)}
+                                onBlur={() => setIsFocused(false)}
                                 placeholder="Search African products..."
                                 className="w-full px-4 py-2 border border-green-600  rounded-full "
                             />
@@ -78,7 +78,7 @@ const Search = () => {
                                 SELL ON ELTEEMA
                             </button>
                             </a>
-                        </div> */}
+                        </div>
                         
                     </div>
                     

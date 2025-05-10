@@ -67,7 +67,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="">
+    <div className="pr-12">
       {/* Cart Button */}
       <button
         onClick={() => setDrawerOpen(true)}

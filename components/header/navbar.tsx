@@ -45,14 +45,14 @@ const NavBar = () => {
       <HeaderAlert />
 
       <header
-        className={` header bg-black text-white px-10 flex w-full items-center  ${
+        className={`  bg-black text-white px-10 flex w-full   ${
           sticky
             ? "fixed top-0 z-[200] !bg-opacity-90 shadow-sticky backdrop-blur-sm transition"
-            : null
+            : "absolute top-0 z-[200]"
         }`}
       >
-        <div className="container w-full ">
-          <div className="relative -mx-4 flex items-center justify-between">
+        <div className="">
+          <div className="relative -mx-6 flex items-center">
 
             {/* === Logo === */}
             <div className="w-60 max-w-full px-4 xl:mr-12">
@@ -75,24 +75,14 @@ const NavBar = () => {
             </div>
 
             {/* === Mobile + Right Side Container === */}
-            <div className="flex w-full items-center justify-between px-8 text-green-700">
+            <div className="flex items-center gap-2  text-green-700">
               <div>
-                {/* === Mobile Toggle Button === */}
-                <button
-                  onClick={navbarToggleHandler}
-                  id="navbarToggler"
-                  aria-label="Mobile Menu"
-                  className="relative flex h-10 w-10 flex-col items-center justify-center rounded-lg bg-white/10 p-2 ring-2 ring-transparent transition-all duration-300 hover:bg-white/20 hover:ring-white/20 focus:outline-none focus:ring-white/30 lg:hidden"
-                >
-                  <span className={`absolute block h-0.5 w-6 bg-current transition-all duration-300 ${navbarOpen ? 'top-1/2 rotate-45' : 'top-3'}`} />
-                  <span className={`absolute top-1/2 block h-0.5 w-6 bg-current transition-all duration-300 ${navbarOpen ? 'opacity-0' : ''}`} />
-                  <span className={`absolute block h-0.5 w-6 bg-current transition-all duration-300 ${navbarOpen ? 'top-1/2 -rotate-45' : 'bottom-3'}`} />
-                </button>
+               
 
                 {/* === Nav Menu === */}
                 <nav
                   id="navbarCollapse"
-                  className={`navbar absolute right-0 z-200 w-[250px] rounded border-[.5px] border-body-color/50 bg-white px-6 py-4 
+                  className={`navbar absolute right-0 z-30 w-[250px] rounded border-[.5px] border-body-color/50 bg-white px-6 py-4 
                     duration-300 dark:border-body-color/20 dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent 
                     lg:p-0 lg:opacity-100 ${
                     navbarOpen ? "visibility top-full opacity-100" : "invisible top-[120%] opacity-0"
@@ -128,7 +118,9 @@ const NavBar = () => {
                               </span>
                             </p>
                             <div
-                              className={`submenu relative left-0 top-full rounded-sm bg-white text-green-700 transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
+                              className={`submenu relative left-0 top-full rounded-sm bg-white text-green-700 transition-[top] duration-300 group-hover:opacity-100 
+                                dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg
+                                 lg:group-hover:visible lg:group-hover:top-full ${
                                 openIndex === index ? "block" : "hidden"
                               }`}
                             >
@@ -153,7 +145,17 @@ const NavBar = () => {
                   </ul>
                 </nav>
               </div>
-
+                 {/* === Mobile Toggle Button === */}
+                 <button
+                  onClick={navbarToggleHandler}
+                  id="navbarToggler"
+                  aria-label="Mobile Menu"
+                  className="relative flex h-10 w-10 flex-col  rounded-lg bg-white/10 p-2 ring-2 ring-transparent transition-all duration-300 hover:bg-white/20 hover:ring-white/20 focus:outline-none focus:ring-white/30 lg:hidden"
+                >
+                  <span className={`absolute block h-0.5 w-6 bg-current transition-all duration-300 ${navbarOpen ? 'top-1/2 rotate-45' : 'top-3'}`} />
+                  <span className={`absolute top-1/2 block h-0.5 w-6 bg-current transition-all duration-300 ${navbarOpen ? 'opacity-0' : ''}`} />
+                  <span className={`absolute block h-0.5 w-6 bg-current transition-all duration-300 ${navbarOpen ? 'top-1/2 -rotate-45' : 'bottom-3'}`} />
+                </button>
                {/* === Cart === */}
                <Cart />
             </div>
