@@ -7,7 +7,7 @@ import { CartContext } from '../../contextProviders/cartcontext';
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import HeaderAlert from "../header/headeralert";
 import CartBasket from "./cartbasket";
-import { SidebarCloseIcon } from "lucide-react";
+import { ShieldCloseIcon, SidebarClose, SidebarCloseIcon } from "lucide-react";
 import { formatCurrency } from '../utils';
 
 const Cart = () => {
@@ -67,7 +67,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="pr-12">
+    <div className="pr-12 ">
       {/* Cart Button */}
       <button
         onClick={() => setDrawerOpen(true)}
@@ -78,7 +78,7 @@ const Cart = () => {
 
       {/* Overlay */}
       {isDrawerOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40" />
       )}
 
       {/* Drawer */}
@@ -96,7 +96,7 @@ const Cart = () => {
             className="p-1" 
             aria-label="Close cart"
           >
-            <SidebarCloseIcon />
+            <div className='text-xl h-8 w-8 font-extrabold'> X</div>
           </button>
         </div>
 

@@ -45,14 +45,14 @@ const NavBar = () => {
       <HeaderAlert />
 
       <header
-        className={`  bg-black text-white px-10 flex w-full   ${
+        className={`  bg-black text-white px-10 flex  w-full   ${
           sticky
             ? "fixed top-0 z-[200] !bg-opacity-90 shadow-sticky backdrop-blur-sm transition"
             : "absolute top-0 z-[200]"
         }`}
       >
-        <div className="">
-          <div className="relative -mx-6 flex items-center">
+        <div className="w-full">
+          <div className="relative -mx-4 flex  items-center">
 
             {/* === Logo === */}
             <div className="w-60 max-w-full px-4 xl:mr-12">
@@ -75,7 +75,7 @@ const NavBar = () => {
             </div>
 
             {/* === Mobile + Right Side Container === */}
-            <div className="flex items-center gap-2  text-green-700">
+            <div className="flex  items-center   gap-2  text-green-700">
               <div>
                
 

@@ -26,6 +26,7 @@ export interface ProductProps {
     category: string[];
     description: string;
     stock: number,
+    productPageVisits: number
 }
 
 

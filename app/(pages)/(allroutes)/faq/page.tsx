@@ -74,7 +74,7 @@ const FaqPage = () => {
         },
         {
           question: "Can I pre-register?",
-          answer: "Yes! We advise that all interested sellers should pre-register their store on our page www.elteema.com/store."
+          answer: "Yes! We advise that all interested sellers should pre-register their store on our page www.elteema.com/sellerspage."
         }
       ]
     },
@@ -242,11 +242,11 @@ const FaqPage = () => {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a 
-              href="mailto:support@petrolagegroup.com" 
+              href="/contactpage" 
               className="flex items-center justify-center bg-white px-6 py-3 rounded-lg shadow-sm hover:shadow-md transition-all text-gray-800 font-medium"
             >
               <Mail className="w-5 h-5 mr-2 text-green-600" />
-              Email Us
+              Send us a message
             </a>
             <a 
               href="tel:+1234567890" 

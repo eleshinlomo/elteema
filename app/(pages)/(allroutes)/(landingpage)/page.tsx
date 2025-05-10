@@ -7,6 +7,7 @@ import Trending from "../../../../components/product/trending";
 import New from "../../../../components/product/new";
 import CookiePolicy from "../../../../components/cookieAcceptPage";
 import Cart from "../../../../components/cart/cart";
+import PurchaseAlert from "../../../../components/product/purchaseAlert";
 
 export default function Home() {
   return (
@@ -18,7 +19,7 @@ export default function Home() {
       <Trending />
       <TestimonialsPage />
       <CookiePolicy />
-      {/* <Cart /> */}
+      <PurchaseAlert />
     </div>
   );
 }

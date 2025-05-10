@@ -6,6 +6,7 @@ import Hero from '../hero'
 import ProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
 
+
 const Search = () => {
     const [allProducts, setAllProducts] = useState<ProductProps[]>([])
     const [itemToSearch, setItemToSearch] = useState<string>('')
@@ -45,6 +46,7 @@ const Search = () => {
 
     return (
         <div id='search' className="bg-gradient-to-b from-green-50 to-white mt-32 pb-16 ">
+            
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               
                 <div className="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-xl shadow-lg mb-12 -mt-12 border border-green-100">

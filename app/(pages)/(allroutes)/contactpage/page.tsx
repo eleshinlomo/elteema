@@ -1,169 +1,197 @@
 'use client'
+
 import Link from "next/link";
-import {useState, useEffect, useContext, FormEvent} from 'react'
+import { useState, useEffect, useContext, FormEvent } from 'react'
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider";
 
-
-
-
 const ContactPage = () => {
-
-
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const generalContext = useContext(GeneralContext)
-  const {user} = generalContext
+  const { user } = generalContext
 
-  useEffect(()=>{
-    if(user){
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+
+  useEffect(() => {
+    if (user) {
       setEmail(user.email)
+      if (user.name) setName(user.name)
     }
-  },[])
+  }, [user])
 
-  const handleSubmit = (e: FormEvent)=>{
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    setError('Server error. Message not sent')
+    try{
+    setIsSubmitting(true)
+    setError('')
+    const payload = {
+       name,
+       email,
+       message
+    }
+
+    console.log('PAYLOAD', payload)
+    const response = await fetch(`${BASE_URL}/sendcontactmessage`, {
+      mode: 'cors',
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+
+    })
+
+    if(!response){
+      setError('No response from server')
+      setIsSubmitting(false)
+      return
+    }
+
+    const data = await response.json()
+    if(data.ok){
+      console.log(data)
+      setIsSubmitting(false)
+      setName('')
+      setEmail('')
+      setMessage('')
+    }else{
+      setError('Server error. Unable to send message now')
+      console.log(data.error)
+      setIsSubmitting(false)
+    }
+
+    }catch(err){
+      console.log(err)
+      setIsSubmitting(false)
+      setError('Server error. Message not sent')
+    }
+    return
+
   }
 
   return (
-    <>
-      <section className="relative z-10 overflow-hidden pb-16 pt-20 md:pb-20 lg:pb-6 ">
-        <div className="container">
-          <div className="-mx-4 flex flex-wrap">
-            <div className="w-full px-4">
-              <div className="shadow-three mx-auto max-w-[500px] rounded bg-white px-6 py-10 dark:bg-dark sm:p-[60px]">
-                <h3 className="mb-3 text-center text-2xl font-bold text-black dark:text-white sm:text-3xl">
-                  We love to hear from you
-                </h3>
-                <p className="mb-11 text-center text-base font-medium text-body-color">
-                  {error ? error : 'What would you you like to talk about?'}
-                </p>
-               
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-green-50 py-12 my-6 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl font-extrabold text-gray-900  sm:tracking-tight ">
+            Contact Us
+          </h1>
+          <p className="mt-5 max-w-xl mx-auto text-xl text-gray-500">
+            We&apos;re here to help and answer any questions you might have.
+          </p>
+        </div>
 
-               
-                <form>
-                  <div className="mb-8">
-                    <label
-                      htmlFor="name"
-                      className="mb-3 block text-sm text-dark dark:text-white"
-                    >
-                      Your Name
-                    </label>
-                    <input
-                      type="text"
-                      name="text"
-                      value={user && user.name? user.name : name}
-                      onChange={(e)=>setName(e.target.value)}
-                      placeholder="Enter your Name"
-                      className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                    />
-                  </div>
-                  <div className="mb-8">
-                    <label
-                      htmlFor="password"
-                      className="mb-3 block text-sm text-dark dark:text-white"
-                    >
-                      Your Email
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={email}
-                      placeholder="Enter your Email"
-                      className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                    />
-                  </div>
-                  <div>
-                    <textarea placeholder="Type your message here" 
-                    value={message}
-                    onChange={(e)=>setMessage(e.target.value)}
-                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                     />
-                  </div>
-                  <div className="mb-8 flex flex-col justify-between sm:flex-row sm:items-center">
-                    
-                    
-                  </div>
-                  <div className="mb-6">
-                    <button className="shadow-submit dark:shadow-submit-dark flex w-full items-center justify-center
-                     rounded-sm bg-green-700 px-9 py-4 text-base font-medium text-white duration-300 hover:bg-green-700"
-                     onClick={handleSubmit}
-                     >
-                      Send Message
-                    </button>
-                  </div>
-                </form>
-                {!user ?<div className="text-center text-base font-medium text-body-color">
-                  Don&apos;t you have an account?{" "}
-                  <Link href="/authpages/signup" className="text-green-500 hover:underline">
-                    Sign up
-                  </Link>
-                </div>: null}
+        <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
+          <div className="bg-gradient-to-r from-green-600 to-emerald-500 p-6 sm:p-8">
+            <h2 className="text-2xl font-bold text-white">
+              {error ? 'Oops! Something went wrong' : 'Send us a message'}
+            </h2>
+            <p className="mt-2 text-green-100">
+              {error || "We'll get back to you as soon as possible"}
+            </p>
+          </div>
+
+          <div className="p-6 sm:p-8">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                  Your Name
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    value={user && user.name ? user.name : name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter your name"
+                    className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 placeholder-gray-400 transition duration-150"
+                    required
+                  />
+                </div>
               </div>
+
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  Your Email
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 placeholder-gray-400 transition duration-150"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                  Your Message
+                </label>
+                <div className="mt-1">
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={5}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="What would you like to talk about?"
+                    className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 placeholder-gray-400 transition duration-150"
+                    required
+                  ></textarea>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full flex justify-center items-center px-6 py-4 border border-transparent rounded-lg shadow-sm text-lg font-medium text-white bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-300 ${isSubmitting ? 'opacity-75 cursor-not-allowed' : ''}`}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <span className="mr-2 animate-spin">↻</span>
+                      Sending...
+                    </>
+                  ) : (
+                    'Send Message'
+                  )}
+                </button>
+              </div>
+            </form>
+
+            {!user && (
+              <div className="mt-6 text-center text-sm text-gray-500">
+                Don&apos;t have an account?{' '}
+                <Link href="/authpages/signup" className="font-medium text-green-600 hover:text-green-500 hover:underline">
+                  Sign up here
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-12 text-center">
+          <h3 className="text-lg font-medium text-gray-900">Prefer other methods?</h3>
+          <div className="mt-4 md:flex justify-center space-x-6">
+            <div className="bg-white p-4 rounded-lg shadow-md">
+              <span className="text-green-600 font-bold block">Email</span>
+              <span className="text-gray-600">support@petrolagegroup.com</span>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-md">
+              <span className="text-green-600 font-bold block">Phone</span>
+              <span className="text-gray-600">(+234) 808 381 7440</span>
             </div>
           </div>
         </div>
-        <div className="absolute left-0 top-0 z-[-1]">
-          <svg
-            width="1440"
-            height="969"
-            viewBox="0 0 1440 969"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <mask
-              id="mask0_95:1005"
-              style={{ maskType: "alpha" }}
-              maskUnits="userSpaceOnUse"
-              x="0"
-              y="0"
-              width="1440"
-              height="969"
-            >
-              <rect width="1440" height="969" fill="#090E34" />
-            </mask>
-            <g mask="url(#mask0_95:1005)">
-              <path
-                opacity="0.1"
-                d="M1086.96 297.978L632.959 554.978L935.625 535.926L1086.96 297.978Z"
-                fill="url(#paint0_linear_95:1005)"
-              />
-              <path
-                opacity="0.1"
-                d="M1324.5 755.5L1450 687V886.5L1324.5 967.5L-10 288L1324.5 755.5Z"
-                fill="url(#paint1_linear_95:1005)"
-              />
-            </g>
-            <defs>
-              <linearGradient
-                id="paint0_linear_95:1005"
-                x1="1178.4"
-                y1="151.853"
-                x2="780.959"
-                y2="453.581"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient
-                id="paint1_linear_95:1005"
-                x1="160.5"
-                y1="220"
-                x2="1099.45"
-                y2="1192.04"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-      </section>
-    </>
+      </div>
+    </div>
   );
 };
 
