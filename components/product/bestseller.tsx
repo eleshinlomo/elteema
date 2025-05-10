@@ -27,7 +27,7 @@ const Bestsellers = ()=>{
     return (
         <div id='bestsellers'>
             <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Bestsellers</h2>
-            {bestsellers && bestsellers.length > 0 ? <AllProductDisplay productArray={bestsellers} />:
+            {bestsellers && bestsellers.length > 0 ? <AllProductDisplay productArray={bestsellers.slice(0, 4)} />:
             <SkeletonPage message={message} />
             }
         

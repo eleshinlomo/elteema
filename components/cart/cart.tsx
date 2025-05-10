@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useContext, useEffect, useRef, useState,  } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useRouter } from "next/navigation";
 import { CartContext } from '../../contextProviders/cartcontext';
@@ -9,8 +9,6 @@ import HeaderAlert from "../header/headeralert";
 import CartBasket from "./cartbasket";
 import { SidebarCloseIcon } from "lucide-react";
 import { formatCurrency } from '../utils';
-
-
 
 const Cart = () => {
   const {
@@ -29,7 +27,7 @@ const Cart = () => {
   const [checkoutText, setCheckoutText] = useState('CHECK OUT');
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
-  const path = usePathname()
+  const path = usePathname();
 
   // Handle outside clicks
   useEffect(() => {
@@ -38,49 +36,41 @@ const Cart = () => {
         setDrawerOpen(false);
       }
     };
-    document.body.style.overflowX = 'hidden'; // 
+
     if (isDrawerOpen) {
-     
       document.addEventListener('mousedown', handleClickOutside);
-    } 
-    // else {
-    //   document.body.style.overflowY = 'auto';
-    //   document.body.style.overflowX = 'auto';
-    // }
-  
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
     return () => {
-      // document.body.style.overflowY = 'auto';
-      // document.body.style.overflowX = 'auto';
       document.removeEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = 'auto';
     };
   }, [isDrawerOpen]);
-  
 
-  // Send to checkout
   const sendToCheckout = () => {
     if (!totalItems) {
       setMessage('You cannot checkout 0 item.');
-      return 
+      return;
     }
 
     if (!isLoggedIn) {
       setCheckoutText('Please sign in to check out');
-      setDrawerOpen(false)
+      setDrawerOpen(false);
       router.push('/authpages/signin');
-    }else{
+    } else {
       router.push('/checkoutpage');
-      setDrawerOpen(false)
+      setDrawerOpen(false);
     }
-    return
-    
   };
 
   return (
-    <div className="relative ">
+    <div className="">
       {/* Cart Button */}
       <button
         onClick={() => setDrawerOpen(true)}
-        className=" rounded-full  shadow-lg hover:scale-110 transition"
         aria-label="Open cart"
       >
         <CartBasket />
@@ -88,21 +78,24 @@ const Cart = () => {
 
       {/* Overlay */}
       {isDrawerOpen && (
-        <div className=" inset-0 bg-black bg-opacity-50 z-40 backdrop-blur-sm" />
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
       )}
 
       {/* Drawer */}
       <div
         ref={drawerRef}
-        className={` fixed top-0 right-0 h-screen w-full sm:w-96 bg-white z-50 shadow-xl transform transition-transform
-           duration-300 flex flex-col ${
+        className={`fixed top-0 right-0 h-screen w-full max-w-md bg-white z-50 shadow-xl transform transition-transform duration-300 ease-in-out flex flex-col ${
           isDrawerOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 bg-green-800 text-white">
           <HeaderAlert />
-          <button onClick={() => setDrawerOpen(false)} className="p-1" aria-label="Close cart">
+          <button 
+            onClick={() => setDrawerOpen(false)} 
+            className="p-1" 
+            aria-label="Close cart"
+          >
             <SidebarCloseIcon />
           </button>
         </div>
@@ -120,42 +113,46 @@ const Cart = () => {
           </button>
         </div>
 
-        {/* Cart Items  */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-4">
+        {/* Cart Items */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {cart && cart.length > 0 ? (
             cart.map((item) => (
               <div key={item.id} className="border rounded-lg p-4 bg-white shadow-sm">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="font-semibold text-green-800">{item.name}</h3>
-                    <p className="text-green-600">{formatCurrency('NGN', item.price)}</p>
+                    <h3 className="font-semibold text-gray-800">{item.name}</h3>
                   </div>
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => handleQuantityDecrease(item.id)}
-                      className="w-8 h-8 bg-green-100 hover:bg-green-200 text-green-700 rounded-full"
+                      className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full"
                     >
                       -
                     </button>
                     <span className="w-6 text-center">{item.quantity}</span>
                     <button
                       onClick={() => handleQuantityIncrease(item.id)}
-                      className="w-8 h-8 bg-green-100 hover:bg-green-200 text-green-700 rounded-full"
+                      className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full"
                     >
                       +
                     </button>
                   </div>
                 </div>
-                <button
-                  onClick={() => removeItem(item.id)}
-                  className="mt-3 w-full text-red-700 bg-red-100 hover:bg-red-200 rounded-lg py-2 transition"
-                >
-                  Remove
-                </button>
+                <div className="flex justify-between items-center mt-2">
+                  <p className="text-red-500 font-medium">
+                    {formatCurrency('NGN', item.price * item.quantity)}
+                  </p>
+                  <button
+                    onClick={() => removeItem(item.id)}
+                    className="text-red-700 bg-red-100 hover:bg-red-200 rounded-lg px-3 py-1 transition"
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             ))
           ) : (
-            <div className="flex items-center justify-center h-full text-green-700 font-semibold">
+            <div className="flex items-center justify-center h-full text-gray-600 font-semibold">
               {message}
             </div>
           )}

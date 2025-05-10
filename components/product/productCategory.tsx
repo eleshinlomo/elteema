@@ -19,7 +19,7 @@ const ProductCategory = ({category}: CateroryProps)=>{
 
     useEffect(()=>{
     if(Products && Products.length > 0){
-      const items: any = Products.filter((item)=>item.category.some((cat)=>cat === decodeURIComponent(category)))
+      const items: any = Products.filter((item)=>item.category.some((cat)=>cat.toLowerCase() === decodeURIComponent(category.toLowerCase())))
       setCategoryItems(items)
     }
     }, [Products])

@@ -19,7 +19,7 @@ const navData: NavProps[] = [
 
   {
     id: 3,
-    title: "Farm produce",
+    title: "Farm",
     newTab: false,
     submenu: [
       {
@@ -42,36 +42,37 @@ const navData: NavProps[] = [
       },
       
       {
-        id: 3,
+        id: 4,
         title: "Vegetables",
         path: "/men/clothings",
         newTab: false,
       },
       {
-        id: 3,
+        id: 5,
         title: "Fruits",
         path: "/men/clothings",
         newTab: false,
       },
       {
-        id: 3,
-        title: "Livestock & Animal Products",
+        id: 6,
+        title: "Livestock & Animal",
         path: "/men/clothings",
         newTab: false,
       },
       {
-        id: 3,
-        title: "Processed Farm Products",
+        id: 7,
+        title: "Processed Products",
         path: "/men/clothings",
         newTab: false,
       },
+     
     
     ],
   },
 
   {
     id: 4,
-    title: "Nigerian clothings",
+    title: "Clothings",
     newTab: false,
     submenu: [
       {
@@ -80,9 +81,10 @@ const navData: NavProps[] = [
         path: "/men/clothings",
         newTab: false,
       },
+      
       {
         id: 3,
-        title: "Party Natives",
+        title: "Ankara",
         path: "/women/clothings",
         newTab: false,
       },
@@ -111,9 +113,60 @@ const navData: NavProps[] = [
         path: "/women/shoes",
         newTab: false,
       },
+      {
+        id: 3,
+        title: "Men Natives",
+        path: "/women/clothings",
+        newTab: false,
+      },
+      {
+        id: 3,
+        title: "Women Natives",
+        path: "/women/clothings",
+        newTab: false,
+      },
+ 
      
     
     ],
+  },
+  {
+    id: 4,
+    title: "Shoes",
+    newTab: false,
+    submenu: [
+      {
+        id: 8,
+        title: "Women Shoes",
+        path: "/men/clothings",
+        newTab: false,
+      },
+      {
+        id: 9,
+        title: "Men Shoes",
+        path: "/men/clothings",
+        newTab: false,
+      },
+    ]
+  },
+  {
+    id: 4,
+    title: "Accessories",
+    newTab: false,
+    submenu: [
+      {
+        id: 8,
+        title: "Women Accessories",
+        path: "/men/clothings",
+        newTab: false,
+      },
+      {
+        id: 9,
+        title: "Men Accessories",
+        path: "/men/clothings",
+        newTab: false,
+      },
+    ]
   },
   {
     id: 4,

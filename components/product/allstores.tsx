@@ -21,7 +21,7 @@ const AllStores = ()=>{
   const message = 'Loading bestselling items...'
     return (
         <div id='bestsellers'>
-            <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">All Stores</h2>
+            <h2 className="text-3xl font-bold text-gray-800 pb-8 pt-16 text-center ">Elteema All Stores</h2>
             {Products?.length > 0 ? <AllProductDisplay productArray={Products} />:
             <div>
                 <p>No product to display</p>

@@ -1,18 +1,32 @@
 'use client'
 import AlertForm from "../../../../components/alertComponents/alertForm"
-import {useState, useEffect} from 'react'
+import {useState, useEffect, FormEvent} from 'react'
 
 const SellersPage = () => {
     const [openWarning, setOpenWarning] = useState(false)
+    const [message, setMessage] = useState('Please enter your eamil')
+    const [email, setEmail] = useState('')
 
-    const submit = ()=>{
+    const submit = (e: FormEvent)=>{
+      e.preventDefault()
+      if(!email){
+        setMessage('Please enter email')
+        return
+      }
+      setMessage('Thank you for submitting your email')
+      setOpenWarning(false)
+      setEmail('')
       return null
     }
 
     const body = (<div>
-            <form>
-                <input />
-                <button>Submit</button>
+            <form onSubmit={submit} className="flex flex-col justify-center items-center gap-2">
+                <p>{message}</p>
+                <input 
+                value={email}
+                onChange={(e)=>setEmail(e.target.value)}
+                placeholder="Enter your email" className="pl-2" />
+                <button className="bg-green-600 rounded-2xl px-2 text-white">Submit</button>
             </form>
     </div>)
 

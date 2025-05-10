@@ -12,7 +12,7 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
         <div className="py-8 px-4 sm:px-6 lg:px-8">
             {productArray && productArray.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    {productArray?.slice(0, 4).map((item, index) => (
+                    {productArray?.map((item, index) => (
                         <div 
                             key={index} 
                             className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1 group"
@@ -51,7 +51,7 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
                                     <div >
                                     
                                         {item.category.map((cat, index)=>
-                                        <a key={index} href={`/productcategorypage/${encodeURIComponent(cat)}`} className="bg-green-100 text-green-800 px-4 py-1 rounded-full">
+                                        <a key={index} href={`/categorypage/${encodeURIComponent(cat)}`} className="bg-green-100 text-green-800 px-4 py-1 rounded-full">
                                             {cat}
                                         </a>
                                         )}

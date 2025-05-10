@@ -131,7 +131,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
               <h1 className="text-3xl font-bold text-gray-800 mb-2">{product.name}</h1>
               <div className="flex gap-1"><p>in</p>
               {product?.category?.map((cat, index)=><a className="pr-1 text-green-700"
-              href={`/productcategorypage/${encodeURIComponent(cat)}`}
+              href={`/categorypage/${encodeURIComponent(cat)}`}
                 key={index}>{cat}
                 </a>)}
                 </div>

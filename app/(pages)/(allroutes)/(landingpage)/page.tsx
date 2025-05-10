@@ -6,10 +6,11 @@ import Bestsellers from "../../../../components/product/bestseller";
 import Trending from "../../../../components/product/trending";
 import New from "../../../../components/product/new";
 import CookiePolicy from "../../../../components/cookieAcceptPage";
+import Cart from "../../../../components/cart/cart";
 
 export default function Home() {
   return (
-    <div id='top' className="overflow-hidden min-h-screen">
+    <div id='top' className="">
       
       <Search />
       <Bestsellers />
@@ -17,6 +18,7 @@ export default function Home() {
       <Trending />
       <TestimonialsPage />
       <CookiePolicy />
+      {/* <Cart /> */}
     </div>
   );
 }
