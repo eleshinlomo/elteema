@@ -13,6 +13,7 @@ import { formatCurrency } from '../utils';
 const Cart = () => {
   const {
     cart,
+    setCart,
     totalItems,
     totalPrice,
     removeItem,
@@ -48,7 +49,7 @@ const Cart = () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.body.style.overflow = 'auto';
     };
-  }, [isDrawerOpen]);
+  }, [isDrawerOpen, cart]);
 
   const sendToCheckout = () => {
     if (!totalItems) {
@@ -66,8 +67,12 @@ const Cart = () => {
     }
   };
 
+  useEffect(()=>{
+
+  }, [cart, isLoggedIn, totalItems, totalPrice,])
+
   return (
-    <div className="pr-12 ">
+    <div className="">
       {/* Cart Button */}
       <button
         onClick={() => setDrawerOpen(true)}

@@ -55,7 +55,7 @@ const NavBar = () => {
           <div className="relative -mx-4 flex  items-center">
 
             {/* === Logo === */}
-            <div className="w-60 max-w-full px-4 xl:mr-12">
+            <div className="w-60 max-w-full px-4  xl:mr-12">
               <Link href="/" className={`header-logo block w-full ${sticky ? "py-5 lg:py-2" : "py-8"}`}>
                 <Image
                   src="/images/logos/elteema_logo.png"
@@ -150,17 +150,19 @@ const NavBar = () => {
                   onClick={navbarToggleHandler}
                   id="navbarToggler"
                   aria-label="Mobile Menu"
-                  className="relative flex h-10 w-10 flex-col  rounded-lg bg-white/10 p-2 ring-2 ring-transparent transition-all duration-300 hover:bg-white/20 hover:ring-white/20 focus:outline-none focus:ring-white/30 lg:hidden"
+                  className="relative mx-6 flex h-10 w-10 flex-col  rounded-lg bg-white/10 p-2 ring-2 ring-transparent transition-all duration-300 hover:bg-white/20 hover:ring-white/20 focus:outline-none focus:ring-white/30 lg:hidden"
                 >
                   <span className={`absolute block h-0.5 w-6 bg-current transition-all duration-300 ${navbarOpen ? 'top-1/2 rotate-45' : 'top-3'}`} />
                   <span className={`absolute top-1/2 block h-0.5 w-6 bg-current transition-all duration-300 ${navbarOpen ? 'opacity-0' : ''}`} />
                   <span className={`absolute block h-0.5 w-6 bg-current transition-all duration-300 ${navbarOpen ? 'top-1/2 -rotate-45' : 'bottom-3'}`} />
                 </button>
-               {/* === Cart === */}
-               <Cart />
+            
             </div>
+               
           </div>
         </div>
+        {/* === Cart === */}
+        <Cart />
       </header>
     </div>
   );

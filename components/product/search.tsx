@@ -5,6 +5,8 @@ import { ProductProps } from "../data/productsdata"
 import Hero from '../hero'
 import ProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
+import PurchaseAlert from './purchaseAlert'
+import HotProductFlash from './hotProductFlash'
 
 
 const Search = () => {
@@ -47,49 +49,44 @@ const Search = () => {
     return (
         <div id='search' className="bg-gradient-to-b from-green-50 to-white mt-32 pb-16 ">
             
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              
-                <div className="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-xl shadow-lg mb-12 -mt-12 border border-green-100">
-                    <div className="hidden md:flex space-x-6">
-                        <a href="#new" className="flex items-center text-green-700 hover:text-green-800 font-medium transition-colors duration-300 group">
-                            <Zap className="mr-2 text-green-600 group-hover:animate-pulse h-5 w-5" />
-                            NEW ARRIVALS
-                        </a>
-                        <a href="#bestsellers" className="flex items-center text-green-700 hover:text-green-800 font-medium transition-colors duration-300 group">
-                            <Star className="mr-2 text-amber-500 group-hover:animate-pulse h-5 w-5" />
-                            BESTSELLERS
-                        </a>
+            <div className=" mx-auto px-4 sm:px-6 lg:px-8">
+                
+                
+                <div className="container flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-xl shadow-lg mb-12 -mt-12 border border-green-100">
+                   
+                   
+                    <div className="">
+                     {/* Purchase Alert */}
+                        <PurchaseAlert />
                     </div>
                     
-                    <div className="w-full md:w-1/2 mx-4 my-4 md:my-0 relative">
+                    <div className="flex-1 mx-4 my-4 md:my-0 relative min-w-0">
                           {/* Search Bar Section */}
                           <div className={`relative transition-all duration-300 ${isFocused ? 'ring-4 ring-green-200 rounded-full z-30' : ''}`}>
-                            <input
-                                value={itemToSearch}
-                                onChange={handleChange}
-                                onFocus={() => setIsFocused(true)}
-                                onBlur={() => setIsFocused(false)}
-                                placeholder="Search African products..."
-                                className="w-full px-4 py-2 border border-green-600  rounded-full "
-                            />
-                            <SearchIcon className="absolute right-6 top-1/2 transform -translate-y-1/2 text-green-500 h-6 w-6" />
-                        </div>
-                        <div className="flex justify-center mt-3">
-                            <a href='sellerspage'><button className="flex items-center rounded-full bg-gradient-to-r from-green-600 to-green-800 text-white px-6 py-2 shadow-md hover:shadow-lg transition-all hover:scale-105">
-                                <ShoppingBag className="mr-2 h-5 w-5" />
-                                SELL ON ELTEEMA
-                            </button>
-                            </a>
-                        </div>
-                        
-                    </div>
-                    
-                    <div className="hidden md:flex">
-                        <a href="#categories" className="flex items-center text-green-700 hover:text-green-800 font-medium transition-colors duration-300">
-                            <ListTree className="mr-2 h-5 w-5" />
-                            SHOP CATEGORIES
-                        </a>
-                    </div>
+            <input
+                value={itemToSearch}
+                onChange={handleChange}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                placeholder="Search African products..."
+                className="w-full px-4 py-2 border border-green-600 rounded-full"
+            />
+            <SearchIcon className="absolute right-6 top-1/2 transform -translate-y-1/2 text-green-500 h-6 w-6" />
+        </div>
+        <div className="flex justify-center mt-3">
+            <a href='sellerspage'>
+                <button className="flex items-center rounded-full bg-gradient-to-r from-green-600 to-green-800 text-white px-6 py-2 shadow-md hover:shadow-lg transition-all hover:scale-105">
+                    <ShoppingBag className="mr-2 h-5 w-5" />
+                    SELL ON ELTEEMA
+                </button>
+            </a>
+        </div>
+    </div>
+    
+    {/* HotProductFlash - Add fixed width */}
+    <div className=" w-1/4 min-w-[200px] text-center">
+        <HotProductFlash />
+    </div>
                 </div>
                 
                 {/* Results Section */}

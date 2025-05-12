@@ -64,11 +64,11 @@ export const fetchCart = (user: UserProps)=>{
         if(userString){
             let stringifiedUser = JSON.parse(userString)
             
-            return stringifiedUser.cart || []
+            return stringifiedUser.cart
         }
 
     }
-    return []
+    return 
 }
 
 export const searchSingleProduct = (item: string, originalItems: any[])=>{

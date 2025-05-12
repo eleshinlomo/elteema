@@ -1,17 +1,15 @@
 
 
 
-// import pepperoni from '@/public/images/products/pepperoni.jpg'
-
-// export interface CategoryProps {
-//    men: string;
-//    women: string;
-//    bestseller: string;
-//    new: string;
-//    trending: string;
-   
-
-// }
+export const categoryWithSize = [
+    'women shoes',
+    'men clothings', 
+    'agbada', 
+    'men natives', 
+    'women clothings',
+     'women natives', 
+     'women ankara',
+               ]
 
 export interface ProductProps {
     id: number;

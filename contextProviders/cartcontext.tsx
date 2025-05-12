@@ -18,6 +18,7 @@ interface CartContextProps {
     addToCart: (targetId: number) => void;
     removeItem: (targetId: number) => void;
     totalItems: number;
+    setCart: (value: [])=>void;
     setTotalItems: (value: number)=>void;
     totalPrice: number;
     setTotalPrice: (value: number)=>void;
@@ -31,6 +32,7 @@ const defaultValues: CartContextProps = {
     handleQuantityDecrease: () => {},
     setTotalItems: ()=>{},
     setTotalPrice: ()=>{},
+    setCart: ()=>{},
     addToCart: () => {},
     removeItem: () => {},
     totalItems: 0,
@@ -64,7 +66,7 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
       }
       useEffect(()=>{
         getCart()
-      }, [isAdded, totalItems, totalPrice, quantity])
+      }, [isAdded, totalItems, totalPrice, quantity, user])
 
 
       const handleGetProducts = async()=>{
@@ -162,6 +164,7 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
 
     const value: CartContextProps = {
         cart,
+        setCart,
         totalItems,
         setTotalItems,
         addToCart,

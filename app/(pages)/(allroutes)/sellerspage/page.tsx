@@ -6,14 +6,16 @@ const SellersPage = () => {
     const [openWarning, setOpenWarning] = useState(false)
     const [message, setMessage] = useState('Please enter your eamil')
     const [email, setEmail] = useState('')
+    const [btnText, setBtnText] = useState('Notify Me When Registration Opens')
 
     const submit = (e: FormEvent)=>{
       e.preventDefault()
+      setMessage('')
       if(!email){
         setMessage('Please enter email')
         return
       }
-      setMessage('Thank you for submitting your email')
+      setBtnText('Thank you for submitting your email')
       setOpenWarning(false)
       setEmail('')
       return null
@@ -23,7 +25,9 @@ const SellersPage = () => {
             <form onSubmit={submit} className="flex flex-col justify-center items-center gap-2">
                 <p>{message}</p>
                 <input 
+                type='email'
                 value={email}
+                required
                 onChange={(e)=>setEmail(e.target.value)}
                 placeholder="Enter your email" className="pl-2" />
                 <button className="bg-green-600 rounded-2xl px-2 text-white">Submit</button>
@@ -50,7 +54,7 @@ const SellersPage = () => {
                             Registration opens on <span className="font-bold">June 1st, 2025</span>. Stay tuned for updates!
                         </p>
                     </div>
-                    <AlertForm body={body}  openWarning={openWarning} setOpenWarning={setOpenWarning} btnText='Notify Me When Registration Opens' />
+                    <AlertForm body={body}  openWarning={openWarning} setOpenWarning={setOpenWarning} btnText={btnText} />
                   
                 </div>
             </div>

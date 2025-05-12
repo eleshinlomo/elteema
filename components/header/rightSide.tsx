@@ -5,28 +5,37 @@ import { logout } from "../auth";
 import { GeneralContext, GeneralContextInitialProps } from "../../contextProviders/GeneralProvider";
 import {useRouter} from 'next/navigation'
 import Cart from "../cart/cart";
+import { CartContext } from "../../contextProviders/cartcontext";
+import { fetchCart } from "../utils";
 
 
 
 
 const NavRightSide = ()=>{
-
+  const cartContext = useContext(CartContext)
+  const {cart, setCart, totalItems, totalPrice, setTotalItems, setTotalPrice} = cartContext
   const generalContext = useContext(GeneralContext)
   const {isLoggedIn, setIsLoggedIn, user}: GeneralContextInitialProps = generalContext
   
   const router = useRouter()
  
-  useEffect(()=>{
-
-
-}, [isLoggedIn])
+  
 
 const handleLogout = async ()=>{
   setIsLoggedIn(false)
   const response = await logout(user?.email)
   console.log(response)
+  const newCart = fetchCart(user)
+  setCart(newCart)
+  setTotalItems(0)
+  setTotalPrice(0)
   router.push('/authpages/signin')
 }
+
+useEffect(()=>{
+
+
+}, [isLoggedIn, user, cart, totalItems, totalPrice])
 
     return (
         <div>
