@@ -13,7 +13,7 @@ const Bestsellers = ()=>{
  const {Products} = cartContext
 
  const getBestsellers  = ()=>{
-    const bestSellerItems: ProductProps[] = Products.filter((item)=>item.category.some((cat)=>cat === 'bestseller'))
+    const bestSellerItems: ProductProps[] = Products.filter((item)=>item.category?.some((cat)=>cat === 'bestseller'))
     if(bestSellerItems.length > 0){
         setBestsellers(bestSellerItems)
     }

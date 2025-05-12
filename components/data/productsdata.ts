@@ -1,6 +1,6 @@
 
 
-
+// This array is just for checking if item needs size to be displayed
 export const categoryWithSize = [
     'women shoes',
     'men clothings', 
@@ -21,10 +21,12 @@ export interface ProductProps {
     totalVotes: number;
     numOfItemsSold: number;
     isAdded: boolean;
+    size: string;
+    orderStatus: string[];
     category: string[];
     description: string;
-    stock: number,
-    productPageVisits: number
+    stock: number;
+    productPageVisits: number;
 }
 
 

@@ -7,6 +7,7 @@ import { GeneralContext } from "../../../../contextProviders/GeneralProvider";
 const ContactPage = () => {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('We will get back to you as soon as possible')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -52,6 +53,8 @@ const ContactPage = () => {
     if(data.ok){
       console.log(data)
       setIsSubmitting(false)
+      setError('')
+      setSuccess(data.message)
       setName('')
       setEmail('')
       setMessage('')
@@ -88,7 +91,7 @@ const ContactPage = () => {
               {error ? 'Oops! Something went wrong' : 'Send us a message'}
             </h2>
             <p className="mt-2 text-green-100">
-              {error || "We'll get back to you as soon as possible"}
+              {error || success}
             </p>
           </div>
 

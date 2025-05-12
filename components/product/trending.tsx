@@ -16,7 +16,7 @@ const Trending = ()=>{
 
     useEffect(()=>{
     if(Products && Products.length > 0){
-      const items: any = Products.filter((item)=>item.category.includes('trending'))
+      const items: any = Products.filter((item)=>item.category?.includes('trending'))
       setTrendingItems(items)
     }
     }, [Products])
