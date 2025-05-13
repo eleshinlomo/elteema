@@ -1,9 +1,11 @@
 'use client';
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import Link from "next/link";
 import { register } from "../../../../../components/auth";
 import Image from "next/image";
+import LoadingState from "../../../../../components/LoadingState";
+import { GeneralContext } from "../../../../../contextProviders/GeneralProvider";
 
 const SignupPage = () => {
   const [username, setUsername] = useState<string>('');
@@ -11,10 +13,13 @@ const SignupPage = () => {
   const [error, setError] = useState<string>('');
   const [message, setMessage] = useState<string>('It is totally free and super fast');
   const [termsChecked, setTermsChecked] = useState<boolean>(false);
+  const generalContext = useContext(GeneralContext)
+  const {isLoading, setIsLoading} = generalContext
 
   const handleRegister = async (e: FormEvent) => {
+    try{
     e.preventDefault();
-    
+    setIsLoading(true)
     if (!username) {
       setError('Please provide a username');
       return;
@@ -40,6 +45,11 @@ const SignupPage = () => {
     } else {
       setError(response.error);
     }
+  }catch(err){
+    console.log(err)
+  }finally{
+    setIsLoading(false)
+  }
   };
 
   return (
@@ -144,6 +154,7 @@ const SignupPage = () => {
                     className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
                   >
                     Sign Up
+                    {isLoading ? <LoadingState /> : null}
                   </button>
                 </form>
 

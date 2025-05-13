@@ -144,8 +144,8 @@ const Cart = () => {
                   </div>
                 </div>
                 <div className="flex justify-between items-center mt-2">
-                  <p className="text-red-500 font-medium">
-                    {formatCurrency('NGN', item.price * item.quantity)}
+                  <p className="text-green-800 font-medium">
+                    {formatCurrency('NGN', item.price )}
                   </p>
                   <button
                     onClick={() => removeItem(item.id)}

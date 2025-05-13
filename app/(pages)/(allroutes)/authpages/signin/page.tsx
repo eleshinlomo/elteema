@@ -5,6 +5,7 @@ import { useState, useEffect, FormEvent, useContext } from 'react';
 import { login } from "../../../../../components/auth";
 import ReactMarkdown from 'react-markdown';
 import { GeneralContext } from "../../../../../contextProviders/GeneralProvider";
+import LoadingState from "../../../../../components/LoadingState";
 
 
 const SigninPage = () => {
@@ -13,19 +14,36 @@ const SigninPage = () => {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('Login to your account for a faster checkout.');
   const generalContextContext = useContext(GeneralContext);
-  const { isLoggedIn } = generalContextContext;
+  const { isLoading, setIsLoading} = generalContextContext;
 
   const handleLogin = async (e: FormEvent) => {
-    setError('');
+    try{
     e.preventDefault();
+    setIsLoading(true)
+    setError('');
+    if(!email){
+      setError('Please input email')
+      return
+    }
     const response: any = await login(email);
+    if(!response) {
+      setError('No response from server')
+      return
+    }
     
     if (response.ok) {
       setMessage(response.message);
       setEmail('');
     } else {
-      setError(response.error);
+      console.log(response.error)
+      setError('Error response');
     }
+  }catch(err){
+    setError('Something went wrong');
+    console.log(err)
+  }finally{
+    setIsLoading(false)
+  }
   };
 
   // useEffect(() => {
@@ -102,6 +120,7 @@ const SigninPage = () => {
                     className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
                   >
                     Get Magic Link
+                    {isLoading ? <LoadingState /> : null}
                   </button>
                 </form>
 

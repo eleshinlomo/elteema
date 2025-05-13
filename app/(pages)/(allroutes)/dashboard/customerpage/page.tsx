@@ -11,6 +11,12 @@ const CustomerDashboard = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
+  const [location, setLocation] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [address, setAddress] = useState('')
   const generalContext = useContext(GeneralContext)
   const {user, setUser} = generalContext
   
@@ -25,10 +31,19 @@ const CustomerDashboard = () => {
   // };
   
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    // alert('Profile updated successfully!');
+    const payload = {
+      firstname,
+      lastname,
+      email,
+      phone,
+      address,
+      location
+    }
+
+    console.log('PAYLOAD', payload)
+    return
   };
 
   const handleDeleteAccount = () => {
@@ -104,12 +119,24 @@ const CustomerDashboard = () => {
               <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Firstname</label>
                     <input
                       type="text"
-                      name="name"
-                      value={user?.name}
-                      // onChange={(e)=>setName}
+                      name="firstname"
+                      value={user?.firstname || firstname}
+                      onChange={(e)=>setFirstname(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
+                      focus:border-emerald-500 transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Lastname</label>
+                    <input
+                      type="text"
+                      name="Lastname"
+                      value={user?.firstname || lastname}
+                      onChange={(e)=>setLastname(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                     />
@@ -120,8 +147,8 @@ const CustomerDashboard = () => {
                     <input
                       type="email"
                       name="email"
-                      value={user?.email}
-                      // onChange={handleInputChange}
+                      value={email || user.email}
+                      onChange={(e)=>setEmail(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500
                        focus:border-emerald-500 transition"
                     />
@@ -132,8 +159,8 @@ const CustomerDashboard = () => {
                     <input
                       type="tel"
                       name="phone"
-                      value={user?.phone}
-                      // onChange={handleInputChange}
+                      value={user?.phone || phone}
+                      onChange={(e)=>setPhone(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                     />
@@ -144,11 +171,32 @@ const CustomerDashboard = () => {
                     <input
                       type="text"
                       name="address"
-                      value={user?.address}
-                      // onChange={handleInputChange}
+                      value={user?.address || address}
+                      onChange={(e)=>setAddress(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                    <select
+                      name="location"
+                      value={user?.location || location}
+                      onChange={(e)=>setLocation(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
+                      focus:border-emerald-500 transition"
+                    >
+                      <option value='ikorodu'>Ikorodu</option>
+                      <option value='yaba'>Yaba</option>
+                      <option value='lekki'>Lekki</option>
+                      <option value='ajah'>Ajah</option>
+                      <option value='iyana ipaja'>Iyana Ipaja</option>
+                      <option value='victoria island'>Victoria Island</option>
+                      <option value='lagos island'>Lagos Island</option>
+                      <option value='surulere'>Surulere</option>
+                      <option value='ketu'>Ketu</option>
+                    </select>
                   </div>
                   
                   <div className="md:col-span-2">
@@ -170,6 +218,7 @@ const CustomerDashboard = () => {
                 <div className="mt-8 flex justify-end">
                   <button
                     type="submit"
+                    onClick={handleSubmit}
                     className="px-6 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 
                     focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition"
                   >

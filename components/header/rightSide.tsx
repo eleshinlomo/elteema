@@ -45,8 +45,8 @@ useEffect(()=>{
 {/* IsLogged in*/}
 { isLoggedIn && user ? 
 
-<div className="flex flex-col md:flex-row md:mt-4  gap-4 ">
-<a href={`/dashboard/` + user.type}><button className="mt-2">Dashboard</button></a>
+<div className=" md:mt-4  gap-4 ">
+
 <button
   className="md:mt-3 ease-in-up shadow-btn hover:shadow-btn-hover  rounded-2xl bg-green-600 hover:bg-green-600
   px-6 py-1  text-base font-medium text-white transition duration-300 hover:bg-opacity-90 

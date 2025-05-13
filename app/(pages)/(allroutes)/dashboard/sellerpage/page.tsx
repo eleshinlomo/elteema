@@ -1,5 +1,5 @@
 'use client'
-import AlertForm from "../../../../components/alertComponents/alertForm"
+import AlertForm from "../../../../../components/alertComponents/alertForm"
 import {useState, useEffect, FormEvent} from 'react'
 
 const SellersPage = () => {

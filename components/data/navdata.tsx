@@ -175,26 +175,38 @@ const navData: NavProps[] = [
     submenu: [
       {
         id: 1,
+        title: "Customer Dashboard",
+        path: "/dashboard/customerpage",
+        newTab: false,
+      },
+      {
+        id: 2,
         title: "Faq",
         path: "/faq",
         newTab: false,
       },
       {
-        id: 2,
+        id: 3,
         title: "Allstores",
         path: "/allstorespage",
         newTab: false,
       },
       {
-        id: 3,
+        id: 4,
         title: "Contact",
         path: "/contactpage",
         newTab: false,
       },
       {
-        id: 3,
+        id: 1,
+        title: "Seller Dashboard",
+        path: "/dashboard/sellerpage",
+        newTab: false,
+      },
+      {
+        id: 5,
         title: "Sell on Elteema",
-        path: `/sellerspage`,
+        path: `/dashboard/sellerpage`,
         newTab: false,
       },
      
