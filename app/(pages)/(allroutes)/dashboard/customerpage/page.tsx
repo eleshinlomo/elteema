@@ -2,12 +2,15 @@
 import { useState, FormEvent, useEffect, useContext} from 'react';
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider';
 import { UserProps } from '../../../../../components/data/userdata';
+import { BotIcon, Edit, File, FolderClosed, InfoIcon, ShieldClose } from 'lucide-react';
+import { locations } from '../../../../../components/data/locations';
 
 
 const CustomerDashboard = () => {
  
   
   const [currentPassword, setCurrentPassword] = useState('');
+  const [error, setError] = useState('')
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -17,8 +20,11 @@ const CustomerDashboard = () => {
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
+  const [isEditing, setIsEditing] = useState(false)
+  const [isNewsletter, setIsNewsLetter] = useState(true)
   const generalContext = useContext(GeneralContext)
   const {user, setUser} = generalContext
+  
   
 
 
@@ -30,10 +36,13 @@ const CustomerDashboard = () => {
   //   }));
   // };
   
+   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-  const handleSubmit = (e: FormEvent) => {
+  const updateUser = async (e: FormEvent) => {
     e.preventDefault();
     const payload = {
+      id: user.id,
+      username: user.username,
       firstname,
       lastname,
       email,
@@ -43,8 +52,27 @@ const CustomerDashboard = () => {
     }
 
     console.log('PAYLOAD', payload)
+    const response = await fetch(`${BASE_URL}/users/updateuser`, {
+      mode: 'cors',
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    })
+    if(!response) {
+      console.log('No response from server')
+      setError('No response from server')
+    }
+
+    const data = await response.json()
+    console.log('Updated User', data)
+    setUser(data)
+
     return
   };
+
+  useEffect(()=>{
+    
+  }, [user])
 
   const handleDeleteAccount = () => {
     // Handle account deletion
@@ -67,7 +95,7 @@ const CustomerDashboard = () => {
                     {user && user?.name?.charAt(0)}
                   </span>
                 </div>
-                <h2 className="text-xl font-semibold text-gray-800">{user?.name}</h2>
+                <h2 className="text-xl font-semibold text-gray-800">Hi {user?.username}</h2>
                 <p className="text-gray-500">{user?.email}</p>
               </div>
               
@@ -104,26 +132,25 @@ const CustomerDashboard = () => {
           </div>
           
           {/* Main Content */}
+          
           <div className="lg:col-span-2 space-y-8">
             {/* Profile Information Card */}
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold text-gray-800">Profile Information</h2>
-                <button className="text-emerald-600 hover:text-emerald-800">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
+                <h2 className="text-xl font-semibold text-gray-800">{error || 'Profile Information'}</h2>
+                <button className="text-emerald-600 hover:text-emerald-800" onClick={()=>setIsEditing(!isEditing)}>
+                  {isEditing ?<ShieldClose className='w-6 h-6' /> : <Edit />}
                 </button>
               </div>
               
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={updateUser}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Firstname</label>
                     <input
                       type="text"
                       name="firstname"
-                      value={user?.firstname || firstname}
+                      value={isEditing ? firstname : user?.firstname}
                       onChange={(e)=>setFirstname(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
@@ -135,7 +162,7 @@ const CustomerDashboard = () => {
                     <input
                       type="text"
                       name="Lastname"
-                      value={user?.firstname || lastname}
+                      value={isEditing ? lastname : user?.firstname}
                       onChange={(e)=>setLastname(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
@@ -147,7 +174,7 @@ const CustomerDashboard = () => {
                     <input
                       type="email"
                       name="email"
-                      value={email || user.email}
+                      value={isEditing ? email : user?.email}
                       onChange={(e)=>setEmail(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500
                        focus:border-emerald-500 transition"
@@ -159,7 +186,7 @@ const CustomerDashboard = () => {
                     <input
                       type="tel"
                       name="phone"
-                      value={user?.phone || phone}
+                      value={isEditing ? phone : user?.phone}
                       onChange={(e)=>setPhone(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
@@ -171,7 +198,7 @@ const CustomerDashboard = () => {
                     <input
                       type="text"
                       name="address"
-                      value={user?.address || address}
+                      value={isEditing ? address : user?.address}
                       onChange={(e)=>setAddress(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
@@ -182,20 +209,13 @@ const CustomerDashboard = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
                     <select
                       name="location"
-                      value={user?.location || location}
+                      value={isEditing ? location : user?.location}
                       onChange={(e)=>setLocation(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                     >
-                      <option value='ikorodu'>Ikorodu</option>
-                      <option value='yaba'>Yaba</option>
-                      <option value='lekki'>Lekki</option>
-                      <option value='ajah'>Ajah</option>
-                      <option value='iyana ipaja'>Iyana Ipaja</option>
-                      <option value='victoria island'>Victoria Island</option>
-                      <option value='lagos island'>Lagos Island</option>
-                      <option value='surulere'>Surulere</option>
-                      <option value='ketu'>Ketu</option>
+                      {user?.location ? <option>{user?.location?.name}</option> : null}
+                     {locations?.map((location, index)=><option key={index}>{location.name}</option>)}
                     </select>
                   </div>
                   
@@ -204,8 +224,8 @@ const CustomerDashboard = () => {
                       <input
                         type="checkbox"
                         name="newsletter"
-                        checked={user?.newsletter}
-                        // onChange={handleInputChange}
+                        checked={isNewsletter ||  user?.isNewsletter}
+                        onChange={(e)=>setIsNewsLetter(!isNewsletter)}
                         className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
                       />
                       <label className="ml-2 block text-sm text-gray-700">
@@ -218,7 +238,6 @@ const CustomerDashboard = () => {
                 <div className="mt-8 flex justify-end">
                   <button
                     type="submit"
-                    onClick={handleSubmit}
                     className="px-6 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 
                     focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition"
                   >

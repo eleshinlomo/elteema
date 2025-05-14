@@ -2,10 +2,10 @@
 
 import { FormEvent, useContext, useState } from "react";
 import Link from "next/link";
-import { register } from "../../../../../components/auth";
 import Image from "next/image";
 import LoadingState from "../../../../../components/LoadingState";
 import { GeneralContext } from "../../../../../contextProviders/GeneralProvider";
+import { register } from "../../../../../components/api/users";
 
 const SignupPage = () => {
   const [username, setUsername] = useState<string>('');

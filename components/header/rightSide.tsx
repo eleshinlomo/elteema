@@ -1,7 +1,7 @@
 'use client'
 import {useState, useEffect, useContext} from "react"
 import Link from "next/link"
-import { logout } from "../auth";
+import { logout } from "../api/auth";
 import { GeneralContext, GeneralContextInitialProps } from "../../contextProviders/GeneralProvider";
 import {useRouter} from 'next/navigation'
 import Cart from "../cart/cart";

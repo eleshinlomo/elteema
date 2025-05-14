@@ -1,35 +1,11 @@
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-interface RegisterProps {
-  email: string;
-  username: string;
-}
-export const register = async ({email, username} : RegisterProps)=>{
-  const payload = {
-    email,
-    username
-  }
- try{
-  const response = await fetch(`${BASE_URL}/register`, {
-   mode: 'cors',
-   method: 'POST',
-   headers: {"Content-Type": "application/json"},
-   body: JSON.stringify(payload)
-  })
 
-  if(!response) return 'No response from server'
-   const data = await response.json()
-   return data
-}catch(err){
-    console.error(err)
-    return err
-}
-}
 
 
 export const login = async (email: string)=>{
    try{
-   const response = await fetch(`${BASE_URL}/login`, {
+   const response = await fetch(`${BASE_URL}/auth/login`, {
     method: 'POST',
     mode: 'cors',
     headers: {"Content-Type": 'application/json'},
@@ -51,7 +27,7 @@ export const verifyCode = async (authCode: string, authEmail: string)=>{
   return 'authCode and authEmail not found'
 }
   const payload = {authCode, authEmail}
-  const response = await fetch(`${BASE_URL}/verifycode`, {
+  const response = await fetch(`${BASE_URL}/auth/verifycode`, {
       method: 'POST',
       mode: 'cors',
       headers: {'Content-Type': 'application/json'},
@@ -77,7 +53,7 @@ export const logout = async (email: string)=>{
   if(window !== null){
     localStorage.removeItem('ptlgUser')
   }
-  const response: any = await fetch(`${BASE_URL}/logout`, {
+  const response: any = await fetch(`${BASE_URL}/auth/logout`, {
     method: 'POST',
     mode: 'cors',
     headers: {"Content-Type": "application/json"},

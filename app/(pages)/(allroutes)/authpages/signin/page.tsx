@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect, FormEvent, useContext } from 'react';
-import { login } from "../../../../../components/auth";
+import { login } from "../../../../../components/api/auth";
 import ReactMarkdown from 'react-markdown';
 import { GeneralContext } from "../../../../../contextProviders/GeneralProvider";
 import LoadingState from "../../../../../components/LoadingState";
@@ -36,7 +36,7 @@ const SigninPage = () => {
       setEmail('');
     } else {
       console.log(response.error)
-      setError('Error response');
+      setError(response.error);
     }
   }catch(err){
     setError('Something went wrong');
