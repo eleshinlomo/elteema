@@ -12,11 +12,10 @@ import Cart from "../cart/cart";
 
 const NavBar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const [sticky, setSticky] = useState(false);
   const [openIndex, setOpenIndex] = useState(-1);
 
   const generalContext = useContext(GeneralContext);
-  const { isLoggedIn, setIsLoggedIn, user }: GeneralContextInitialProps = generalContext;
+  const { isLoggedIn, setIsLoggedIn, user, sticky, setSticky }: GeneralContextInitialProps = generalContext;
 
   const pathName = usePathname();
 

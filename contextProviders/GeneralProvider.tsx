@@ -8,6 +8,8 @@ interface GeneralProps {
 export interface GeneralContextInitialProps {
     isLoggedIn: boolean,
     isLoading: boolean;
+    sticky: boolean;
+    setSticky: (value: boolean)=> void;
     setIsLoading: (value: boolean)=> void;
     setIsLoggedIn: (value: boolean)=> void;
     user: any | null;
@@ -15,6 +17,8 @@ export interface GeneralContextInitialProps {
 
 }
 const initialValues : GeneralContextInitialProps = {
+  sticky: false,
+  setSticky: ()=>{},
   isLoggedIn: false,
   setIsLoggedIn: ()=>{},
   isLoading: false,
@@ -30,10 +34,13 @@ export const GeneralProvider = ({children}: GeneralProps)=>{
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
     const [user, setUser] = useState<any | null>(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [sticky, setSticky] = useState(false);
 
     
 
 const values : GeneralContextInitialProps = {
+    sticky,
+    setSticky,
     isLoggedIn,
     setIsLoggedIn,
     isLoading,
