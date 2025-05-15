@@ -25,12 +25,12 @@ const AboutPage = () => {
               heritage and agricultural bounty to the global market.
             </p>
             <p className="text-gray-700 mb-4">
-              Our name "Elteema" reflects our mission - "Elevating Traditional Excellence to Modern Audiences". 
+              Our name Elteema reflects our mission towards elevating traditional excellence to Modern Audiences. 
               We bridge the gap between talented Nigerian artisans, farmers, and conscious consumers worldwide.
             </p>
             <div className="bg-green-100 p-6 rounded-lg border-l-4 border-green-500">
               <p className="text-green-800 italic">
-                "From the looms of Aba to the farms of Ogun State, we bring authentic Nigerian quality to your doorstep."
+                From the looms of Aba to the farms of Ogun State, we bring authentic Nigerian quality to your doorstep.
               </p>
             </div>
           </div>
