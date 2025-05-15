@@ -24,7 +24,7 @@ const AllStores = ()=>{
             <h2 className="text-3xl font-bold text-gray-800 pb-8 pt-16 text-center ">Elteema All Stores</h2>
             {Products?.length > 0 ? <AllProductDisplay productArray={Products} />:
             <div>
-                <p>No product to display</p>
+                <p className='text-center text-xl'>No product to display</p>
             </div>
             }
         

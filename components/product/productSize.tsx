@@ -1,5 +1,6 @@
 'use client'
-import {ChangeEvent, useState} from 'react'
+import {ChangeEvent, useState, useContext, useEffect} from 'react'
+import { GeneralContext } from '../../contextProviders/GeneralProvider';
 
 interface ProductSizeProps {
     size: string;
@@ -8,14 +9,18 @@ interface ProductSizeProps {
 
 
 const ProductSize = ({setSize, size}: ProductSizeProps)=> {
+ 
+    const {user}= useContext(GeneralContext)
 
-    
+    useEffect(()=>{
+
+    }, [user])
 
     return (
 
         <div className='md:flex gap-4 mb-3'>
             <select onChange={(e: React.ChangeEvent<HTMLSelectElement>)=>setSize(e.target.value)}>
-                <option>Choose your size</option>
+                <option>No size</option>
                 <option value="S">S</option>
                 <option value="M">M</option>
                 <option value="L">L</option>
@@ -23,7 +28,7 @@ const ProductSize = ({setSize, size}: ProductSizeProps)=> {
                 <option value="XXL">XXL</option>
             </select>
 
-            {size && <p className='py-2'>You chose <span className='font-extrabold text-green-600'>{size}</span> size.</p>}
+            <p className='py-2'>{user?.size ? `You chose ${user.size} size.` : 'Choose your size'}</p>
         </div>
     )
 }

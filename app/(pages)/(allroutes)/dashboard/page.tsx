@@ -5,6 +5,11 @@ const DashboardPage = ()=>{
 
         <div>
             Welcome to dashboard page
+            
+            <div>
+            <button>Settings</button>
+            <button>Settings</button>
+            </div>
         </div>
     )
 }

@@ -2,6 +2,9 @@
 import { useContext, useState, useEffect } from "react"
 import { CartContext } from "../../contextProviders/cartcontext"
 import { ProductProps } from "../data/productsdata"
+import { GeneralContext } from "../../contextProviders/GeneralProvider";
+import { saveUser } from "../data/userdata";
+import { saveCart } from "../utils";
 
 interface AddToCartBtnProps {
     targetid: number,
@@ -14,20 +17,26 @@ const AddToCartButton = ({ targetid, size }: AddToCartBtnProps) => {
     const [color, setColor] = useState('black')
     const [isAdded, setIsAdded] = useState<boolean>(false)
     const [isAnimating, setIsAnimating] = useState(false)
-    const cartContext = useContext(CartContext)
-    const { addToCart, cart } = cartContext
+    const { addToCart, cart } = useContext(CartContext)
+    const {user} = useContext(GeneralContext)
+     
+
+    
+   
 
     const handleAddToCart = () => {
         setIsAnimating(true)
-        if(!size){
+         if(!size){
             setError('Please choose a size')
             return
         }
+        const updatedCart = {...cart, size: size}
+        saveCart(updatedCart, user)
+        setError('')
         addToCart(targetid)
+        
         const isProductInCart = cart?.find((item) => item.isAdded)
-        // if (isProductInCart) {
-        //     setIsAdded(isProductInCart)
-        // }
+        
         setTimeout(() => setIsAnimating(false), 1000)
     }
 
@@ -40,11 +49,15 @@ const AddToCartButton = ({ targetid, size }: AddToCartBtnProps) => {
         } else {
             setButtonText('Add To Cart')
         }
-    }, [isAdded, cart, error])
+
+        if(size){
+            setError('')
+        }
+    }, [isAdded, cart, error, size, user, targetid])
 
     return (
         <div>
-            
+           
         <button
             onClick={handleAddToCart}
             className={`

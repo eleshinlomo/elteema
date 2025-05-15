@@ -21,7 +21,7 @@ const Cart = () => {
     handleQuantityDecrease,
   } = useContext(CartContext);
 
-  const { isLoggedIn } = useContext(GeneralContext);
+  const { isLoggedIn, sticky } = useContext(GeneralContext);
   const router = useRouter();
 
   const [message, setMessage] = useState('You have nothing in your cart.');
