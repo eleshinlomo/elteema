@@ -3,22 +3,26 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { getProductData} from "../components/data/productsdata";
 import { ProductProps } from "../components/data/productsdata";
-import {  fetchCart, saveCart } from "../components/utils";
+import {  fetchCart, updateCart, updateProductSize } from "../components/utils";
 import { GeneralContext } from "./GeneralProvider";
 
-
-interface CartProps {
-    children: React.ReactNode;
+interface ContextProps {
+  children: React.ReactNode,
 }
 
-interface CartContextProps {
-    cart: ProductProps[];
+export interface CartProps extends ProductProps {
+    size: string;
+}
+
+interface ContextDefaultProps {
+    
+    cart: CartProps[];
+    setCart: (value: CartProps[])=>void;
     handleQuantityIncrease: (targetId: number) => void;
     handleQuantityDecrease: (targetId: number) => void;
-    addToCart: (targetId: number) => void;
+    addToCart: (targetId: number, cart: CartProps[], size: string) => void;
     removeItem: (targetId: number) => void;
     totalItems: number;
-    setCart: (value: [])=>void;
     setTotalItems: (value: number)=>void;
     totalPrice: number;
     setTotalPrice: (value: number)=>void;
@@ -26,7 +30,7 @@ interface CartContextProps {
     Products: ProductProps[];
 }
 
-const defaultValues: CartContextProps = {
+const defaultValues: ContextDefaultProps = {
     cart: [],
     handleQuantityIncrease: () => {},
     handleQuantityDecrease: () => {},
@@ -41,12 +45,12 @@ const defaultValues: CartContextProps = {
     Products: []
 };
 
-export const CartContext = createContext<CartContextProps>(defaultValues);
+export const CartContext = createContext<ContextDefaultProps>(defaultValues);
 
-export const CartProvider: React.FC<CartProps> = ({ children }) => {
+export const CartProvider = ({ children }: ContextProps) => {
 
     const [totalPrice, setTotalPrice] = useState<number>(0);
-    const [cart, setCart] = useState<ProductProps[]>([]);
+    const [cart, setCart] = useState<CartProps[]>([]);
     const [totalItems, setTotalItems] = useState<number>(0);
     const [isAdded, setIsAdded] = useState<boolean>(false);
     const [quantity, setQuantity] = useState<number>(0);
@@ -55,24 +59,29 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
     const {user, setUser} = generalContext
 
      // This we use to set saved Cart values and also update whenever new item is added to the cart
-      const getCart = ()=>{
-        const updatedCart: ProductProps[] = fetchCart(user)
-        if(updatedCart){
-        setCart(updatedCart)
-        setTotalItems(updatedCart?.reduce((sum, item)=> sum + item.quantity, 0))
-        setTotalPrice(updatedCart?.reduce((sum, item)=> sum + item.price * item.quantity, 0))
+      const handleFetchCart = ()=>{
+        const existingCart: CartProps[] = fetchCart()
+        if(existingCart && existingCart.length > 0){
+        setCart(existingCart)
+        console.log('CART', cart)
+        setTotalItems(existingCart?.reduce((sum, item)=> sum + item?.quantity, 0))
+        setTotalPrice(existingCart?.reduce((sum, item)=> sum + item?.price * item?.quantity, 0))
+         
+       
         }
         
       }
       useEffect(()=>{
-        getCart()
-      }, [isAdded, totalItems, totalPrice, quantity, user])
+        handleFetchCart()
+      }, [])
+
+
+
 
 
       const handleGetProducts = async()=>{
         const products = await getProductData()
         if(products){
-            console.log('Product', products.products)
             setProducts(products.products)
         }
       }
@@ -86,11 +95,11 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
     const handleQuantityIncrease = (targetId: number) => {
         setCart(prevCart => {
             const updatedCart = prevCart.map(item =>
-                item.id === targetId ? { ...item, quantity: item.quantity + 1 } : item
+                item.id === targetId ? { ...item, quantity: item?.quantity + 1 } : item
             );
-            saveCart(updatedCart, user);
-            const updatedTotalItems = updatedCart.reduce((sum, item) => sum + item.quantity, 0);
-            const updatedTotalPrice = Number(updatedCart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2));
+            updateCart(updatedCart);
+            const updatedTotalItems = updatedCart.reduce((sum, item) => sum + item?.quantity, 0);
+            const updatedTotalPrice = Number(updatedCart.reduce((sum, item) => sum + item?.price * item?.quantity, 0).toFixed(2));
             
             setTotalItems(updatedTotalItems);
             setTotalPrice(updatedTotalPrice);
@@ -103,12 +112,12 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
     const handleQuantityDecrease = (targetId: number) => {
         setCart(prevCart => {
             const updatedCart = prevCart.map(item =>
-                item.id === targetId ? { ...item, quantity: item.quantity - 1 } : item
+                item.id === targetId ? { ...item, quantity: item?.quantity - 1 } : item
             ).filter(item => item.quantity > 0); // Remove items with quantity <= 0
-            saveCart(updatedCart, user);
+            updateCart(updatedCart);
 
-            const totalItems = updatedCart.reduce((sum, item) => sum + item.quantity, 0);
-            const totalPrice = Number(updatedCart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2));
+            const totalItems = updatedCart.reduce((sum, item) => sum + item?.quantity, 0);
+            const totalPrice = Number(updatedCart.reduce((sum, item) => sum + item.price * item?.quantity, 0).toFixed(2));
             
             setTotalItems(totalItems);
             setTotalPrice(totalPrice);
@@ -118,42 +127,48 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
         });
     };
 
-    const addToCart = (targetId: number) => {
-        // Check if the product already exists in the cart
-        const isProductExists = cart?.find(product => product.id === targetId);
+   
+    const addToCart = (targetId: number, cart: CartProps[], size: string) => {
+    const isProductExists = cart.find((product) => product.id === targetId);
     
-        if (isProductExists) {
-            // If the product already exists, do nothing
-            return cart;
-        }
+    if (isProductExists) {
+        return; // No need to return cart since you're using state updates
+    }
+
+    const productToAdd = Products.find(product => product.id === targetId);
     
-        // Find the product in the Products array
-        const productToAdd = Products?.find(product => product.id === targetId);
-    
-        if (productToAdd) {
-            setCart(prevCart => {
-                // Add the new product to the cart with a default quantity of 1
-                const updatedCart = [...prevCart, { ...productToAdd, quantity: 1, isAdded: true }];
-                saveCart(updatedCart, user);
-    
-                // Update total items and total price
-                const totalItems = updatedCart.reduce((sum, item) => sum + item.quantity, 0);
-                const totalPrice = Number(updatedCart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2));
-    
-                setTotalItems(totalItems);
-                setTotalPrice(totalPrice);
-                
-    
-                return updatedCart;
-            });
-        }
-    };
+    if (productToAdd) {
+        setCart(prevCart => {
+            const updatedCart = [...prevCart, { 
+                ...productToAdd, 
+                quantity: 1, 
+                isAdded: true,
+                size: size 
+            }];
+            
+            updateCart(updatedCart);
+            
+            // Calculate totals
+            const totalItems = updatedCart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = Number(updatedCart.reduce(
+                (sum, item) => sum + item.price * item.quantity, 0
+            ).toFixed(2));
+            
+            setTotalItems(totalItems);
+            setTotalPrice(totalPrice);
+            
+            return updatedCart;
+        });
+    }
+};
+
+
     const removeItem = (targetId: number) => {
         setCart(prevCart => {
             const updatedCart = prevCart.filter(item => item.id !== targetId);
-            saveCart(updatedCart, user);
-            const totalPrice = updatedCart.reduce((total, item) => total + item.price * item.quantity, 0);
-            const totalItems = updatedCart.reduce((sum, item) => sum + item.quantity, 0);
+            updateCart(updatedCart);
+            const totalPrice = updatedCart.reduce((total, item) => total + item.price * item?.quantity, 0);
+            const totalItems = updatedCart.reduce((sum, item) => sum + item?.quantity, 0);
             
             setTotalPrice(totalPrice);
             setTotalItems(totalItems);
@@ -162,7 +177,7 @@ export const CartProvider: React.FC<CartProps> = ({ children }) => {
         });
     };
 
-    const value: CartContextProps = {
+    const value: ContextDefaultProps = {
         cart,
         setCart,
         totalItems,

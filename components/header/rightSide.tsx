@@ -25,7 +25,7 @@ const handleLogout = async ()=>{
   setIsLoggedIn(false)
   const response = await logout(user?.email)
   console.log(response)
-  const newCart = fetchCart(user)
+  const newCart = fetchCart()
   setCart(newCart)
   setTotalItems(0)
   setTotalPrice(0)

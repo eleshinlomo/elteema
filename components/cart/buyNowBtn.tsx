@@ -18,7 +18,7 @@ const BuyNowButton = ({ targetid }: AddToCartBtnProps) => {
 
     const handleAddToCart = () => {
         setIsAnimating(true)
-        addToCart(targetid)
+        // addToCart(targetid)
         const isProductInCart = cart?.find((item) => item.isAdded)
         if (isProductInCart) {
             setIsAdded(isProductInCart)

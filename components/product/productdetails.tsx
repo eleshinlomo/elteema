@@ -3,11 +3,12 @@ import { useState, useEffect, useContext } from "react";
 import Image from 'next/image';
 import AddToCartButton from "../cart/addtocartbtn";
 import { CartContext } from "../../contextProviders/cartcontext";
-import { formatCurrency, getItemQuantity, getProduct } from "../utils";
+import { formatCurrency, getItemQuantity, getSingleProduct} from "../utils";
 import ProductSize from "./productSize";
 import BuyNowButton from "../cart/buyNowBtn";
 import { ProductProps } from "../data/productsdata";
-import { symbol } from "framer-motion/client";
+import { GeneralContext } from "../../contextProviders/GeneralProvider";
+
 
 interface DetailsProps {
   id: number;
@@ -19,12 +20,14 @@ const ProductDetails = ({ id }: DetailsProps) => {
   const [openImageModal, setOpenImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [size, setSize] = useState<string>('');
-  const cartContext = useContext(CartContext);
-  const { Products } = cartContext;
+  const [isAdded, setIsAdded] = useState<boolean>(false)
+   const { Products, cart }  = useContext(CartContext);
+   const {user} = useContext(GeneralContext)
+ 
 
   useEffect(() => {
-    const fetchProduct = () => {
-      const p: any = getProduct(id, Products);
+    const handlegetSingleProduct = () => {
+      const p: any = getSingleProduct(id, Products);
       if (p) {
         setProduct(p);
       } else {
@@ -32,8 +35,8 @@ const ProductDetails = ({ id }: DetailsProps) => {
       }
     };
 
-    fetchProduct();
-  }, [id, Products]);
+    handlegetSingleProduct();
+  }, [id, Products, size, error, user]);
 
   if (error) {
     return (
@@ -183,13 +186,20 @@ const ProductDetails = ({ id }: DetailsProps) => {
             
             {/* Size Selector */}
             <div className="mb-8">
-              <ProductSize size={size} setSize={setSize} />
+              <ProductSize setSize={setSize} 
+              size={size}  
+              itemId={product.id} 
+              isAdded={isAdded} 
+              setIsAdded={setIsAdded} 
+              error={error}
+              setError={setError}   
+              />
             </div>
             
             {/* Action Buttons */}
             <div className="mt-auto space-y-4">
               <div className="flex gap-4">
-                <AddToCartButton targetid={product.id} size={size} />
+                <AddToCartButton targetid={product.id}  size={size} isAdded={isAdded} setIsAdded={setIsAdded}  />
                 <BuyNowButton targetid={product.id} />
               </div>
               

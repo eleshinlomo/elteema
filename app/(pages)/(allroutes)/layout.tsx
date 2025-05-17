@@ -30,6 +30,8 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
       setConfirmedCode(code)
       setConfirmedEmail(email)
     }
+    
+   
   }, [])
   
   const generalContext = useContext(GeneralContext)
@@ -53,13 +55,16 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
               
               if(data.ok){
                 let verifiedUser: any = data.user
+                 console.log('VERIFIED USER', verifiedUser)
                   const existingUser: any = getLocalUser()
-                  if(existingUser){
-                    const updatedUser: any = {...verifiedUser, cart: existingUser.cart}
+                  if(verifiedUser || existingUser.anonymous){
+                    const updatedUser: any = {...verifiedUser, cart: existingUser.cart} //We only grab the cart and discard the localUser
                     localStorage.removeItem('ptlgUser')
                     saveUser(updatedUser)
-                  }else{
+                    setUser(updatedUser)
+                  }else {
                   saveUser(verifiedUser)
+                  setUser(verifiedUser)
                   }
                   code = ''
                   email = ''
@@ -77,27 +82,33 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
           setIsLoading(false)
       }
   }
+  
 
+  // Persistent Auth
   const verifyPersistentLogin = async () => {
-   
-    
+
     try {
       if(!email && !code){
-      console.log('VERIFYING TOKEN IN USE EFFECT...');
-      const localUser: any = getLocalUser();
+        console.log('VERIFYING TOKEN IN USE EFFECT...');
+        const localUser: any = getLocalUser();
   
-      if (localUser && localUser.authCode && localUser.email) {
-        // const veriedFiedUser: any = await verifyCode(localUser.authCode, localUser.email);
+        if (localUser && localUser.authCode && localUser.email) {
+          // const veriedFiedUser: any = await verifyCode(localUser.authCode, localUser.email);
       
           setIsLoggedIn(localUser.isLoggedIn);
           setUser(localUser);
           return;
-        
-      
-      } 
-    }else  {
-      // Only call handleVerify if we have code and email
-      handleVerify();
+        }else if(localUser.anonymous){
+                setUser(localUser)
+                setIsLoggedIn(false)
+                return
+                // This allows guest user to continue shopping
+        }else{
+          return
+        }
+      }else  {
+        // Only call handleVerify if we have code and email
+        handleVerify();
     }
     } catch(err) {
       console.log(err);
@@ -105,9 +116,8 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
   };
 
   useEffect(() => {
-    if(!isLoggedIn){
     verifyPersistentLogin()
-    }
+    
   }, [email, code])
   
 

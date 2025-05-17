@@ -1,6 +1,8 @@
 import { summary } from "framer-motion/client"
 import { ProductProps } from "./data/productsdata"
 import { UserProps, getLocalUser, saveUser } from "./data/userdata"
+import ProductCategory from "./product/productCategory"
+import { CartProps } from "../contextProviders/cartcontext"
 
 const date = new Date()
 export const year = date.getFullYear()
@@ -15,7 +17,7 @@ export const totalPriceForCustomer = (cart: Array<{price: number, quantity: numb
     return cart?.reduce((sum: number, item: {price: number, quantity: number}) => sum + (item.price * item.quantity), 0) || 0
  }
 
-export const getProduct = (id: number, Products: ProductProps[])=>{
+export const getSingleProduct = (id: number, Products: ProductProps[])=>{
    const product = Products.find((item)=>item.id === id)
    if(product){
     return product
@@ -33,41 +35,50 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
     console.log('Searched item', itemToSearch)
 }
 
-export const saveCart = (updatedCart: ProductProps[], user: UserProps | null) => {
-    if (typeof window !== 'undefined') {
- 
-  
-    
-     if(user){
-     let updatedUser: UserProps = {
-        ...user,
-        cart: updatedCart
-      };
-      saveUser(updatedUser);
-    }
-    else{
-      let user: any = {}
-      user = {...user, cart: updatedCart}
-      saveUser(user)
-    }
-    
-    
-  
 
-    }
-  };
-  
-
-export const fetchCart = (user: UserProps)=>{
+export const fetchCart = ()=>{
     if(typeof window !== 'undefined'){
         const userString: any = localStorage.getItem('ptlgUser')
         if(userString){
-            let stringifiedUser = JSON.parse(userString)
+            let user = JSON.parse(userString)
             
-            return stringifiedUser.cart
+            return user.cart 
         }
 
     }
+    return []
+}
+
+
+  
+
+export const updateCart = (newCart: CartProps[])=>{
+   const user = getLocalUser()
+   if(user && user.isLoggedIn){
+     const updatedUser = {...user, cart: newCart}
+     saveUser(updatedUser)
+   }else{
+     const anonymousUser = {anonymous: true, cart: []}
+     const updatedUser: any = {...anonymousUser, cart: newCart}
+     saveUser(updatedUser)
+     
+   }
+   
+}
+
+// Runs after cart has been updated
+export const updateProductSize = (targetid: number, cart: ProductProps[], newSize: string)=>{
+   if(!newSize || !targetid || !cart) {
+    console.log('Missing values for: cart, targetId, and size')
+    return
+   }
+   
+   const itemIndex = cart.findIndex((item)=>item.id === targetid)
+   if(itemIndex !== -1){
+    const updatedCart = [...cart, {...cart[itemIndex], size: newSize}]
+    updateCart(updatedCart)
+   }
+    
     return 
 }
 

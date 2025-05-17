@@ -4,20 +4,24 @@ import { CartContext } from "../../contextProviders/cartcontext"
 import { ProductProps } from "../data/productsdata"
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import { saveUser } from "../data/userdata";
-import { saveCart } from "../utils";
+import { updateProductSize } from "../utils";
+
 
 interface AddToCartBtnProps {
     targetid: number,
     size: string;
+    isAdded: boolean;
+    setIsAdded: (value: boolean)=>void
+    
 }
 
-const AddToCartButton = ({ targetid, size }: AddToCartBtnProps) => {
+const AddToCartButton = ({ targetid, size, isAdded, setIsAdded }: AddToCartBtnProps) => {
     const [buttonText, setButtonText] = useState('Add To Cart')
     const [error, setError] = useState('')
     const [color, setColor] = useState('black')
-    const [isAdded, setIsAdded] = useState<boolean>(false)
+    
     const [isAnimating, setIsAnimating] = useState(false)
-    const { addToCart, cart } = useContext(CartContext)
+    const { addToCart, cart} = useContext(CartContext)
     const {user} = useContext(GeneralContext)
      
 
@@ -25,35 +29,39 @@ const AddToCartButton = ({ targetid, size }: AddToCartBtnProps) => {
    
 
     const handleAddToCart = () => {
-        setIsAnimating(true)
+       setError('')
+    //    if(isAdded){
+    //     setError('')
+    //     return
+    //    }
          if(!size){
             setError('Please choose a size')
             return
         }
-        const updatedCart = {...cart, size: size}
-        saveCart(updatedCart, user)
+       
         setError('')
-        addToCart(targetid)
+        addToCart(targetid, cart, size)
+        setError('')
+        setIsAdded(true)
+        setButtonText('Added ✓')
         
         const isProductInCart = cart?.find((item) => item.isAdded)
+
         
-        setTimeout(() => setIsAnimating(false), 1000)
     }
 
+  
+
     useEffect(() => {
-        const isAdded = cart?.some((item) => item.id === targetid && item.isAdded)
-        if (isAdded) {
-            setIsAdded(true)
-            setError('')
+      const added = cart?.find((item) => item.id === targetid && item.isAdded)
+           console.log('IS ADDED', added?.isAdded)
+        if (added && added?.isAdded) {
+            setIsAdded(added.isAdded)
             setButtonText('Added ✓')
         } else {
             setButtonText('Add To Cart')
         }
-
-        if(size){
-            setError('')
-        }
-    }, [isAdded, cart, error, size, user, targetid])
+    }, [])
 
     return (
         <div>

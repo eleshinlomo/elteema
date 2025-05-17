@@ -9,13 +9,13 @@ interface BasketProps {
 }
 
 const CartBasket = () => {
-    const { totalItems } = useContext(CartContext);
+    const { totalItems, cart, totalPrice } = useContext(CartContext);
     const {sticky} = useContext(GeneralContext)
     
 
 useEffect(()=>{
 
-}, [totalItems])
+}, [totalItems, cart, totalPrice])
 
     return (
         <div>
