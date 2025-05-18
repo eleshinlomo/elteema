@@ -9,10 +9,22 @@ interface AddToCartBtnProps {
     targetid: number,
     setError: (value: string)=>void
     oldSize: string;
+    showClotheSizeInput: boolean
+     setShowClotheSizeInput: (value: boolean)=>void
+     showShoeSizeInput: boolean
+     setShowShoeSizeInput: (value: boolean)=>void
     
 }
 
-const BuyNowButton = ({ targetid, oldSize, setError }: AddToCartBtnProps) => {
+const BuyNowButton = ({ 
+    targetid, 
+    oldSize, 
+    setError, 
+    showClotheSizeInput,
+    setShowClotheSizeInput,
+    showShoeSizeInput,
+    setShowShoeSizeInput, 
+}: AddToCartBtnProps) => {
     const [buttonText, setButtonText] = useState('Buy Now')
     const [isAdded, setIsAdded] = useState<ProductProps | null>(null)
     const [isAnimating, setIsAnimating] = useState(false)
@@ -22,7 +34,7 @@ const BuyNowButton = ({ targetid, oldSize, setError }: AddToCartBtnProps) => {
     const router = useRouter()
 
     const handleBuyNow = () => {
-        if(!oldSize){
+        if(!oldSize && showClotheSizeInput || !oldSize && showShoeSizeInput){
           setError('Please choose a size')
           return
         }

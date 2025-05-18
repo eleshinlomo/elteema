@@ -54,22 +54,26 @@ const NavBar = () => {
           <div className="relative -mx-4 flex  items-center">
 
             {/* === Logo === */}
-            <div className="w-60 max-w-full px-4  xl:mr-12">
+            <div className=" px-4  xl:mr-12">
               <Link href="/" className={`header-logo block w-full ${sticky ? "py-5 lg:py-2" : "py-8"}`}>
-                <Image
+                <div className="relative h-8 w-16">
+                  <Image
                   src="/images/logos/elteema_logo.png"
                   alt="logo"
-                  width={180}
-                  height={100}
+                  // width={180}
+                  // height={100}
                   className="w-12 dark:hidden"
+                  fill
                 />
                 <Image
                   src="/images/logos/elteema_logo.png"
                   alt="logo"
-                  width={180}
-                  height={100}
+                  // width={180}
+                  // height={100}
                   className="hidden w-12 dark:block"
+                  fill
                 />
+                </div>
               </Link>
             </div>
 
@@ -155,13 +159,18 @@ const NavBar = () => {
                   <span className={`absolute top-1/2 block h-0.5 w-6 bg-current transition-all duration-300 ${navbarOpen ? 'opacity-0' : ''}`} />
                   <span className={`absolute block h-0.5 w-6 bg-current transition-all duration-300 ${navbarOpen ? 'top-1/2 -rotate-45' : 'bottom-3'}`} />
                 </button>
-            
+                
             </div>
+              
                
           </div>
         </div>
+        <div>
+          
+        </div>
         {/* === Cart === */}
         <Cart />
+            
       </header>
     </div>
   );

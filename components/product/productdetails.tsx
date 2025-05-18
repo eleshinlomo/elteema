@@ -21,8 +21,11 @@ const ProductDetails = ({ id }: DetailsProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [oldSize, setOldSize] = useState('')
   const [isAdded, setIsAdded] = useState<boolean>(false)
-   const { Products, cart }  = useContext(CartContext);
-   const {user} = useContext(GeneralContext)
+  const { Products, cart }  = useContext(CartContext);
+  const {user} = useContext(GeneralContext)
+  const [showClotheSizeInput, setShowClotheSizeInput] = useState(false)
+  const [showShoeSizeInput, setShowShoeSizeInput] = useState(false)
+   
  
 
   useEffect(() => {
@@ -186,7 +189,11 @@ const ProductDetails = ({ id }: DetailsProps) => {
               isAdded={isAdded} 
               setIsAdded={setIsAdded} 
               error={error}
-              setError={setError}   
+              setError={setError}
+              showClotheSizeInput={showClotheSizeInput}
+              setShowClotheSizeInput={setShowClotheSizeInput}
+              showShoeSizeInput={showShoeSizeInput}
+              setShowShoeSizeInput={setShowShoeSizeInput} 
               />
             </div>
             
@@ -197,13 +204,20 @@ const ProductDetails = ({ id }: DetailsProps) => {
                 oldSize={oldSize}
                 isAdded={isAdded} 
                 setIsAdded={setIsAdded} 
-                error={error}
                 setError={setError}
+                showClotheSizeInput={showClotheSizeInput}
+                setShowClotheSizeInput={setShowClotheSizeInput}
+                showShoeSizeInput={showShoeSizeInput}
+                setShowShoeSizeInput={setShowShoeSizeInput} 
                  />
                 <BuyNowButton 
                 targetid={product.id} 
                 oldSize={oldSize}
-                 setError={setError} 
+                setError={setError} 
+                showClotheSizeInput={showClotheSizeInput}
+                setShowClotheSizeInput={setShowClotheSizeInput}
+                showShoeSizeInput={showShoeSizeInput}
+                setShowShoeSizeInput={setShowShoeSizeInput} 
                  />
               </div>
               

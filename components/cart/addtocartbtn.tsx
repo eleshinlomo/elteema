@@ -11,16 +11,27 @@ interface AddToCartBtnProps {
     targetid: number,
     isAdded: boolean;
     setIsAdded: (value: boolean)=>void
-    error: string;
     setError: (value: string)=>void
     oldSize: string;
+    showClotheSizeInput: boolean
+     setShowClotheSizeInput: (value: boolean)=>void
+     showShoeSizeInput: boolean
+     setShowShoeSizeInput: (value: boolean)=>void
     
 }
 
-const AddToCartButton = ({ targetid, oldSize, isAdded, setIsAdded, error, setError }: AddToCartBtnProps) => {
+const AddToCartButton = ({ 
+    targetid, 
+    oldSize, 
+    isAdded, 
+    setIsAdded, 
+    setError,
+    showClotheSizeInput,
+    setShowClotheSizeInput,
+    showShoeSizeInput,
+    setShowShoeSizeInput,
+}: AddToCartBtnProps) => {
     const [buttonText, setButtonText] = useState('Add To Cart')
-    const [color, setColor] = useState('black')
-    
     const [isAnimating, setIsAnimating] = useState(false)
     const { addToCart, cart} = useContext(CartContext)
     const {user} = useContext(GeneralContext)
@@ -30,12 +41,8 @@ const AddToCartButton = ({ targetid, oldSize, isAdded, setIsAdded, error, setErr
    
 
     const handleAddToCart = () => {
-       setError('')
-    //    if(isAdded){
-    //     setError('')
-    //     return
-    //    }
-         if(!oldSize){
+    
+         if(!oldSize && showClotheSizeInput || !oldSize && showShoeSizeInput){
             setError('Please choose a size')
             return
         }

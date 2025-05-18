@@ -5,6 +5,7 @@ import { GeneralContext } from "../../../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
 import SigninPage from "../authpages/signin/page"
 import Image from 'next/image'
+import NotLoggedInPage from "../authpages/notLoggedInpage"
 
 
 interface DashboardProps {
@@ -28,11 +29,8 @@ const DashboardLayout = ({children}: DashboardProps)=>{
         <div>
         {children}
         </div>: 
-        <div>
-          {/* <Image src='../../' /> */}
-          <div>
-          </div>Unauthorized access prevented.
-          </div>}
+          <NotLoggedInPage />
+          }
         
     </div>
   )

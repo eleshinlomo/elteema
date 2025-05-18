@@ -23,7 +23,7 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
                                 <Image 
                                     src={item.src} 
                                     alt={item.name} 
-                                    layout="fill" 
+                                    fill
                                     objectFit="cover"
                                     className="transition-transform duration-500 group-hover:scale-110"
                                 />

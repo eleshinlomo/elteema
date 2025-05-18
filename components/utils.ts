@@ -3,6 +3,7 @@ import { ProductProps } from "./data/productsdata"
 import { UserProps, getLocalUser, saveUser } from "./data/userdata"
 import ProductCategory from "./product/productCategory"
 import { CartProps } from "../contextProviders/cartcontext"
+import { clotheCategoryWithSize, shoeCategoryWithSize } from "./data/categories"
 
 const date = new Date()
 export const year = date.getFullYear()
@@ -104,6 +105,22 @@ export const formatCurrency = (symbol:string, amount: number)=>{
   return currency
 }
 
+
+export const checkCategoryWithClothSize = (category: any[]) => {
+  if (!category || !category.length) return false;
+  const hasSize = category.some(cat => 
+    clotheCategoryWithSize.includes(cat.toLowerCase())
+  );
+  return hasSize;
+}
+
+export const checkCategoryWithShoeSize = (category: any[]) => {
+  if (!category || !category.length) return false;
+  const hasSize = category.some(cat => 
+    shoeCategoryWithSize.includes(cat.toLowerCase())
+  );
+  return hasSize;
+}
 
   
   
