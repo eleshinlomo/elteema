@@ -46,12 +46,12 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
                                 </div>
                                 
                                 {/* Category and Sales */}
-                                <div className="flex justify-between items-center text-sm">
+                                <div className="flex flex-col justify-between  text-sm">
                                 
-                                    <div >
+                                    <div className='flex gap-1' >
                                     
                                         {item.category.map((cat, index)=>
-                                        <a key={index} href={`/categorypage/${encodeURIComponent(cat)}`} className="bg-green-100 text-green-800 px-4 py-1 rounded-full">
+                                        <a key={index} href={`/categorypage/${encodeURIComponent(cat)}`} className="bg-green-100 px-2  ">
                                             {cat}
                                         </a>
                                         )}

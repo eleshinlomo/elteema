@@ -19,7 +19,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
   const [error, setError] = useState('');
   const [openImageModal, setOpenImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [size, setSize] = useState<string>('');
+  const [oldSize, setOldSize] = useState('')
   const [isAdded, setIsAdded] = useState<boolean>(false)
    const { Products, cart }  = useContext(CartContext);
    const {user} = useContext(GeneralContext)
@@ -36,15 +36,8 @@ const ProductDetails = ({ id }: DetailsProps) => {
     };
 
     handlegetSingleProduct();
-  }, [id, Products, size, error, user]);
+  }, [id, Products, oldSize, error, user]);
 
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-red-500 text-xl font-medium">{error}</p>
-      </div>
-    );
-  }
 
   if (!product) {
     return (
@@ -163,12 +156,12 @@ const ProductDetails = ({ id }: DetailsProps) => {
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
               
-              <div className="grid grid-cols-3 md:grid-cols-7 gap-2 mb-4 text-center">
+              <div className="flex px-4 gap-2 mb-4 text-center">
                 {product?.category?.map((cat, index) => (
                   <a 
                     key={index}
                     href={`/categorypage/${encodeURIComponent(cat)}`}
-                    className="text-sm  bg-green-100 text-green-800 mx-0 py-1  rounded-2xl hover:bg-green-200 transition-colors"
+                    className="text-md   text-green-800 mx-0 py-1   hover:bg-green-200 transition-colors"
                   >
                     {cat}
                   </a>
@@ -186,8 +179,9 @@ const ProductDetails = ({ id }: DetailsProps) => {
             
             {/* Size Selector */}
             <div className="mb-8">
-              <ProductSize setSize={setSize} 
-              size={size}  
+              <ProductSize 
+              setOldSize={setOldSize} 
+              oldSize={oldSize}
               itemId={product.id} 
               isAdded={isAdded} 
               setIsAdded={setIsAdded} 
@@ -199,8 +193,18 @@ const ProductDetails = ({ id }: DetailsProps) => {
             {/* Action Buttons */}
             <div className="mt-auto space-y-4">
               <div className="flex gap-4">
-                <AddToCartButton targetid={product.id}  size={size} isAdded={isAdded} setIsAdded={setIsAdded}  />
-                <BuyNowButton targetid={product.id} />
+                <AddToCartButton targetid={product.id}  
+                oldSize={oldSize}
+                isAdded={isAdded} 
+                setIsAdded={setIsAdded} 
+                error={error}
+                setError={setError}
+                 />
+                <BuyNowButton 
+                targetid={product.id} 
+                oldSize={oldSize}
+                 setError={setError} 
+                 />
               </div>
               
               <button

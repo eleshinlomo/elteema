@@ -3,27 +3,34 @@
 import { useContext, useState, useEffect } from "react"
 import { CartContext } from "../../contextProviders/cartcontext"
 import { ProductProps } from "../data/productsdata"
+import { useRouter } from "next/navigation"
 
 interface AddToCartBtnProps {
     targetid: number,
+    setError: (value: string)=>void
+    oldSize: string;
+    
 }
 
-const BuyNowButton = ({ targetid }: AddToCartBtnProps) => {
+const BuyNowButton = ({ targetid, oldSize, setError }: AddToCartBtnProps) => {
     const [buttonText, setButtonText] = useState('Buy Now')
-    const [error, setError] = useState('')
     const [isAdded, setIsAdded] = useState<ProductProps | null>(null)
     const [isAnimating, setIsAnimating] = useState(false)
     const cartContext = useContext(CartContext)
     const { addToCart, cart } = cartContext
 
-    const handleAddToCart = () => {
-        setIsAnimating(true)
-        // addToCart(targetid)
-        const isProductInCart = cart?.find((item) => item.isAdded)
-        if (isProductInCart) {
-            setIsAdded(isProductInCart)
+    const router = useRouter()
+
+    const handleBuyNow = () => {
+        if(!oldSize){
+          setError('Please choose a size')
+          return
         }
-        setTimeout(() => setIsAnimating(false), 1000)
+
+        setError('')
+        addToCart(targetid, cart, oldSize)
+        setError('')
+        router.push('/checkoutpage')
     }
 
    
@@ -32,6 +39,7 @@ const BuyNowButton = ({ targetid }: AddToCartBtnProps) => {
         <div>
             
         <button
+            onClick={handleBuyNow}
             className={`
                 w-full
                
@@ -42,7 +50,7 @@ const BuyNowButton = ({ targetid }: AddToCartBtnProps) => {
                 active:scale-95 transition-all duration-200
                 shadow-md hover:shadow-lg
                 ${isAnimating ? 'ring-2 ring-green-400' : ''}
-                ${buttonText === 'Added ✓' ? 'bg-emerald-600 from-emerald-600 to-emerald-700' : ''}
+               
             `}
         >
             <span className={`relative z-10 ${isAnimating ? 'animate-pulse' : ''}`}>
@@ -54,7 +62,7 @@ const BuyNowButton = ({ targetid }: AddToCartBtnProps) => {
                 <span className="absolute inset-0 bg-white opacity-30 rounded-full scale-0 animate-ripple" />
             )}
         </button>
-        <p className="text-center  font-bold py-8">{error}</p>
+       
         </div>
     )
 }

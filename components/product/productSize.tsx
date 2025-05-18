@@ -6,39 +6,49 @@ import { getSingleProduct, updateCart, updateProductSize } from '../utils';
 import { getLocalUser, saveUser } from '../data/userdata';
 
 interface ProductSizeProps {
-    size: string;
-    setSize: (value: string)=>void;
     itemId: number;
     isAdded: boolean;
     setIsAdded: (value: boolean)=>void;
     setError: (value: string)=>void;
      error: string;
+     oldSize: string;
+     setOldSize: (value: string)=>void
 
 }
 
 
-const ProductSize = ({setSize, size, itemId, isAdded, setIsAdded, error, setError}: ProductSizeProps, )=> {
+const ProductSize = ({itemId, isAdded, setIsAdded, error, setError, oldSize, setOldSize}: ProductSizeProps)=> {
  
     const {user}= useContext(GeneralContext)
      console.log('USER', user)
     const {cart, setCart, Products} = useContext(CartContext)
     const [item, setItem] = useState<any>(null)
     const [value, setValue] = useState('')
+    const [color, setColor] = useState('gray')
+    
+
+   
 
     useEffect(()=>{
-        
-        
-        
-        if(size){
-            setSize(size)
+  
+          if(error){
+           setColor('red')
+          }else{
+            setColor('gray')
+          }
+
+        const cartIndex = cart?.findIndex((item)=>item.id === itemId)
+        if(cartIndex !== -1){
+            setOldSize(cart[cartIndex].size)
+            
             
         }
 
-    }, [size, cart, error, user, isAdded])
+    }, [oldSize, cart, error, user, isAdded, oldSize, itemId, color])
 
     const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSize = e.target.value;
-    setSize(newSize);
+    setOldSize(newSize);
     
     const updatedCart = cart?.map((item)=>
         item.id === itemId ? {...item, size: newSize} : item
@@ -46,16 +56,16 @@ const ProductSize = ({setSize, size, itemId, isAdded, setIsAdded, error, setErro
     setCart(updatedCart)
     const updatedUser = {...user, cart: updatedCart}
     saveUser(updatedUser)
-    setIsAdded(false)
     setError('');
 };
     
+   
 
     return (
 
         <div className='md:flex gap-4 mb-3'>
-            <select value={size} onChange={onChange}>
-                <option>{item ? item.size : 'No size'}</option>
+            <select value={oldSize} onChange={onChange}>
+                <option>{oldSize ? oldSize : 'No size'}</option>
                 <option value="S">S</option>
                 <option value="M">M</option>
                 <option value="L">L</option>
@@ -63,8 +73,7 @@ const ProductSize = ({setSize, size, itemId, isAdded, setIsAdded, error, setErro
                 <option value="XXL">XXL</option>
             </select>
 
-            <p className='py-2'>{user && user.cart[0]?.size ? `You chose ${user.cart[0].size} size.` :
-             `You chose ${size ? size : 'None'} size.`}</p>
+            <p className={`py-2 text-${color}-600 font-bold`}>{oldSize ? `You chose ${oldSize} size.`: `${error ? error : 'You chose None size.'}`}</p> 
         </div>
     )
 }

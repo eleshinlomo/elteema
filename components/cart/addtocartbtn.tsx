@@ -9,15 +9,16 @@ import { updateProductSize } from "../utils";
 
 interface AddToCartBtnProps {
     targetid: number,
-    size: string;
     isAdded: boolean;
     setIsAdded: (value: boolean)=>void
+    error: string;
+    setError: (value: string)=>void
+    oldSize: string;
     
 }
 
-const AddToCartButton = ({ targetid, size, isAdded, setIsAdded }: AddToCartBtnProps) => {
+const AddToCartButton = ({ targetid, oldSize, isAdded, setIsAdded, error, setError }: AddToCartBtnProps) => {
     const [buttonText, setButtonText] = useState('Add To Cart')
-    const [error, setError] = useState('')
     const [color, setColor] = useState('black')
     
     const [isAnimating, setIsAnimating] = useState(false)
@@ -34,13 +35,13 @@ const AddToCartButton = ({ targetid, size, isAdded, setIsAdded }: AddToCartBtnPr
     //     setError('')
     //     return
     //    }
-         if(!size){
+         if(!oldSize){
             setError('Please choose a size')
             return
         }
        
         setError('')
-        addToCart(targetid, cart, size)
+        addToCart(targetid, cart, oldSize)
         setError('')
         setIsAdded(true)
         setButtonText('Added ✓')
@@ -61,7 +62,7 @@ const AddToCartButton = ({ targetid, size, isAdded, setIsAdded }: AddToCartBtnPr
         } else {
             setButtonText('Add To Cart')
         }
-    }, [])
+    }, [targetid, isAdded, cart])
 
     return (
         <div>
@@ -76,7 +77,6 @@ const AddToCartButton = ({ targetid, size, isAdded, setIsAdded }: AddToCartBtnPr
                 hover:from-green-600 hover:to-emerald-700
                 active:scale-95 transition-all duration-200
                 shadow-md hover:shadow-lg
-                ${isAnimating ? 'ring-2 ring-green-400' : ''}
                 ${buttonText === 'Added ✓' ? 'bg-emerald-600 from-emerald-600 to-emerald-700' : ''}
             `}
         >
@@ -84,12 +84,9 @@ const AddToCartButton = ({ targetid, size, isAdded, setIsAdded }: AddToCartBtnPr
                 {buttonText}
             </span>
             
-            {/* Ripple effect */}
-            {isAnimating && (
-                <span className="absolute inset-0 bg-white opacity-30 rounded-full scale-0 animate-ripple" />
-            )}
+          
         </button>
-        <p className={`text-center text-red-500 font-bold py-2`}>{error}</p>
+        
         </div>
     )
 }
