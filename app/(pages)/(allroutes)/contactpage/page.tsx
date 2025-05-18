@@ -189,7 +189,10 @@ const ContactPage = () => {
             </div>
             <div className="bg-white p-4 rounded-lg shadow-md">
               <span className="text-green-600 font-bold block">Phone</span>
-              <span className="text-gray-600">(+234) 808 381 7440</span>
+              <div>
+              <span className="text-gray-600">Nigeria: (+234) 808-381-7440</span><br/>
+              <span className="text-gray-600">US: (+1) 443-626-9889</span>
+              </div>
             </div>
           </div>
         </div>

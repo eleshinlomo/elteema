@@ -91,7 +91,7 @@ const Footer = ()=>{
                 <a href="/aboutpage" className=" hover:text-green-400  transition duration-150 ease-in-out">About us</a>
               </li>
               <li className="mb-2">
-                <a href="#0" className=" hover:text-green-400  transition duration-150 ease-in-out">Company values</a>
+                <a href="/contactpage" className=" hover:text-green-400  transition duration-150 ease-in-out">Contact us</a>
               </li>
               <li className="mb-2">
                 <a href="#0" className=" hover:text-green-400  transition duration-150 ease-in-out">Pricing</a>
@@ -126,14 +126,15 @@ const Footer = ()=>{
               </a>
             </li>
             <li className="ml-4">
-              <a href="#0" className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out" aria-label="Github">
+              <a href="#0" className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out" aria-label="Instagram">
                 <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16 8.2c-4.4 0-8 3.6-8 8 0 3.5 2.3 6.5 5.5 7.6.4.1.5-.2.5-.4V22c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8.6-.2 1.3-.3 2-.3s1.4.1 2 .3c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.7 3.9.3.4.6.9.6 1.6v2.2c0 .2.1.5.6.4 3.2-1.1 5.5-4.1 5.5-7.6-.1-4.4-3.7-8-8.1-8z" />
+                  <path d="M23.2 5H8.8C6.7 5 5 6.7 5 8.8v14.4c0 2.1 1.7 3.8 3.8 3.8h14.4c2.1 0 3.8-1.7 3.8-3.8V8.8c0-2.1-1.7-3.8-3.8-3.8zM16 21.7c-3.1 0-5.7-2.5-5.7-5.7s2.5-5.7 5.7-5.7 5.7 2.5 5.7 5.7-2.6 5.7-5.7 5.7zm6.3-10.3c-.7 0-1.3-.6-1.3-1.3s.6-1.3 1.3-1.3 1.3.6 1.3 1.3-.6 1.3-1.3 1.3z" />
+                  <circle cx="16" cy="16" r="4.4" />
                 </svg>
               </a>
             </li>
             <li className="ml-4">
-              <a href="#0" className="flex justify-center items-center
+              <a href="https://www.facebook.com/elteemastore" target='_blank' className="flex justify-center items-center
                text-gray-600 hover:text-gray-900 bg-white 
                hover:bg-white-100 rounded-full shadow transition 
                duration-150 ease-in-out" aria-label="Facebook">
