@@ -84,7 +84,7 @@ const Search = () => {
     </div>
     
     {/* HotProductFlash - Add fixed width */}
-    <div className=" w-1/4 min-w-[200px] text-center">
+    <div className="hidden md:flex w-1/4 min-w-[200px] text-center">
         <HotProductFlash />
     </div>
                 </div>
@@ -108,12 +108,14 @@ const Search = () => {
                         <p className="text-gray-500 mb-6">
                             We couldn&apos;t find any products matching {itemToSearch}
                         </p>
-                        <button 
+                        <a href='/allstorespage'>
+                            <button 
                             onClick={() => setItemToSearch('')}
                             className="px-6 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors shadow-md"
                         >
                             Browse All Products
                         </button>
+                        </a>
                     </div>
                 ) : (
                     <div className="animate-fadeIn">

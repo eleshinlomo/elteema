@@ -7,7 +7,7 @@ import { Quote, Star, Leaf } from 'lucide-react';
 const testimonials = [
   {
     id: 1,
-    name: "Afonso Ogbebor",
+    name: "Musa Kareem",
     role: "Happy Customer",
     comment: "This store has transformed my shopping experience! The quality of African products is unmatched and delivery is lightning fast. I'm a customer for life!",
     image: "/images/testimonials/1.jpg", // Replace with actual image URL
@@ -15,7 +15,7 @@ const testimonials = [
   },
   {
     id: 2,
-    name: "Jane Smith",
+    name: "Kanu Oputteh",
     role: "Frequent Shopper",
     comment: "The customer service is exceptional. They helped me choose perfect gifts for my family back home. Everything arrived in perfect condition!",
     image: "/images/testimonials/2.jpg", // Replace with actual image URL
@@ -100,15 +100,7 @@ const TestimonialsPage = () => {
                   {testimonial.comment}
                 </p>
                 
-                <div className="flex items-center space-x-4">
-                  <div className="relative h-14 w-14 rounded-full overflow-hidden border-2 border-green-100">
-                    <Image
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+                <div className="">
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">{testimonial.name}</h3>
                     <p className="text-sm text-gray-500">{testimonial.role}</p>

@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect, useContext } from 'react';
 import {saveUser} from './data/userdata'
 import { UserProps } from './data/userdata';
@@ -9,13 +10,9 @@ import { GeneralContext } from '../contextProviders/GeneralProvider';
 
 const CookiePolicy = () => {
   const [showBanner, setShowBanner] = useState(false);
-  const generalContext = useContext(GeneralContext)
-  const {user, setUser} = generalContext
+  const {user, setUser} = useContext(GeneralContext)
 
-//   const updateUser = ()=>{
-//      const updatedUser: any = {...user, cookieAccepted: true}
-//      saveUser(updatedUser)
-//   }
+   console.log('USER', user)
 
   useEffect(() => {
 
@@ -33,26 +30,26 @@ const CookiePolicy = () => {
   }, []);
 
   const handleAcceptCookies = () => {
-    // Set a flag in localStorage to remember the user's choice
-  
     const updatedUser: any = {...user, cookiesAccepted: true};
     saveUser(updatedUser)
     setShowBanner(false);
+    
   };
 
   const handleDeclineCookies = () => {
     // Handle the case where the user declines cookies
-    const updatedUserCookie: any = {...user, cookiesAccepted: false};
-    saveUser(updatedUserCookie)
+    const updatedUser: UserProps = {...user, cookiesAccepted: false};
+    saveUser(updatedUser)
     setShowBanner(false);
   };
 
-  if (!showBanner) {
-    return null;
-  }
+ 
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 flex flex-col md:flex-row justify-between items-center z-[9999]">
+    <div className="">
+      
+      {showBanner ?
+      <div className='fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 flex flex-col md:flex-row justify-between items-center z-[9999]'>
       <p className="text-sm text-center md:text-left mb-2 md:mb-0">
         We use cookies to enhance your experience. By continuing to visit this site, you agree to our use of cookies.{' '}
         <a
@@ -78,6 +75,7 @@ const CookiePolicy = () => {
           Decline
         </button>
       </div>
+      </div>: null}
     </div>
   );
 };

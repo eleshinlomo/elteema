@@ -57,8 +57,9 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
                 let verifiedUser: any = data.user
                  console.log('VERIFIED USER', verifiedUser)
                   const existingUser: any = getLocalUser()
-                  if(verifiedUser || existingUser.anonymous){
-                    const updatedUser: any = {...verifiedUser, cart: existingUser.cart} //We only grab the cart and discard the localUser
+                  if(verifiedUser || existingUser.anonymous || existingUser.cookiesAcceptance){
+                    //We only grab the cart, cookiesAcceptance and discard the localUser
+                    const updatedUser: any = {...verifiedUser, cart: existingUser.cart, cookiesAccepted: existingUser?.cookiesAccepted} 
                     localStorage.removeItem('ptlgUser')
                     saveUser(updatedUser)
                     setUser(updatedUser)
@@ -93,12 +94,10 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
         const localUser: any = getLocalUser();
   
         if (localUser && localUser.authCode && localUser.email) {
-          // const veriedFiedUser: any = await verifyCode(localUser.authCode, localUser.email);
-      
           setIsLoggedIn(localUser.isLoggedIn);
           setUser(localUser);
           return;
-        }else if(localUser.anonymous){
+        }else if(localUser.anonymous || localUser.cookiesAccepted){ //When cookies is accepted or declined, an anonymous user is also created.
                 setUser(localUser)
                 setIsLoggedIn(false)
                 return

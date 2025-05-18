@@ -59,8 +59,8 @@ export const updateCart = (newCart: CartProps[])=>{
      const updatedUser = {...user, cart: newCart}
      saveUser(updatedUser)
    }else{
-     const anonymousUser = {anonymous: true, cart: []}
-     const updatedUser: any = {...anonymousUser, cart: newCart}
+    //  if a user is not logged in, we still allow them to shop using anonymous user
+     const updatedUser: any = {...user, anonymous: true, cart: newCart}
      saveUser(updatedUser)
      
    }
