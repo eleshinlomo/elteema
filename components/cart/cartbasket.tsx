@@ -19,11 +19,11 @@ useEffect(()=>{
 
     return (
         <div>
-            <a className="relative cursor-pointer ">
-                <p className={`absolute  ${sticky ? 'top-1': 'top-4'}  right-[-30px] lg:right-[3px] bg-red-500 text-white text-xs rounded-full  px-2 py-1 z-10`}>
+            <a className="relative cursor-pointer mx-4">
+                <p className={`absolute  ${sticky ? 'top-[-10px]': 'top-[-10px]'}  right-[-30px] lg:right-[-16px] bg-red-500 text-white text-xs rounded-full  px-2 py-1 z-10`}>
                     {totalItems ? totalItems : 0}
                 </p>
-                <ShoppingBasketIcon className={`absolute ${sticky ? 'top-1': 'top-5'} right-[-30px] md:right-[-1px]   mt-2  lg:h-8 lg:w-8`} />
+                <ShoppingBasketIcon className={`absolute ${sticky ? 'top-[-7px]': 'top-[-5px]'} right-[-30px] md:right-[-20px]   mt-2  lg:h-8 lg:w-8`} />
             </a>
         </div>
     );

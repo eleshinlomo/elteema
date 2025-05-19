@@ -15,6 +15,27 @@ const navData: NavProps[] = [
     path: "/",
     newTab: false,
   },
+  {
+    id: 2,
+    title: "Contact",
+    path: "/contactpage",
+    newTab: false,
+  },
+  {
+    id: 3,
+    title: "About",
+    path: "/aboutpage",
+    newTab: false,
+  },
+  {
+    id: 4,
+    title: "Faq",
+    path: "/faqpage",
+    newTab: false,
+  },
+ 
+ 
+ 
  
 
   {
@@ -179,30 +200,14 @@ const navData: NavProps[] = [
         path: "/dashboard/customerpage",
         newTab: false,
       },
-      {
-        id: 2,
-        title: "About",
-        path: "/aboutpage",
-        newTab: false,
-      },
-      {
-        id: 3,
-        title: "Faq",
-        path: "/faq",
-        newTab: false,
-      },
+     
       {
         id: 4,
         title: "Allstores",
         path: "/allstorespage",
         newTab: false,
       },
-      {
-        id: 5,
-        title: "Contact",
-        path: "/contactpage",
-        newTab: false,
-      },
+     
       {
         id: 6,
         title: "Seller Dashboard",
@@ -218,6 +223,14 @@ const navData: NavProps[] = [
      
     
     ],
+    
   },
+  {
+    id: 1,
+    title: "Terms",
+    path: "/",
+    newTab: false,
+  },
+ 
 ];
 export default navData;

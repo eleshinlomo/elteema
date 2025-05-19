@@ -1,55 +1,43 @@
 'use client'
 import React, { useState, useEffect, useContext } from 'react';
-import {saveUser} from './data/userdata'
-import { UserProps } from './data/userdata';
+import { saveUser } from './data/userdata';
 import { GeneralContext } from '../contextProviders/GeneralProvider';
 
-
-
-
-
 const CookiePolicy = () => {
-  const [showBanner, setShowBanner] = useState(false);
-  const {user, setUser} = useContext(GeneralContext)
+  const { user, setUser } = useContext(GeneralContext);
+  const [showBanner, setShowBanner] = useState<boolean | null>(null);
 
-   console.log('USER', user)
+  console.log('USER', user);
 
   useEffect(() => {
-
-  
-    if(user){
-    const {cookiesAccepted} = user
-    if(cookiesAccepted){
-        setShowBanner(false)
-    }
+    if (user) {
+      setShowBanner(user.cookiesAccepted || user.cookiesAccepted === false ? false : true);
     }else{
-        setShowBanner(true)
+      setShowBanner(true)
+    }
+  }, [user]);
+
+  const handleCookieChoice = (accepted: boolean) => {
+    let updatedUser;
+    
+    if (user) {
+      updatedUser = { ...user, cookiesAccepted: accepted };
+    } else {
+      updatedUser = { anonymous: true, cookiesAccepted: accepted };
     }
 
-    
-  }, []);
-
-  const handleAcceptCookies = () => {
-    const updatedUser: any = {...user, cookiesAccepted: true};
-    saveUser(updatedUser)
-    setShowBanner(false);
-    
-  };
-
-  const handleDeclineCookies = () => {
-    // Handle the case where the user declines cookies
-    const updatedUser: UserProps = {...user, cookiesAccepted: false};
-    saveUser(updatedUser)
+    saveUser(updatedUser);
+    setUser(updatedUser);
     setShowBanner(false);
   };
 
- 
+  const handleAcceptCookies = () => handleCookieChoice(true);
+  const handleDeclineCookies = () => handleCookieChoice(false);
+
+  if (showBanner === null || !showBanner) return null;
 
   return (
-    <div className="">
-      
-      {showBanner ?
-      <div className='fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 flex flex-col md:flex-row justify-between items-center z-[9999]'>
+    <div className="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 flex flex-col md:flex-row justify-between items-center z-[9999]">
       <p className="text-sm text-center md:text-left mb-2 md:mb-0">
         We use cookies to enhance your experience. By continuing to visit this site, you agree to our use of cookies.{' '}
         <a
@@ -75,7 +63,6 @@ const CookiePolicy = () => {
           Decline
         </button>
       </div>
-      </div>: null}
     </div>
   );
 };

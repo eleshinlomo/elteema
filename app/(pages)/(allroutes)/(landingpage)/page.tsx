@@ -9,9 +9,7 @@ import CookiePolicy from "../../../../components/cookieAcceptPage";
 
 export default function Home() {
 
-  useEffect(()=>{
-
-  }, [])
+ 
   return (
     <div id='top' className="">
       
