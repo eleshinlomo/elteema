@@ -21,22 +21,7 @@ const navData: NavProps[] = [
     path: "/contactpage",
     newTab: false,
   },
-  {
-    id: 3,
-    title: "About",
-    path: "/aboutpage",
-    newTab: false,
-  },
-  {
-    id: 4,
-    title: "Faq",
-    path: "/faqpage",
-    newTab: false,
-  },
- 
- 
- 
- 
+  
 
   {
     id: 3,
@@ -194,6 +179,18 @@ const navData: NavProps[] = [
     title: "Quick links",
     newTab: false,
     submenu: [
+      {
+    id: 3,
+    title: "About",
+    path: "/aboutpage",
+    newTab: false,
+  },
+  {
+    id: 4,
+    title: "Faq",
+    path: "/faqpage",
+    newTab: false,
+  },
       {
         id: 1,
         title: "Customer Dashboard",
