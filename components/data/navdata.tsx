@@ -225,12 +225,7 @@ const navData: NavProps[] = [
     ],
     
   },
-  {
-    id: 1,
-    title: "Terms",
-    path: "/",
-    newTab: false,
-  },
+
  
 ];
 export default navData;
