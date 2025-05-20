@@ -28,7 +28,7 @@ const CheckoutPage = () => {
   const linkToUpdateProfile = (
     <div className="animate-pulse hover:animate-none">
       <a href={`dashboard/` + user?.type}>
-        <button className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg px-6 py-3 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
+        <button className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg px-2 py-1 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
           Complete Your Profile Information
         </button>
       </a>
@@ -88,17 +88,24 @@ const CheckoutPage = () => {
             <p className="mt-4 text-lg md:text-xl text-gray-600">
               Review your order before payment
             </p>
+            <div className='md:flex justify-center items-center gap-2'>
             <a href="/allstorespage">
               <button className="mt-6 bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
                 Continue shopping
               </button>
             </a>
+             <a href="/dashboard/customerpage">
+             <button className="mt-6 bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                Update Profile
+              </button>
+              </a>
+            </div>
             
             <div className="mt-10 bg-white rounded-xl shadow-sm p-6 max-w-2xl mx-auto">
               <div className="space-y-4">
                 <div className="flex justify-between items-center border-b pb-2">
                   <span className="font-semibold text-gray-700">Shipping to:</span>
-                  <span className="text-gray-900">{user.name ? user.name : linkToUpdateProfile}</span>
+                  <span className="text-gray-900">{user.firstname && user.lastname ? `${user.firstname} ${user.lastname}` : linkToUpdateProfile}</span>
                 </div>
                 <div className="flex justify-between items-center border-b pb-2">
                   <span className="font-semibold text-gray-700">Address:</span>

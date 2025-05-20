@@ -30,6 +30,8 @@ export const getLocalUser = ()=>{
         const userString = localStorage.getItem('ptlgUser')
         if(userString){
            return JSON.parse(userString) 
+        }else{
+            return null
         }
         
     }
@@ -38,10 +40,11 @@ export const getLocalUser = ()=>{
 
 
 
-export const saveUser = (updatedUser: UserProps)=>{
+export const updateUser = (updatedUser: UserProps)=>{
+    if(!updatedUser) return null
     if(typeof window  !== 'undefined'){
        localStorage.setItem('ptlgUser', JSON.stringify(updatedUser)) 
     }
-    return
+    return null
 }
 

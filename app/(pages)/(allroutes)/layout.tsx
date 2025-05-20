@@ -2,7 +2,7 @@
 import { useSearchParams } from "next/navigation"
 import { useContext, useState, useEffect, Suspense } from "react"
 import { GeneralContext } from "../../../contextProviders/GeneralProvider"
-import { getLocalUser, saveUser, UserProps } from "../../../components/data/userdata"
+import { getLocalUser, updateUser, UserProps } from "../../../components/data/userdata"
 import { verifyCode } from "../../../components/api/auth"
 import { useRouter } from "next/navigation"
 import { staticGenerationAsyncStorage } from "next/dist/client/components/static-generation-async-storage-instance"
@@ -54,17 +54,31 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
              
               
               if(data.ok){
-                let verifiedUser: any = data.user
+                let verifiedUser: any = data.data
+                 console.log('USER DATA', data)
                  console.log('VERIFIED USER', verifiedUser)
                   const existingUser: any = getLocalUser()
-                  if(verifiedUser || existingUser.anonymous || existingUser.cookiesAcceptance){
+                  if(existingUser && verifiedUser && existingUser.anonymous && existingUser.cookiesAccepted){
+                    //We only grab the cookiesAcceptance and discard the localUser
+                    const updatedUser: any = {...verifiedUser, cart: existingUser.cart, cookiesAccepted: existingUser?.cookiesAccepted} 
+                    localStorage.removeItem('ptlgUser')
+                    updateUser(updatedUser)
+                    setUser(updatedUser)
+                  }else if(existingUser && verifiedUser && existingUser.anonymous && existingUser.cart){
+                    //We only grab the cart, and discard the localUser
+                    const updatedUser: any = {...verifiedUser, cart: existingUser.cart} 
+                    localStorage.removeItem('ptlgUser')
+                    updateUser(updatedUser)
+                    setUser(updatedUser)
+                  }else if(existingUser && verifiedUser && existingUser.anonymous && existingUser.cart && existingUser.cookiesAccepted){
                     //We only grab the cart, cookiesAcceptance and discard the localUser
                     const updatedUser: any = {...verifiedUser, cart: existingUser.cart, cookiesAccepted: existingUser?.cookiesAccepted} 
                     localStorage.removeItem('ptlgUser')
-                    saveUser(updatedUser)
+                    updateUser(updatedUser)
                     setUser(updatedUser)
-                  }else {
-                  saveUser(verifiedUser)
+                  }
+                  else {
+                  updateUser(verifiedUser)
                   setUser(verifiedUser)
                   }
                   code = ''
@@ -97,13 +111,14 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
           setIsLoggedIn(localUser.isLoggedIn);
           setUser(localUser);
           return;
-        }else if(localUser.anonymous || localUser.cookiesAccepted){ //When cookies is accepted or declined, an anonymous user is also created.
+        }else if(localUser && localUser.anonymous){ //When cookies is accepted or declined, an anonymous user is also created.
                 setUser(localUser)
                 setIsLoggedIn(false)
                 return
                 // This allows guest user to continue shopping
         }else{
-          return
+          console.log('No user found')
+          return null
         }
       }else  {
         // Only call handleVerify if we have code and email

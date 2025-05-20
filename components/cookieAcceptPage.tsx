@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect, useContext } from 'react';
-import { saveUser } from './data/userdata';
+import { updateUser } from './data/userdata';
 import { GeneralContext } from '../contextProviders/GeneralProvider';
 
 const CookiePolicy = () => {
@@ -26,7 +26,7 @@ const CookiePolicy = () => {
       updatedUser = { anonymous: true, cookiesAccepted: accepted };
     }
 
-    saveUser(updatedUser);
+    updateUser(updatedUser);
     setUser(updatedUser);
     setShowBanner(false);
   };

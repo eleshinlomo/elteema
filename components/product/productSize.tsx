@@ -3,7 +3,7 @@ import {ChangeEvent, useState, useContext, useEffect, FormEvent} from 'react'
 import { GeneralContext } from '../../contextProviders/GeneralProvider';
 import { CartContext, CartProps } from '../../contextProviders/cartcontext';
 import { checkCategoryWithClothSize, checkCategoryWithShoeSize, getSingleProduct, updateCart, updateProductSize } from '../utils';
-import { getLocalUser, saveUser } from '../data/userdata';
+import { getLocalUser, updateUser } from '../data/userdata';
 
 interface ProductSizeProps {
     itemId: number;
@@ -90,7 +90,7 @@ const ProductSize = ({itemId,
     )
     setCart(updatedCart)
     const updatedUser = {...user, cart: updatedCart}
-    saveUser(updatedUser)
+    updateUser(updatedUser)
     setError('');
 };
     

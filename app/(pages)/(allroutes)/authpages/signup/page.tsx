@@ -12,6 +12,7 @@ const SignupPage = () => {
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [message, setMessage] = useState<string>('It is totally free and super fast');
+  const [isRegistered, setIsRegistered] = useState(false)
   const [termsChecked, setTermsChecked] = useState<boolean>(false);
   const generalContext = useContext(GeneralContext)
   const {isLoading, setIsLoading} = generalContext
@@ -41,7 +42,8 @@ const SignupPage = () => {
       setMessage(response.message);
       setUsername('');
       setEmail('');
-      window.location.href = '/authpages/signin';
+      setIsRegistered(true)
+      window.location.href = '#top';
     } else {
       setError(response.error);
     }
@@ -77,12 +79,14 @@ const SignupPage = () => {
                   </p>
                 </div>
 
-                <div className={`mb-6 text-center text-sm font-medium ${
-                  error ? "text-red-600 dark:text-red-400" : "text-gray-500 dark:text-gray-400"
+                <div className={`mb-6 text-center text-md font-medium ${
+                  error ? "text-red-600 dark:text-red-400" : "text-green-800 font-extrabold dark:text-gray-400"
                 }`}>
                   {error || message}
                 </div>
 
+                {/* Form */}
+               {!isRegistered ?
                 <form className="space-y-6">
                   <div>
                     <label
@@ -156,9 +160,10 @@ const SignupPage = () => {
                     Sign Up
                     {isLoading ? <LoadingState /> : null}
                   </button>
-                </form>
+                </form>: null}
+                {/* Form end */}
 
-                <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+                <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400" id='signup-bottom'>
                   Already have an account?{' '}
                   <Link
                     href="/authpages/signin"

@@ -1,7 +1,7 @@
 'use client'
 import { useState, FormEvent, useEffect, useContext} from 'react';
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider';
-import { UserProps } from '../../../../../components/data/userdata';
+import { updateUser, UserProps } from '../../../../../components/data/userdata';
 import { BotIcon, Edit, File, FolderClosed, InfoIcon, ShieldClose } from 'lucide-react';
 import { locations } from '../../../../../components/data/locations';
 
@@ -38,8 +38,9 @@ const CustomerDashboard = () => {
   
    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-  const updateUser = async (e: FormEvent) => {
-    e.preventDefault();
+  const handleUpdateUser = async (e: FormEvent) => {
+    e.preventDefault()
+    try{
     const payload = {
       id: user.id,
       username: user.username,
@@ -51,7 +52,7 @@ const CustomerDashboard = () => {
       location
     }
 
-    console.log('PAYLOAD', payload)
+    
     const response = await fetch(`${BASE_URL}/users/updateuser`, {
       mode: 'cors',
       method: 'POST',
@@ -64,14 +65,32 @@ const CustomerDashboard = () => {
     }
 
     const data = await response.json()
-    console.log('Updated User', data)
-    setUser(data)
-
+    if(data.ok){
+      console.log('Updated User', data)
+      updateUser(data.data)
+      setUser(data.data)
+       setIsEditing(false)
+    }else{
+      console.log(data.error)
+      setError('Unable to update at the moment.')
+    }
     return
+  }catch(err){
+    setError('Something went wrong!')
+    console.log(err)
+  }
   };
 
   useEffect(()=>{
-    
+    if(user){
+    setFirstname(user.firstname || '');
+    setLastname(user.lastname || '');
+    setEmail(user.email || '');
+    setPhone(user.phone || '');
+    setAddress(user.address || '');
+    setLocation(user.location || '');
+    setIsNewsLetter(user.isNewsletter || false)
+    }
   }, [user])
 
   const handleDeleteAccount = () => {
@@ -95,8 +114,8 @@ const CustomerDashboard = () => {
                     {user && user?.name?.charAt(0)}
                   </span>
                 </div>
-                <h2 className="text-xl font-semibold text-gray-800">Hi {user?.username}</h2>
-                <p className="text-gray-500">{user?.email}</p>
+                <h2 className="text-xl font-semibold text-gray-800">Hi {user?.username || ''}</h2>
+                <p className="text-gray-500">{user?.email || ''}</p>
               </div>
               
               <nav>
@@ -143,7 +162,7 @@ const CustomerDashboard = () => {
                 </button>
               </div>
               
-              <form onSubmit={updateUser}>
+              <form onSubmit={(e)=>handleUpdateUser(e)}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Firstname</label>
@@ -162,7 +181,7 @@ const CustomerDashboard = () => {
                     <input
                       type="text"
                       name="Lastname"
-                      value={isEditing ? lastname : user?.firstname}
+                      value={isEditing ? lastname : user?.lastname}
                       onChange={(e)=>setLastname(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
@@ -170,11 +189,14 @@ const CustomerDashboard = () => {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <span className='flex gap-2'>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                      <p className='text-sm text-green'>{isEditing ? 'Contact us to change email' : null}</p>
+                    </span>
                     <input
                       type="email"
                       name="email"
-                      value={isEditing ? email : user?.email}
+                      value={user.email ? user?.email : null}
                       onChange={(e)=>setEmail(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500
                        focus:border-emerald-500 transition"
@@ -234,8 +256,11 @@ const CustomerDashboard = () => {
                     </div>
                   </div>
                 </div>
-                
-                <div className="mt-8 flex justify-end">
+                {/* Error */}
+                <p className='text-red-500 text-sm'>{error}</p>
+
+                {isEditing ?
+                 <div className="mt-8 flex justify-end">
                   <button
                     type="submit"
                     className="px-6 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 
@@ -243,7 +268,7 @@ const CustomerDashboard = () => {
                   >
                     Save Changes
                   </button>
-                </div>
+                </div>: null}
               </form>
             </div>
             

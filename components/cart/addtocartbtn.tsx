@@ -3,7 +3,6 @@ import { useContext, useState, useEffect } from "react"
 import { CartContext } from "../../contextProviders/cartcontext"
 import { ProductProps } from "../data/productsdata"
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
-import { saveUser } from "../data/userdata";
 import { updateProductSize } from "../utils";
 
 

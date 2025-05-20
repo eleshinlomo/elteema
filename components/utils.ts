@@ -1,6 +1,6 @@
 import { summary } from "framer-motion/client"
 import { ProductProps } from "./data/productsdata"
-import { UserProps, getLocalUser, saveUser } from "./data/userdata"
+import { UserProps, getLocalUser, updateUser } from "./data/userdata"
 import ProductCategory from "./product/productCategory"
 import { CartProps } from "../contextProviders/cartcontext"
 import { clotheCategoryWithSize, shoeCategoryWithSize } from "./data/categories"
@@ -39,13 +39,10 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
 
 export const fetchCart = ()=>{
     if(typeof window !== 'undefined'){
-        const userString: any = localStorage.getItem('ptlgUser')
-        if(userString){
-            let user = JSON.parse(userString)
-            
-            return user.cart 
+        const existingUser: any = getLocalUser()
+        if(existingUser){
+            return existingUser.cart 
         }
-
     }
     return []
 }
@@ -57,11 +54,11 @@ export const updateCart = (newCart: CartProps[])=>{
    const user = getLocalUser()
    if(user && user.isLoggedIn){
      const updatedUser = {...user, cart: newCart}
-     saveUser(updatedUser)
+     updateUser(updatedUser)
    }else{
     //  if a user is not logged in, we still allow them to shop using anonymous user
      const updatedUser: any = {...user, anonymous: true, cart: newCart}
-     saveUser(updatedUser)
+     updateUser(updatedUser)
      
    }
    

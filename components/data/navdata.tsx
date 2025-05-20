@@ -179,6 +179,13 @@ const navData: NavProps[] = [
     title: "Quick links",
     newTab: false,
     submenu: [
+
+      {
+        id: 1,
+        title: "Customer Dashboard",
+        path: "/dashboard/customerpage",
+        newTab: false,
+      },
       {
     id: 3,
     title: "About",
@@ -191,12 +198,7 @@ const navData: NavProps[] = [
     path: "/faqpage",
     newTab: false,
   },
-      {
-        id: 1,
-        title: "Customer Dashboard",
-        path: "/dashboard/customerpage",
-        newTab: false,
-      },
+      
      
       {
         id: 4,
