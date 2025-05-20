@@ -67,7 +67,9 @@ const CustomerDashboard = () => {
     const data = await response.json()
     if(data.ok){
       console.log('Updated User', data)
-      updateUser(data.data)
+      const newUser = data.data
+      const updatedUser = {...newUser, cart: user.cart} //Making sure we retain the old user cart
+      updateUser(updatedUser)
       setUser(data.data)
        setIsEditing(false)
     }else{
