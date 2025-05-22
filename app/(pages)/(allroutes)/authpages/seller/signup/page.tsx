@@ -3,9 +3,9 @@
 import { FormEvent, useContext, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import LoadingState from "../../../../../components/LoadingState";
-import { GeneralContext } from "../../../../../contextProviders/GeneralProvider";
-import { register } from "../../../../../components/api/users";
+import LoadingState from "../../../../../../components/LoadingState";
+import { GeneralContext } from "../../../../../../contextProviders/GeneralProvider";
+import { register } from "../../../../../../components/api/users";
 
 const SignupPage = () => {
   const [username, setUsername] = useState<string>('');
@@ -72,7 +72,7 @@ const SignupPage = () => {
                 </div>
                 <div className="text-center mb-8">
                   <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                    {!isRegistered ? 'Create Your Account' : 'Please sign in'}
+                    {!isRegistered ? 'Create Seller Account' : 'Please sign in'}
                   </h1>
                   {!isRegistered ? <p className="text-gray-600 dark:text-gray-300">
                     Join us today - it&apos;s free and only takes a minute

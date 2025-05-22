@@ -60,8 +60,8 @@ const Footer = ()=>{
             <h6 className=" font-medium mb-2 text-green-300">Resources</h6>
             <ul className="text-sm">
               <li className="mb-2">
-                <a href="#0" className="  
-                transition duration-150 ease-in-out">Documentation</a>
+                <a href="/authpages/driverregisterpage" className="  
+                transition duration-150 ease-in-out">Deliver for Elteema</a>
               </li>
               <li className="mb-2">
                 <a href="#0" className=" hover:text-green-400  transition duration-150 ease-in-out">Tutorials & Guides</a>
