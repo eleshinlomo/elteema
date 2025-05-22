@@ -49,7 +49,7 @@ const Footer = ()=>{
                 transition duration-150 ease-in-out">Bulk supply</a>
               </li>
               <li className="mb-2">
-                <a href="#" className=" hover:text-green-400 
+                <a href="/authpages/seller/signup" className=" hover:text-green-400 
                 transition duration-150 ease-in-out">Sell on Elteema</a>
               </li>
             </ul>
@@ -60,7 +60,7 @@ const Footer = ()=>{
             <h6 className=" font-medium mb-2 text-green-300">Resources</h6>
             <ul className="text-sm">
               <li className="mb-2">
-                <a href="/authpages/driverregisterpage" className="  
+                <a href="/authpages/driver/signup" className="  
                 transition duration-150 ease-in-out">Deliver for Elteema</a>
               </li>
               <li className="mb-2">

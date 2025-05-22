@@ -74,7 +74,7 @@ const Search = () => {
             <SearchIcon className="absolute right-6 top-1/2 transform -translate-y-1/2 text-green-500 h-6 w-6" />
         </div>
         <div className="flex justify-center mt-3">
-            <a href='/dashboard/sellerpage'>
+            <a href='/authpages/seller/signup'>
                 <button className="flex items-center rounded-full bg-gradient-to-r from-green-600 to-green-800 text-white px-6 py-2 shadow-md hover:shadow-lg transition-all hover:scale-105">
                     <ShoppingBag className="mr-2 h-5 w-5" />
                     SELL ON ELTEEMA
