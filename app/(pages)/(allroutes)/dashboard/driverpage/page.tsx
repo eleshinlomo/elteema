@@ -38,7 +38,7 @@ const SellersPage = () => {
         <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 flex flex-col items-center justify-center pt-32 md:pt-18 pb-4">
             <div className="max-w-2xl w-full bg-white rounded-xl shadow-lg overflow-hidden border border-green-200">
                 <div className="bg-green-600 p-4">
-                    <h1 className="text-2xl font-bold text-white text-center">Seller Registration</h1>
+                    <h1 className="text-2xl font-bold text-white text-center">Driver Registration</h1>
                 </div>
                 <div className="p-8">
                     <div className="flex items-center justify-center mb-6">
@@ -47,7 +47,7 @@ const SellersPage = () => {
                         </svg>
                     </div>
                     <p className="text-gray-700 text-center mb-6 text-lg">
-                        Welcome to the Sellers Portal. Registration for new sellers on Elteema will open soon!
+                        Welcome to the Drivers Portal. Registration for new Drivers on Elteema will open soon!
                     </p>
                     <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-6">
                         <p className="text-green-700 font-medium">
