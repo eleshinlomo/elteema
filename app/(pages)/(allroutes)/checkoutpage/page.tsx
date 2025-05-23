@@ -22,13 +22,13 @@ const CheckoutPage = () => {
   useEffect(() => {
     if (user) {
       setCustomerStateOfResidence(user.state)
-      setFormattedAddress(`${user.address}, ${user.city.toUpperCase()}, ${user.state.toUpperCase()}`)
+      setFormattedAddress(`${user.address}, ${user.city?.toUpperCase()}, ${user.state?.toUpperCase()}`)
       
     }
   }, [user])
 
   useEffect(()=>{
-    if(cart){
+    if(cart?.length > 0){
       const totalPrice = totalPriceForCustomer(cart)
       const tax = calculatePercentagePrice(totalPrice, 7.5)
       setTotalPricePlusTax(Number((totalPrice + tax)))
