@@ -14,6 +14,18 @@ export const capitalize = (text: string)=>{
     }
 }
 
+export const calculatePercentagePrice = (price: number, percentage: number)=>{
+     return price * percentage / 100
+}
+
+export const formatCurrency = (symbol:string, amount: number)=>{
+  const currency = new Intl.NumberFormat('en-US', {
+    currency: symbol,
+    style: 'currency'
+  }).format(amount)
+  return currency
+}
+
 export const totalPriceForCustomer = (cart: Array<{price: number, quantity: number}>): number => {
     return cart?.reduce((sum: number, item: {price: number, quantity: number}) => sum + (item.price * item.quantity), 0) || 0
  }
@@ -94,13 +106,7 @@ export const getItemQuantity = (targetid: number, Products: ProductProps[])=>{
    
 }
 
-export const formatCurrency = (symbol:string, amount: number)=>{
-  const currency = new Intl.NumberFormat('en-US', {
-    currency: symbol,
-    style: 'currency'
-  }).format(amount)
-  return currency
-}
+
 
 
 export const checkCategoryWithClothSize = (category: any[]) => {

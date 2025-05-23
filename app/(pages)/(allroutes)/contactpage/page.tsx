@@ -35,7 +35,7 @@ const ContactPage = () => {
     }
 
     console.log('PAYLOAD', payload)
-    const response = await fetch(`${BASE_URL}/sendcontactmessage`, {
+    const response = await fetch(`${BASE_URL}/message/sendcontactmessage`, {
       mode: 'cors',
       method: 'POST',
       headers: { 'Content-Type': 'application/json'},

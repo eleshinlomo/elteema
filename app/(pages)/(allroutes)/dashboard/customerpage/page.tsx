@@ -3,7 +3,7 @@ import { useState, FormEvent, useEffect, useContext} from 'react';
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider';
 import { updateUser, UserProps } from '../../../../../components/data/userdata';
 import { BotIcon, Edit, File, FolderClosed, InfoIcon, ShieldClose } from 'lucide-react';
-import { locations } from '../../../../../components/data/locations';
+import { cities, states } from '../../../../../components/data/locations';
 
 
 const CustomerDashboard = () => {
@@ -16,7 +16,9 @@ const CustomerDashboard = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
-  const [location, setLocation] = useState('')
+  const [city, setCity] = useState('')
+  const [state, setState] = useState('')
+  const [gender, setGender] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
@@ -49,7 +51,9 @@ const CustomerDashboard = () => {
       email,
       phone,
       address,
-      location
+      gender,
+      city,
+      state
     }
 
     
@@ -90,7 +94,9 @@ const CustomerDashboard = () => {
     setEmail(user.email || '');
     setPhone(user.phone || '');
     setAddress(user.address || '');
-    setLocation(user.location || '');
+    setCity(user.city || '');
+    setState(user.state || '');
+    setGender(user.gender || '');
     setIsNewsLetter(user.isNewsletter || false)
     }
   }, [user])
@@ -216,6 +222,22 @@ const CustomerDashboard = () => {
                       focus:border-emerald-500 transition"
                     />
                   </div>
+
+            
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                    <select
+                      name="gender"
+                      value={gender}
+                      onChange={(e)=>setGender(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
+                      focus:border-emerald-500 transition"
+                    >
+                      <option>Select gender</option>
+                     <option value='male'>Male</option>
+                     <option value='female'>Female</option>
+                    </select>
+                  </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
@@ -229,17 +251,33 @@ const CustomerDashboard = () => {
                     />
                   </div>
 
+                 
+
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
                     <select
-                      name="location"
-                      value={isEditing ? location : user?.location}
-                      onChange={(e)=>setLocation(e.target.value)}
+                      name="city"
+                      value={city}
+                      onChange={(e)=>setCity(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                     >
-                      {user?.location ? <option>{user?.location?.name}</option> : null}
-                     {locations?.map((location, index)=><option key={index}>{location.name}</option>)}
+                      <option>Select a city</option>
+                     {cities?.map((cityOption, index)=><option key={index} value={cityOption}>{cityOption}</option>)}
+                    </select>
+                  </div>
+
+                   <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                    <select
+                      name="state"
+                      value={state}
+                      onChange={(e)=>setState(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
+                      focus:border-emerald-500 transition"
+                    >
+                      <option>Select a state</option>
+                     {states?.map((stateOption, index)=><option key={index} value={stateOption}>{stateOption}</option>)}
                     </select>
                   </div>
                   

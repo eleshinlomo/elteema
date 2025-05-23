@@ -3,31 +3,42 @@
 import { useContext, useState, useEffect } from 'react'
 import { GeneralContext } from '../../../../contextProviders/GeneralProvider'
 import SigninPage from '../authpages/signin/page'
-import { capitalize, totalPriceForCustomer } from '../../../../components/utils'
+import { calculatePercentagePrice, capitalize, formatCurrency, getItemQuantity, totalPriceForCustomer } from '../../../../components/utils'
 import { CartContext } from '../../../../contextProviders/cartcontext'
 import { UserProps } from '../../../../components/data/userdata'
 import PaymentAlertCard from './paymentAlertCard'
 
 const CheckoutPage = () => {
-  const generalContext = useContext(GeneralContext)
-  const { isLoggedIn, user } = generalContext
-  const cartcontext = useContext(CartContext)
-  const { cart }: any = cartcontext
+  const { isLoggedIn, user } = useContext(GeneralContext)
+  const { cart }: any = useContext(CartContext)
   const [payBtnText, setPayBtnText] = useState('Proceed to Payment')
   const [eta, setEta] = useState('')
   const [customerStateOfResidence, setCustomerStateOfResidence] = useState('')
   const [message, setMessage] = useState('')
   const [openWarning, setOpenWarning] = useState<boolean>(false)
+  const [formattedAddress, setFormattedAddress] = useState('')
+  const [totalPricePlusTax, setTotalPricePlusTax] = useState(0)
 
   useEffect(() => {
     if (user) {
       setCustomerStateOfResidence(user.state)
+      setFormattedAddress(`${user.address}, ${user.city.toUpperCase()}, ${user.state.toUpperCase()}`)
+      
     }
   }, [user])
 
+  useEffect(()=>{
+    if(cart){
+      const totalPrice = totalPriceForCustomer(cart)
+      const tax = calculatePercentagePrice(totalPrice, 7.5)
+      setTotalPricePlusTax(Number((totalPrice + tax)))
+    }
+  }, [cart])
+
+ 
   const linkToUpdateProfile = (
     <div className="animate-pulse hover:animate-none">
-      <a href={`dashboard/` + user?.type}>
+      <a href={`/dashboard/customerpage`}>
         <button className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg px-2 py-1 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
           Complete Your Profile Information
         </button>
@@ -63,7 +74,7 @@ const CheckoutPage = () => {
   useEffect(() => {
     const findEta = () => {
       if (!user) return
-      if (customerStateOfResidence === 'Lagos State') {
+      if (user.state === 'lagos') {
         setEta('3 days')
       } else if (customerStateOfResidence === 'Outside Nigeria') {
         setEta('3 months')
@@ -74,7 +85,7 @@ const CheckoutPage = () => {
       }
     }
     findEta()
-  }, [customerStateOfResidence])
+  }, [user])
 
   return (
     <div className="min-h-screen bg-gray-50 pt-24">
@@ -109,7 +120,7 @@ const CheckoutPage = () => {
                 </div>
                 <div className="flex justify-between items-center border-b pb-2">
                   <span className="font-semibold text-gray-700">Address:</span>
-                  <span className="text-gray-900 text-right">{user.address ? user.address : linkToUpdateProfile}</span>
+                  <span className="text-gray-900 text-right">{formattedAddress ? formattedAddress : linkToUpdateProfile}</span>
                 </div>
                 <div className="flex justify-between items-center border-b pb-2">
                   <span className="font-semibold text-gray-700">Phone number:</span>
@@ -171,11 +182,17 @@ const CheckoutPage = () => {
               </h3>
               <div className="flex justify-between items-center py-4 border-b border-gray-200">
                 <p className="text-gray-700">Subtotal</p>
+                <div className='flex flex-col gap-2'>
+                <div className='flex justify-between'>
+                  <p>Tax:</p>
+                <p className="text-gray-900">N{calculatePercentagePrice(totalPriceForCustomer(cart), 7.5)}</p>
+                </div>
                 <p className="text-gray-900">N{totalPriceForCustomer(cart).toFixed(2)}</p>
+                </div>
               </div>
               <div className="flex justify-between items-center py-4">
                 <p className="font-semibold text-gray-900">Total</p>
-                <p className="text-xl font-bold text-green-600">N{totalPriceForCustomer(cart).toFixed(2)}</p>
+                <p className="text-xl font-bold text-green-600">{formatCurrency('NGN', totalPricePlusTax)}</p>
               </div>
               
               <PaymentAlertCard 

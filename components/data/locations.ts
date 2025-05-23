@@ -1,12 +1,28 @@
 
-export const locations = [
-    {name: 'Ikorodu', state: 'lagos state'},
-    {name: 'yaba', state: 'lagos state'},
-    {name: 'lekki', state: 'lagos state'},
-    {name: 'ajah', state: 'lagos state'},
-    {name: 'iyana ipaja', state: 'lagos state'},
-    {name: 'victoria island', state: 'lagos state'},
-    {name: 'lagos island', state: 'lagos state'},
-    {name: 'surulere', state: 'lagos state'},
-    {name: 'ketu', state: 'lagos state'},
+export const cities = [
+    'Ikorodu',
+    'yaba',
+    'Ikorodu',
+    'lekki',
+    'ajah',
+    'iyana ipaja',
+    'victoria island',
+    'lagos island', 
+    'surulere',
+    'ketu',
+    'apapa',
+    'amuwo-odofin',
+    'somolu',
+    'bariga',
+    'eti-osa',
+    'ajeromi-ifelodun',
+    'epe',
+    'mushin',
+    'shomolu',
+    'magodo',
+    'apongbon'
+]
+
+export const states = [
+    'lagos'
 ]

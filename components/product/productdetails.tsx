@@ -39,7 +39,13 @@ const ProductDetails = ({ id }: DetailsProps) => {
     };
 
     handlegetSingleProduct();
-  }, [id, Products, oldSize, error, user]);
+    const item = cart.find((item)=> item.id === id)
+    if(item?.isAdded){
+      setIsAdded(true)
+    }else{
+      setIsAdded(false)
+    }
+  }, [id, Products, oldSize, error, user, isAdded, cart]);
 
 
   if (!product) {
@@ -198,8 +204,10 @@ const ProductDetails = ({ id }: DetailsProps) => {
             </div>
             
             {/* Action Buttons */}
-            <div className="mt-auto space-y-4">
+            <div className="flex flex-col justify-center items-center gap-4">
+              {!isAdded ?
               <div className="flex gap-4">
+
                 <AddToCartButton targetid={product.id}  
                 oldSize={oldSize}
                 isAdded={isAdded} 
@@ -219,7 +227,9 @@ const ProductDetails = ({ id }: DetailsProps) => {
                 showShoeSizeInput={showShoeSizeInput}
                 setShowShoeSizeInput={setShowShoeSizeInput} 
                  />
-              </div>
+              </div>:
+              <a href="/checkoutpage"><button className="p-2 text-white bg-green-700 hover:bg-green-600 rounded-2xl">Checkout</button></a>
+              }
               
               <button
                 onClick={() => setOpenImageModal(true)}
