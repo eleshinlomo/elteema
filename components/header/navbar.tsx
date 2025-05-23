@@ -45,41 +45,45 @@ const NavBar = () => {
         className={`bg-black text-white px-4 sm:px-10 flex w-full ${
           sticky
             ? "fixed top-0 z-[200] !bg-opacity-90 shadow-sticky backdrop-blur-sm transition"
-            : "absolute top-0 z-[200]"
+            : "relative"
         }`}
       >
-        <div className="w-full flex justify-between items-center">
+        <div className="w-full max-w-7xl mx-auto flex justify-between items-center">
           {/* Logo and Nav Menu Container */}
-          <div className="flex  items-center">
-            {/* Logo */}
-            <div className="px-4 xl:mr-12">
+          <div className="flex items-center w-full">
+            {/* Logo - Made larger */}
+            <div className="px-4 xl:mr-8 flex-shrink-0">
               <Link href="/" className={`header-logo block w-full ${sticky ? "py-5 lg:py-2" : "py-8"}`}>
-                <div className="relative h-8 w-16">
+                <div className="relative h-10 w-32"> {/* Increased size */}
                   <Image
                     src="/images/logos/elteema_logo.png"
                     alt="logo"
-                    className="w-12 dark:hidden"
+                    className="w-full dark:hidden"
                     fill
+                    priority
+                    style={{ objectFit: 'contain' }}
                   />
                   <Image
                     src="/images/logos/elteema_logo.png"
                     alt="logo"
-                    className="hidden w-12 dark:block"
+                    className="hidden w-full dark:block"
                     fill
+                    priority
+                    style={{ objectFit: 'contain' }}
                   />
                 </div>
               </Link>
             </div>
 
-            {/* Desktop Nav Menu - Hidden on mobile */}
-            <nav className="hidden lg:block">
-              <ul className="flex  space-x-4">
+            {/* Desktop Nav Menu - Centered */}
+            <nav className="hidden lg:flex flex-1 justify-center">
+              <ul className="flex space-x-8"> {/* Increased spacing */}
                 {navdata.map((menuItem, index) => (
                   <li key={index} className="group relative">
                     {menuItem.path ? (
                       <Link
                         href={menuItem.path}
-                        className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6`}
+                        className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 hover:text-green-400 transition-colors duration-200`}
                       >
                         {menuItem.title}
                       </Link>
@@ -87,11 +91,11 @@ const NavBar = () => {
                       <>
                         <p
                           onClick={() => handleSubmenu(index)}
-                          className="flex cursor-pointer items-center justify-between py-2 text-base text-dark group-hover:text-primary dark:text-white/70 dark:group-hover:text-white lg:mr-0 lg:inline-flex lg:px-0 lg:py-6"
+                          className="flex cursor-pointer items-center justify-between py-2 text-base group-hover:text-green-400 lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 transition-colors duration-200"
                         >
                           {menuItem.title}
-                          <span className="pl-3">
-                            <svg width="25" height="24" viewBox="0 0 25 24">
+                          <span className="pl-2">
+                            <svg width="20" height="20" viewBox="0 0 25 24">
                               <path
                                 fillRule="evenodd"
                                 clipRule="evenodd"

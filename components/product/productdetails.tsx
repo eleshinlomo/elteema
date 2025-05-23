@@ -228,7 +228,47 @@ const ProductDetails = ({ id }: DetailsProps) => {
                 setShowShoeSizeInput={setShowShoeSizeInput} 
                  />
               </div>:
-              <a href="/checkoutpage"><button className="p-2 text-white bg-green-700 hover:bg-green-600 rounded-2xl">Checkout</button></a>
+              <div className="flex gap-2">
+                  <a href="/checkoutpage">
+                    <button className="
+                      py-2 px-4 
+                      text-white 
+                      bg-green-700 
+                      hover:bg-green-600 
+                      rounded-2xl 
+                      transition-all 
+                      duration-300 
+                      ease-in-out
+                      transform
+                      hover:scale-105
+                      active:scale-95
+                      shadow-md
+                      hover:shadow-lg
+                      ">
+                      Checkout
+                    </button>
+                  </a>
+  
+                  <a href="/allstorespage">
+                  <button className="
+                  py-2 px-4 
+                  text-white 
+                  bg-green-700 
+                  hover:bg-green-600 
+                  rounded-2xl 
+                  transition-all 
+                  duration-300 
+                  ease-in-out
+                  transform
+                  hover:scale-105
+                  active:scale-95
+                  shadow-md
+                  hover:shadow-lg
+                  ">
+                  Continue shopping
+                  </button>
+                    </a>
+              </div>
               }
               
               <button
