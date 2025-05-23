@@ -8,7 +8,7 @@ const HeaderAlert = ()=>{
         <div>
             <div className="  bg-black/70  text-white text-center py-4 px-4 font-extrabold">
              <h3> 
-             Shop directly from Nigeria. <span className="text-green-400">ELTEEMA</span> makes it possible!
+             Shop directly from local sellers. <span className="text-green-400">ELTEEMA</span> makes it possible!
              </h3>
             </div>
 
