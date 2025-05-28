@@ -7,6 +7,8 @@ import { calculatePercentagePrice, capitalize, formatCurrency, getItemQuantity, 
 import { CartContext } from '../../../../contextProviders/cartcontext'
 import { UserProps } from '../../../../components/data/userdata'
 import PaymentAlertCard from './paymentAlertCard'
+import { launchPaymentPopup } from './payments/paymentFunctions'
+import Image from 'next/image'
 
 const CheckoutPage = () => {
   const { isLoggedIn, user } = useContext(GeneralContext)
@@ -16,16 +18,10 @@ const CheckoutPage = () => {
   const [customerStateOfResidence, setCustomerStateOfResidence] = useState('')
   const [message, setMessage] = useState('')
   const [openWarning, setOpenWarning] = useState<boolean>(false)
-  const [formattedAddress, setFormattedAddress] = useState('')
+  const [formattedAddress, setFormattedAddress] = useState<any>('')
   const [totalPricePlusTax, setTotalPricePlusTax] = useState(0)
 
-  useEffect(() => {
-    if (user) {
-      setCustomerStateOfResidence(user.state)
-      setFormattedAddress(`${user.address}, ${user.city?.toUpperCase()}, ${user.state?.toUpperCase()}`)
-      
-    }
-  }, [user])
+  
 
   useEffect(()=>{
     if(cart?.length > 0){
@@ -46,7 +42,17 @@ const CheckoutPage = () => {
     </div>
   )
 
-  const handlePayment = () => {
+  useEffect(() => {
+    if (user?.address) {
+      setCustomerStateOfResidence(user.state)
+      setFormattedAddress(`${user.address}, ${user.city?.toUpperCase()}, ${user.state?.toUpperCase()}`)
+      
+    }else{
+      setFormattedAddress(linkToUpdateProfile)
+    }
+  }, [user])
+
+  const handlePayment = async () => {
     if (!cart || cart.length === 0) {
       setMessage('Your cart is empty')
       setOpenWarning(true)
@@ -67,7 +73,9 @@ const CheckoutPage = () => {
       setOpenWarning(true)
       return
     }
-    setMessage('The payment feature is underway')
+    // setMessage('The payment feature is underway')
+    const response = await launchPaymentPopup(user?.email, `${totalPricePlusTax}`)
+    console.log(response)
     return
   }
 
@@ -120,7 +128,7 @@ const CheckoutPage = () => {
                 </div>
                 <div className="flex justify-between items-center border-b pb-2">
                   <span className="font-semibold text-gray-700">Address:</span>
-                  <span className="text-gray-900 text-right">{formattedAddress ? formattedAddress : linkToUpdateProfile}</span>
+                  <span className="text-gray-900 text-right">{formattedAddress}</span>
                 </div>
                 <div className="flex justify-between items-center border-b pb-2">
                   <span className="font-semibold text-gray-700">Phone number:</span>
@@ -145,12 +153,17 @@ const CheckoutPage = () => {
             {cart && cart.length > 0 ? (
               <ul className="divide-y divide-gray-100">
                 {cart.map((item: any, index: number) => (
-                  <li key={index} className="p-6 hover:bg-gray-50 transition-colors duration-200">
+                  <a href={`/productpage/${item.id}`}><li key={index} className="p-6 hover:bg-gray-50 transition-colors duration-200">
                     <div className="flex flex-col sm:flex-row justify-between">
                       <div className="flex-1">
+                        <div className='flex gap-4'>
                         <h3 className="text-lg font-medium text-gray-900">
                           {capitalize(item.name)}
                         </h3>
+                        <div className='relative h-10 w-10 border border-green-800'>
+                          <Image src={item.src} alt='Item image' fill />
+                        </div>
+                        </div>
                         <p className="text-sm text-gray-500 mt-1">
                           Quantity: {item.quantity}
                         </p>
@@ -161,7 +174,7 @@ const CheckoutPage = () => {
                         </p>
                       </div>
                     </div>
-                  </li>
+                  </li></a>
                 ))}
               </ul>
             ) : (

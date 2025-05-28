@@ -6,8 +6,9 @@ import { usePathname } from "next/navigation"
 import { CartProvider} from '../../contextProviders/cartcontext'
 import Footer from "../../components/footer"
 import { GeneralProvider } from "../../contextProviders/GeneralProvider"
-import { GeneralContext } from "../../contextProviders/GeneralProvider"
 import { useSearchParams } from "next/navigation"
+import { ProductContextProvider } from "../../contextProviders/ProductContext"
+
 
 
 
@@ -30,11 +31,13 @@ const PagesLayout = ({children} : PagesRoutesProps)=>{
     return (
             <Suspense>
             <GeneralProvider>
+            <ProductContextProvider>
             <CartProvider>
             <NavBar />
             {children}
             <Footer />
             </CartProvider>
+            </ProductContextProvider>
             </GeneralProvider>
             </Suspense>
         

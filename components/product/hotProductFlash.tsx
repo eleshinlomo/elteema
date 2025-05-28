@@ -36,7 +36,7 @@ const HotProductFlash = () => {
   }, []);
 
   return (
-    <div className="relative  min-h-[40px] flex items-center justify-center px-8">
+    <div className=" flex items-center justify-center px-8">
       <div className={`flex items-center transition-all duration-500 ${isAnimating ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'}`}>
       
         <div className="text-center">
@@ -55,7 +55,7 @@ const HotProductFlash = () => {
       </div>
       
       {/* Glowing background effect */}
-      <div className={`absolute inset-0 rounded-full bg-yellow-50 opacity-0 ${isAnimating ? 'animate-ping' : ''}`}></div>
+      <div className={` rounded-full bg-yellow-50 opacity-0 ${isAnimating ? 'animate-ping' : ''}`}></div>
     </div>
   );
 };

@@ -8,6 +8,7 @@ import ProductSize from "./productSize";
 import BuyNowButton from "../cart/buyNowBtn";
 import { ProductProps } from "../data/productsdata";
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
+import { ProductContext } from "../../contextProviders/ProductContext";
 
 
 interface DetailsProps {
@@ -19,12 +20,18 @@ const ProductDetails = ({ id }: DetailsProps) => {
   const [error, setError] = useState('');
   const [openImageModal, setOpenImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [oldSize, setOldSize] = useState('')
   const [isAdded, setIsAdded] = useState<boolean>(false)
-  const { Products, cart }  = useContext(CartContext);
+  const { cart }  = useContext(CartContext);
   const {user} = useContext(GeneralContext)
-  const [showClotheSizeInput, setShowClotheSizeInput] = useState(false)
-  const [showShoeSizeInput, setShowShoeSizeInput] = useState(false)
+  const { 
+        Products,
+        oldSize,
+        setOldSize,
+        showClotheSizeInput,
+        setShowClotheSizeInput,
+        showShoeSizeInput,
+        setShowShoeSizeInput} = useContext(ProductContext)
+  
    
  
 
@@ -39,7 +46,8 @@ const ProductDetails = ({ id }: DetailsProps) => {
     };
 
     handlegetSingleProduct();
-    const item = cart.find((item)=> item.id === id)
+    // check if item is added to cart
+    const item = cart.find((item)=> item.id === product?.id)
     if(item?.isAdded){
       setIsAdded(true)
     }else{
@@ -189,9 +197,9 @@ const ProductDetails = ({ id }: DetailsProps) => {
             {/* Size Selector */}
             <div className="mb-8">
               <ProductSize 
-              setOldSize={setOldSize} 
-              oldSize={oldSize}
-              itemId={product.id} 
+              // setOldSize={setOldSize} 
+              // oldSize={oldSize}
+              targetId={product.id} 
               isAdded={isAdded} 
               setIsAdded={setIsAdded} 
               error={error}
@@ -214,57 +222,26 @@ const ProductDetails = ({ id }: DetailsProps) => {
                 setIsAdded={setIsAdded} 
                 setError={setError}
                 showClotheSizeInput={showClotheSizeInput}
-                setShowClotheSizeInput={setShowClotheSizeInput}
                 showShoeSizeInput={showShoeSizeInput}
-                setShowShoeSizeInput={setShowShoeSizeInput} 
+             
                  />
                 <BuyNowButton 
                 targetid={product.id} 
                 oldSize={oldSize}
                 setError={setError} 
                 showClotheSizeInput={showClotheSizeInput}
-                setShowClotheSizeInput={setShowClotheSizeInput}
                 showShoeSizeInput={showShoeSizeInput}
-                setShowShoeSizeInput={setShowShoeSizeInput} 
                  />
               </div>:
               <div className="flex gap-2">
                   <a href="/checkoutpage">
-                    <button className="
-                      py-2 px-4 
-                      text-white 
-                      bg-green-700 
-                      hover:bg-green-600 
-                      rounded-2xl 
-                      transition-all 
-                      duration-300 
-                      ease-in-out
-                      transform
-                      hover:scale-105
-                      active:scale-95
-                      shadow-md
-                      hover:shadow-lg
-                      ">
+                    <button className="text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white">
                       Checkout
                     </button>
                   </a>
   
-                  <a href="/allstorespage">
-                  <button className="
-                  py-2 px-4 
-                  text-white 
-                  bg-green-700 
-                  hover:bg-green-600 
-                  rounded-2xl 
-                  transition-all 
-                  duration-300 
-                  ease-in-out
-                  transform
-                  hover:scale-105
-                  active:scale-95
-                  shadow-md
-                  hover:shadow-lg
-                  ">
+                  <a href="/">
+                  <button className="text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white">
                   Continue shopping
                   </button>
                     </a>

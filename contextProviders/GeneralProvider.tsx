@@ -1,5 +1,7 @@
 'use client'
 import React, { createContext, useState } from "react"
+import { FeedProps } from "../components/feed/feedFunctions";
+import { ProductProps } from "../components/data/productsdata";
 
 interface GeneralProps {
     children: React.ReactNode
@@ -9,22 +11,31 @@ export interface GeneralContextInitialProps {
     isLoggedIn: boolean,
     isLoading: boolean;
     sticky: boolean;
+    userStore: ProductProps[];
+    setUserStore: (value: null | any)=>void;
     setSticky: (value: boolean)=> void;
     setIsLoading: (value: boolean)=> void;
     setIsLoggedIn: (value: boolean)=> void;
     user: any | null;
     setUser: (value: null)=>void;
+    feeds: FeedProps[];
+    setFeeds: (value: [])=>void
 
 }
 const initialValues : GeneralContextInitialProps = {
   sticky: false,
+  userStore: [],
+  setUserStore: ()=>{},
   setSticky: ()=>{},
   isLoggedIn: false,
   setIsLoggedIn: ()=>{},
   isLoading: false,
   setIsLoading: ()=>{},
   user: null,
-  setUser: ()=>{}
+  setUser: ()=>{},
+  feeds: [],
+  setFeeds: ()=>{},
+
 }
 
 
@@ -33,8 +44,10 @@ export const GeneralProvider = ({children}: GeneralProps)=>{
 
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
     const [user, setUser] = useState<any | null>(null)
+    const [userStore, setUserStore] = useState<ProductProps[]>([])
     const [isLoading, setIsLoading] = useState(false)
     const [sticky, setSticky] = useState(false);
+    const [feeds, setFeeds] = useState<FeedProps[]>([])
 
     
 
@@ -46,7 +59,11 @@ const values : GeneralContextInitialProps = {
     isLoading,
     setIsLoading,
     user,
-    setUser
+    setUser,
+    userStore,
+    setUserStore,
+    feeds,
+    setFeeds
 }
     return (
     <GeneralContext.Provider value={values}>

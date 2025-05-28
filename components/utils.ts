@@ -2,7 +2,6 @@ import { summary } from "framer-motion/client"
 import { ProductProps } from "./data/productsdata"
 import { UserProps, getLocalUser, updateUser } from "./data/userdata"
 import ProductCategory from "./product/productCategory"
-import { CartProps } from "../contextProviders/cartcontext"
 import { clotheCategoryWithSize, shoeCategoryWithSize } from "./data/categories"
 
 const date = new Date()
@@ -62,7 +61,7 @@ export const fetchCart = ()=>{
 
   
 
-export const updateCart = (newCart: CartProps[])=>{
+export const updateCart = (newCart: ProductProps[])=>{
    const user = getLocalUser()
    if(user && user.isLoggedIn){
      const updatedUser = {...user, cart: newCart}
@@ -109,21 +108,26 @@ export const getItemQuantity = (targetid: number, Products: ProductProps[])=>{
 
 
 
-export const checkCategoryWithClothSize = (category: any[]) => {
-  if (!category || !category.length) return false;
-  const hasSize = category.some(cat => 
+export const checkCategoryWithClothSize = (id: number, Products: ProductProps[]) => {
+  
+  if (!id || !Products || Products.length === 0) return false;
+  const product = Products.find((item)=>item.id === id)
+  const hasSize = product?.category.some(cat => 
     clotheCategoryWithSize.includes(cat.toLowerCase())
   );
   return hasSize;
 }
 
-export const checkCategoryWithShoeSize = (category: any[]) => {
-  if (!category || !category.length) return false;
-  const hasSize = category.some(cat => 
+export const checkCategoryWithShoeSize = (id: number, Products: ProductProps[]) => {
+   if (!id || !Products || Products.length === 0) return false;
+  const product = Products.find((item)=>item.id === id)
+  const hasSize = product?.category.some(cat => 
     shoeCategoryWithSize.includes(cat.toLowerCase())
   );
   return hasSize;
 }
+
+
 
   
   

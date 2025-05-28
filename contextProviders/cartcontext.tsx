@@ -5,22 +5,23 @@ import { getProductData} from "../components/data/productsdata";
 import { ProductProps } from "../components/data/productsdata";
 import {  fetchCart, updateCart, updateProductSize } from "../components/utils";
 import { GeneralContext } from "./GeneralProvider";
+import { ProductContext } from "./ProductContext";
 
 interface ContextProps {
   children: React.ReactNode,
 }
 
-export interface CartProps extends ProductProps {
-    size: string;
-}
+// export interface CartProps extends ProductProps {
+//     size: string;
+// }
 
 interface ContextDefaultProps {
     
-    cart: CartProps[];
-    setCart: (value: CartProps[])=>void;
+    cart: ProductProps[];
+    setCart: (value: ProductProps[])=>void;
     handleQuantityIncrease: (targetId: number) => void;
     handleQuantityDecrease: (targetId: number) => void;
-    addToCart: (targetId: number, cart: CartProps[], size: string) => void;
+    addToCart: (targetId: number, cart: ProductProps[], size: string) => void;
     removeItem: (targetId: number) => void;
     totalItems: number;
     setTotalItems: (value: number)=>void;
@@ -50,46 +51,28 @@ export const CartContext = createContext<ContextDefaultProps>(defaultValues);
 export const CartProvider = ({ children }: ContextProps) => {
 
     const [totalPrice, setTotalPrice] = useState<number>(0);
-    const [cart, setCart] = useState<CartProps[]>([]);
+    const [cart, setCart] = useState<ProductProps[]>([]);
     const [totalItems, setTotalItems] = useState<number>(0);
     const [isAdded, setIsAdded] = useState<boolean>(false);
     const [quantity, setQuantity] = useState<number>(0);
-    const [Products, setProducts] = useState<ProductProps[]>([])
+    const {Products} = useContext(ProductContext)
     const generalContext: any = useContext(GeneralContext)
     const {user, setUser} = generalContext
 
      // This we use to set saved Cart values and also update whenever new item is added to the cart
       const handleFetchCart = ()=>{
-        const existingCart: CartProps[] = fetchCart()
+        const existingCart: ProductProps[] = fetchCart()
         if(existingCart && existingCart.length > 0){
         setCart(existingCart)
         console.log('CART', cart)
         setTotalItems(existingCart?.reduce((sum, item)=> sum + item?.quantity, 0))
         setTotalPrice(existingCart?.reduce((sum, item)=> sum + item?.price * item?.quantity, 0))
-         
-       
         }
         
       }
       useEffect(()=>{
         handleFetchCart()
       }, [])
-
-
-
-
-
-      const handleGetProducts = async()=>{
-        const products = await getProductData()
-        if(products){
-            setProducts(products.products)
-        }
-      }
-
-      useEffect(()=>{
-       handleGetProducts()
-      }, [])
-
 
 
     const handleQuantityIncrease = (targetId: number) => {
@@ -128,7 +111,7 @@ export const CartProvider = ({ children }: ContextProps) => {
     };
 
    
-    const addToCart = (targetId: number, cart: CartProps[], size: string) => {
+    const addToCart = (targetId: number, cart: ProductProps[], size: string) => {
     const isProductExists = cart.find((product) => product.id === targetId);
     
     if (isProductExists) {

@@ -35,7 +35,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
   }, [])
   
   const generalContext = useContext(GeneralContext)
-  const {isLoggedIn, setIsLoggedIn, user, setUser} = generalContext
+  const {isLoggedIn, setIsLoggedIn, user, setUser, userStore, setUserStore} = generalContext
 
 
 
@@ -84,7 +84,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
                   code = ''
                   email = ''
                   setIsLoading(false)
-                  router.push('/allstorespage')
+                  router.push('/')
                 
               } 
              
@@ -110,6 +110,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
         if (localUser && localUser.authCode && localUser.email) {
           setIsLoggedIn(localUser.isLoggedIn);
           setUser(localUser);
+        
           return;
         }else if(localUser && localUser.anonymous){ //When cookies is accepted or declined, an anonymous user is also created.
                 setUser(localUser)
@@ -134,7 +135,11 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
     
   }, [email, code])
   
-
+useEffect(()=>{
+     if(user && user?.store.length > 0){
+            setUserStore(user.store)
+        }
+},[userStore])
  
 
   return (

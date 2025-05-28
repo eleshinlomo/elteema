@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { ProductProps } from '../data/productsdata'
 import SkeletonPage from '../skeletonPage'
 import { formatCurrency } from '../utils'
+import PopularBadge from './popularBadge'
 
 interface AllProductDisplayProps {
     productArray: ProductProps[]
@@ -11,7 +12,7 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
     return (
         <div className="py-8 px-4 sm:px-6 lg:px-8">
             {productArray && productArray.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div className="">
                     {productArray?.map((item, index) => (
                         <div 
                             key={index} 
@@ -28,11 +29,7 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
                                     className="transition-transform duration-500 group-hover:scale-110"
                                 />
                                 {/* Badge for popular items */}
-                                {item.numOfItemsSold > 5 && (
-                                    <div className="absolute top-2 right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                        Popular
-                                    </div>
-                                )}
+                                <PopularBadge item={item} />
                                 </a>
                             </div>
                             

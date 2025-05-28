@@ -13,9 +13,8 @@ interface AddToCartBtnProps {
     setError: (value: string)=>void
     oldSize: string;
     showClotheSizeInput: boolean
-     setShowClotheSizeInput: (value: boolean)=>void
      showShoeSizeInput: boolean
-     setShowShoeSizeInput: (value: boolean)=>void
+
     
 }
 
@@ -26,9 +25,7 @@ const AddToCartButton = ({
     setIsAdded, 
     setError,
     showClotheSizeInput,
-    setShowClotheSizeInput,
     showShoeSizeInput,
-    setShowShoeSizeInput,
 }: AddToCartBtnProps) => {
     const [buttonText, setButtonText] = useState('Add To Cart')
     const [isAnimating, setIsAnimating] = useState(false)
@@ -52,9 +49,6 @@ const AddToCartButton = ({
         setIsAdded(true)
         setButtonText('Added ✓')
         
-        const isProductInCart = cart?.find((item) => item.isAdded)
-
-        
     }
 
   
@@ -76,20 +70,11 @@ const AddToCartButton = ({
         <button
             onClick={handleAddToCart}
             className={`
-                w-full
-                px-8 py-2 rounded-full
-                font-medium text-white
-                bg-gradient-to-r from-green-500 to-emerald-600
-                hover:from-green-600 hover:to-emerald-700
-                active:scale-95 transition-all duration-200
-                shadow-md hover:shadow-lg
-                ${buttonText === 'Added ✓' ? 'bg-emerald-600 from-emerald-600 to-emerald-700' : ''}
-            `}
-        >
-            <span className={`relative z-10 ${isAnimating ? 'animate-pulse' : ''}`}>
+               text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white`}>
+               
+            <span className=''>
                 {buttonText}
             </span>
-            
           
         </button>
         

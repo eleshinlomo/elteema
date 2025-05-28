@@ -1,0 +1,191 @@
+import { useState, useContext, useEffect } from 'react'
+import Image from 'next/image'
+import { CartContext} from '../../contextProviders/cartcontext'
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import AddToCartButton from '../cart/addtocartbtn'
+import BuyNowButton from '../cart/buyNowBtn'
+import ProductSize from '../product/productSize'
+import { capitalize, formatCurrency } from '../utils'
+import PopularBadge from '../product/popularBadge'
+import { ProductContext } from '../../contextProviders/ProductContext'
+import { ProductProps } from '../data/productsdata'
+
+interface StoreProps {
+    productArray: ProductProps[];
+    numPerPage: number
+}
+
+
+const DisplayStore = ({productArray, numPerPage}: StoreProps) => {
+
+    const [error, setError] = useState('')
+    const [isAdded, setIsAdded] = useState(false)
+    const {cart} = useContext(CartContext)
+    const { 
+            Products,
+            oldSize,
+            setOldSize,
+            showClotheSizeInput,
+            setShowClotheSizeInput,
+            showShoeSizeInput,
+            setShowShoeSizeInput} = 
+            useContext(ProductContext)
+
+            const [currentPage, setCurrentPage] = useState(0)
+            const itemsPerPage = numPerPage
+            const totalPages = Math.ceil(productArray?.length / itemsPerPage)
+           
+            const currentItems = productArray?.slice(
+            currentPage * itemsPerPage,
+            (currentPage + 1) * itemsPerPage,
+            )
+
+    
+
+    const nextPage = () => {
+        if (currentPage < totalPages - 1) {
+            setCurrentPage(currentPage + 1)
+        }
+    }
+
+    const prevPage = () => {
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1)
+        }
+    }
+
+    useEffect(()=>{
+     
+    },[cart, isAdded])
+
+    return (
+        <div>
+            {productArray?.length > 0 && (
+                <>
+                   
+                    <div className='relative'>
+                        <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4'>
+                            {currentItems.map((item, StoreIndex) => (
+                                <div key={StoreIndex} className='border border-gray-200 rounded-lg p-3 hover:shadow-md transition-shadow'>
+                                    <div className='flex flex-col '>
+                                        <a href={`/productpage/${item.id}`} className=''>
+                                        <div className='relative h-20 w-full flex-shrink-0 rounded-md overflow-hidden'>
+                                            <Image 
+                                                src={item.src} 
+                                                alt={item.name}
+                                                layout='fill'
+                                                objectFit='cover'
+                                                className='hover:scale-105 transition-transform'
+                                            />
+                                            {/* Badge for popular items */}
+                                            <PopularBadge item={item} />
+                                        </div>
+                                        <div className=''>
+                                            <h5 className='font-small text-gray-800 line-clamp-1'>{item.name}
+                                                <span className='text-sm'>(sold: {item.numOfItemsSold})</span>
+                                            </h5>
+                                            <p className='text-green-600 font-bold mt-1'>{formatCurrency('NGN', item.price)}</p>
+                                            <p className='mt-1 text-sm'>Condition: {capitalize(item.condition)}</p>
+                                            <p className=' mt-1 text-sm'>Deliver: {capitalize(item.deliver)}</p>
+                                            <div className='flex items-center mt-1'>
+                                                <div className='flex items-center text-yellow-400'>
+                                                    {[...Array(5)].map((_, i) => (
+                                                        <svg key={i} className={`w-3 h-3 ${i < item.totalVotes ? 'fill-current' : 'fill-none stroke-current'}`} viewBox="0 0 24 24">
+                                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                                        </svg>
+                                                    ))}
+                                                </div>
+                                                <span className='text-xs text-gray-500 ml-1'>({item.totalVotes})</span>
+                                            </div>
+                                        </div>
+                                        </a>
+                                            
+                                          {/* Size Selector */}
+            <div className="mb-8">
+              <ProductSize 
+            //   setOldSize={setOldSize} 
+            //   oldSize={oldSize}
+              targetId={item.id} 
+              isAdded={isAdded} 
+              setIsAdded={setIsAdded} 
+              error={error}
+              setError={setError}
+              showClotheSizeInput={showClotheSizeInput}
+              setShowClotheSizeInput={setShowClotheSizeInput}
+              showShoeSizeInput={showShoeSizeInput}
+              setShowShoeSizeInput={setShowShoeSizeInput} 
+              />
+            </div>
+                                            
+                                            {/* Action Buttons */}
+                                            <div className="mt-2 flex flex-wrap gap-2">
+                                                {!item.isAdded ? (
+                                                    <>
+                                                        <AddToCartButton 
+                                                            targetid={item.id}  
+                                                            oldSize={oldSize}
+                                                            isAdded={item.isAdded} 
+                                                            setIsAdded={setIsAdded} 
+                                                            setError={setError}
+                                                            showClotheSizeInput={showClotheSizeInput}
+                                
+                                                            showShoeSizeInput={showShoeSizeInput}
+                                                          
+                                                            
+                                                        />
+                                                        <BuyNowButton 
+                                                            targetid={item.id} 
+                                                            oldSize={oldSize}
+                                                            setError={setError} 
+                                                            showClotheSizeInput={showClotheSizeInput}
+                                                            showShoeSizeInput={showShoeSizeInput}
+                                                         
+                                                            
+                                                        />
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <a href="/checkoutpage">
+                                                            <button className="text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white">
+                                                                Checkout
+                                                            </button>
+                                                        </a>
+                                                        <p>Added</p>
+                                                    </>
+                                                )}
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {totalPages > 1 && (
+                            <div className='flex justify-center items-center mt-4 space-x-4'>
+                                <button 
+                                    onClick={prevPage}
+                                    disabled={currentPage === 0}
+                                    className={`p-1 rounded-full ${currentPage === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+                                >
+                                    <FiChevronLeft size={16} />
+                                </button>
+                                <span className='text-xs text-gray-600'>
+                                    Page {currentPage + 1} of {totalPages}
+                                </span>
+                                <button 
+                                    onClick={nextPage}
+                                    disabled={currentPage === totalPages - 1}
+                                    className={`p-1 rounded-full ${currentPage === totalPages - 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+                                >
+                                    <FiChevronRight size={16} />
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </>
+            )}
+        </div>
+    )
+}
+
+export default DisplayStore

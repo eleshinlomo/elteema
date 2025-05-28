@@ -6,6 +6,8 @@ export interface ProductProps {
     id: number;
     name: string;
     price: number;
+    condition:string;
+    deliver:string;
     src: any;
     quantity: number;
     star: number;
@@ -33,7 +35,8 @@ export const getProductData = async ()=>{
     const data: any = await response.json()
     
     if(data.ok) {
-        return data
+        console.log(data)
+        return data.products
     }
     console.log('Unable to fetch')
     return

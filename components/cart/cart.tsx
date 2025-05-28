@@ -106,16 +106,21 @@ const Cart = () => {
         </div>
 
         {/* Subtotal Section */}
-        <div className="p-4 bg-green-100 border-b border-green-200">
+        <div className="p-4  bg-green-100 border-b border-green-200">
+          <div className='flex gap-2'>
           <p className="text-green-800 font-bold text-lg">
             Subtotal ({totalItems ?? 0}): {formatCurrency('NGN', totalPrice) ?? 0}
           </p>
+          <a href='/'><button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
+            Conitnue shopping</button></a>
+          </div>
           <button
             onClick={sendToCheckout}
             className="mt-4 w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg shadow-md transition"
           >
             {checkoutText}
           </button>
+         
         </div>
 
         {/* Cart Items */}
@@ -125,7 +130,9 @@ const Cart = () => {
               <div key={item.id} className="border rounded-lg p-4 bg-white shadow-sm">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="font-semibold text-gray-800">{item.name}</h3>
+                    <a href={`/productpage/${item.id}`}>
+                      <h3 className="font-semibold text-gray-800">{item.name}</h3>
+                    </a>
                   </div>
                   <div className="flex items-center space-x-2">
                     <button
@@ -144,9 +151,11 @@ const Cart = () => {
                   </div>
                 </div>
                 <div className="flex justify-between items-center mt-2">
-                  <p className="text-green-800 font-medium">
+                  <a href={`/productpage/${item.id}`}>
+                    <p className="text-green-800 font-medium">
                     {formatCurrency('NGN', item.price )}
-                  </p>
+                    </p>
+                  </a>
                   <button
                     onClick={() => removeItem(item.id)}
                     className="text-red-700 bg-red-100 hover:bg-red-200 rounded-lg px-3 py-1 transition"

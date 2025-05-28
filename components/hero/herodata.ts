@@ -11,7 +11,7 @@ export const HeroData = [
 
   {
     
-    content: 'Online shopping for Nigerian-made goods',
+    content: 'Online shopping for locally-made goods',
     path: '/categorypage/' + decodeURIComponent('women clothings'),
     src: slide1,
     color: 'green'

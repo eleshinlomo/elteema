@@ -6,6 +6,9 @@ import Bestsellers from "../../../../components/product/bestseller";
 import Trending from "../../../../components/product/trending";
 import New from "../../../../components/product/new";
 import CookiePolicy from "../../../../components/cookieAcceptPage";
+import Feeds from '../../../../components/feed/feeds';
+import Featured from '../../../../components/product/featured';
+import FeedsPage from '../feedspage/page';
 
 export default function Home() {
 
@@ -13,12 +16,13 @@ export default function Home() {
   return (
     <div id='top' className="">
       
-      <Search />
-      <Bestsellers />
+      {/* <Featured /> */}
+      <FeedsPage />
+      {/* <Bestsellers />
       <New />
       <Trending />
       <TestimonialsPage />
-      <CookiePolicy />
+      <CookiePolicy /> */}
     </div>
   );
 }
