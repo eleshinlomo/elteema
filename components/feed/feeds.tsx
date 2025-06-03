@@ -64,7 +64,7 @@ const Feeds = ({setShowSearch}: Props) => {
       <div id='new' className='pt-2 bg-gray-50 '>
         <div className='max-w-4xl mx-auto px-4'>
             <h2 className="text-2xl font-bold text-green-700 mb-6 text-center bg-white/90 p-2 rounded-lg shadow-sm">
-                {user ? `Welcome back, ${capitalize(user.username)}!` : 'Join the conversation!'}
+                {user?.username ? `Welcome back, ${capitalize(user.username)}!` : 'Join the conversation!'}
             </h2>
             
             <HotProductFlash />

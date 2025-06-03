@@ -10,6 +10,7 @@ const FeedsPage = () => {
     const { sticky } = useContext(GeneralContext);
     const [scrolledPast20, setScrolledPast20] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -19,15 +20,37 @@ const FeedsPage = () => {
             }
         };
 
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+
         window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        window.addEventListener("resize", handleResize);
+        
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("resize", handleResize);
+        };
     }, [scrolledPast20]);
 
+    // Calculate main content margin based on window width
+    const getMainContentMargin = () => {
+        if (windowWidth >= 1536) { // xl screens
+            return 'mx-auto';
+        } else if (windowWidth >= 1280) { // lg screens
+            return 'mx-auto';
+        } else if (windowWidth >= 1024) { // md screens
+            return 'ml-[450px] mr-[450px]';
+        } else {
+            return 'mx-auto';
+        }
+    };
+
     return (
-        <div className="bg-gray-50  text-gray-800">
-            {/* Left Sidebar */}
+        <div className="bg-gray-50 text-gray-800">
+            {/* Left Sidebar - Hidden on small screens */}
             <aside
-                className={`hidden sm:block w-[450px]  fixed left-0 bottom-0 z-20 transition-all duration-300 ease-in-out
+                className={`hidden lg:block w-[450px] fixed left-0 bottom-0 z-20 transition-all duration-300 ease-in-out
                     ${sticky ? "top-[10%]" : "top-[25%]"}`}
             >
                 <div className="h-full p-4">
@@ -37,9 +60,9 @@ const FeedsPage = () => {
                 </div>
             </aside>
 
-            {/* Main Content - Centered */}
-            <main className={`mx-auto transition-all duration-300 ${sticky ? "" : ""}`}>
-                <div className="max-w-xl mx-auto px-4 sm:px-6 py-8">
+            {/* Main Content - Responsive margins */}
+            <main className={`transition-all duration-300 ${getMainContentMargin()}`}>
+                <div className={`max-w-xl mx-auto px-4 sm:px-6 py-8 ${windowWidth < 1024 ? 'w-full' : ''}`}>
                     {showSearch ? (
                         <FeaturedMobile setShowSearch={setShowSearch} />
                     ) : (
@@ -48,9 +71,9 @@ const FeedsPage = () => {
                 </div>
             </main>
 
-            {/* Right Sidebar */}
+            {/* Right Sidebar - Hidden on small screens */}
             <aside
-                className={`hidden sm:block w-[450px] fixed right-0 bottom-0 z-20 transition-all duration-300 ease-in-out
+                className={`hidden lg:block w-[450px] fixed right-0 bottom-0 z-20 transition-all duration-300 ease-in-out
                     ${sticky ? "top-[10%]" : "top-[25%]"}`}
             >
                 <div className="h-full p-4">
@@ -59,6 +82,17 @@ const FeedsPage = () => {
                     </div>
                 </div>
             </aside>
+
+            {/* Mobile overlays - Only show on small screens */}
+            {windowWidth < 1024 && (
+                <>
+                    {showSearch && (
+                        <div className="fixed inset-0 bg-white z-30 overflow-y-auto">
+                            <FeaturedMobile setShowSearch={setShowSearch} />
+                        </div>
+                    )}
+                </>
+            )}
         </div>
     );
 };
