@@ -35,7 +35,7 @@ const PagesLayout = ({children} : PagesRoutesProps)=>{
             <CartProvider>
             <NavBar />
             {children}
-            <Footer />
+            {/* <Footer /> */}
             </CartProvider>
             </ProductContextProvider>
             </GeneralProvider>

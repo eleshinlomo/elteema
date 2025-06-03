@@ -4,6 +4,7 @@ import { GeneralContext } from '../../../../../contextProviders/GeneralProvider'
 import { updateUser, UserProps } from '../../../../../components/data/userdata';
 import { BotIcon, Edit, File, FolderClosed, InfoIcon, ShieldClose } from 'lucide-react';
 import { cities, states } from '../../../../../components/data/locations';
+import { capitalize } from '../../../../../components/utils';
 
 
 const CustomerDashboard = () => {
@@ -119,10 +120,10 @@ const CustomerDashboard = () => {
               <div className="flex flex-col items-center mb-6">
                 <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
                   <span className="text-3xl text-emerald-600 font-bold">
-                    {user && user?.name?.charAt(0)}
+                    {user && user?.username?.charAt(0)}
                   </span>
                 </div>
-                <h2 className="text-xl font-semibold text-gray-800">Hi {user?.username || ''}</h2>
+                <h2 className="text-xl font-semibold text-gray-800">Hi {capitalize(user?.username) || ''}</h2>
                 <p className="text-gray-500">{user?.email || ''}</p>
               </div>
               
@@ -151,6 +152,14 @@ const CustomerDashboard = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                       </svg>
                       Order History
+                    </a>
+                  </li>
+                    <li>
+                    <a href="#" className="flex items-center p-3 rounded-lg text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 transition">
+                      <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                      </svg>
+                      Store
                     </a>
                   </li>
                 </ul>

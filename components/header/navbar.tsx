@@ -13,8 +13,8 @@ const NavBar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [openIndex, setOpenIndex] = useState(-1);
 
-  const generalContext = useContext(GeneralContext);
-  const { isLoggedIn, setIsLoggedIn, user, sticky, setSticky }: GeneralContextInitialProps = generalContext;
+
+  const { isLoggedIn, setIsLoggedIn, user, sticky, setSticky } = useContext(GeneralContext);
 
   const pathName = usePathname();
 
@@ -107,7 +107,7 @@ const NavBar = () => {
                         </p>
                         <div
                           className={`submenu relative left-0 top-full rounded-sm bg-white text-green-700 transition-[top] duration-300 group-hover:opacity-100 
-                            dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg
+                            dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg z-[700]
                             lg:group-hover:visible lg:group-hover:top-full ${openIndex === index ? "block" : "hidden"}`}
                         >
                           {menuItem.submenu.map((submenuItem: any, subIndex: any) => (

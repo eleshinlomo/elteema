@@ -139,7 +139,7 @@ useEffect(()=>{
      if(user && user?.store.length > 0){
             setUserStore(user.store)
         }
-},[userStore])
+},[user?.store])
  
 
   return (

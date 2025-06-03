@@ -11,10 +11,12 @@ const HotProductFlash = () => {
   const [isAnimating, setIsAnimating] = useState(false);
 
   const hotItems: HotItemProps[] = [
-    { name: 'Handcrafted Leather Bags', href: '/collections/bags' },
-    { name: 'Authentic African Shoes', href: '/collections/shoes' },
-    { name: 'Colorful Ankara Dresses', href: '/collections/dresses' },
-    { name: 'Tribal Wooden Masks', href: '/collections/masks' },
+    { name: 'Orders completed online are safe', href: '#' },
+    // { name: 'Seller gets paid when order is received', href: '#' },
+    { name: 'Online transactions are secure', href: '#' },
+    { name: 'Shop faster in your city', href: '#' },
+    { name: 'Pick-up orders only in public places.', href: '#' },
+    {name: 'Avoid night time pick-ups', href: '#' },
   ];
 
   useEffect(() => {
@@ -40,7 +42,7 @@ const HotProductFlash = () => {
       <div className={`flex items-center transition-all duration-500 ${isAnimating ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'}`}>
       
         <div className="text-center">
-          <span className="text-sm font-medium text-gray-600">Hot Item: </span>
+          <span className="text-sm font-medium text-gray-600">Pro tip: </span>
           {showItem ? (
             <a 
               href={showItem.href} 

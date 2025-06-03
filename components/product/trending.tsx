@@ -27,8 +27,8 @@ const Trending = ()=>{
 
     return (
       <div>
-           <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Trending</h2>
-            {trendingItems && trendingItems.length > 0 ? <DisplayStore productArray={Products} numPerPage={4} />
+           <h2 className="text-3xl font-bold text-gray-800  text-center">Trending</h2>
+            {trendingItems && trendingItems.length > 0 ? <DisplayStore productArray={Products} numPerPage={2} />
             : <SkeletonPage message={message} />}
 
   </div>

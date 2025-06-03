@@ -1,9 +1,10 @@
+'use client'
 import React, {useState, useEffect, useContext, ChangeEvent} from 'react'
 import { ProductProps } from "../data/productsdata"
 import Image from 'next/image'
 import { capitalize, searchSingleProduct } from '../utils'
 import { CartContext} from '../../contextProviders/cartcontext'
-import PostModal from './postModal'
+import PostModal from './postFeed'
 import HotProductFlash from '../product/hotProductFlash'
 import { GeneralContext } from '../../contextProviders/GeneralProvider'
 import { FeedProps, getFeeds } from './feedFunctions'
@@ -13,15 +14,30 @@ import { BsThreeDotsVertical } from 'react-icons/bs'
 import { RiVerifiedBadgeFill } from 'react-icons/ri'
 import DisplayStore from '../store/displayStore'
 import Featured from '../product/featured'
+import PostFeed from './postFeed'
 
-const Feeds = () => {
+interface Props {
+    setShowSearch: (value: boolean)=>void
+}
+
+
+const Feeds = ({setShowSearch}: Props) => {
+
+    const handleShowSearch = ()=>{
+    setShowSearch(true)
+}
    
     const {user, feeds, setFeeds, userStore, setUserStore} = useContext(GeneralContext)
     const message = 'Loading new items...'
     const [text, setText] = useState('')
     const [isTyping, setIsTyping] = useState(false)
     const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({})
+    const [toggleThreeDotsBtn, setToggleThreeDotsBtn] = useState(false)
+   
 
+    const handleThreeDotBtn = ()=>{
+        setToggleThreeDotsBtn(!toggleThreeDotsBtn)
+    }
     
     const handleGetFeeds = async () => {
        const initialFeeds: FeedProps[] | any = await getFeeds()
@@ -32,15 +48,10 @@ const Feeds = () => {
 
     useEffect(() => {
         handleGetFeeds()
-    }, [feeds, text, likedPosts, userStore])
+    }, [feeds, text, likedPosts, user?.store])
 
 
-
-    const handleValueChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setIsTyping(true)
-        const newValue = e.target.value;
-        setText(newValue);
-    }
+//    console.log('FEED', feeds)
 
     const toggleLike = (postId: string) => {
         setLikedPosts(prev => ({
@@ -50,7 +61,7 @@ const Feeds = () => {
     }
 
     return (
-      <div id='new' className='pt-2 bg-gray-50 min-h-screen'>
+      <div id='new' className='pt-2 bg-gray-50 '>
         <div className='max-w-4xl mx-auto px-4'>
             <h2 className="text-2xl font-bold text-green-700 mb-6 text-center bg-white/90 p-2 rounded-lg shadow-sm">
                 {user ? `Welcome back, ${capitalize(user.username)}!` : 'Join the conversation!'}
@@ -59,30 +70,35 @@ const Feeds = () => {
             <HotProductFlash />
             
             {/* Create Post Card */}
-            <div className='bg-green-200 rounded-xl shadow-md p-4 mb-6 border border-gray-200'>
-                <div className='flex items-start space-x-3'>
-                    <div className='flex-shrink-0'>
-                        <div className='h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold'>
-                            {user ? user.firstname.charAt(0).toUpperCase() : 'Y'}
-                        </div>
-                    </div>
-                    <div className='flex-1'>
-                        <textarea 
-                            className='w-full border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none bg-white text-gray-800'
-                            value={text}
-                            onChange={handleValueChange}
-                            placeholder='Share your thoughts or list an item for sale...' 
-                            rows={3}
-                        />
-                        <div className='flex justify-between items-center mt-3'>
-                            <PostModal 
+            <div className='bg-green-400 rounded-xl shadow-md p-4 mb-6 border border-gray-200'>
+                   <PostFeed
                                 text={text} 
                                 setText={setText} 
                                 isTyping={isTyping} 
                                 setIsTyping={setIsTyping} 
                             />
+                {/* <div className='flex flex-col justify-center'> */}
+                    {/* <div className='flex-shrink-0'>
+                        <div className='h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold'>
+                            {user ? user.firstname.charAt(0).toUpperCase() : 'Y'}
                         </div>
-                    </div>
+                    </div> */}
+                    {/* <div className='flex-1'> */}
+                        {/* <textarea 
+                            className='w-full border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none bg-white text-gray-800'
+                            value={text}
+                            onChange={handleValueChange}
+                            placeholder='Share your thoughts or list an item for sale...' 
+                            rows={3}
+                        /> */}
+                        {/* <div className='flex justify-between items-center mt-3'>
+                         
+                        </div> */}
+                    {/* </div> */}
+                {/* </div> */}
+                <div className='md:hidden flex justify-center gap-4'>
+                    <button className='bg-green-600 text-white px-2' >Feed</button>
+                    <button className='bg-green-600 text-white px-2' onClick={handleShowSearch}>Search</button>
                 </div>
             </div>
 
@@ -91,7 +107,7 @@ const Feeds = () => {
             </div>
 
             {/* No feeds display */}
-            {feeds.length === 0 &&
+            {feeds?.length === 0 &&
               <div className='bg-white rounded-xl shadow-md p-8 text-center border border-gray-200'>
                   <h3 className='text-lg font-medium text-gray-800 mb-2'>No posts yet</h3>
                   <p className='text-gray-600'>Be the first to share something!</p>
@@ -99,11 +115,11 @@ const Feeds = () => {
             }
             
             {/* Feeds Section */}
-            <div className='space-y-6'>
-                {feeds.sort((a: any,b: any)=>new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((feed, index) => (
-                    <div key={index} className='bg-white rounded-xl shadow-md overflow-hidden border border-gray-200'>
+            <div className='space-y-6 '>
+                {feeds?.length > 0 && feeds?.sort((a: any,b: any)=>new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((feed, index) => (
+                    <div key={index} className='rounded-xl shadow-md overflow-hidden border border-gray-200'>
                         {/* Feed Header */}
-                        <div className='p-4 flex justify-between items-center border-b border-gray-100 bg-green-200'>
+                        <div className='p-4 flex justify-between items-center border-b border-gray-100 bg-green-700 '>
                             <div className='flex items-center space-x-3'>
                                 <div className='relative'>
                                     <div className='h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold'>
@@ -111,17 +127,41 @@ const Feeds = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <h3 className='font-semibold text-gray-800'>{capitalize(feed.username)}</h3>
+                                    <a href='/dashboard/customerpage'><h3 className='font-semibold text-white'>
+                                        {capitalize(feed.username)}</h3></a>
                                 </div>
                             </div>
-                            <button className='text-gray-500 hover:text-gray-700'>
+                            
+                            {/* Three dot button */}
+                            <div className='flex gap-2'>
+                              {toggleThreeDotsBtn ?
+                            <div>
+                            {/* Only the right user gets to see this buttons */}
+                            {user?.userId === feed?.userId ? 
+                            <div className='flex flex-col'>
+                                <button className='   text-white'>edit</button>
+                                <button className='  text-white'>delete</button>
+                            </div>:
+
+                             <div className='flex flex-col'>
+                                <button className='   text-white'>see profile</button>
+                            </div>
+                            }
+
+                            </div>
+                            : null}
+
+                            <button className='text-white' onClick={handleThreeDotBtn}>
                                 <BsThreeDotsVertical />
                             </button>
+
+                          
+                            </div>
                         </div>
                         
                         {/* Feed Content */}
-                        <div className='p-4 bg-green-100'>
-                            <p className='text-gray-800 mb-4 leading-relaxed'>{feed.text}</p>
+                        <div className='p-4 bg-green-600'>
+                            <p className='text-white font-extrabold mb-4 leading-relaxed'>{feed.text}</p>
 
                             {/* Store - Added container with background for better separation */}
                             <div className='mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200'>

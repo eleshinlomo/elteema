@@ -9,7 +9,11 @@ import PurchaseAlert from './purchaseAlert'
 import DisplayStore from '../store/displayStore'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const Featured = () => {
+interface FeaturedProps {
+    setShowSearch: (value: boolean)=>void
+}
+
+const FeaturedMobile = ({setShowSearch}: FeaturedProps) => {
     const [allProducts, setAllProducts] = useState<ProductProps[]>([])
     const [itemToSearch, setItemToSearch] = useState<string>('')
     const [searchedItemList, setSearchItemList] = useState<ProductProps[]>([])
@@ -19,6 +23,10 @@ const Featured = () => {
 
     const cartContext = useContext(CartContext)
     const { Products } = cartContext
+
+    const handleShowFeed =()=>{
+        setShowSearch(false)
+    }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setItemToSearch(e.target.value)
@@ -50,7 +58,9 @@ const Featured = () => {
     }, [])
 
     return (
-        <div id='search' className="hidden md:flex flex-col bg-gradient-to-b from-green-50 to-white mt-2 pb-16 w-full">
+        <div id='search' className=" bg-gradient-to-b from-green-50 to-white mt-2 pb-16 w-full">
+            <div className='flex justify-center items-center text-white p-1 bg-green-700  md:hidden'>
+                <button onClick={handleShowFeed}>Back to feeds</button></div>
             {/* Animated Content Section */}
             <AnimatePresence mode="wait">
                 {searchedItemFound && searchedItemList.length > 0 ? (
@@ -64,7 +74,7 @@ const Featured = () => {
                         <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">
                             Search Results for <span className="text-green-600">{itemToSearch}</span>
                         </h2>
-                        <DisplayStore productArray={searchedItemList} numPerPage={2} />
+                        <DisplayStore productArray={searchedItemList} numPerPage={1} />
                     </motion.div>
                 ) : itemToSearch && !searchedItemFound ? (
                     <motion.div
@@ -106,7 +116,7 @@ const Featured = () => {
                 )}
             </AnimatePresence>
 
-            <div className="mx-auto mt-8">
+            <div className="mx-auto ">
                 <div className="container flex flex-col items-center p-6 rounded-xl mb-12 -mt-12">
                     <div className="flex-1 mx-4 my-8 md:my-0 relative min-w-0">
                         {/* Search Bar Section */}
@@ -140,4 +150,4 @@ const Featured = () => {
     )
 }
 
-export default Featured
+export default FeaturedMobile

@@ -22,13 +22,27 @@ const CheckoutPage = () => {
   const [totalPricePlusTax, setTotalPricePlusTax] = useState(0)
 
   
+ const handlePaymentPopUp = async () => {
+  if (typeof window !== 'undefined') {
+    const { launchPaymentPopup } = await import('./payments/paymentFunctions');
+    if (totalPricePlusTax) {
+      const priceInKobo = totalPricePlusTax * 100;
+      const response = await launchPaymentPopup(user?.email, `${priceInKobo}`);
+      return response;
+    }
+  }
+};
+
+
+ 
 
   useEffect(()=>{
-    if(cart?.length > 0){
+    
       const totalPrice = totalPriceForCustomer(cart)
       const tax = calculatePercentagePrice(totalPrice, 7.5)
-      setTotalPricePlusTax(Number((totalPrice + tax)))
-    }
+      
+      setTotalPricePlusTax(totalPrice + tax)
+    
   }, [cart])
 
  
@@ -50,10 +64,11 @@ const CheckoutPage = () => {
     }else{
       setFormattedAddress(linkToUpdateProfile)
     }
-  }, [user])
+  }, [user?.address])
 
   const handlePayment = async () => {
-    if (!cart || cart.length === 0) {
+    if (typeof window === 'undefined') return;
+    if (!cart || cart?.length === 0) {
       setMessage('Your cart is empty')
       setOpenWarning(true)
       return
@@ -73,9 +88,9 @@ const CheckoutPage = () => {
       setOpenWarning(true)
       return
     }
-    // setMessage('The payment feature is underway')
-    const response = await launchPaymentPopup(user?.email, `${totalPricePlusTax}`)
-    console.log(response)
+    
+    const response = handlePaymentPopUp()
+    console.log('POPUP RESPONSE', response)
     return
   }
 
@@ -93,7 +108,7 @@ const CheckoutPage = () => {
       }
     }
     findEta()
-  }, [user])
+  }, [user?.state])
 
   return (
     <div className="min-h-screen bg-gray-50 pt-24">
@@ -108,7 +123,7 @@ const CheckoutPage = () => {
               Review your order before payment
             </p>
             <div className='md:flex justify-center items-center gap-2'>
-            <a href="/allstorespage">
+            <a href="/">
               <button className="mt-6 bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
                 Continue shopping
               </button>
@@ -153,7 +168,7 @@ const CheckoutPage = () => {
             {cart && cart.length > 0 ? (
               <ul className="divide-y divide-gray-100">
                 {cart.map((item: any, index: number) => (
-                  <a href={`/productpage/${item.id}`}><li key={index} className="p-6 hover:bg-gray-50 transition-colors duration-200">
+                  <a href={`/productpage/${item.id}`} key={index}><li  className="p-6 hover:bg-gray-50 transition-colors duration-200">
                     <div className="flex flex-col sm:flex-row justify-between">
                       <div className="flex-1">
                         <div className='flex gap-4'>

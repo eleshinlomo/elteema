@@ -7,6 +7,7 @@ import { CartContext } from '../../contextProviders/cartcontext'
 import SkeletonPage from '../skeletonPage'
 import { capitalize } from '../utils'
 import CategoryNotFound from './productCatNotFound'
+import DisplayStore from '../store/displayStore'
 
 interface CateroryProps{
     category: string;
@@ -29,9 +30,9 @@ const ProductCategory = ({category}: CateroryProps)=>{
 
 
     return (
-      <div>
+      <div className='pb-8'>
            <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">{capitalize(decodeURIComponent(category))}</h2>
-            {categoryItems && categoryItems.length > 0 ? <AllProductDisplay productArray={categoryItems} />
+            {categoryItems && categoryItems.length > 0 ? <DisplayStore productArray={categoryItems} numPerPage={5} />
             :
             <CategoryNotFound category={category} />
               }

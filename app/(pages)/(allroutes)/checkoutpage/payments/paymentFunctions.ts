@@ -1,6 +1,29 @@
+'use client'
 import PaystackPop from '@paystack/inline-js'
+import { Console } from 'console'
 
 export const initializePayment = async (email: string, amount: string) => {
+  if( typeof window !== 'undefined'){
+    const metadata = {
+        firstname: 'yourname',
+        lastname: 'yourname'
+    }
+    const payload = {
+        email,
+        amount,
+        metadata: {
+          name: 'Paystack transaction'
+        },
+        onSuccess: ()=>{
+          console.log('Payment successful')
+        },
+        onClose: ()=>{
+          console.log('Payment was canceled')
+        },
+        onError: ()=>{
+          console.log('Payment failed')
+        }
+    }
     const response = await fetch('https://api.paystack.co/transaction/initialize', {
         mode: 'cors',
         headers: {
@@ -8,7 +31,7 @@ export const initializePayment = async (email: string, amount: string) => {
             'Authorization': 'Bearer sk_test_900e5e97abe00c78f6fd01818e7403b35cbda8db'
         },
         method: 'POST',
-        body: JSON.stringify({email, amount}) // Note: Paystack expects 'amount' in kobo, not 'price'
+        body: JSON.stringify(payload) // Note: Paystack expects 'amount' in kobo, not 'price'
     })
     
     if(!response.ok){
@@ -19,19 +42,34 @@ export const initializePayment = async (email: string, amount: string) => {
     const data = await response.json()
     
     return data.data
-    
+  }
+
 }
 
-export const launchPaymentPopup = async (email: string, amount: string)=>{
-    const response = await initializePayment(email, amount)
-    const {access_code, status} = response
-    console.log('access code', access_code, 'status', response.status)
-   
-    if(access_code){
-    const popup = new PaystackPop()
-    const data = await popup.resumeTransaction(access_code)
-     const {status} = data
-      return response.status
-    }
+
+export const launchPaymentPopup = async (email: string, amount: string) => {
+    if(typeof window !== 'undefined'){
+  try {
+    const response = await initializePayment(email, amount);
+    console.log('PAYSTACK', response)
+    const { access_code, reference } = response;
     
+    if (access_code) {
+      const popup = new PaystackPop();
+      const popupResponse = await popup.resumeTransaction(access_code);
+      console.log('POP UP RESPONSE', popupResponse)
+      
+      return {
+        reference,
+        status: popupResponse.status,
+        fullResponse: popupResponse
+      };
+    }
+    return { status: 'failed', reference: null };
+  } catch (error) {
+    console.error('Payment error:', error);
+    return { status: 'error', reference: null };
+  }
 }
+};
+
