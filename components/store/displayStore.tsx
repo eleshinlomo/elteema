@@ -57,7 +57,7 @@ const DisplayStore = ({ productArray, numPerPage }: StoreProps) => {
         <div>
             {productArray?.length > 0 && (
                 <div className='relative'>
-                    <div className={`grid ${currentItems.length === 1 ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'} gap-3 mb-2`}>
+                    <div className={`grid grid-cols-1 md:grid-cols-2 gap-3 mb-2`}>
                         {currentItems.map((item, StoreIndex) => (
                             <div key={StoreIndex} className='border border-gray-200 rounded-lg p-2 hover:shadow-md transition-shadow'>
                                 <div className='flex flex-col h-full'>
@@ -91,10 +91,23 @@ const DisplayStore = ({ productArray, numPerPage }: StoreProps) => {
                                                 <span className='text-xs text-gray-500 ml-1'>({item.totalVotes})</span>
                                             </div>
                                         </div>
+
+                                        {/* Temp Action Buttons */}
+
+                                        <div className='flex gap-4'>
+                                            <button
+                                                     className={`text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white`}>
+                                                    Add
+                                                </button>
+                                              <button
+                                                     className={`text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white`}>
+                                                    Buy
+                                                </button>
+                                        </div>
                                     </a>
                                     
                                     {/* Size Selector */}
-                                    <div className="mb-2">
+                                    {/* <div className="mb-2">
                                         <ProductSize 
                                             targetId={item.id} 
                                             isAdded={isAdded} 
@@ -106,10 +119,10 @@ const DisplayStore = ({ productArray, numPerPage }: StoreProps) => {
                                             showShoeSizeInput={showShoeSizeInput}
                                             setShowShoeSizeInput={setShowShoeSizeInput} 
                                         />
-                                    </div>
+                                    </div> */}
                                     
                                     {/* Action Buttons - Wrapped in container to control size */}
-                                    <div className="mt-1 flex justify-between gap-1 text-xs">
+                                    {/* <div className="mt-1 flex justify-between gap-1 text-xs">
                                         {!item.isAdded ? (
                                             <>
                                                 <div className="">
@@ -140,7 +153,7 @@ const DisplayStore = ({ productArray, numPerPage }: StoreProps) => {
                                                 </button>
                                             </a>
                                         )}
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         ))}

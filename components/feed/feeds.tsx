@@ -152,9 +152,13 @@ const Feeds = ({setShowSearch}: Props) => {
                         <div className='p-4 bg-green-600'>
                             <p className='text-white font-extrabold mb-4 leading-relaxed'>{feed.text}</p>
 
-                            {/* Store - Added container with background for better separation */}
-                            <div className='mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200'>
+                            {/* Store  */}
+                            <div className='hidden md:block mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200'>
                                 {feed?.store?.items?.length > 0 ? <DisplayStore productArray={feed.store.items} numPerPage={2} /> : 'No store'}
+                            </div>
+                            {/* Mobile store view */}
+                            <div className='md:hidden mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200'>
+                                {feed?.store?.items?.length > 0 ? <DisplayStore productArray={feed.store.items} numPerPage={1} /> : 'No store'}
                             </div>
                         </div>
                         
