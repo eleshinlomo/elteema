@@ -57,11 +57,11 @@ const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError }: any
     }
 
     return (
-        <div className="bg-white rounded-lg border border-gray-200 p-3 shadow-sm">
-            <div className="flex items-start gap-3">
-                <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold">
+        <div className="bg-white ">
+            <div className="">
+                {/* <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold">
                     {user?.username?.charAt(0).toUpperCase() || 'U'}
-                </div>
+                </div> */}
                 
                 {/* Input */}
                 <div className="flex-1 ">
@@ -70,7 +70,7 @@ const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError }: any
                             value={text}
                             onChange={(e) => setText(e.target.value)}
                             placeholder="Share your thoughts or list an item for sale..."
-                            className="w-full text-sm min-h-[40px] p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500 resize-none pr-20"
+                            className="w-full text-sm min-h-[40px] p-2  focus:outline-none focus:ring-1 focus:ring-green-500 resize-none pr-20"
                             rows={3}
                         />
                         

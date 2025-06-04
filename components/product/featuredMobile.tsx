@@ -58,7 +58,7 @@ const FeaturedMobile = ({setShowSearch}: FeaturedProps) => {
     }, [])
 
     return (
-        <div id='search' className=" bg-gradient-to-b from-green-50 to-white mt-2 pb-16 w-full">
+        <div id='search' className=" bg-gradient-to-b from-green-50 to-white mt-2 pb-16 w-full overflow-hidden">
             <div className='flex justify-center items-center text-white p-1 bg-green-700  md:hidden'>
                 <button onClick={handleShowFeed}>Back to feeds</button></div>
             {/* Animated Content Section */}

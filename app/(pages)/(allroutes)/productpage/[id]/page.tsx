@@ -10,7 +10,7 @@ const ProductPage = ()=>{
 
     return (
 
-        <div className="pt-32">
+        <div className="py-2">
            <ProductDetails id={Number(id)} />
         </div>
     )

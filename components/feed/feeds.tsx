@@ -53,7 +53,7 @@ const Feeds = ({setShowSearch}: Props) => {
         if(user?.username){
             setUsername(user.username)
         }
-    }, [feeds, text, likedPosts, user, username])
+    }, [ text, likedPosts, user, username])
 
 
 //    console.log('FEED', feeds)
@@ -84,8 +84,8 @@ const Feeds = ({setShowSearch}: Props) => {
                                 error={error}
                                 setError={setError}
                             />
-              
-                <div className='md:hidden flex justify-center gap-4'>
+               {/* Feed and Search butons */}
+                <div className='md:hidden flex justify-center gap-4 mt-2'>
                     <button className='bg-green-600 text-white px-2' >Feed</button>
                     <button className='bg-green-600 text-white px-2' onClick={handleShowSearch}>Search</button>
                 </div>

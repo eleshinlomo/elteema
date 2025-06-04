@@ -62,7 +62,7 @@ const FeedsPage = () => {
 
             {/* Main Content - Responsive margins */}
             <main className={`transition-all duration-300 ${getMainContentMargin()}`}>
-                <div className={`max-w-xl mx-auto px-4 sm:px-6 py-8 ${windowWidth < 1024 ? 'w-full' : ''}`}>
+                <div className={`max-w-xl mx-auto px-4 sm:px-6 mt-8 ${windowWidth < 1024 ? 'w-full' : ''}`}>
                     {showSearch ? (
                         <FeaturedMobile setShowSearch={setShowSearch} />
                     ) : (
@@ -83,7 +83,7 @@ const FeedsPage = () => {
                 </div>
             </aside>
 
-            {/* Mobile overlays - Only show on small screens */}
+            {/* Mobile overlays - Only show on mobile screens */}
             {windowWidth < 1024 && (
                 <>
                     {showSearch && (
