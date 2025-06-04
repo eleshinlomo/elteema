@@ -33,6 +33,8 @@ const Feeds = ({setShowSearch}: Props) => {
     const [isTyping, setIsTyping] = useState(false)
     const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({})
     const [toggleThreeDotsBtn, setToggleThreeDotsBtn] = useState(false)
+    const [error, setError] = useState('')
+    const [username, setUsername] = useState()
    
 
     const handleThreeDotBtn = ()=>{
@@ -48,7 +50,10 @@ const Feeds = ({setShowSearch}: Props) => {
 
     useEffect(() => {
         handleGetFeeds()
-    }, [feeds, text, likedPosts, user?.store])
+        if(user?.username){
+            setUsername(user.username)
+        }
+    }, [feeds, text, likedPosts, user, username])
 
 
 //    console.log('FEED', feeds)
@@ -64,10 +69,10 @@ const Feeds = ({setShowSearch}: Props) => {
       <div id='new' className='pt-2 bg-gray-50 '>
         <div className='max-w-4xl mx-auto px-4'>
             <h2 className="text-2xl font-bold text-green-700 mb-6 text-center bg-white/90 p-2 rounded-lg shadow-sm">
-                {user?.username ? `Welcome back, ${capitalize(user.username)}!` : 'Join the conversation!'}
+                {username ? `Welcome back, ${capitalize(username)}!` : 'Join the conversation!'}
             </h2>
             
-            <HotProductFlash />
+            <div className={`text-center text-sm ${error ? 'text-red-500' : ''} `}>{error ? error : <HotProductFlash />}</div>
             
             {/* Create Post Card */}
             <div className='bg-green-400 rounded-xl shadow-md p-4 mb-6 border border-gray-200'>
@@ -76,26 +81,10 @@ const Feeds = ({setShowSearch}: Props) => {
                                 setText={setText} 
                                 isTyping={isTyping} 
                                 setIsTyping={setIsTyping} 
+                                error={error}
+                                setError={setError}
                             />
-                {/* <div className='flex flex-col justify-center'> */}
-                    {/* <div className='flex-shrink-0'>
-                        <div className='h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold'>
-                            {user ? user.firstname.charAt(0).toUpperCase() : 'Y'}
-                        </div>
-                    </div> */}
-                    {/* <div className='flex-1'> */}
-                        {/* <textarea 
-                            className='w-full border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none bg-white text-gray-800'
-                            value={text}
-                            onChange={handleValueChange}
-                            placeholder='Share your thoughts or list an item for sale...' 
-                            rows={3}
-                        /> */}
-                        {/* <div className='flex justify-between items-center mt-3'>
-                         
-                        </div> */}
-                    {/* </div> */}
-                {/* </div> */}
+              
                 <div className='md:hidden flex justify-center gap-4'>
                     <button className='bg-green-600 text-white px-2' >Feed</button>
                     <button className='bg-green-600 text-white px-2' onClick={handleShowSearch}>Search</button>
@@ -165,7 +154,7 @@ const Feeds = ({setShowSearch}: Props) => {
 
                             {/* Store - Added container with background for better separation */}
                             <div className='mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200'>
-                                <DisplayStore productArray={userStore} numPerPage={2} />
+                                {feed?.store?.items?.length > 0 ? <DisplayStore productArray={feed.store.items} numPerPage={2} /> : 'No store'}
                             </div>
                         </div>
                         

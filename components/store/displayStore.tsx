@@ -11,7 +11,7 @@ import { ProductContext } from '../../contextProviders/ProductContext'
 import { ProductProps } from '../data/productsdata'
 
 interface StoreProps {
-    productArray: ProductProps[];
+    productArray: any[];
     numPerPage: number;
 }
 

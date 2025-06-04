@@ -6,8 +6,8 @@ import { RiErrorWarningFill } from 'react-icons/ri'
 import { capitalize } from '../utils'
 import { createFeed, getFeeds } from "./feedFunctions"
 
-const PostFeed = ({ text, setText, isTyping, setIsTyping }: any) => {
-    const [error, setError] = useState('')
+const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError }: any) => {
+    
     const [imagePreview, setImagePreview] = useState<string | null>(null)
     const { user, setFeeds } = useContext(GeneralContext)
 
@@ -35,12 +35,22 @@ const PostFeed = ({ text, setText, isTyping, setIsTyping }: any) => {
 
         try {
             const image1 = 'image1'
-            await createFeed(user?.id, text, image1)
-            const newFeeds = await getFeeds()
-            setFeeds(newFeeds)
+            if(!user?.id){
+                setError('You must be loggedin to post')
+                return
+            }
+            const newFeed = await createFeed(user?.id, text, image1)
+            console.log('NEW FEED', newFeed)
+            if(newFeed.ok){
+            const updatedFeeds = await getFeeds()
+            setFeeds(updatedFeeds)
             setIsTyping(false)
             setText('')
             setImagePreview(null)
+            setError('')
+            }else{
+                setError(newFeed.error)
+            }
         } catch (err) {
             setError('Failed to create post')
         }

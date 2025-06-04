@@ -64,3 +64,21 @@ export const logout = async (email: string)=>{
   const data = await response.json()
   return data
 }
+
+// persistlogin
+export const persistLogin = async (token: string, email: string)=>{
+  if(!email.trim() || !token) return 'missing email or token'
+
+ 
+  const response: any = await fetch(`${BASE_URL}/auth/persistlogin`, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({email, token})
+
+  })
+  if(!response) return 'No response from server'
+  const data = await response.json()
+  return data
+
+}

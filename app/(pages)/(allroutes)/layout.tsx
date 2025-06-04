@@ -3,7 +3,7 @@ import { useSearchParams } from "next/navigation"
 import { useContext, useState, useEffect, Suspense } from "react"
 import { GeneralContext } from "../../../contextProviders/GeneralProvider"
 import { getLocalUser, updateUser, UserProps } from "../../../components/data/userdata"
-import { verifyCode } from "../../../components/api/auth"
+import { persistLogin, verifyCode } from "../../../components/api/auth"
 import { useRouter } from "next/navigation"
 import { staticGenerationAsyncStorage } from "next/dist/client/components/static-generation-async-storage-instance"
 import ScrollTopButton from "../../../components/scrollTopButton"
@@ -108,10 +108,18 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
         const localUser: any = getLocalUser();
   
         if (localUser && localUser.authCode && localUser.email) {
-          setIsLoggedIn(localUser.isLoggedIn);
-          setUser(localUser);
+          const confirmedUser = await persistLogin(localUser.authCode, localUser.email)
+
+          if(confirmedUser.ok){
+            setIsLoggedIn(localUser.isLoggedIn);
+            setUser(localUser);
+             return;
+           }else{
+            setUser(null)
+            setIsLoggedIn(false)
+           }
         
-          return;
+         
         }else if(localUser && localUser.anonymous){ //When cookies is accepted or declined, an anonymous user is also created.
                 setUser(localUser)
                 setIsLoggedIn(false)
@@ -135,11 +143,11 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
     
   }, [email, code])
   
-useEffect(()=>{
-     if(user && user?.store.length > 0){
-            setUserStore(user.store)
-        }
-},[user?.store])
+// useEffect(()=>{
+//      if(user && user?.store.length > 0){
+//             setUserStore(user.store)
+//         }
+// },[user?.store])
  
 
   return (

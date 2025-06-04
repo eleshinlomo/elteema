@@ -11,11 +11,11 @@ const HotProductFlash = () => {
   const [isAnimating, setIsAnimating] = useState(false);
 
   const hotItems: HotItemProps[] = [
-    { name: 'Orders completed online are safe', href: '#' },
+    { name: 'online transactions are safe', href: '#' },
     // { name: 'Seller gets paid when order is received', href: '#' },
     { name: 'Online transactions are secure', href: '#' },
     { name: 'Shop faster in your city', href: '#' },
-    { name: 'Pick-up orders only in public places.', href: '#' },
+    { name: 'Pick-up in public places.', href: '#' },
     {name: 'Avoid night time pick-ups', href: '#' },
   ];
 

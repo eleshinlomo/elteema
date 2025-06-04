@@ -11,7 +11,7 @@ const NavRightSide = () => {
   const cartContext = useContext(CartContext)
   const {cart, setCart, totalItems, totalPrice, setTotalItems, setTotalPrice} = cartContext
   const generalContext = useContext(GeneralContext)
-  const {isLoggedIn, setIsLoggedIn, user}: GeneralContextInitialProps = generalContext
+  const {isLoggedIn, setIsLoggedIn, user, setUser}: GeneralContextInitialProps = generalContext
   
   const router = useRouter()
 
@@ -23,6 +23,7 @@ const NavRightSide = () => {
     setCart(newCart)
     setTotalItems(0)
     setTotalPrice(0)
+    setUser(null)
     router.push('/authpages/signin')
   }
 
@@ -41,7 +42,7 @@ const NavRightSide = () => {
         <>
           <Link
             href="/authpages/signin"
-            className="whitespace-nowrap py-2 text-sm font-medium text-white hover:opacity-70"
+            className="whitespace-nowrap py-2 text-sm font-medium  hover:opacity-70"
           >
             Sign In
           </Link>

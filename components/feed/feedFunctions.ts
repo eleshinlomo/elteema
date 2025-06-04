@@ -2,6 +2,12 @@ import { ProductProps } from "../data/productsdata";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
+interface StoreProps {
+   name: string;
+   logo: string;
+   items: []
+}
+
 export interface FeedProps {
    userId: number;
    feedId: number;
@@ -9,8 +15,8 @@ export interface FeedProps {
    text: string;
    imageUrl: string;
    likes:0;
-   comments: []
-   store: ProductProps[]
+   comments: string[];
+   store: StoreProps
 }
 
 export const createFeed = async (userId: number, text: string, imageUrl: string)=>{
