@@ -19,7 +19,7 @@ export interface GeneralContextInitialProps {
     user: any | null;
     setUser: (value: null)=>void;
     feeds: FeedProps[];
-    setFeeds: (value: [])=>void
+    setFeeds: (value: FeedProps[])=>void
 
 }
 const initialValues : GeneralContextInitialProps = {

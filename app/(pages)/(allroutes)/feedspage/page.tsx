@@ -5,6 +5,7 @@ import Featured from "../../../../components/product/featured";
 import Trending from "../../../../components/product/trending";
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider";
 import FeaturedMobile from "../../../../components/product/featuredMobile";
+import { motion, AnimatePresence } from "framer-motion";
 
 const FeedsPage = () => {
     const { sticky } = useContext(GeneralContext);
@@ -33,65 +34,66 @@ const FeedsPage = () => {
         };
     }, [scrolledPast20]);
 
-    // Calculate main content margin based on window width
-    const getMainContentMargin = () => {
-        if (windowWidth >= 1536) { // xl screens
-            return 'mx-auto';
-        } else if (windowWidth >= 1280) { // lg screens
-            return 'mx-auto';
-        } else if (windowWidth >= 1024) { // md screens
-            return 'ml-[450px] mr-[450px]';
-        } else {
-            return 'mx-auto';
-        }
-    };
-
     return (
-        <div className="bg-gray-50 text-gray-800">
-            {/* Left Sidebar - Hidden on small screens */}
-            <aside
-                className={`hidden lg:block w-[450px] fixed left-0 bottom-0 z-20 transition-all duration-300 ease-in-out
-                    ${sticky ? "top-[10%]" : "top-[25%]"}`}
-            >
-                <div className="h-full p-4">
-                    <div className="bg-white rounded-2xl shadow-lg p-4 h-full">
+        <div className="relative bg-green-50 text-green-900 min-h-screen transition-colors duration-300 ">
+            {/* Grid Layout */}
+            <div className="grid grid-cols-1 md:grid-cols-3 w-full pt-6">
+                {/* Left Sidebar - First column */}
+                <motion.div 
+                    className="hidden md:block sticky top-4 h-[calc(100vh-2rem)]"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                >
+                    <div className="bg-green-100 rounded-2xl shadow-lg p-4 h-full border border-green-200 mr-2">
                         <Featured />
                     </div>
-                </div>
-            </aside>
+                </motion.div>
 
-            {/* Main Content - Responsive margins */}
-            <main className={`transition-all duration-300 ${getMainContentMargin()}`}>
-                <div className={`max-w-xl mx-auto px-4 sm:px-6 mt-8 ${windowWidth < 1024 ? 'w-full' : ''}`}>
-                    {showSearch ? (
-                        <FeaturedMobile setShowSearch={setShowSearch} />
-                    ) : (
-                        <Feeds setShowSearch={setShowSearch} />
-                    )}
+                {/* Main Content - Second column (centered) */}
+                <div className="col-span-1 md:col-span-1">
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={showSearch ? 'search' : 'feeds'}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.2 }}
+                            className=""
+                        >
+                            {showSearch ? (
+                                <FeaturedMobile setShowSearch={setShowSearch} />
+                            ) : (
+                                <Feeds setShowSearch={setShowSearch} />
+                            )}
+                        </motion.div>
+                    </AnimatePresence>
                 </div>
-            </main>
 
-            {/* Right Sidebar - Hidden on small screens */}
-            <aside
-                className={`hidden lg:block w-[450px] fixed right-0 bottom-0 z-20 transition-all duration-300 ease-in-out
-                    ${sticky ? "top-[10%]" : "top-[25%]"}`}
-            >
-                <div className="h-full p-4">
-                    <div className="bg-white rounded-2xl shadow-lg p-4 h-full">
+                {/* Right Sidebar - Third column */}
+                <motion.div 
+                    className="hidden md:block sticky top-4 h-[calc(100vh-2rem)]"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                >
+                    <div className="bg-green-100 rounded-2xl shadow-lg p-4 h-full border border-green-200 ml-2">
                         <Trending />
                     </div>
-                </div>
-            </aside>
+                </motion.div>
+            </div>
 
-            {/* Mobile overlays - Only show on mobile screens */}
-            {windowWidth < 1024 && (
-                <>
-                    {showSearch && (
-                        <div className="fixed inset-0 bg-white z-30 overflow-y-auto">
-                            <FeaturedMobile setShowSearch={setShowSearch} />
-                        </div>
-                    )}
-                </>
+            {/* Mobile Overlay */}
+            {windowWidth < 1024 && showSearch && (
+                <motion.div 
+                    className="fixed inset-0 bg-green-50 z-30 overflow-y-auto transition-colors duration-300 pt-6"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                >
+                    <FeaturedMobile setShowSearch={setShowSearch} />
+                </motion.div>
             )}
         </div>
     );

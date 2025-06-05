@@ -20,25 +20,27 @@ interface Props {
     setShowSearch: (value: boolean)=>void
 }
 
-
 const Feeds = ({setShowSearch}: Props) => {
-
     const handleShowSearch = ()=>{
-    setShowSearch(true)
-}
+        setShowSearch(true)
+    }
    
     const {user, feeds, setFeeds, userStore, setUserStore} = useContext(GeneralContext)
     const message = 'Loading new items...'
     const [text, setText] = useState('')
     const [isTyping, setIsTyping] = useState(false)
     const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({})
-    const [toggleThreeDotsBtn, setToggleThreeDotsBtn] = useState(false)
     const [error, setError] = useState('')
     const [username, setUsername] = useState()
-   
+    const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
+    const [isEditing, setIsEditing] = useState(false)
 
-    const handleThreeDotBtn = ()=>{
-        setToggleThreeDotsBtn(!toggleThreeDotsBtn)
+    const toggleMenu = (feedId: number) => {
+        setActiveMenuId(activeMenuId === feedId ? null : feedId)
+    }
+
+    const closeMenu = () => {
+        setActiveMenuId(null)
     }
     
     const handleGetFeeds = async () => {
@@ -53,10 +55,7 @@ const Feeds = ({setShowSearch}: Props) => {
         if(user?.username){
             setUsername(user.username)
         }
-    }, [ text, likedPosts, user, username])
-
-
-//    console.log('FEED', feeds)
+    }, [text, likedPosts, user, username])
 
     const toggleLike = (postId: string) => {
         setLikedPosts(prev => ({
@@ -64,10 +63,38 @@ const Feeds = ({setShowSearch}: Props) => {
             [postId]: !prev[postId]
         }))
     }
+       
+       const saveNewFeed = (newFeed: FeedProps | null)=>{
+        //  if(newFeed){
+        //     setFeeds(prev=>[...prev, newFeed])
+        //  }
+       }
+
+       const updateFeed = (feedId: number)=>{
+        const feed = feeds.find((f)=>f.feedId === feedId)
+        console.log('FEED', feed)
+        if(feed){
+            setIsEditing(true)
+        }
+
+    }
+
+    
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (!(e.target as HTMLElement).closest('.action-menu-container')) {
+                closeMenu()
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [])
 
     return (
-      <div id='new' className='pt-2 bg-gray-50 '>
-        <div className='max-w-4xl mx-auto px-4'>
+      <div id='new' className='pt-2 bg-gray-50 w-full'>
+        <div className=' mx-auto px-4'>
             <h2 className="text-2xl font-bold text-green-700 mb-6 text-center bg-white/90 p-2 rounded-lg shadow-sm">
                 {username ? `Welcome back, ${capitalize(username)}!` : 'Join the conversation!'}
             </h2>
@@ -77,13 +104,15 @@ const Feeds = ({setShowSearch}: Props) => {
             {/* Create Post Card */}
             <div className='bg-green-400 rounded-xl shadow-md p-4 mb-6 border border-gray-200'>
                    <PostFeed
-                                text={text} 
-                                setText={setText} 
-                                isTyping={isTyping} 
-                                setIsTyping={setIsTyping} 
-                                error={error}
-                                setError={setError}
-                            />
+                        text={text} 
+                        setText={setText} 
+                        isTyping={isTyping} 
+                        setIsTyping={setIsTyping} 
+                        error={error}
+                        setError={setError}
+                        isEditing={isEditing}
+                        
+                    />
                {/* Feed and Search butons */}
                 <div className='md:hidden flex justify-center gap-4 mt-2'>
                     <button className='bg-green-600 text-white px-2' >Feed</button>
@@ -105,52 +134,60 @@ const Feeds = ({setShowSearch}: Props) => {
             
             {/* Feeds Section */}
             <div className='space-y-6 '>
-                {feeds?.length > 0 && feeds?.sort((a: any,b: any)=>new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((feed, index) => (
+                {feeds?.length > 0 && 
+                feeds?.sort((a: any,b: any)=>new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((feed, index) => (
                     <div key={index} className='rounded-xl shadow-md overflow-hidden border border-gray-200'>
                         {/* Feed Header */}
                         <div className='p-4 flex justify-between items-center border-b border-gray-100 bg-green-700 '>
                             <div className='flex items-center space-x-3'>
                                 <div className='relative'>
                                     <div className='h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold'>
-                                        {feed.username.charAt(0).toUpperCase()}
+                                        {feed.postedBy.charAt(0).toUpperCase()}
                                     </div>
                                 </div>
                                 <div>
                                     <a href='/dashboard/customerpage'><h3 className='font-semibold text-white'>
-                                        {capitalize(feed.username)}</h3></a>
+                                        {capitalize(feed.postedBy)}</h3></a>
                                 </div>
                             </div>
                             
-                            {/* Three dot button */}
-                            <div className='flex gap-2'>
-                              {toggleThreeDotsBtn ?
-                            <div>
-                            {/* Only the right user gets to see this buttons */}
-                            {user?.userId === feed?.userId ? 
-                            <div className='flex flex-col'>
-                                <button className='   text-white'>edit</button>
-                                <button className='  text-white'>delete</button>
-                            </div>:
-
-                             <div className='flex flex-col'>
-                                <button className='   text-white'>see profile</button>
-                            </div>
-                            }
-
-                            </div>
-                            : null}
-
-                            <button className='text-white' onClick={handleThreeDotBtn}>
-                                <BsThreeDotsVertical />
-                            </button>
-
-                          
+                            {/* Action buttons */}
+                            <div className='flex gap-2 relative '>
+                                {activeMenuId === feed.feedId && (
+                                    <div className='absolute right-10 top-0  text-white shadow-lg rounded-md  z-10'>
+                                        {user?.username === feed.postedBy ? (
+                                            <div className='flex gap-4'>
+                                                <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white w-full'
+                                                    onClick={()=>isEditing ? saveNewFeed(feed) : updateFeed(feed.feedId) }
+                                                >
+                                                    {isEditing ? 'Save' : 'Edit'}
+                                                </button>
+                                                <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>Delete</button>
+                                            </div>
+                                        ) : (
+                                            <a href='/userprofilepage'><button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
+                                                See profile
+                                            </button>
+                                            </a>
+                                        )}
+                                    </div>
+                                )}
+                                
+                                <button 
+                                    className='text-white' 
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        toggleMenu(feed.feedId)
+                                    }}
+                                >
+                                    <BsThreeDotsVertical />
+                                </button>
                             </div>
                         </div>
                         
                         {/* Feed Content */}
                         <div className='p-4 bg-green-600'>
-                            <p className='text-white font-extrabold mb-4 leading-relaxed'>{feed.text}</p>
+                            <p className='text-white font-extrabold mb-4 leading-relaxed'>{isEditing ? <input /> : feed.text}</p>
 
                             {/* Store  */}
                             <div className='hidden md:block mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200'>

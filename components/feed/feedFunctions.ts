@@ -11,7 +11,7 @@ interface StoreProps {
 export interface FeedProps {
    userId: number;
    feedId: number;
-   username: string;
+   postedBy: string;
    text: string;
    imageUrl: string;
    likes:0;
@@ -59,4 +59,23 @@ export const getFeeds = async ()=>{
    }catch(err){
       console.log(err)
    }
+}
+
+export const updateFeed = async (feedId: number, updatedData: Partial<FeedProps>): Promise<FeedProps> => {
+    const response = await fetch(`/api/feeds/${feedId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData)
+    });
+    if (!response.ok) throw new Error('Failed to update feed');
+    return response.json();
+}
+
+export const deleteFeed = async (feedId: number): Promise<void> => {
+    const response = await fetch(`/api/feeds/${feedId}`, {
+        method: 'DELETE'
+    });
+    if (!response.ok) throw new Error('Failed to delete feed');
 }

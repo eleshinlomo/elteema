@@ -94,8 +94,8 @@ const Cart = () => {
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 bg-green-800 text-white">
-          <HeaderAlert />
+        <div className="flex  justify-between p-4 bg-green-800 text-white">
+          <p className='mt-2 font-extrabold'>ELTEEMA</p>
           <button 
             onClick={() => setDrawerOpen(false)} 
             className="p-1" 

@@ -4,28 +4,26 @@ import { GeneralContext } from '../../contextProviders/GeneralProvider'
 import { FiX, FiImage, FiPlusCircle } from 'react-icons/fi'
 import { RiErrorWarningFill } from 'react-icons/ri'
 import { capitalize } from '../utils'
-import { createFeed, getFeeds } from "./feedFunctions"
+import { createFeed, FeedProps, getFeeds } from "./feedFunctions"
 
-const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError }: any) => {
+const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError, isEditing }: any) => {
     
     const [imagePreview, setImagePreview] = useState<string | null>(null)
-    const { user, setFeeds } = useContext(GeneralContext)
+    const { user, feeds, setFeeds } = useContext(GeneralContext)
+    const [feed, setFeed] = useState<FeedProps | null>(null)
 
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
-        if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setImagePreview(reader.result as string)
-            }
-            reader.readAsDataURL(file)
-        }
-    }
+    // const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const file = e.target.files?.[0]
+    //     if (file) {
+    //         const reader = new FileReader()
+    //         reader.onloadend = () => {
+    //             setImagePreview(reader.result as string)
+    //         }
+    //         reader.readAsDataURL(file)
+    //     }
+    // }
 
-    const onClose = () => {
-        setIsTyping(false)
-        setImagePreview(null)
-    }
+ 
 
     const handleCreateFeed = async () => {
         if (!text.trim()) {
@@ -68,14 +66,14 @@ const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError }: any
                     <div className="relative">
                         <textarea
                             value={text}
-                            onChange={(e) => setText(e.target.value)}
+                            onChange={(e) => setText(isEditing ? feed?.text : e.target.value)}
                             placeholder="Share your thoughts or list an item for sale..."
                             className="w-full text-sm min-h-[40px] p-2  focus:outline-none focus:ring-1 focus:ring-green-500 resize-none pr-20"
                             rows={3}
                         />
                         
                         <div className="absolute right-2 bottom-2 flex gap-2 ">
-                            <label className="text-gray-500 hover:text-green-600 cursor-pointer">
+                            {/* <label className="text-gray-500 hover:text-green-600 cursor-pointer">
                                 <FiImage size={20} className='mt-1' />
                                 <input 
                                     type="file" 
@@ -83,7 +81,7 @@ const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError }: any
                                     onChange={handleImageUpload}
                                     accept="image/*"
                                 />
-                            </label>
+                            </label> */}
                             
                             <button 
                                 onClick={handleCreateFeed}
@@ -106,7 +104,7 @@ const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError }: any
                         </div>
                     )}
                     
-                    {imagePreview && (
+                    {/* {imagePreview && (
                         <div className="mt-2 relative rounded-md overflow-hidden border border-gray-200">
                             <Image
                                 src={imagePreview}
@@ -122,7 +120,7 @@ const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError }: any
                                 <FiX size={14} />
                             </button>
                         </div>
-                    )}
+                    )} */}
                 </div>
                 
             

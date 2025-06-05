@@ -12,7 +12,7 @@ import Cart from "../cart/cart";
 const NavBar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [openIndex, setOpenIndex] = useState(-1);
-
+  const [scrollY, setScrollY] = useState(0);
 
   const { isLoggedIn, setIsLoggedIn, user, sticky, setSticky } = useContext(GeneralContext);
 
@@ -21,9 +21,24 @@ const NavBar = () => {
   const navbarToggleHandler = () => setNavbarOpen(!navbarOpen);
 
   const handleStickyNavbar = () => {
-    if (window.scrollY >= 80) {
-      setSticky(true);
+    const currentScroll = window.scrollY;
+    setScrollY(currentScroll);
+    
+    // Smooth transition between 60px and 80px scroll position
+    if (currentScroll >= 60) {
+      const opacity = Math.min(0.9, (currentScroll - 60) / 20 * 0.9);
+      const blur = Math.min(5, (currentScroll - 60) / 20 * 5);
+      document.documentElement.style.setProperty('--header-opacity', opacity.toString());
+      document.documentElement.style.setProperty('--header-blur', `${blur}px`);
+      
+      if (currentScroll >= 80) {
+        setSticky(true);
+      } else if (currentScroll < 60) {
+        setSticky(false);
+      }
     } else {
+      document.documentElement.style.setProperty('--header-opacity', '0');
+      document.documentElement.style.setProperty('--header-blur', '0px');
       setSticky(false);
     }
   };
@@ -33,6 +48,10 @@ const NavBar = () => {
   };
 
   useEffect(() => {
+    // Initialize CSS variables
+    document.documentElement.style.setProperty('--header-opacity', '0');
+    document.documentElement.style.setProperty('--header-blur', '0px');
+    
     window.addEventListener("scroll", handleStickyNavbar);
     return () => window.removeEventListener("scroll", handleStickyNavbar);
   }, []);
@@ -44,9 +63,16 @@ const NavBar = () => {
       <header
         className={`bg-black text-white px-4 sm:px-10 flex w-full ${
           sticky
-            ? "fixed top-0 z-[200] !bg-opacity-90 shadow-sticky backdrop-blur-sm transition"
+            ? "fixed top-0 z-[200] shadow-sticky"
             : "relative"
         }`}
+        style={{
+          transition: 'all 0.3s ease-in-out',
+          background: sticky 
+            ? `rgba(0, 0, 0, var(--header-opacity))` 
+            : 'rgb(0, 0, 0)',
+          backdropFilter: sticky ? `blur(var(--header-blur))` : 'none',
+        }}
       >
         <div className="w-full max-w-7xl mx-auto flex justify-between items-center">
           {/* Logo and Nav Menu Container */}
@@ -54,7 +80,7 @@ const NavBar = () => {
             {/* Logo - Made larger */}
             <div className="px-4 xl:mr-8 flex-shrink-0">
               <Link href="/" className={`header-logo block w-full ${sticky ? "py-5 lg:py-2" : "py-8"}`}>
-                <div className="relative h-10 w-32"> {/* Increased size */}
+                <div className="relative h-10 w-32 transition-all duration-300"> {/* Added transition */}
                   <Image
                     src="/images/logos/elteema_logo.png"
                     alt="logo"
@@ -77,7 +103,7 @@ const NavBar = () => {
 
             {/* Desktop Nav Menu - Centered */}
             <nav className="hidden lg:flex flex-1 justify-center">
-              <ul className="flex space-x-8"> {/* Increased spacing */}
+              <ul className="flex space-x-8">
                 {navdata.map((menuItem, index) => (
                   <li key={index} className="group relative">
                     {menuItem.path ? (
