@@ -96,7 +96,7 @@ const Feeds = ({setShowSearch}: Props) => {
       <div id='new' className='pt-2 bg-gray-50 w-full'>
         <div className=' mx-auto px-4'>
             <h2 className="text-2xl font-bold text-green-700 mb-6 text-center bg-white/90 p-2 rounded-lg shadow-sm">
-                {username ? `Welcome back, ${capitalize(username)}!` : 'Join the conversation!'}
+                {username ? `Welcome back, ${capitalize(username)}!` : 'Talk & Sell!'}
             </h2>
             
             <div className={`text-center text-sm ${error ? 'text-red-500' : ''} `}>{error ? error : <HotProductFlash />}</div>
@@ -147,7 +147,7 @@ const Feeds = ({setShowSearch}: Props) => {
                                 </div>
                                 <div>
                                     <a href='/dashboard/customerpage'><h3 className='font-semibold text-white'>
-                                        {capitalize(feed.postedBy)}</h3></a>
+                                        Posted by: {capitalize(feed.postedBy)}</h3></a>
                                 </div>
                             </div>
                             
@@ -186,18 +186,43 @@ const Feeds = ({setShowSearch}: Props) => {
                         </div>
                         
                         {/* Feed Content */}
-                        <div className='p-4 bg-green-600'>
-                            <p className='text-white font-extrabold mb-4 leading-relaxed'>{isEditing ? <input /> : feed.text}</p>
+                        {/* Feed Content */}
+<div className='p-4'>
+  {/* Text Section - Light background with dark text for readability */}
+  <div className='bg-green-50 rounded-lg p-4 mb-4 border border-green-100'>
+    <p className='text-green-800 font-medium leading-relaxed'>
+      {isEditing ? (
+        <textarea 
+          className="w-full bg-white p-2 rounded border border-green-200 focus:ring-1 focus:ring-green-300 focus:outline-none"
+          rows={3}
+          defaultValue={feed.text}
+        />
+      ) : (
+        feed.text
+      )}
+    </p>
+  </div>
 
-                            {/* Store  */}
-                            <div className='hidden md:block mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200'>
-                                {feed?.store?.items?.length > 0 ? <DisplayStore productArray={feed.store.items} numPerPage={2} /> : 'No store'}
-                            </div>
-                            {/* Mobile store view */}
-                            <div className='md:hidden mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200'>
-                                {feed?.store?.items?.length > 0 ? <DisplayStore productArray={feed.store.items} numPerPage={1} /> : 'No store'}
-                            </div>
-                        </div>
+  {/* Store Section - Neutral background to make products stand out */}
+  <div className='hidden md:block mt-4 p-4 bg-white rounded-lg border border-gray-100 shadow-sm'>
+    {feed?.store?.items?.length > 0 ? (
+      <DisplayStore productArray={feed.store.items} numPerPage={2} />
+    ) : (
+      <p className='text-gray-400 text-center'>No store items</p>
+    )}
+  </div>
+  
+  {/* Mobile store view */}
+  <div className='md:hidden mt-4 p-4 bg-white rounded-lg border border-gray-100 shadow-sm'>
+    {feed?.store?.items?.length > 0 ? (
+      <DisplayStore productArray={feed.store.items} numPerPage={1} />
+    ) : (
+      <p className='text-gray-400 text-center'>No store items</p>
+    )}
+  </div>
+</div>
+                       
+
                         
                         {/* Feed Footer */}
                         <div className='px-4 py-2 border-t border-gray-100 bg-gray-50/95'>

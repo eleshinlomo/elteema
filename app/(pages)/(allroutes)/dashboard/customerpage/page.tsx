@@ -129,13 +129,15 @@ const CustomerDashboard = () => {
               
               <nav>
                 <ul className="space-y-2">
-                  <li>
+                  <li className='flex gap-2'>
                     <a href="#" className="flex items-center p-3 rounded-lg bg-emerald-50 text-emerald-700 font-medium">
                       <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                       Profile Information
                     </a>
+
+                      
                   </li>
                 
                   <li>
@@ -172,12 +174,24 @@ const CustomerDashboard = () => {
           <div className="lg:col-span-2 space-y-8">
             {/* Profile Information Card */}
             <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex justify-between items-center mb-6">
+
+              {/* Profile Information */}
+              <div>
+              <div className="flex justify-between items-center">
                 <h2 className="text-xl font-semibold text-gray-800">{error || 'Profile Information'}</h2>
                 <button className="text-emerald-600 hover:text-emerald-800" onClick={()=>setIsEditing(!isEditing)}>
                   {isEditing ?<ShieldClose className='w-6 h-6' /> : <Edit />}
                 </button>
               </div>
+
+              <div className='flex gap-3 my-4'>
+              <a href='/checkoutpage'><button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
+                  Continue checkout</button>
+                </a>
+              <a href='/'><button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white '>
+                  Conitnue shopping</button></a>
+              </div>
+            </div>
               
               <form onSubmit={(e)=>handleUpdateUser(e)}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

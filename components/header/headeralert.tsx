@@ -5,12 +5,24 @@ const HeaderAlert = () => {
   const [isVisible, setIsVisible] = useState(true);
   const messages = [
     {
-      text: "Shop directly from local sellers.",
-      highlight: "ELTEEMA!"
+      text: "Shop directly from",
+      highlight: "local sellers"
+    },
+     {
+      text: "Cut out cash transaction",
+      highlight: "wahala"
+    },
+     {
+      text: "You are your own",
+      highlight: "brand"
     },
     {
-      text: "Free delivery on orders over",
-      highlight: "₦10,000"
+      text: "Buy and sell",
+      highlight: "anything!"
+    },
+     {
+      text: "Talk and Sell on",
+      highlight: "Elteema"
     },
     {
       text: "New arrivals",
