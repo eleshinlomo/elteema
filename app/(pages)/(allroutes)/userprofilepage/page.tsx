@@ -1,3 +1,5 @@
+'use client'
+
 import DisplayUserProfile from "../../../../components/displayUserProfile"
 
 const UserProfilePage = ()=>{
