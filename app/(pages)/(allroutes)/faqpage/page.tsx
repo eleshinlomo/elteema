@@ -29,6 +29,32 @@ const FaqPage = () => {
         {
           question: "What are your shipping options?",
           answer: "Most stores on Elteema  offer standard (3-5 days), expedited (2-3 days), and express (1-2 days) shipping options. International shipping rates and times vary by country."
+        },
+          //  Questions below appear under popular questions
+        {
+          question:"How do I change or cancel my order?", 
+          answer: 'Go to your dashboard and you will see all your orders. You can cancel the selected one.',
+          id: 'cancel-order'
+        },
+        { 
+          question: "Do you offer international shipping?", 
+          answer: 'Most stores on Elteems offers internation shipping. However, you will have to confirm with the store directly.',
+          id: 'international-shipping'
+        },
+        {
+          question: "What should I do if my product arrives damaged?", 
+          answer: 'You should not accept any product that is damaged or not looking as described. If you reject a delivery, you must cancel the order within 24hrs.',
+          id: 'damaged-product'
+        },
+        {
+          question: "How do I use my discount code?", 
+          answer: 'We will post information regarding this once we have a discount code promo',
+          id: 'discount-code'
+        },
+        {
+          question: "Where is my order confirmation email?", 
+          answer: 'You will get an order confirmation immediately you have placed an order. You will also get follow-up emails to show your order status until it has been completed.',
+          id: 'confirmation-email'
         }
       ]
     },
@@ -74,7 +100,8 @@ const FaqPage = () => {
         },
         {
           question: "Does Elteema own a store?",
-          answer: "No! Elteema is an ecommerce project that provides online platform for anyone to sell their products across Nigeria and globally."
+          answer: "No! Elteema is an ecommerce project that provides online platform for anyone to sell their products across Nigeria and globally.",
+          id: "elteema-owns-store"
         }
       ]
     },
@@ -99,11 +126,12 @@ const FaqPage = () => {
   ];
 
   const popularQuestions = [
-    "How do I change or cancel my order?",
-    "Do you offer international shipping?",
-    "What should I do if my product arrives damaged?",
-    "How do I use my discount code?",
-    "Where is my order confirmation email?"
+    {q: "Does Elteema own a store?", id: "elteema-owns-store"},
+    {q:"How do I change or cancel my order?", id: 'cancel-order'},
+    {q: "Do you offer international shipping?", id: 'international-shipping'},
+    {q: "What should I do if my product arrives damaged?", id: 'damaged-product'},
+    {q: "How do I use my discount code?", id: 'discount-code'},
+    {q: "Where is my order confirmation email?", id: 'confirmation-email'}
   ];
 
   
@@ -177,7 +205,7 @@ const FaqPage = () => {
       onClick={() => toggleAccordion(index * 10 + index)}
       className="flex justify-between items-center w-full text-left"
     >
-      <span className="text-lg font-medium text-gray-800">{item.question}</span>
+      <span id={item.id} className="text-lg font-medium text-gray-800">{item.question}</span>
       <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform ${activeIndex === index * 10 + index ? 'transform rotate-180' : ''}`} />
     </button>
     {activeIndex === index * 10 + index && (
@@ -197,10 +225,10 @@ const FaqPage = () => {
             {popularQuestions.map((question, index) => (
               <a 
                 key={index} 
-                href="#faq-section"
+                href={`#${question.id}`}
                 className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 hover:border-green-300"
               >
-                <p className="text-gray-800 font-medium">{question}</p>
+                <p className="text-gray-800 font-medium">{question.q}</p>
               </a>
             ))}
           </div>
@@ -215,14 +243,14 @@ const FaqPage = () => {
                 <h2 className="text-xl font-semibold text-gray-900">{category.title}</h2>
               </div>
               
-              <div className="divide-y divide-gray-100">
+              <div className="divide-y divide-gray-100 ">
                 {category.questions.map((item, index) => (
-                  <div key={index} className="px-6 py-4">
+                  <div key={index} className="px-6 py-4 " id={item.id}>
                     <button
                       onClick={() => toggleAccordion(categoryIndex * 10 + index)}
                       className="flex justify-between items-center w-full text-left"
                     >
-                      <span className="text-lg font-medium text-gray-800">{item.question}</span>
+                      <span className="text-lg font-medium text-gray-800 scroll-mt-16">{item.question}</span>
                       <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform ${activeIndex === categoryIndex * 10 + index ? 'transform rotate-180' : ''}`} />
                     </button>
                     {activeIndex === categoryIndex * 10 + index && (

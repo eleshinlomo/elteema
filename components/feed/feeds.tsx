@@ -12,6 +12,7 @@ import DisplayStore from '../store/displayStore'
 import Featured from '../product/featured'
 import PostFeed from './postFeed'
 import HotProductFlash from '../product/hotProductFlash'
+import { SearchIcon } from 'lucide-react'
 
 interface Props {
     setShowSearch: (value: boolean) => void
@@ -97,7 +98,7 @@ const Feeds = ({setShowSearch}: Props) => {
             </div>
             
             {/* Create Post Card */}
-            <div className='bg-green-400 rounded-xl shadow-md p-4 mb-6 border border-gray-200'>
+            <div className='bg-green-400 rounded-xl shadow-md p-1 mb-6 border border-gray-200'>
                 <PostFeed
                     text={text} 
                     setText={setText} 
@@ -108,10 +109,10 @@ const Feeds = ({setShowSearch}: Props) => {
                     isEditing={isEditing}
                 />
                 {/* Feed and Search buttons */}
-                <div className='md:hidden flex justify-center gap-4 mt-2'>
-                    <button className='bg-green-600 text-white px-2'>Feed</button>
-                    <button className='bg-green-600 text-white px-2' onClick={handleShowSearch}>Search</button>
-                </div>
+                <span className=' bg-green-600 md:hidden flex justify-center  py-2'>
+                    <SearchIcon />
+                    <button className=' text-white px-2' onClick={handleShowSearch}>Search Products</button>
+                </span>
             </div>
 
             <div className='md:hidden'>
