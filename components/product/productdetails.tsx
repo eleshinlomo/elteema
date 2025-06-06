@@ -77,8 +77,18 @@ const ProductDetails = ({ id }: DetailsProps) => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-      <a href='/'><button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
-            Conitnue shopping</button></a>
+      <div className="flex gap-3">
+      <a href='/'>
+          <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
+            Conitnue shopping
+          </button>
+      </a>
+      <a href='/faqpage'>
+          <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
+            See faq
+          </button>
+      </a>
+      </div>
       
       {/* Image Modal */}
       {openImageModal && (

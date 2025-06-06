@@ -1,10 +1,10 @@
 'use client'
-import AlertForm from "../../../../../components/alertComponents/alertForm"
+import AlertForm from '../../../../components/alertComponents/alertForm'
 import {useState, useEffect, FormEvent} from 'react'
 
 const SellersPage = () => {
     const [openWarning, setOpenWarning] = useState(false)
-    const [message, setMessage] = useState('Please enter your eamil')
+    const [message, setMessage] = useState('Please enter your email')
     const [email, setEmail] = useState('')
     const [btnText, setBtnText] = useState('Notify Me When Registration Opens')
 
@@ -35,7 +35,7 @@ const SellersPage = () => {
     </div>)
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 flex flex-col items-center justify-center pt-32 md:pt-18 pb-4">
+        <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 flex flex-col items-center justify-center py-8  pb-4">
             <div className="max-w-2xl w-full bg-white rounded-xl shadow-lg overflow-hidden border border-green-200">
                 <div className="bg-green-600 p-4">
                     <h1 className="text-2xl font-bold text-white text-center">Driver Registration</h1>
@@ -49,9 +49,10 @@ const SellersPage = () => {
                     <p className="text-gray-700 text-center mb-6 text-lg">
                         Welcome to the Drivers Portal. Registration for new Drivers on Elteema will open soon!
                     </p>
+                    <p className='py-2'>You will be able to deliver for stores on Elteema using your personal car, bike, skooter, and even walk.</p>
                     <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-6">
                         <p className="text-green-700 font-medium">
-                            Registration opens on <span className="font-bold">June 1st, 2025</span>. Stay tuned for updates!
+                            Registration opens on <span className="font-bold">July 1st, 2025</span>. Stay tuned for updates!
                         </p>
                     </div>
                     <AlertForm body={body}  openWarning={openWarning} setOpenWarning={setOpenWarning} btnText={btnText} />

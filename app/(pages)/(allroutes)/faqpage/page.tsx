@@ -20,15 +20,15 @@ const FaqPage = () => {
       questions: [
         {
           question: "How long does delivery take?",
-          answer: "Delivery typically takes 3-5 business days for domestic orders. International orders may take 15-30 business days depending on the destination."
+          answer: "Delivery typically takes 3-5 business days for domestic orders. International orders may take 15-30 business days depending on the destination and the store."
         },
         {
           question: "Can I track my order?",
-          answer: "Yes! Once your order ships, you'll receive a tracking number via email that you can use to monitor your package's journey."
+          answer: "Tracking may be possble for some orders depending on the store you are purchasing from."
         },
         {
           question: "What are your shipping options?",
-          answer: "We offer standard (3-5 days), expedited (2-3 days), and express (1-2 days) shipping options. International shipping rates and times vary by country."
+          answer: "Most stores on Elteema  offer standard (3-5 days), expedited (2-3 days), and express (1-2 days) shipping options. International shipping rates and times vary by country."
         }
       ]
     },
@@ -56,7 +56,7 @@ const FaqPage = () => {
       questions: [
         {
           question: "What is your email?",
-          answer: "You can message us on support@petrolagegroup.com."
+          answer: "We advise that you should first reach out to the store before escalating matters to our team. You can message us on support@petrolagegroup.com."
         },
       ]
     },
@@ -66,15 +66,15 @@ const FaqPage = () => {
       questions: [
         {
           question: "How do I sell on Elteema?",
-          answer: "Elteema will soon open the platform for everyone to bring their stores online and sell to the world."
+          answer: "To sell on Elteema, you only need to open an account. All registered users on Elteema will automatically have their own store."
         },
         {
-          question: "When exactly will I be able to sell on Elteema?",
-          answer: "We are looking at the 3rd quarter of 2025 or earlier."
+          question: "Who handles delivery?",
+          answer: "Every store handles their own deliveries. Plans are on the way to have Elteema community members pick-up orders for deliveries."
         },
         {
-          question: "Can I pre-register?",
-          answer: "Yes! We advise that all interested sellers should pre-register their store on our page www.elteema.com/sellerspage."
+          question: "Does Elteema own a store?",
+          answer: "No! Elteema is an ecommerce project that provides online platform for anyone to sell their products across Nigeria and globally."
         }
       ]
     },
@@ -84,15 +84,15 @@ const FaqPage = () => {
       questions: [
         {
           question: "What is your return policy?",
-          answer: "We offer a 30-day return policy for most items. Items must be unused, in original packaging with tags attached. Some exclusions apply."
+          answer: "We do not offer returns. Please inspect all delivered product before accepting. Most stores on Elteema are small businesses and cannot handle the problems of returns.."
         },
         {
-          question: "How do I initiate a return?",
-          answer: "Visit our Returns Center in your account dashboard or contact our support team. We'll provide a return label and instructions."
+          question: "How do I initiate a refund?",
+          answer: "If you have rejected an item deliverd to you, you will need to also cancel the order online and your fund will be refunded immediately."
         },
         {
           question: "How long do refunds take to process?",
-          answer: "Once we receive your return, refunds are processed within 3-5 business days. It may take additional time for your bank to post the credit."
+          answer: "Once we receive your request, refunds are processed within 3-5 business days. It may take additional time for your bank to post the credit."
         }
       ]
     }
@@ -147,9 +147,14 @@ const FaqPage = () => {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Find answers to common questions about orders, shipping, returns, and more.
           </p>
+            <a href='/'>
+          <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
+            Conitnue shopping
+          </button>
+      </a>
           
           {/* Search Bar */}
-          <div className="mt-8 max-w-md mx-auto relative">
+          <div className="mt-2 max-w-md mx-auto relative">
             <input
               value={question}
               onChange={(e)=>setQuestion(e.target.value)}

@@ -52,22 +52,13 @@ const FeedsPage = () => {
 
                 {/* Main Content - Second column (centered) */}
                 <div className="col-span-1 md:col-span-1">
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={showSearch ? 'search' : 'feeds'}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.2 }}
-                            className=""
-                        >
+                   
                             {showSearch ? (
                                 <FeaturedMobile setShowSearch={setShowSearch} />
                             ) : (
                                 <Feeds setShowSearch={setShowSearch} />
                             )}
-                        </motion.div>
-                    </AnimatePresence>
+                    
                 </div>
 
                 {/* Right Sidebar - Third column */}

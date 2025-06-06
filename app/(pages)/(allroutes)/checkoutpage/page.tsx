@@ -48,7 +48,7 @@ const CheckoutPage = () => {
  
   const linkToUpdateProfile = (
     <div className="animate-pulse hover:animate-none">
-      <a href={`/dashboard/customerpage`}>
+      <a href={`/dashboard/userpage`}>
         <button className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg px-2 py-1 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
           Complete Your Profile Information
         </button>
@@ -111,9 +111,9 @@ const CheckoutPage = () => {
   }, [user?.state])
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-24">
+    <div className="min-h-screen bg-gray-50 py-8">
       {user && isLoggedIn ? (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent">
@@ -128,7 +128,7 @@ const CheckoutPage = () => {
                 Continue shopping
               </button>
             </a>
-             <a href="/dashboard/customerpage">
+             <a href="/dashboard/userpage">
              <button className="mt-6 bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
                 Update Profile
               </button>

@@ -183,7 +183,7 @@ const navData: NavProps[] = [
       {
         id: 1,
         title: "Dashboard",
-        path: "/dashboard/customerpage",
+        path: "/dashboard/userpage",
         newTab: false,
       },
       {
@@ -203,14 +203,14 @@ const navData: NavProps[] = [
       {
         id: 7,
         title: "Sell on Elteema",
-        path: `/authpages/signup`,
+        path: `/createstorepage`,
         newTab: false,
       },
     
       {
         id: 7,
         title: "Deliver for Elteema",
-        path:`/authpages/signup`,
+        path:`/driverpage`,
         newTab: false,
       },
       //   {
