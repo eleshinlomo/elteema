@@ -58,9 +58,8 @@ const FeaturedMobile = ({setShowSearch}: FeaturedProps) => {
     }, [])
 
     return (
-        <div id='search' className=" bg-gradient-to-b from-green-50 to-white mt-2 pb-16 w-full overflow-hidden">
-            <div className='flex justify-center items-center text-white p-1 bg-green-700  md:hidden'>
-                <button onClick={handleShowFeed}>Back to feeds</button></div>
+        <div id='search' className=" bg-gradient-to-b from-green-50 to-white  pt-[10px] pb-16 w-full overflow-hidden">
+            
             {/* Animated Content Section */}
             <AnimatePresence mode="wait">
                 {searchedItemFound && searchedItemList.length > 0 ? (
@@ -74,9 +73,10 @@ const FeaturedMobile = ({setShowSearch}: FeaturedProps) => {
                         <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">
                             Search Results for <span className="text-green-600">{itemToSearch}</span>
                         </h2>
-                        <DisplayStore productArray={searchedItemList} numPerPage={1} />
+                        <div className='overflow-hidden pt-[20px]'><DisplayStore productArray={searchedItemList} numPerPage={1} /></div>
                     </motion.div>
-                ) : itemToSearch && !searchedItemFound ? (
+                ) : itemToSearch && !searchedItemFound ? 
+                <div  className='pt-[80px]'>
                     <motion.div
                         key="no-results"
                         initial={{ opacity: 0 }}
@@ -103,7 +103,7 @@ const FeaturedMobile = ({setShowSearch}: FeaturedProps) => {
                             </button>
                         </a>
                     </motion.div>
-                ) : (
+                </div> :  <div className='pt-[71px]'>
                     <motion.div
                         key="hero"
                         initial={{ opacity: 0 }}
@@ -113,11 +113,12 @@ const FeaturedMobile = ({setShowSearch}: FeaturedProps) => {
                     >
                         <Hero />
                     </motion.div>
-                )}
+                    </div>
+                }
             </AnimatePresence>
 
-            <div className="mx-auto ">
-                <div className="container flex flex-col items-center p-6 rounded-xl mb-12 -mt-12">
+            <div className="mx-auto   ">
+                <div className="container flex flex-col items-center p-6 rounded-xl mb-12  -mt-12">
                     <div className="flex-1 mx-4 my-8 md:my-0 relative min-w-0">
                         {/* Search Bar Section */}
                         <motion.div 
@@ -138,10 +139,13 @@ const FeaturedMobile = ({setShowSearch}: FeaturedProps) => {
                             className="flex justify-center mt-3"
                             whileHover={{ scale: 1.02 }}
                         >
-                            <button className="flex items-center rounded-full bg-gradient-to-r from-green-600 to-green-800 text-white px-2 py-2 shadow-md hover:shadow-lg transition-all">
+                            <div className='flex justify-center items-center text-white py-1 px-3 bg-green-700  md:hidden rounded-2xl'>
+                                <button onClick={handleShowFeed}>Back to feeds</button>
+                            </div>
+                            {/* <button className="flex items-center rounded-full bg-gradient-to-r from-green-600 to-green-800 text-white px-2 py-2 shadow-md hover:shadow-lg transition-all">
                                 <ShoppingBag className="mr-2 h-5 w-5" />
                                 SEARCH PRODUCT
-                            </button>
+                            </button> */}
                         </motion.div>
                     </div>
                 </div>
