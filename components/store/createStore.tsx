@@ -3,19 +3,27 @@ import { useState, FormEvent, useContext } from "react"
 import { createStore } from "./storeFunctions"
 import { GeneralContext } from "../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
+import { updateLocalUser } from "../data/userdata"
 
 const CreateStore = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    logo: '',
-    phone: '',
-    email: '',
-    items: []
-  })
+
+  
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const {user, setUser}= useContext(GeneralContext)
+
+  const [formData, setFormData] = useState({
+    userId: user.id,
+    name: '',
+    tagline: user?.store?.name || '',
+    logo: '',
+    phone: '',
+    email: '',
+  
+  })
+  
   
 
  
@@ -29,15 +37,24 @@ const CreateStore = () => {
     try {
       const response = await createStore(formData)
       console.log(response)
-      setSuccess('Store created successfully!')
-      // Reset form after successful submission
+      if(response.ok){
+      setSuccess(response.message)
+      const updatedUser = response.data
+      updateLocalUser(updatedUser) // Must update local user
+      setUser(updatedUser) // Must update current user
       setFormData({
+        userId: user.id,
+        tagline: '',
         name: '',
         logo: '',
         phone: '',
         email: '',
-        items: []
+        
       })
+      }else{
+        console.log(response)
+        setError(response.error)
+      }
     } catch (err) {
       setError('Failed to create store. Please try again.')
       console.error(err)
@@ -55,12 +72,13 @@ const CreateStore = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8">
-        <div className="text-center mb-8">
+        {!success && <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-gray-800">Create your store and start selling</h2>
           <p className="mt-2 text-sm text-gray-600">Fill in your store details below</p>
         </div>
+        }
 
         {error && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
@@ -69,11 +87,13 @@ const CreateStore = () => {
         )}
 
         {success && (
-          <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-md">
-            {success}
+          <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-md text-center">
+            <p>{success}</p>
+            <a href='/dashboard/storepage' className="text-blue-700">Visit your store</a>
           </div>
         )}
 
+        {!success && 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
@@ -87,6 +107,22 @@ const CreateStore = () => {
               value={formData.name}
               onChange={handleChange}
               placeholder="Enter store name"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+            />
+          </div>
+
+              <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              Store Tagline
+            </label>
+            <input
+              id="tagline"
+              name="tagline"
+              type="text"
+              required
+              value={formData.tagline.toLowerCase()}
+              onChange={handleChange}
+              placeholder="Enter store name i.e meal focus delivers the best food..."
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
             />
           </div>
@@ -148,6 +184,7 @@ const CreateStore = () => {
             </button>
           </div>
         </form>
+          }
       </div>
     </div>
   )

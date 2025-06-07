@@ -6,7 +6,7 @@ import { useParams } from "next/navigation"
 const ProductCategoryPage = ()=>{
 
     const params = useParams()
-    const category  = params?.category?.toString()
+    const category  = params?.category?.toString() || ''
     
 
     return (

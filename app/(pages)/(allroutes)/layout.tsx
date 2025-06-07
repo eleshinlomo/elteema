@@ -2,10 +2,9 @@
 import { useSearchParams } from "next/navigation"
 import { useContext, useState, useEffect, Suspense } from "react"
 import { GeneralContext } from "../../../contextProviders/GeneralProvider"
-import { getLocalUser, updateUser, UserProps } from "../../../components/data/userdata"
+import { getLocalUser, updateLocalUser, UserProps } from "../../../components/data/userdata"
 import { persistLogin, verifyCode } from "../../../components/api/auth"
 import { useRouter } from "next/navigation"
-import { staticGenerationAsyncStorage } from "next/dist/client/components/static-generation-async-storage-instance"
 import ScrollTopButton from "../../../components/scrollTopButton"
 
 interface AllRoutesProps {
@@ -62,23 +61,23 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
                     //We only grab the cookiesAcceptance and discard the localUser
                     const updatedUser: any = {...verifiedUser, cart: existingUser.cart, cookiesAccepted: existingUser?.cookiesAccepted} 
                     localStorage.removeItem('ptlgUser')
-                    updateUser(updatedUser)
+                    updateLocalUser(updatedUser)
                     setUser(updatedUser)
                   }else if(existingUser && verifiedUser && existingUser.anonymous && existingUser.cart){
                     //We only grab the cart, and discard the localUser
                     const updatedUser: any = {...verifiedUser, cart: existingUser.cart} 
                     localStorage.removeItem('ptlgUser')
-                    updateUser(updatedUser)
+                    updateLocalUser(updatedUser)
                     setUser(updatedUser)
                   }else if(existingUser && verifiedUser && existingUser.anonymous && existingUser.cart && existingUser.cookiesAccepted){
                     //We only grab the cart, cookiesAcceptance and discard the localUser
                     const updatedUser: any = {...verifiedUser, cart: existingUser.cart, cookiesAccepted: existingUser?.cookiesAccepted} 
                     localStorage.removeItem('ptlgUser')
-                    updateUser(updatedUser)
+                    updateLocalUser(updatedUser)
                     setUser(updatedUser)
                   }
                   else {
-                  updateUser(verifiedUser)
+                  updateLocalUser(verifiedUser)
                   setUser(verifiedUser)
                   }
                   code = ''

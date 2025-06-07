@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation"
 import SigninPage from "../authpages/signin/page"
 import Image from 'next/image'
 import NotLoggedInPage from "../authpages/notLoggedInpage"
+import DashSideBar from "./dashSidebar"
+import DashNavBar from "./dashNavBar"
+import { UserProps } from "../../../../components/data/userdata"
 
 
 interface DashboardProps {
@@ -17,20 +20,34 @@ interface DashboardProps {
 const DashboardLayout = ({children}: DashboardProps)=>{
 
   const generalContext = useContext(GeneralContext)
-  const {isLoggedIn} = generalContext
+  const {isLoggedIn, user} = generalContext
   const router = useRouter()
-
+ 
+  if(!isLoggedIn){
+    return <NotLoggedInPage />
+  }
  
     
   return (
     <div>
         
-        {isLoggedIn ?
+        
         <div>
-        {children}
-        </div>: 
-          <NotLoggedInPage />
-          }
+            <div className="flex ">
+                <div className="hidden md:block h-screen bg-black w-1/4 ">
+                    <DashSideBar />
+                </div>
+
+                 <div className="px-4 pt-16">
+                    <DashNavBar user={user} />
+                    {children}
+                </div>
+            </div>
+        
+        
+        </div>
+          
+          
         
     </div>
   )

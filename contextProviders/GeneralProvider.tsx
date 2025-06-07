@@ -2,6 +2,7 @@
 import React, { createContext, useState } from "react"
 import { FeedProps } from "../components/feed/feedFunctions";
 import { ProductProps } from "../components/data/productsdata";
+import { UserProps } from "../components/data/userdata";
 
 interface GeneralProps {
     children: React.ReactNode
@@ -43,7 +44,7 @@ export const GeneralContext = createContext(initialValues)
 export const GeneralProvider = ({children}: GeneralProps)=>{
 
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
-    const [user, setUser] = useState<any | null>(null)
+    const [user, setUser] = useState<UserProps | null>(null)
     const [userStore, setUserStore] = useState<ProductProps[]>([])
     const [isLoading, setIsLoading] = useState(false)
     const [sticky, setSticky] = useState(false);

@@ -30,6 +30,14 @@ const NavRightSide = () => {
   return (
     <div className="flex items-center gap-4">
       {isLoggedIn && user ? (
+        <>
+        <Link
+            href="/dashboard"
+            className="whitespace-nowrap py-2 text-sm font-medium  hover:opacity-70"
+          >
+            Dashboard
+          </Link>
+
         <button
           className="whitespace-nowrap ease-in-up shadow-btn hover:shadow-btn-hover rounded-md bg-green-600 hover:bg-green-700
           py-1 px-3 text-sm font-medium text-white transition duration-300 hover:bg-opacity-90
@@ -38,6 +46,7 @@ const NavRightSide = () => {
         >
           Logout
         </button>
+        </>
       ) : (
         <>
           <Link

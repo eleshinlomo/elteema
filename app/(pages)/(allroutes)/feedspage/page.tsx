@@ -13,29 +13,29 @@ const FeedsPage = () => {
     const [showSearch, setShowSearch] = useState(false);
     const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const isPast20 = window.scrollY > window.innerHeight * 0.2;
-            if (isPast20 !== scrolledPast20) {
-                setScrolledPast20(isPast20);
-            }
-        };
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         const isPast20 = window.scrollY > window.innerHeight * 0.2;
+    //         if (isPast20 !== scrolledPast20) {
+    //             setScrolledPast20(isPast20);
+    //         }
+    //     };
 
-        const handleResize = () => {
-            setWindowWidth(window.innerWidth);
-        };
+    //     const handleResize = () => {
+    //         setWindowWidth(window.innerWidth);
+    //     };
 
-        window.addEventListener("scroll", handleScroll);
-        window.addEventListener("resize", handleResize);
+    //     window.addEventListener("scroll", handleScroll);
+    //     window.addEventListener("resize", handleResize);
         
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-            window.removeEventListener("resize", handleResize);
-        };
-    }, [scrolledPast20]);
+    //     return () => {
+    //         window.removeEventListener("scroll", handleScroll);
+    //         window.removeEventListener("resize", handleResize);
+    //     };
+    // }, [scrolledPast20]);
 
     return (
-        <div className="relative bg-green-50 text-green-900 min-h-screen transition-colors duration-300 ">
+        <div className={`relative bg-green-50 text-green-900 min-h-screen transition-colors duration-300 ${sticky ? 'pt-10' : 'pt-10'} `}>
             {/* Grid Layout */}
             <div className="grid grid-cols-1 md:grid-cols-3 w-full pt-6">
                 {/* Left Sidebar - First column */}
@@ -63,7 +63,7 @@ const FeedsPage = () => {
 
                 {/* Right Sidebar - Third column */}
                 <motion.div 
-                    className="hidden md:block sticky top-4 h-[calc(100vh-2rem)]"
+                    className={`hidden md:block sticky ${sticky ? 'top-16' : 'top-4'} h-[calc(100vh-2rem)]`}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4, ease: "easeOut" }}

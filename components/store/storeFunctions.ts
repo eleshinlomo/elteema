@@ -2,11 +2,12 @@ import { ProductProps } from "../data/productsdata";
 
 
 export interface StoreProps {
+ userId: number;
+ tagline: string;
  name: string;
  logo: string;
  phone: string,
  email: string;
- items: ProductProps[]
 }
 
 

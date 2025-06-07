@@ -22,7 +22,11 @@ const config: Config = {
   			},
   			primary: {
   				DEFAULT: 'hsl(var(--primary))',
-  				foreground: 'hsl(var(--primary-foreground))'
+  				foreground: 'hsl(var(--primary-foreground))',
+				 50: '#eff6ff',
+          		 100: '#dbeafe',
+                 500: '#3b82f6',
+                 600: '#2563eb',
   			},
   			secondary: {
   				DEFAULT: 'hsl(var(--secondary))',

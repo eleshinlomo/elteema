@@ -4,7 +4,8 @@ import { ProductProps } from "./productsdata";
 
 export interface UserProps {
     id:number;
-    name:  string;
+    firstname:  string;
+    lastname:  string;
     authCode: string;
     username: string;
     email: string;
@@ -13,11 +14,14 @@ export interface UserProps {
     type:  string;
     role:  string;
     createdAt:  string;
+    gender: string;
     cookiesAccepted: boolean;
     phone:  string;
     address:  string;
+    city: string;
     state: string;
-    ewsletter: boolean;
+    newsletter: boolean;
+    store: null;
     
 }
 
@@ -39,8 +43,8 @@ export const getLocalUser = ()=>{
 }
 
 
-
-export const updateUser = (updatedUser: UserProps)=>{
+// Must setUser(updatedUser) everytime updateUser fucntion runs
+export const updateLocalUser = (updatedUser: UserProps)=>{
     if(!updatedUser) return null
     if(typeof window  !== 'undefined'){
        localStorage.setItem('ptlgUser', JSON.stringify(updatedUser)) 

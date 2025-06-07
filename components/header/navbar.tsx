@@ -17,9 +17,13 @@ const NavBar = () => {
   const { isLoggedIn, setIsLoggedIn, user, sticky, setSticky } = useContext(GeneralContext);
 
   const pathName = usePathname();
+  // Navbar toggle
 
-  const navbarToggleHandler = () => setNavbarOpen(!navbarOpen);
+  const navbarToggleHandler = () => {
+    setNavbarOpen(!navbarOpen);
+  };
 
+  // Sticky Navbar
   const handleStickyNavbar = () => {
     if (window.scrollY >= 80) {
       setSticky(true);
@@ -27,25 +31,28 @@ const NavBar = () => {
       setSticky(false);
     }
   };
-
-  const handleSubmenu = (index: number) => {
-    setOpenIndex(openIndex === index ? -1 : index);
-  };
-
   useEffect(() => {
     window.addEventListener("scroll", handleStickyNavbar);
-    return () => window.removeEventListener("scroll", handleStickyNavbar);
-  }, []);
+  });
+
+  // submenu handler
+  const handleSubmenu = (index: any) => {
+    if (openIndex === index) {
+      setOpenIndex(-1);
+    } else {
+      setOpenIndex(index);
+    }
+  };
 
   return (
     <div className="relative">
       <HeaderAlert />
 
       <header
-        className={`bg-black text-white px-4 sm:px-10 flex w-full ${
+       className={`header left-0 top-0 z-40 flex w-full items-center ${
           sticky
-            ? "fixed top-0 z-[200] !bg-opacity-90 shadow-sticky backdrop-blur-sm transition"
-            : "relative"
+            ? "dark:bg-gray-dark dark:shadow-sticky-dark fixed z-[9999] bg-white !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
+            : "absolute bg-black text-white"
         }`}
       >
         <div className="w-full max-w-7xl mx-auto flex justify-between items-center">

@@ -183,7 +183,7 @@ const navData: NavProps[] = [
       {
         id: 1,
         title: "Dashboard",
-        path: "/dashboard/userpage",
+        path: "/dashboard",
         newTab: false,
       },
       {

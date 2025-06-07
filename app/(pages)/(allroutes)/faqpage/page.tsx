@@ -243,14 +243,14 @@ const FaqPage = () => {
                 <h2 className="text-xl font-semibold text-gray-900">{category.title}</h2>
               </div>
               
-              <div className="divide-y divide-gray-100 ">
+              <div className="divide-y divide-gray-100 faq-item">
                 {category.questions.map((item, index) => (
                   <div key={index} className="px-6 py-4 " id={item.id}>
                     <button
                       onClick={() => toggleAccordion(categoryIndex * 10 + index)}
                       className="flex justify-between items-center w-full text-left"
                     >
-                      <span className="text-lg font-medium text-gray-800 scroll-mt-16">{item.question}</span>
+                      <span className=" text-lg font-medium text-gray-800 ">{item.question}</span>
                       <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform ${activeIndex === categoryIndex * 10 + index ? 'transform rotate-180' : ''}`} />
                     </button>
                     {activeIndex === categoryIndex * 10 + index && (

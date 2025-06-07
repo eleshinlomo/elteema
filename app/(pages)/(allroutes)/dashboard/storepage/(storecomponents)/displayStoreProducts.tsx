@@ -1,24 +1,21 @@
+'use client';
 import { useState, useContext, useEffect } from 'react'
 import Image from 'next/image'
-import { CartContext } from '../../contextProviders/cartcontext'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import { capitalize, formatCurrency } from '../utils'
-import PopularBadge from '../product/popularBadge'
+import { capitalize, formatCurrency } from '../../../../../../components/utils'
+import PopularBadge from '../../../../../../components/product/popularBadge'
+import { ProductProps } from '../../../../../../components/data/productsdata'
 
 
-interface StoreDisplayProps {
-    productArray: any[];
-    numPerPage: number;
-}
 
-const DisplayStore = ({ productArray, numPerPage }: StoreDisplayProps) => {
+
+const DisplayStoreProducts = (productArray: any | ProductProps) => {
     const [error, setError] = useState('')
     const [isAdded, setIsAdded] = useState(false)
-    const { cart } = useContext(CartContext)
     const [currentPage, setCurrentPage] = useState(0)
-    const itemsPerPage = numPerPage
+    const itemsPerPage = 4
     const totalPages = Math.ceil(productArray?.length / itemsPerPage)
-    const currentItems = productArray?.slice(
+    const currentItems: any[] = productArray?.slice(
         currentPage * itemsPerPage,
         (currentPage + 1) * itemsPerPage,
     )
@@ -172,4 +169,4 @@ const DisplayStore = ({ productArray, numPerPage }: StoreDisplayProps) => {
     )
 }
 
-export default DisplayStore
+export default DisplayStoreProducts 
