@@ -6,11 +6,15 @@ import { RiErrorWarningFill } from 'react-icons/ri'
 import { capitalize } from '../utils'
 import { createFeed, FeedProps, getFeeds } from "./feedFunctions"
 
-const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError, isEditing }: any) => {
+const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError, isEditing, setShowSearch }: any) => {
     
     const [imagePreview, setImagePreview] = useState<string | null>(null)
     const { user, feeds, setFeeds } = useContext(GeneralContext)
     const [feed, setFeed] = useState<FeedProps | null>(null)
+
+    const handleShowSearch = () => {
+        setShowSearch(true)
+    }
 
     // const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     //     const file = e.target.files?.[0]
@@ -84,13 +88,9 @@ const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError, isEdi
                             </label> */}
                             
                             <button 
-                                onClick={handleCreateFeed}
-                                disabled={!text.trim()}
-                                className={`p-1 rounded-full ${
-                                    !text.trim() 
-                                        ? 'text-gray-400 cursor-not-allowed' 
-                                        : 'text-green-600 hover:bg-green-50'
-                                }`}
+            
+                                onClick={handleShowSearch}
+                                className={`p-1 rounded-full md:hidden `}
                             >
                                 <FiPlusCircle size={20} />
                             </button>
@@ -102,6 +102,7 @@ const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError, isEdi
                             <RiErrorWarningFill size={14} />
                             <span>{error}</span>
                         </div>
+                        
                     )}
                     
                     {/* {imagePreview && (
@@ -121,10 +122,23 @@ const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError, isEdi
                             </button>
                         </div>
                     )} */}
+                  
                 </div>
+                <button 
+                    onClick={handleCreateFeed}
+                    disabled={!text.trim()}
+                    className={`w-full p-2 mt-2 text-sm rounded ${
+                        !text.trim() 
+                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                            : 'bg-green-600 text-white hover:bg-green-700'
+                    }`}
+                >
+                    Post
+                </button>
                 
-            
+             
             </div>
+            
         </div>
     )
 }

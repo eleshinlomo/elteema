@@ -19,9 +19,7 @@ interface Props {
 }
 
 const Feeds = ({setShowSearch}: Props) => {
-    const handleShowSearch = () => {
-        setShowSearch(true)
-    }
+    
    
     const {user, feeds, setFeeds, userStore, setUserStore} = useContext(GeneralContext)
     const message = 'Loading new items...'
@@ -87,7 +85,7 @@ const Feeds = ({setShowSearch}: Props) => {
     }, [])
 
     return (
-      <div id='new' className='pt-2 bg-gray-50 w-full'>
+      <div id='new' className='py-2 bg-gray-50 w-full'>
         <div className='mx-auto px-4'>
             <h2 className="text-2xl font-bold text-green-700 mb-6 text-center bg-white/90 p-2 rounded-lg shadow-sm">
                 {username ? `Welcome back, ${capitalize(username)}!` : 'Talk & Sell!'}
@@ -107,14 +105,16 @@ const Feeds = ({setShowSearch}: Props) => {
                     error={error}
                     setError={setError}
                     isEditing={isEditing}
+                    setShowSearch={setShowSearch}
                 />
                 {/* Feed and Search buttons */}
-                <span className=' bg-green-600 md:hidden flex justify-center  py-2'>
+                {/* <span className=' bg-green-600  flex justify-center  py-2'>
                     <SearchIcon />
                     <button className=' text-white px-2' onClick={handleShowSearch}>Search Products</button>
-                </span>
+                </span> */}
             </div>
-
+            
+            {/* This featured only shows in mobile view */}
             <div className='md:hidden'>
                 <Featured />
             </div>
@@ -182,15 +182,15 @@ const Feeds = ({setShowSearch}: Props) => {
                         </div>
                         
                         {/* Feed Content */}
-                        <div className='p-4'>
+                        <div className=''>
                             {/* Text Section with Action Buttons */}
                             <div className='bg-green-50 rounded-lg p-4 mb-4 border border-green-100 relative pb-12'>
-                                <p className='text-green-800 font-medium leading-relaxed'>
+                                <p className='text-green-800 font-medium leading-relaxed text-start   '>
                                     {isEditing ? (
                                         <textarea 
                                             className="w-full bg-white p-2 rounded border border-green-200 focus:ring-1 focus:ring-green-300 focus:outline-none"
                                             rows={3}
-                                            defaultValue={feed.text}
+                                            defaultValue={feed.text}        
                                         />
                                     ) : (
                                         feed.text
