@@ -5,6 +5,7 @@ import { FiX, FiImage, FiPlusCircle } from 'react-icons/fi'
 import { RiErrorWarningFill } from 'react-icons/ri'
 import { capitalize } from '../utils'
 import { createFeed, FeedProps, getFeeds } from "./feedFunctions"
+import { SearchIcon } from 'lucide-react'
 
 const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError, isEditing, setShowSearch }: any) => {
     
@@ -90,9 +91,9 @@ const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError, isEdi
                             <button 
             
                                 onClick={handleShowSearch}
-                                className={`p-1 rounded-full md:hidden `}
+                                className={`p-1 rounded-full md:hidden`}
                             >
-                                <FiPlusCircle size={20} />
+                                <SearchIcon className="" />
                             </button>
                         </div>
                     </div>

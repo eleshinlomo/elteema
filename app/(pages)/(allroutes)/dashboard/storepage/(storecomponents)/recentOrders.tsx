@@ -13,17 +13,14 @@ type Order = {
 };
 
 const RecentOrders = () => {
-  const [isMounted, setIsMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [ordersWithFormattedDate, setOrdersWithFormattedDate] = useState<Order[]>([]);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const rawOrders: Order[] = [
+  const orders: Order[] = [
     {
       id: '#ORD-001',
       customer: 'John Smith',
-      date: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), // 2 hours ago
+      date: '2023-05-15T10:30:00Z',
       amount: 125.99,
       status: 'pending',
       items: 3,
@@ -31,15 +28,15 @@ const RecentOrders = () => {
     {
       id: '#ORD-002',
       customer: 'Sarah Johnson',
-      date: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(), // 3 hours ago
-      amount: 89.50,
+      date: '2023-05-15T09:15:00Z',
+      amount: 89.5,
       status: 'completed',
       items: 2,
     },
     {
       id: '#ORD-003',
       customer: 'Michael Brown',
-      date: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // 1 day ago
+      date: '2023-05-14T08:45:00Z',
       amount: 215.75,
       status: 'shipped',
       items: 5,
@@ -47,7 +44,7 @@ const RecentOrders = () => {
     {
       id: '#ORD-004',
       customer: 'Emily Davis',
-      date: new Date(Date.now() - 1000 * 60 * 60 * 26).toISOString(), // 1 day 2 hours ago
+      date: '2023-05-14T07:30:00Z',
       amount: 45.99,
       status: 'cancelled',
       items: 1,
@@ -55,33 +52,45 @@ const RecentOrders = () => {
     {
       id: '#ORD-005',
       customer: 'Robert Wilson',
-      date: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString(), // 3 days ago
+      date: '2023-05-12T14:20:00Z',
       amount: 199.99,
       status: 'completed',
       items: 4,
     },
   ];
 
-  const formatDate = (dateString: string) => {
-    if(typeof window === 'undefined') return
-    if (!isMounted) return 'Loading...';
-    
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
-    
-    if (diffInHours < 24) {
-      return `Today, ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-    } else if (diffInHours < 48) {
-      return `Yesterday, ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-    }
-    return date.toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-  };
+  useEffect(() => {
+   
+    const formatDate = (dateString: string) => {
+       if(typeof window !== 'undefined'){
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
 
-  const orders = rawOrders.map(order => ({
-    ...order,
-    date: formatDate(order.date)
-  }));
+      if (diffInHours < 24) {
+        return `Today, ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+      } else if (diffInHours < 48) {
+        return `Yesterday, ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+      }
+
+      return date.toLocaleDateString([], {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+    };
+  }
+
+    const updated = orders.map((order) => ({
+      ...order,
+      formattedDate: formatDate(order.date),
+    }));
+
+    setOrdersWithFormattedDate(updated);
+    setMounted(true);
+  
+  }, []);
 
   const getStatusIcon = (status: Order['status']) => {
     switch (status) {
@@ -98,13 +107,16 @@ const RecentOrders = () => {
     }
   };
 
+  if (!mounted) {
+    // Prevent rendering until client has mounted to avoid hydration errors
+    return null;
+  }
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-lg font-semibold text-gray-800">Recent Orders</h2>
-        <button className="text-blue-500 hover:text-blue-600 text-sm font-medium">
-          View All
-        </button>
+        <button className="text-blue-500 hover:text-blue-600 text-sm font-medium">View All</button>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
@@ -118,13 +130,13 @@ const RecentOrders = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {orders.map((order) => (
+            {ordersWithFormattedDate?.map((order) => (
               <tr key={order.id} className="hover:bg-gray-50">
-                <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{order.id}</td>
-                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{order.customer}</td>
-                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{order.date}</td>
-                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">${order.amount.toFixed(2)}</td>
-                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-4 py-4 text-sm font-medium text-gray-900">{order.id}</td>
+                <td className="px-4 py-4 text-sm text-gray-500">{order.customer}</td>
+                <td className="px-4 py-4 text-sm text-gray-500">{(order as any).formattedDate}</td>
+                <td className="px-4 py-4 text-sm text-gray-500">${order.amount.toFixed(2)}</td>
+                <td className="px-4 py-4 text-sm text-gray-500">
                   <div className="flex items-center">
                     {getStatusIcon(order.status)}
                     <span className="ml-2 capitalize">{order.status}</span>

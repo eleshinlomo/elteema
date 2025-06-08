@@ -19,13 +19,18 @@ interface DashboardProps {
 
 const DashboardLayout = ({children}: DashboardProps)=>{
 
-  const generalContext = useContext(GeneralContext)
-  const {isLoggedIn, user} = generalContext
+
+  const {isLoggedIn, user} = useContext(GeneralContext)
   const router = useRouter()
  
-  if(!isLoggedIn){
-    return <NotLoggedInPage />
+   if(!isLoggedIn){
+     return <NotLoggedInPage />
   }
+
+
+  
+
+
  
     
   return (

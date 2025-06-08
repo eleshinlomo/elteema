@@ -15,7 +15,7 @@ const DisplayStoreProducts = (productArray: any | ProductProps) => {
     const [currentPage, setCurrentPage] = useState(0)
     const itemsPerPage = 4
     const totalPages = Math.ceil(productArray?.length / itemsPerPage)
-    const currentItems: any[] = productArray?.slice(
+    const currentItems: any[] = productArray.length > 0 && productArray?.slice(
         currentPage * itemsPerPage,
         (currentPage + 1) * itemsPerPage,
     )
