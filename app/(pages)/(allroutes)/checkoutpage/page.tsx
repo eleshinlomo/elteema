@@ -48,7 +48,7 @@ const CheckoutPage = () => {
  
   const linkToUpdateProfile = (
     <div className="animate-pulse hover:animate-none">
-      <a href={`/dashboard/userpage`}>
+      <a href={`/dashboard/profilepage`}>
         <button className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg px-2 py-1 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
           Complete Your Profile Information
         </button>
@@ -128,7 +128,7 @@ const CheckoutPage = () => {
                 Continue shopping
               </button>
             </a>
-             <a href="/dashboard/userpage">
+             <a href="/dashboard/profilepage">
              <button className="mt-6 bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
                 Update Profile
               </button>
