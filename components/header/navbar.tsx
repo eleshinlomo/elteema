@@ -45,23 +45,23 @@ const NavBar = () => {
   };
 
   return (
-    <div className="relative">
-      <HeaderAlert />
+    <div className="relative pb-12">
+      <div className="fixed  w-full"><HeaderAlert /></div>
 
       <header
        className={`header left-0 top-0 z-40 flex w-full items-center ${
           sticky
-            ? "dark:bg-gray-dark dark:shadow-sticky-dark fixed z-[9999] bg-white !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
-            : "absolute bg-black text-white"
+            ? "text-white bg-gradient-to-r from-green-900 to-black/50 fixed z-[8000]  !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
+            : "absolute bg-black text-white top-8"
         }`}
       >
-        <div className="w-full max-w-7xl mx-auto flex justify-between items-center">
+        <div className="w-full max-w-7xl  flex justify-between">
           {/* Logo and Nav Menu Container */}
           <div className="flex items-center w-full">
             {/* Logo - Made larger */}
-            <div className="px-4 xl:mr-8 flex-shrink-0">
-              <Link href="/" className={`header-logo block w-full ${sticky ? "py-5 lg:py-2" : "py-8"}`}>
-                <div className="relative h-10 w-32"> {/* Increased size */}
+            <div className=" ">
+              <Link href="/" className={`header-logo block w-full ${sticky ? "py-2 lg:py-2" : "py-2"}`}>
+                <div className="relative h-16 w-32"> {/* Increased size */}
                   <Image
                     src="/images/logos/elteema_logo.png"
                     alt="logo"
@@ -147,7 +147,7 @@ const NavBar = () => {
             <Cart />
 
             {/* Mobile Toggle Button */}
-            <div className="ml-4">
+            <div className="mx-4">
             <button
               onClick={navbarToggleHandler}
               id="navbarToggler"
@@ -220,7 +220,7 @@ const NavBar = () => {
               </li>
             ))}
             {/* Mobile Right Side */}
-            <li className="lg:hidden">
+            <li className="lg:hidden pr-6">
               <NavRightSide  />
             </li>
           </ul>

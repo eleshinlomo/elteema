@@ -51,6 +51,7 @@ const CreateStore = () => {
         email: '',
         
       })
+      window.location.href='#create-store-bottom'
       }else{
         console.log(response)
         setError(response.error)
@@ -72,7 +73,7 @@ const CreateStore = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 px-4 sm:px-6 lg:px-8 " id='create-store-bottom'>
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8">
         {!success && <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-gray-800">Create your store and start selling</h2>
@@ -87,7 +88,7 @@ const CreateStore = () => {
         )}
 
         {success && (
-          <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-md text-center">
+          <div className="mb-4 mt-32 bg-green-100 text-green-700 rounded-md text-center" >
             <p>{success}</p>
             <a href='/dashboard/storepage' className="text-blue-700">Visit your store</a>
           </div>

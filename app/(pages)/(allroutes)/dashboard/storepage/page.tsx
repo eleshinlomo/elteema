@@ -3,7 +3,7 @@
 import SalesChart from './(storecomponents)/salesChart';
 import OrderStatusCards from './(storecomponents)/orderStatusCards';
 import RecentOrders from './(storecomponents)/recentOrders';
-import TopProducts from './(storecomponents)/topProducts';
+import TopProducts from './(storecomponents)/storeProducts';
 import StoreInfo from './(storecomponents)/storeInfo';
 import SalesSummary from './(storecomponents)/salesSummary';
 import { useContext } from 'react';

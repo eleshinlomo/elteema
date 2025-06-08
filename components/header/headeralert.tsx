@@ -51,7 +51,7 @@ const HeaderAlert = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="relative bg-gradient-to-r from-green-900 to-black text-white text-center py-3 px-4 font-bold"
+          className=" bg-gradient-to-r from-green-900 to-black text-white text-center py-3 px-4 font-bold"
         >
           <div className="max-w-7xl mx-auto flex items-center justify-center">
             <motion.div
@@ -71,7 +71,7 @@ const HeaderAlert = () => {
               </h3>
             
             </motion.div>
-
+{/* 
             <button
               onClick={() => setIsVisible(false)}
               className="absolute right-4 sm:right-10 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors"
@@ -89,7 +89,7 @@ const HeaderAlert = () => {
                   clipRule="evenodd"
                 />
               </svg>
-            </button>
+            </button> */}
           </div>
         </motion.div>
       )}

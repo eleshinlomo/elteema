@@ -19,9 +19,9 @@ const RecentOrders = () => {
   const orders: Order[] = [
     {
       id: '#ORD-001',
-      customer: 'John Smith',
+      customer: 'Bola Sodipe',
       date: '2023-05-15T10:30:00Z',
-      amount: 125.99,
+      amount: 1250.99,
       status: 'pending',
       items: 3,
     },
@@ -29,7 +29,7 @@ const RecentOrders = () => {
       id: '#ORD-002',
       customer: 'Sarah Johnson',
       date: '2023-05-15T09:15:00Z',
-      amount: 89.5,
+      amount: 890.5,
       status: 'completed',
       items: 2,
     },
@@ -37,7 +37,7 @@ const RecentOrders = () => {
       id: '#ORD-003',
       customer: 'Michael Brown',
       date: '2023-05-14T08:45:00Z',
-      amount: 215.75,
+      amount: 2150.75,
       status: 'shipped',
       items: 5,
     },
@@ -45,7 +45,7 @@ const RecentOrders = () => {
       id: '#ORD-004',
       customer: 'Emily Davis',
       date: '2023-05-14T07:30:00Z',
-      amount: 45.99,
+      amount: 4500.99,
       status: 'cancelled',
       items: 1,
     },
@@ -53,7 +53,7 @@ const RecentOrders = () => {
       id: '#ORD-005',
       customer: 'Robert Wilson',
       date: '2023-05-12T14:20:00Z',
-      amount: 199.99,
+      amount: 1999.99,
       status: 'completed',
       items: 4,
     },
@@ -135,7 +135,7 @@ const RecentOrders = () => {
                 <td className="px-4 py-4 text-sm font-medium text-gray-900">{order.id}</td>
                 <td className="px-4 py-4 text-sm text-gray-500">{order.customer}</td>
                 <td className="px-4 py-4 text-sm text-gray-500">{(order as any).formattedDate}</td>
-                <td className="px-4 py-4 text-sm text-gray-500">${order.amount.toFixed(2)}</td>
+                <td className="px-4 py-4 text-sm text-gray-500">N{order.amount.toFixed(2)}</td>
                 <td className="px-4 py-4 text-sm text-gray-500">
                   <div className="flex items-center">
                     {getStatusIcon(order.status)}

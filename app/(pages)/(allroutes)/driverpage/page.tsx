@@ -35,7 +35,7 @@ const SellersPage = () => {
     </div>)
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 flex flex-col items-center justify-center py-8  pb-4">
+        <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 flex flex-col items-center justify-center pt-16 md:py-8  pb-4">
             <div className="max-w-2xl w-full bg-white rounded-xl shadow-lg overflow-hidden border border-green-200">
                 <div className="bg-green-600 p-4">
                     <h1 className="text-2xl font-bold text-white text-center">Driver Registration</h1>

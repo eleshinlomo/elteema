@@ -5,7 +5,7 @@ const SalesSummary = () => {
   const stats = [
     {
       title: 'Total Revenue',
-      value: '$24,780',
+      value: 'N244,780',
       change: 12.5,
       isUp: true,
     },
@@ -23,7 +23,7 @@ const SalesSummary = () => {
     },
     {
       title: 'Avg. Order Value',
-      value: '$89.34',
+      value: 'N8900.34',
       change: 2.4,
       isUp: true,
     },
