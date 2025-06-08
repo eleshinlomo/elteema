@@ -7,6 +7,7 @@ import { cities, states } from '../../../../../components/data/locations';
 import { capitalize } from '../../../../../components/utils';
 import { updateUser } from '../../../../../components/api/users';
 import DashSideBar from '../dashSidebar';
+import Cart from '../../../../../components/cart/cart';
 
 const CustomerDashboard = () => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -45,9 +46,8 @@ const CustomerDashboard = () => {
 
       const data = await updateUser(payload)
       if(data.ok){
-        console.log('Updated User', data)
         const newUser = data.data
-        const updatedUser = {...newUser, cart: user.cart} //Making sure we retain the old user cart
+        const updatedUser = {...newUser, ...user.cart, cart: user.cart} //Making sure we retain the old user cart
         updateLocalUser(updatedUser)
         setUser(data.data)
         setIsEditing(false)

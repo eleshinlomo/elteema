@@ -15,6 +15,7 @@ const OrderStatusCards = () => {
   const cards = [
     {
       title: 'Pending Orders',
+      text: 'Buyer can cancel order',
       value: 24,
       change: 12,
       Icon: FiPackage,
@@ -23,14 +24,25 @@ const OrderStatusCards = () => {
     },
     {
       title: 'Processing',
+      text: 'Buyer can cancel order',
       value: 8,
       change: -2,
       Icon: FiShoppingCart,
       color: 'border-yellow-500',
       iconColor: 'text-yellow-500',
     },
+        {
+      title: 'Waiting for pick-up',
+      text: 'Buyer can cancel order',
+      value: 15,
+      change: 8,
+      Icon: FiTruck,
+      color: 'border-purple-500',
+      iconColor: 'text-purple-500',
+    },
     {
       title: 'Shipped',
+      text: '',
       value: 15,
       change: 8,
       Icon: FiTruck,
@@ -39,6 +51,7 @@ const OrderStatusCards = () => {
     },
     {
       title: 'Completed',
+      text: '',
       value: 42,
       change: 5,
       Icon: FiCheckCircle,

@@ -39,7 +39,7 @@ const DashboardLayout = ({children}: DashboardProps)=>{
         
         <div>
             <div className="flex ">
-                <div className="hidden md:block h-screen bg-black w-1/4 ">
+                <div className="hidden md:block h-screen  w-1/4 ">
                     <DashSideBar />
                 </div>
 

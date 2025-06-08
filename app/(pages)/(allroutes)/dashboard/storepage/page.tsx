@@ -2,13 +2,13 @@
 
 import SalesChart from './(storecomponents)/salesChart';
 import OrderStatusCards from './(storecomponents)/orderStatusCards';
-import RecentOrders from './(storecomponents)/recentOrders';
-import TopProducts from './(storecomponents)/storeProducts';
 import StoreInfo from './(storecomponents)/storeInfo';
 import SalesSummary from './(storecomponents)/salesSummary';
 import { useContext } from 'react';
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider';
 import { capitalize } from '../../../../../components/utils';
+import StoreProducts from './(storecomponents)/storeProducts';
+import Orders from './(storecomponents)/Orders';
 
 
 const StorePage = () => {
@@ -46,8 +46,8 @@ const StorePage = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <RecentOrders />
-        <TopProducts />
+        <Orders />
+        <StoreProducts />
       </div>
     </div>
   );

@@ -22,6 +22,8 @@ export interface UserProps {
     state: string;
     newsletter: boolean;
     store: null;
+    paymentEmail: string;
+    paymentMethod: string;
     
 }
 

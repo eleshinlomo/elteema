@@ -1,6 +1,6 @@
 'use client';
 
-interface Product {
+interface StoreProductsProps {
   id: string;
   name: string;
   category: string;
@@ -10,8 +10,8 @@ interface Product {
   image: string;
 }
 
-const TopProducts = () => {
-  const products: Product[] = [
+const StoreProducts = () => {
+  const products: StoreProductsProps[] = [
     {
       id: '1',
       name: 'Aso oke',
@@ -27,7 +27,7 @@ const TopProducts = () => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-lg font-semibold text-gray-800">Products</h2>
+        <h2 className="text-lg font-semibold text-gray-800">All Products</h2>
         <button className="text-blue-500 hover:text-blue-600 text-sm font-medium">
           View All
         </button>
@@ -61,4 +61,4 @@ const TopProducts = () => {
   );
 };
 
-export default TopProducts;
+export default StoreProducts;

@@ -12,7 +12,7 @@ type Order = {
   items: number;
 };
 
-const RecentOrders = () => {
+const Orders = () => {
   const [mounted, setMounted] = useState(false);
   const [ordersWithFormattedDate, setOrdersWithFormattedDate] = useState<Order[]>([]);
 
@@ -115,7 +115,7 @@ const RecentOrders = () => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-lg font-semibold text-gray-800">Recent Orders</h2>
+        <h2 className="text-lg font-semibold text-gray-800">All Orders</h2>
         <button className="text-blue-500 hover:text-blue-600 text-sm font-medium">View All</button>
       </div>
       <div className="overflow-x-auto">
@@ -151,4 +151,4 @@ const RecentOrders = () => {
   );
 };
 
-export default RecentOrders;
+export default Orders;
