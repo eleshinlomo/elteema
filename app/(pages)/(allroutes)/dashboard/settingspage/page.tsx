@@ -15,7 +15,7 @@ const SettingsPage = ()=>{
 
         <div className="pt-16">
             <div >
-                <h2>SETTINGS PAGE</h2>
+                <h2 className="mb-4">SETTINGS PAGE</h2>
 
             {/* Delete Account Card */}
             <div className="bg-white rounded-lg shadow-md p-6 border border-red-100">

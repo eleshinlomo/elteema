@@ -42,7 +42,7 @@ const OrderStatusCards = () => {
     },
     {
       title: 'Shipped',
-      text: '',
+      text: 'Buyer cannot cancel order',
       value: 15,
       change: 8,
       Icon: FiTruck,
@@ -51,7 +51,7 @@ const OrderStatusCards = () => {
     },
     {
       title: 'Completed',
-      text: '',
+      text: 'Buyer cannot cancel order',
       value: 42,
       change: 5,
       Icon: FiCheckCircle,

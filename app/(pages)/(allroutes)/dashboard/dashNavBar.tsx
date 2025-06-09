@@ -15,6 +15,13 @@ const DashNavBar = ({ user }: { user: UserProps | any }) => {
           icon={<Home className="w-4 h-4" />}
           label="Dashboard"
         />
+
+             {/* Orders Link */}
+        <NavButton 
+          href="/dashboard/orderpage" 
+          icon={<Home className="w-4 h-4" />}
+          label="Orders"
+        />
         
         {/* Profile Link */}
         <NavButton 
@@ -40,7 +47,7 @@ const DashNavBar = ({ user }: { user: UserProps | any }) => {
         
         {/* Settings Link */}
         <NavButton 
-          href="/dashboard/settings" 
+          href="/dashboard/settingspage" 
           icon={<Settings className="w-4 h-4" />}
           label="Settings"
         />
