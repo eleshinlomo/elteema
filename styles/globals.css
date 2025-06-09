@@ -43,12 +43,12 @@ body {
 
 
 /* Prevent layout shift when keyboard appears */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   body {
     position: fixed;
     width: 100%;
   }
-}
+} */
 
 
 
