@@ -180,12 +180,7 @@ const navData: NavProps[] = [
     newTab: false,
     submenu: [
 
-      {
-        id: 1,
-        title: "Dashboard",
-        path: "/dashboard",
-        newTab: false,
-      },
+  
       {
     id: 3,
     title: "About",
