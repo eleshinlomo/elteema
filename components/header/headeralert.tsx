@@ -44,6 +44,7 @@ const HeaderAlert = () => {
   }, []);
 
   return (
+    <div className="">
     <AnimatePresence>
       {isVisible && (
         <motion.div
@@ -51,7 +52,7 @@ const HeaderAlert = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className=" bg-gradient-to-r from-green-900 to-black text-white text-center py-1 px-4 font-bold"
+          className=" bg-gradient-to-r from-green-900 to-black text-white text-center py-2  px-2 font-bold"
         >
           <div className="max-w-7xl mx-auto flex items-center justify-center">
             <motion.div
@@ -76,6 +77,7 @@ const HeaderAlert = () => {
         </motion.div>
       )}
     </AnimatePresence>
+    </div>
   );
 };
 
