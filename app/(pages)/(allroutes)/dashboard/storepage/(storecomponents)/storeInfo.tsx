@@ -45,9 +45,10 @@ const StoreInfo = () => {
         </div>
       </div>
       
-      <button className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition duration-200">
+      <a href='/dashboard/addproductpage'><button className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition duration-200">
         Add New Product
       </button>
+      </a>
     </div>
   );
 };

@@ -1,16 +1,39 @@
 'use client'
 import { ChevronDown, HelpCircle, Truck, CreditCard, ShieldCheck, Mail, Phone, SearchIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 const FaqPage = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [question, setQuestion] = useState('')
-  const [category, setCategory] = useState<any>(null)
-  const [isMatched, setIsMatched] = useState(false)
-
+  const [question, setQuestion] = useState('');
+  const [category, setCategory] = useState<any>(null);
+  const [isMatched, setIsMatched] = useState(false);
+  const questionRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
 
   const toggleAccordion = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
+  };
+
+  const scrollToQuestion = (id: string) => {
+    const element = questionRefs.current[id];
+    if (element) {
+      const offset = 120;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+
+      // Find and open the corresponding accordion
+      faqCategories.forEach((cat, catIndex) => {
+        cat.questions.forEach((q, qIndex) => {
+          if (q.id === id) {
+            setActiveIndex(catIndex * 10 + qIndex);
+          }
+        });
+      });
+    }
   };
 
   const faqCategories = [
@@ -24,13 +47,12 @@ const FaqPage = () => {
         },
         {
           question: "Can I track my order?",
-          answer: "Tracking may be possble for some orders depending on the store you are purchasing from."
+          answer: "Tracking may be possible for some orders depending on the store you are purchasing from."
         },
         {
           question: "What are your shipping options?",
-          answer: "Most stores on Elteema  offer standard (3-5 days), expedited (2-3 days), and express (1-2 days) shipping options. International shipping rates and times vary by country."
+          answer: "Most stores on Elteema offer standard (3-5 days), expedited (2-3 days), and express (1-2 days) shipping options. International shipping rates and times vary by country."
         },
-          //  Questions below appear under popular questions
         {
           question:"How do I change or cancel my order?", 
           answer: 'Go to your dashboard and you will see all your orders. You can cancel the selected one.',
@@ -38,12 +60,12 @@ const FaqPage = () => {
         },
         { 
           question: "Do you offer international shipping?", 
-          answer: 'Most stores on Elteems offers internation shipping. However, you will have to confirm with the store directly.',
+          answer: 'Most stores on Elteema offer international shipping. However, you will have to confirm with the store directly.',
           id: 'international-shipping'
         },
         {
           question: "What should I do if my product arrives damaged?", 
-          answer: 'You should not accept any product that is damaged or not looking as described. If you reject a delivery, you must cancel the order within 24hrs.',
+          answer: 'You should not accept any product that is damaged or not looking as described. If you reject a delivery, you must raise a dispute within 24hrs.',
           id: 'damaged-product'
         },
         {
@@ -53,7 +75,7 @@ const FaqPage = () => {
         },
         {
           question: "Where is my order confirmation email?", 
-          answer: 'You will get an order confirmation immediately you have placed an order. You will also get follow-up emails to show your order status until it has been completed.',
+          answer: 'You will get an order confirmation immediately after placing an order. You will also get follow-up emails to show your order status until it has been completed.',
           id: 'confirmation-email'
         }
       ]
@@ -111,11 +133,11 @@ const FaqPage = () => {
       questions: [
         {
           question: "What is your return policy?",
-          answer: "We do not offer returns. Please inspect all delivered product before accepting. Most stores on Elteema are small businesses and cannot handle the problems of returns.."
+          answer: "We do not offer returns. Please inspect all delivered product before accepting. Most stores on Elteema are small businesses and cannot handle the problems of returns."
         },
         {
           question: "How do I initiate a refund?",
-          answer: "If you have rejected an item deliverd to you, you will need to also cancel the order online and your fund will be refunded immediately."
+          answer: "If you have rejected an item delivered to you, you will need to also cancel the order online and your fund will be refunded immediately."
         },
         {
           question: "How long do refunds take to process?",
@@ -134,20 +156,16 @@ const FaqPage = () => {
     {q: "Where is my order confirmation email?", id: 'confirmation-email'}
   ];
 
-  
   const searchForWords = (searchTerm: string) => {
     if (!searchTerm.trim()) return null;
     
     const lowerCaseSearch = searchTerm.toLowerCase();
     
-    // Search through categories and questions
     const matchingCategory = faqCategories.find(category => {
-      // Check category title
       if (category.title.toLowerCase().includes(lowerCaseSearch)) {
         return true;
       }
       
-      // Check questions in this category
       return category.questions.some(q => 
         q.question.toLowerCase().includes(lowerCaseSearch) || 
         q.answer.toLowerCase().includes(lowerCaseSearch)
@@ -157,11 +175,11 @@ const FaqPage = () => {
     return matchingCategory || null;
   };
 
-  useEffect(()=>{
-    const matchingCategory: any = searchForWords(question)
-    setCategory(matchingCategory)
-    setIsMatched(true)
-  }, [question])
+  useEffect(() => {
+    const matchingCategory: any = searchForWords(question);
+    setCategory(matchingCategory);
+    setIsMatched(true);
+  }, [question]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-28 px-4 sm:px-6 lg:px-8">
@@ -175,17 +193,17 @@ const FaqPage = () => {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Find answers to common questions about orders, shipping, returns, and more.
           </p>
-            <a href='/'>
-          <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
-            Conitnue shopping
-          </button>
-      </a>
+          <a href='/'>
+            <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
+              Continue shopping
+            </button>
+          </a>
           
           {/* Search Bar */}
           <div className="mt-2 max-w-md mx-auto relative">
             <input
               value={question}
-              onChange={(e)=>setQuestion(e.target.value)}
+              onChange={(e) => setQuestion(e.target.value)}
               type="text"
               placeholder="Search FAQs..."
               className="w-full px-6 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm"
@@ -194,78 +212,92 @@ const FaqPage = () => {
           </div>
         </div>
       
-      
-        {category ?
-
-          
-<div className="divide-y divide-gray-100">
-{category?.questions.map((item:any, index: any) => (
-  <div key={index} className="px-6 py-4">
-    <button
-      onClick={() => toggleAccordion(index * 10 + index)}
-      className="flex justify-between items-center w-full text-left"
-    >
-      <span id={item.id} className="text-lg font-medium text-gray-800">{item.question}</span>
-      <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform ${activeIndex === index * 10 + index ? 'transform rotate-180' : ''}`} />
-    </button>
-    {activeIndex === index * 10 + index && (
-      <div className="mt-3 text-gray-600">
-        <p>{item.answer}</p>
-      </div>
-    )}
-  </div>
-))}
-</div>:
-       <div>
-
-         {/* Popular Questions */}
-         <div className="mb-16">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Popular Questions</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {popularQuestions.map((question, index) => (
-              <a 
+        {category ? (
+          <div className="divide-y divide-gray-100">
+            {category?.questions.map((item: any, index: any) => (
+              <div 
                 key={index} 
-                href={`#${question.id}`}
-                className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 hover:border-green-300"
+                className="px-6 py-4"
+                ref={el => {
+                  if (item.id) {
+                    questionRefs.current[item.id] = el;
+                  }
+                }}
               >
-                <p className="text-gray-800 font-medium">{question.q}</p>
-              </a>
+                <button
+                  onClick={() => toggleAccordion(index * 10 + index)}
+                  className="flex justify-between items-center w-full text-left"
+                >
+                  <span id={item.id} className="text-lg font-medium text-gray-800">{item.question}</span>
+                  <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform ${activeIndex === index * 10 + index ? 'transform rotate-180' : ''}`} />
+                </button>
+                {activeIndex === index * 10 + index && (
+                  <div className="mt-3 text-gray-600">
+                    <p>{item.answer}</p>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
-        </div>
-
-          {/* FAQ Categories */}
-        <div id="faq-section" className="space-y-8">
-          {faqCategories.map((category, categoryIndex) => (
-            <div key={categoryIndex} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
-              <div className="flex items-center bg-gray-50 px-6 py-4 border-b border-gray-200">
-                <div className="mr-3">{category.icon}</div>
-                <h2 className="text-xl font-semibold text-gray-900">{category.title}</h2>
-              </div>
-              
-              <div className="divide-y divide-gray-100 faq-item">
-                {category.questions.map((item, index) => (
-                  <div key={index} className="px-6 py-4 " id={item.id}>
-                    <button
-                      onClick={() => toggleAccordion(categoryIndex * 10 + index)}
-                      className="flex justify-between items-center w-full text-left"
-                    >
-                      <span className=" text-lg font-medium text-gray-800 ">{item.question}</span>
-                      <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform ${activeIndex === categoryIndex * 10 + index ? 'transform rotate-180' : ''}`} />
-                    </button>
-                    {activeIndex === categoryIndex * 10 + index && (
-                      <div className="mt-3 text-gray-600">
-                        <p>{item.answer}</p>
-                      </div>
-                    )}
-                  </div>
+        ) : (
+          <div>
+            {/* Popular Questions */}
+            <div className="mb-16">
+              <h2 className="text-xl font-semibold text-gray-900 mb-6">Popular Questions</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {popularQuestions.map((question, index) => (
+                  <button 
+                    key={index} 
+                    onClick={() => scrollToQuestion(question.id)}
+                    className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 hover:border-green-300 text-left"
+                  >
+                    <p className="text-gray-800 font-medium">{question.q}</p>
+                  </button>
                 ))}
               </div>
             </div>
-          ))}
-        </div>
-        </div>
-        }
+
+            {/* FAQ Categories */}
+            <div id="faq-section" className="space-y-8">
+              {faqCategories.map((category, categoryIndex) => (
+                <div key={categoryIndex} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                  <div className="flex items-center bg-gray-50 px-6 py-4 border-b border-gray-200">
+                    <div className="mr-3">{category.icon}</div>
+                    <h2 className="text-xl font-semibold text-gray-900">{category.title}</h2>
+                  </div>
+                  
+                  <div className="divide-y divide-gray-100 faq-item">
+                    {category.questions.map((item, index) => (
+                      <div 
+                        key={index} 
+                        className="px-6 py-4"
+                        ref={el => {
+                          if (item.id) {
+                            questionRefs.current[item.id] = el;
+                          }
+                        }}
+                        id={item.id}
+                      >
+                        <button
+                          onClick={() => toggleAccordion(categoryIndex * 10 + index)}
+                          className="flex justify-between items-center w-full text-left"
+                        >
+                          <span className="text-lg font-medium text-gray-800">{item.question}</span>
+                          <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform ${activeIndex === categoryIndex * 10 + index ? 'transform rotate-180' : ''}`} />
+                        </button>
+                        {activeIndex === categoryIndex * 10 + index && (
+                          <div className="mt-3 text-gray-600">
+                            <p>{item.answer}</p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Contact Support */}
         <div className="mt-16 bg-gradient-to-r from-green-50 to-green-100 rounded-xl p-8 text-center">

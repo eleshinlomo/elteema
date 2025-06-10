@@ -35,9 +35,7 @@ const Feeds = ({setShowSearch}: Props) => {
         setActiveMenuId(activeMenuId === feedId ? null : feedId)
     }
 
-    const closeMenu = () => {
-        setActiveMenuId(null)
-    }
+    
     
     const handleGetFeeds = async () => {
        const initialFeeds: FeedProps[] | any = await getFeeds()
@@ -59,8 +57,9 @@ const Feeds = ({setShowSearch}: Props) => {
             [postId]: !prev[postId]
         }))
     }
-       
-    const saveNewFeed = (newFeed: FeedProps | null) => {
+    
+
+    const saveEditedFeed = (newFeed: FeedProps, feedId: number) => {
         // if(newFeed){
         //    setFeeds(prev=>[...prev, newFeed])
         // }
@@ -74,21 +73,21 @@ const Feeds = ({setShowSearch}: Props) => {
         }
     }
 
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (!(e.target as HTMLElement).closest('.action-menu-container')) {
-                closeMenu()
-            }
-        }
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => document.removeEventListener('mousedown', handleClickOutside)
-    }, [])
+    // useEffect(() => {
+    //     const handleClickOutside = (e: MouseEvent) => {
+    //         if (!(e.target as HTMLElement).closest('.action-menu-container')) {
+    //             closeMenu()
+    //         }
+    //     }
+    //     document.addEventListener('mousedown', handleClickOutside)
+    //     return () => document.removeEventListener('mousedown', handleClickOutside)
+    // }, [])
 
     return (
       <div id='new' className='py-2 bg-gray-50 w-full'>
         <div className='mx-auto px-4'>
             <h2 className="text-2xl font-bold text-green-700 mb-6 text-center bg-white/90 p-2 rounded-lg shadow-sm">
-                {username ? `Welcome back, ${capitalize(username)}!` : 'Talk & Sell!'}
+                {username ? `Welcome back, ${capitalize(username)}!` : 'Talk, Buy & Sell!'}
             </h2>
             
             <div className={`text-center text-sm ${error ? 'text-red-500' : ''}`}>
@@ -153,7 +152,7 @@ const Feeds = ({setShowSearch}: Props) => {
                                             <div className='flex gap-4'>
                                                 <button 
                                                     className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white w-full'
-                                                    onClick={()=>isEditing ? saveNewFeed(feed) : updateFeed(feed.feedId)}
+                                                    onClick={()=>isEditing ? updateFeed(feed.feedId) : null}
                                                 >
                                                     {isEditing ? 'Save' : 'Edit'}
                                                 </button>
