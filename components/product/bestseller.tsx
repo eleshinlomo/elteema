@@ -1,6 +1,6 @@
 'use client'
 import {useState, useEffect, useContext} from 'react'
-import { ProductProps} from "../data/productsdata"
+import { ProductProps } from '../api/product'
 import Image from 'next/image'
 import AllProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
@@ -13,7 +13,7 @@ const Bestsellers = ()=>{
  const {Products} = cartContext
 
  const getBestsellers  = ()=>{
-    const bestSellerItems: ProductProps[] = Products.filter((item)=>item.category?.some((cat)=>cat === 'bestseller'))
+    const bestSellerItems: ProductProps[] = Products.filter((item)=>item.categories?.some((cat)=>cat === 'bestseller'))
     if(bestSellerItems.length > 0){
         setBestsellers(bestSellerItems)
     }

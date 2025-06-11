@@ -3,23 +3,48 @@
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-export interface ProductProps {
+export interface CreateProductProps {
     userId: number;
     addedBy: string;
     productName: string;
     price: number;
+    colors: string[];
     condition: string;
     deliveryMethod: string;
-    images: string[];
+    imageFiles: any[];
     quantity: number;
     size: string;
-    category: string[];
+    categories: string[];
     description: string;
-    store: null
+    store: null;         
 }
 
-  
-export const createProduct = async (product: ProductProps)=>{
+export interface ProductProps {
+    userId: number;
+    productId: number;
+    addedBy: string;
+    productName: string;
+    price: number;
+    colors: string[];
+    condition: string;
+    deliveryMethod: string;
+    imageFiles: any[];
+    quantity: number;
+    size: string;
+    categories: string[];
+    description: string;
+    store: null;         
+    star: number;
+    totalVotes: number;
+    numOfItemsSold: number;
+    isAdded: boolean;
+    orderStatus: string[];
+    productPageVisits: 256
+}
+
+
+// Create products
+export const createProduct = async (product: CreateProductProps)=>{
 
 
  try{
@@ -37,4 +62,26 @@ export const createProduct = async (product: ProductProps)=>{
     console.error(err)
     return err
 }
+}
+
+// All products
+export const getAllProducts = async ()=>{
+
+    try{
+    const response = await fetch(`${BASE_URL}/products/allproducts`, {
+       mode: 'cors'
+    })
+    if(!response) return
+    const data: any = await response.json()
+    
+    if(data.ok) {
+        console.log(data)
+        return data.products
+    }
+    console.log('Unable to fetch')
+    return
+}catch(err){
+    console.log(err)
+}
+    
 }

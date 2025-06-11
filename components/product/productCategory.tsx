@@ -1,13 +1,13 @@
 'use client'
 import React, {useState, useEffect, useContext} from 'react'
-import { ProductProps } from "../data/productsdata"
+import { ProductProps } from '../api/product'
 import Image from 'next/image'
 import AllProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
 import SkeletonPage from '../skeletonPage'
 import { capitalize } from '../utils'
 import CategoryNotFound from './productCatNotFound'
-import DisplayStore from '../store/displayStore'
+import DisplayStore from '../../app/(pages)/(allroutes)/dashboard/storepage/displayStore'
 
 interface CateroryProps{
     category: string;
@@ -21,7 +21,7 @@ const ProductCategory = ({category}: CateroryProps)=>{
 
     useEffect(()=>{
     if(Products && Products.length > 0){
-      const items: any = Products.filter((item)=>item.category?.some((cat)=>cat.toLowerCase() === decodeURIComponent(category.toLowerCase())))
+      const items: any = Products.filter((item)=>item.categories?.some((cat)=>cat.toLowerCase() === decodeURIComponent(category.toLowerCase())))
       setCategoryItems(items)
     }
     }, [Products])

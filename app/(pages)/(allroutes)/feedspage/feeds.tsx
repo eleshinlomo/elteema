@@ -1,17 +1,16 @@
 'use client'
 import React, {useState, useEffect, useContext} from 'react'
-import { ProductProps } from "../data/productsdata"
-import { capitalize } from '../utils'
-import { GeneralContext } from '../../contextProviders/GeneralProvider'
+import { capitalize } from '../../../../components/utils'
+import { GeneralContext } from '../../../../contextProviders/GeneralProvider'
 import { FeedProps, getFeeds } from './feedFunctions'
 import { FiMessageSquare, FiShare2 } from 'react-icons/fi'
 import { AiOutlineLike, AiFillLike } from 'react-icons/ai'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { RiVerifiedBadgeFill } from 'react-icons/ri'
-import DisplayStore from '../store/displayStore'
-import Featured from '../product/featured'
+import DisplayStore from '../dashboard/storepage/displayStore'
+import Featured from '../../../../components/product/featured'
 import PostFeed from './postFeed'
-import HotProductFlash from '../product/hotProductFlash'
+import HotProductFlash from '../../../../components/product/hotProductFlash'
 import { SearchIcon } from 'lucide-react'
 
 interface Props {
@@ -45,6 +44,7 @@ const Feeds = ({setShowSearch}: Props) => {
     }
 
     useEffect(() => {
+        console.log('FEEDS', feeds)
         handleGetFeeds()
         if(user?.username){
             setUsername(user.username)

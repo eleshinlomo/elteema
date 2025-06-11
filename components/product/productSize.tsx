@@ -41,7 +41,7 @@ const ProductSize: React.FC<ProductSizeProps> = ({
       setColor('gray');
     }
 
-    const productExist: any = Products.find((item) => item.id === targetId);
+    const productExist: any = Products.find((item) => item.productId === targetId);
     if (productExist) {
       setProductToUpdate(productExist);
       if (checkCategoryWithClothSize(productExist.id, Products)) {

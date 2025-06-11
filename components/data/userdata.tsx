@@ -1,5 +1,5 @@
 'use client'
-import { ProductProps } from "./productsdata";
+import { ProductProps } from "../api/product"
 
 
 export interface UserProps {

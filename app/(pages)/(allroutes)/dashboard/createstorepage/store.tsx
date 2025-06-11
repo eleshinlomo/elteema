@@ -1,6 +1,6 @@
 'use client'
 import { useContext, useState, useEffect } from "react"
-import { GeneralContext } from "../../contextProviders/GeneralProvider"
+import { GeneralContext } from "../../../../../contextProviders/GeneralProvider"
 
 const Store = ()=>{
 

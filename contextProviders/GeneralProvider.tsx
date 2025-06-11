@@ -1,7 +1,7 @@
 'use client'
 import React, { createContext, useState } from "react"
-import { FeedProps } from "../components/feed/feedFunctions";
-import { ProductProps } from "../components/data/productsdata";
+import { FeedProps } from "../app/(pages)/(allroutes)/feedspage/feedFunctions";
+import { ProductProps } from "../components/api/product";
 import { UserProps } from "../components/data/userdata";
 
 interface GeneralProps {

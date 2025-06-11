@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
-import { getProductData, ProductProps } from '../components/data/productsdata';
+import { ProductProps, getAllProducts } from '../components/api/product';
 
 interface ProductContextProps {
     children: ReactNode;
@@ -50,7 +50,7 @@ export const ProductContextProvider = ({ children }: ProductContextProps) => {
 
     useEffect(() => {
         const handleGetProducts = async () => {
-            const products = await getProductData();
+            const products = await getAllProducts();
             console.log('PRODUCTS', Products);
             if(products?.length > 0){
                 setProducts(products);

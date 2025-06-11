@@ -2,7 +2,7 @@
 'use client'
 import { useContext, useState, useEffect } from "react"
 import { CartContext } from "../../contextProviders/cartcontext"
-import { ProductProps } from "../data/productsdata"
+import { ProductProps } from "../api/product"
 import { useRouter } from "next/navigation"
 
 interface AddToCartBtnProps {
@@ -44,7 +44,7 @@ const BuyNowButton = ({
     
 
     useEffect(() => {
-      const added = cart?.find((item) => item.id === targetid && item.isAdded)
+      const added = cart?.find((item) => item.productId === targetid && item.isAdded)
 
         if (added && added?.isAdded) {
             setButtonText('Checkout')

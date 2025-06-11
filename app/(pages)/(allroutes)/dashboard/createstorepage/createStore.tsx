@@ -1,9 +1,9 @@
 'use client'
 import { useState, FormEvent, useContext } from "react"
 import { createStore } from "./storeFunctions"
-import { GeneralContext } from "../../contextProviders/GeneralProvider"
+import { GeneralContext } from "../../../../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
-import { updateLocalUser } from "../data/userdata"
+import { updateLocalUser } from "../../../../../components/data/userdata"
 
 const CreateStore = () => {
 

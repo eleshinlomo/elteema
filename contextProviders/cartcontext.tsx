@@ -1,8 +1,7 @@
 
 'use client'
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { getProductData} from "../components/data/productsdata";
-import { ProductProps } from "../components/data/productsdata";
+import { ProductProps } from "../components/api/product";
 import {  fetchCart, updateCart, updateProductSize } from "../components/utils";
 import { GeneralContext } from "./GeneralProvider";
 import { ProductContext } from "./ProductContext";
@@ -78,7 +77,7 @@ export const CartProvider = ({ children }: ContextProps) => {
     const handleQuantityIncrease = (targetId: number) => {
         setCart(prevCart => {
             const updatedCart = prevCart.map(item =>
-                item.id === targetId ? { ...item, quantity: item?.quantity + 1 } : item
+                item.productId === targetId ? { ...item, quantity: item?.quantity + 1 } : item
             );
             updateCart(updatedCart);
             const updatedTotalItems = updatedCart.reduce((sum, item) => sum + item?.quantity, 0);
@@ -95,7 +94,7 @@ export const CartProvider = ({ children }: ContextProps) => {
     const handleQuantityDecrease = (targetId: number) => {
         setCart(prevCart => {
             const updatedCart = prevCart.map(item =>
-                item.id === targetId ? { ...item, quantity: item?.quantity - 1 } : item
+                item.productId === targetId ? { ...item, quantity: item?.quantity - 1 } : item
             ).filter(item => item.quantity > 0); // Remove items with quantity <= 0
             updateCart(updatedCart);
 
@@ -112,13 +111,13 @@ export const CartProvider = ({ children }: ContextProps) => {
 
    
     const addToCart = (targetId: number, cart: ProductProps[], size: string) => {
-    const isProductExists = cart.find((product) => product.id === targetId);
+    const isProductExists = cart.find((product) => product.productId === targetId);
     
     if (isProductExists) {
         return; // No need to return cart since you're using state updates
     }
 
-    const productToAdd = Products.find(product => product.id === targetId);
+    const productToAdd = Products.find(product => product.productId === targetId);
     
     if (productToAdd) {
         setCart(prevCart => {
@@ -148,7 +147,7 @@ export const CartProvider = ({ children }: ContextProps) => {
 
     const removeItem = (targetId: number) => {
         setCart(prevCart => {
-            const updatedCart = prevCart.filter(item => item.id !== targetId);
+            const updatedCart = prevCart.filter(item => item.productId !== targetId);
             updateCart(updatedCart);
             const totalPrice = updatedCart.reduce((total, item) => total + item.price * item?.quantity, 0);
             const totalItems = updatedCart.reduce((sum, item) => sum + item?.quantity, 0);

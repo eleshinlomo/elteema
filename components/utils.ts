@@ -1,5 +1,5 @@
 import { summary } from "framer-motion/client"
-import { ProductProps } from "./data/productsdata"
+import { ProductProps } from "./api/product"
 import { UserProps, getLocalUser, updateLocalUser } from "./data/userdata"
 import ProductCategory from "./product/productCategory"
 import { clotheCategoryWithSize, shoeCategoryWithSize } from "./data/categories"
@@ -30,7 +30,7 @@ export const totalPriceForCustomer = (cart: Array<{price: number, quantity: numb
  }
 
 export const getSingleProduct = (id: number, Products: ProductProps[])=>{
-   const product = Products.find((item)=>item.id === id)
+   const product = Products.find((item)=>item.productId === id)
    if(product){
     return product
    }
@@ -82,7 +82,7 @@ export const updateProductSize = (targetid: number, cart: ProductProps[], newSiz
     return
    }
    
-   const itemIndex = cart.findIndex((item)=>item.id === targetid)
+   const itemIndex = cart.findIndex((item)=>item.productId === targetid)
    if(itemIndex !== -1){
     const updatedCart = [...cart, {...cart[itemIndex], size: newSize}]
     updateCart(updatedCart)
@@ -100,7 +100,7 @@ export const searchSingleProduct = (item: string, originalItems: any[])=>{
 }
 
 export const getItemQuantity = (targetid: number, Products: ProductProps[])=>{
-   const product = Products.find((item)=> item.id === targetid)
+   const product = Products.find((item)=> item.productId === targetid)
    return product ? product.quantity : 0
    
 }
@@ -111,8 +111,8 @@ export const getItemQuantity = (targetid: number, Products: ProductProps[])=>{
 export const checkCategoryWithClothSize = (id: number, Products: ProductProps[]) => {
   
   if (!id || !Products || Products.length === 0) return false;
-  const product = Products.find((item)=>item.id === id)
-  const hasSize = product?.category.some(cat => 
+  const product = Products.find((item)=>item.productId === id)
+  const hasSize = product?.categories.some(cat => 
     clotheCategoryWithSize.includes(cat.toLowerCase())
   );
   return hasSize;
@@ -120,8 +120,8 @@ export const checkCategoryWithClothSize = (id: number, Products: ProductProps[])
 
 export const checkCategoryWithShoeSize = (id: number, Products: ProductProps[]) => {
    if (!id || !Products || Products.length === 0) return false;
-  const product = Products.find((item)=>item.id === id)
-  const hasSize = product?.category.some(cat => 
+  const product = Products.find((item)=>item.productId === id)
+  const hasSize = product?.categories.some(cat => 
     shoeCategoryWithSize.includes(cat.toLowerCase())
   );
   return hasSize;

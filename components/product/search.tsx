@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect, useContext } from 'react'
 import { Search as SearchIcon, Zap, Star, ShoppingBag, ListTree } from 'lucide-react'
-import { ProductProps } from "../data/productsdata"
+import { ProductProps } from '../api/product'
 import Hero from '../hero'
 import ProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
@@ -31,7 +31,7 @@ const Search = () => {
         }
 
         const filteredItems = Products.filter((item) => 
-            item.name.toLowerCase().includes(itemToSearch.toLowerCase())
+            item.productName.toLowerCase().includes(itemToSearch.toLowerCase())
         )
         
         setSearchItemList(filteredItems)

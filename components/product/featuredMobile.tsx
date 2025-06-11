@@ -1,12 +1,12 @@
 'use client'
 import React, { useState, useEffect, useContext } from 'react'
 import { Search as SearchIcon, Zap, Star, ShoppingBag, ListTree } from 'lucide-react'
-import { ProductProps } from "../data/productsdata"
+import { ProductProps } from '../api/product'
 import Hero from '../hero'
 import ProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
 import PurchaseAlert from './purchaseAlert'
-import DisplayStore from '../store/displayStore'
+import DisplayStore from '../../app/(pages)/(allroutes)/dashboard/storepage/displayStore'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface FeaturedProps {
@@ -41,7 +41,7 @@ const FeaturedMobile = ({setShowSearch}: FeaturedProps) => {
         }
 
         const filteredItems = Products.filter((item) => 
-            item.name.toLowerCase().includes(itemToSearch.toLowerCase())
+            item.productName.toLowerCase().includes(itemToSearch.toLowerCase())
         )
         
         setSearchItemList(filteredItems)
@@ -130,7 +130,7 @@ const FeaturedMobile = ({setShowSearch}: FeaturedProps) => {
                                 onChange={handleChange}
                                 onFocus={() => setIsFocused(true)}
                                 onBlur={() => setIsFocused(false)}
-                                placeholder="Search African products..."
+                                placeholder="Search  products..."
                                 className="w-full px-4 py-2 border border-green-600 rounded-full focus:outline-none"
                             />
                             <SearchIcon className="absolute right-6 top-1/2 transform -translate-y-1/2 text-green-500 h-6 w-6" />

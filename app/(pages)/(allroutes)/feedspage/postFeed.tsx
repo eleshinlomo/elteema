@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from 'react'
 import Image from "next/image"
-import { GeneralContext } from '../../contextProviders/GeneralProvider'
+import { GeneralContext } from '../../../../contextProviders/GeneralProvider'
 import { FiX, FiImage, FiPlusCircle } from 'react-icons/fi'
 import { RiErrorWarningFill } from 'react-icons/ri'
-import { capitalize } from '../utils'
+import { capitalize } from '../../../../components/utils'
 import { createFeed, FeedProps, getFeeds } from "./feedFunctions"
 import { SearchIcon } from 'lucide-react'
 
@@ -62,10 +62,7 @@ const PostFeed = ({ text, setText, isTyping, setIsTyping, error, setError, isEdi
     return (
         <div className="bg-white ">
             <div className="">
-                {/* <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold">
-                    {user?.username?.charAt(0).toUpperCase() || 'U'}
-                </div> */}
-                
+             
                 {/* Input */}
                 <div className="flex-1 ">
                     <div className="relative">

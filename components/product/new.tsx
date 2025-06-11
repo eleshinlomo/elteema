@@ -1,6 +1,6 @@
 'use client'
 import React, {useState, useEffect, useContext} from 'react'
-import { ProductProps } from "../data/productsdata"
+import { ProductProps } from '../api/product'
 import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
 import AllProductDisplay from './ProductsDisplay'
@@ -20,7 +20,7 @@ const New = ()=>{
 
 
     const getNewItems  = ()=>{
-      const newItems = Products.filter((item)=>item.category?.includes('new'))
+      const newItems = Products.filter((item)=>item.categories?.includes('new'))
       if(newItems.length > 0){
          setNewList(newItems)
       }

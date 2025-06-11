@@ -1,9 +1,9 @@
 import { useState, useContext, useEffect } from 'react'
 import Image from 'next/image'
-import { CartContext } from '../../contextProviders/cartcontext'
+import { CartContext } from '../../../../../contextProviders/cartcontext'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import { capitalize, formatCurrency } from '../utils'
-import PopularBadge from '../product/popularBadge'
+import { capitalize, formatCurrency } from '../../../../../components/utils'
+import PopularBadge from '../../../../../components/product/popularBadge'
 
 
 interface StoreDisplayProps {
@@ -36,6 +36,7 @@ const DisplayStore = ({ productArray, numPerPage }: StoreDisplayProps) => {
     }
 
     useEffect(() => {
+        
         setCurrentPage(0)
     }, [productArray])
 
@@ -47,11 +48,11 @@ const DisplayStore = ({ productArray, numPerPage }: StoreDisplayProps) => {
                         {currentItems.map((item, StoreIndex) => (
                             <div key={StoreIndex} className='border border-gray-200 rounded-lg p-2 hover:shadow-md transition-shadow'>
                                 <div className='flex flex-col h-full'>
-                                    <a href={`/productpage/${item.id}`} className='flex flex-col h-full'>
+                                    <a href={`/productpage/${item.productId}`} className='flex flex-col h-full'>
                                         <div className='relative aspect-[4/3] w-full flex-shrink-0 rounded-md overflow-hidden'>
                                             <Image 
                                                 src={item.src} 
-                                                alt={item.name}
+                                                alt={item.productName}
                                                 fill
                                                 className='object=cover'
                                                 sizes="(max-width: 768px) 100vw, 50vw"

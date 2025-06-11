@@ -6,7 +6,7 @@ import Bestsellers from "../../../../components/product/bestseller";
 import Trending from "../../../../components/product/trending";
 import New from "../../../../components/product/new";
 import CookiePolicy from "../../../../components/cookieAcceptPage";
-import Feeds from '../../../../components/feed/feeds';
+import Feeds from '../feedspage/feeds';
 import Featured from '../../../../components/product/featured';
 import FeedsPage from '../feedspage/page';
 

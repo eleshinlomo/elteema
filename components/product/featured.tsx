@@ -1,12 +1,12 @@
 'use client'
 import React, { useState, useEffect, useContext } from 'react'
 import { Search as SearchIcon, Zap, Star, ShoppingBag, ListTree } from 'lucide-react'
-import { ProductProps } from "../data/productsdata"
+import { ProductProps } from '../api/product'
 import Hero from '../hero'
 import ProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
 import PurchaseAlert from './purchaseAlert'
-import DisplayStore from '../store/displayStore'
+import DisplayStore from '../../app/(pages)/(allroutes)/dashboard/storepage/displayStore'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const Featured = () => {
@@ -33,7 +33,7 @@ const Featured = () => {
         }
 
         const filteredItems = Products.filter((item) => 
-            item.name.toLowerCase().includes(itemToSearch.toLowerCase())
+            item.productName.toLowerCase().includes(itemToSearch.toLowerCase())
         )
         
         setSearchItemList(filteredItems)

@@ -1,9 +1,8 @@
 'use client'
 import { useContext, useState, useEffect } from "react"
 import { CartContext } from "../../contextProviders/cartcontext"
-import { ProductProps } from "../data/productsdata"
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
-import { updateProductSize } from "../utils";
+
 
 
 interface AddToCartBtnProps {
@@ -54,7 +53,7 @@ const AddToCartButton = ({
   
 
     useEffect(() => {
-      const added = cart?.find((item) => item.id === targetid && item.isAdded)
+      const added = cart?.find((item) => item.productId === targetid && item.isAdded)
            console.log('IS ADDED', added?.isAdded)
         if (added && added?.isAdded) {
             setIsAdded(added.isAdded)

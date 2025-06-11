@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { capitalize, formatCurrency } from '../../../../../../components/utils'
 import PopularBadge from '../../../../../../components/product/popularBadge'
-import { ProductProps } from '../../../../../../components/data/productsdata'
+import { ProductProps } from '../../../../../../components/api/product';
 
 
 

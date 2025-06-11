@@ -6,7 +6,7 @@ import { CartContext } from "../../contextProviders/cartcontext";
 import { formatCurrency, getItemQuantity, getSingleProduct} from "../utils";
 import ProductSize from "./productSize";
 import BuyNowButton from "../cart/buyNowBtn";
-import { ProductProps } from "../data/productsdata";
+import { ProductProps } from '../api/product'
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import { ProductContext } from "../../contextProviders/ProductContext";
 
@@ -47,7 +47,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
 
     handlegetSingleProduct();
     // check if item is added to cart
-    const item = cart.find((item)=> item.id === product?.id)
+    const item = cart.find((item)=> item.productId === product?.productId)
     if(item?.isAdded){
       setIsAdded(true)
     }else{
@@ -69,10 +69,10 @@ const ProductDetails = ({ id }: DetailsProps) => {
 
   // Sample images - replace with your actual image array
   const productImages = [
-    { src: product.src, label: 'Front View' },
-    { src: product.src, label: 'Back View' },
-    { src: product.src, label: 'Side View' },
-    { src: product.src, label: 'Detail View' }
+    { src: product.imageFiles[0], label: 'Front View' },
+    { src: product.imageFiles[1], label: 'Back View' },
+    { src: product.imageFiles[2], label: 'Side View' },
+    { src: product.imageFiles[3], label: 'Detail View' }
   ];
 
   return (
@@ -151,8 +151,8 @@ const ProductDetails = ({ id }: DetailsProps) => {
               onClick={() => setOpenImageModal(true)}
             >
               <Image 
-                src={product.src} 
-                alt={product.name} 
+                src={product.imageFiles[0]} 
+                alt={product.productName} 
                 fill
                 className="object-contain hover:scale-105 transition-transform duration-300"
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -186,10 +186,10 @@ const ProductDetails = ({ id }: DetailsProps) => {
           {/* Product Info */}
           <div className="md:w-1/2 p-6 md:p-8 flex flex-col">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.productName}</h1>
               
               <div className="flex px-4 gap-2 mb-4 text-center">
-                {product?.category?.map((cat, index) => (
+                {product?.categories?.map((cat, index) => (
                   <a 
                     key={index}
                     href={`/categorypage/${encodeURIComponent(cat)}`}
@@ -214,7 +214,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
               <ProductSize 
               // setOldSize={setOldSize} 
               // oldSize={oldSize}
-              targetId={product.id} 
+              targetId={product.productId} 
               isAdded={isAdded} 
               setIsAdded={setIsAdded} 
               error={error}
@@ -231,7 +231,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
               {!isAdded ?
               <div className="flex gap-4">
 
-                <AddToCartButton targetid={product.id}  
+                <AddToCartButton targetid={product.productId}  
                 oldSize={oldSize}
                 isAdded={isAdded} 
                 setIsAdded={setIsAdded} 
@@ -241,7 +241,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
              
                  />
                 <BuyNowButton 
-                targetid={product.id} 
+                targetid={product.productId} 
                 oldSize={oldSize}
                 setError={setError} 
                 showClotheSizeInput={showClotheSizeInput}

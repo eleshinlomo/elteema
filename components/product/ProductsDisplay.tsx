@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { ProductProps } from '../data/productsdata'
+import { ProductProps } from '../api/product'
 import SkeletonPage from '../skeletonPage'
 import { formatCurrency } from '../utils'
 import PopularBadge from './popularBadge'
@@ -20,10 +20,10 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
                         >
                             {/* Product Image with hover effect */}
                             <div className="relative h-60 w-full overflow-hidden">
-                            <a href={`/productpage/${item.id}`}>
+                            <a href={`/productpage/${item.productId}`}>
                                 <Image 
-                                    src={item.src} 
-                                    alt={item.name} 
+                                    src={item.imageFiles[0]} 
+                                    alt={item.productName} 
                                     fill
                                     objectFit="cover"
                                     className="transition-transform duration-500 group-hover:scale-110"
@@ -36,8 +36,8 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
                             {/* Product Info */}
                             <div className="p-5 flex flex-col space-y-3">
                                 <div>
-                                    <a href={`/productpage/${item.id}`}>
-                                        <p className="font-bold text-lg text-gray-800 mb-1 line-clamp-1">{item.name}</p>
+                                    <a href={`/productpage/${item.productId}`}>
+                                        <p className="font-bold text-lg text-gray-800 mb-1 line-clamp-1">{item.productName}</p>
                                         <p className="text-green-600 text-xl font-extrabold">{formatCurrency('NGN', item.price)}</p>
                                     </a>
                                 </div>
@@ -47,7 +47,7 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
                                 
                                     <div className='flex gap-1' >
                                     
-                                        {item.category.map((cat, index)=>
+                                        {item.categories.map((cat, index)=>
                                         <a key={index} href={`/categorypage/${encodeURIComponent(cat)}`} className="bg-green-100 px-2  ">
                                             {cat}
                                         </a>

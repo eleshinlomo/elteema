@@ -1,22 +1,25 @@
 'use client'
 
 import { useState, ChangeEvent, FormEvent, useContext } from 'react'
-import { createProduct, ProductProps } from '../../../../../components/api/product'
+import { createProduct, CreateProductProps} from '../../../../../components/api/product'
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider'
 import { FiImage, FiX, FiPlus, FiMinus } from 'react-icons/fi'
 import Image from 'next/image'
+import { updateLocalUser } from '../../../../../components/data/userdata'
 
 const AddProductPage = () => {
-  const { user } = useContext(GeneralContext)
+  const { user, setUser } = useContext(GeneralContext)
   const [imagePreviews, setImagePreviews] = useState<string[]>([])
   const [imageFiles, setImageFiles] = useState<File[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   
-  const [product, setProduct] = useState({
+  
+  const [product, setProduct] = useState<CreateProductProps>({
     userId: user.id,
     addedBy: user.username,
     colors: [] as string[],
+    imageFiles,
     productName: '',
     price: 0,
     condition: '',
@@ -48,6 +51,8 @@ const AddProductPage = () => {
 
   const handleCreateProduct = async (e: FormEvent) => {
     e.preventDefault()
+    setSubmitError('')
+    setImageFiles([])
     setIsSubmitting(true)
     setSubmitError(null)
 
@@ -63,30 +68,24 @@ const AddProductPage = () => {
 
       // Create FormData object
       const formData: any = new FormData()
+  
       
-      // Append product data
-      Object.entries(product).forEach(([key, value]) => {
-        if (key === 'category' && Array.isArray(value)) {
-          value.forEach(item => formData.append('category[]', item))
-        } else {
-          formData.append(key, value.toString())
-        }
-      })
       
-      // Append image files
-      imageFiles.forEach(file => {
-        formData.append('images', file)
-      })
-
+     
+       console.log('FORMDATA', product)
       // Send formData to the API
-      const response = await createProduct(formData)
-      console.log('Product created:', response)
+      const response = await createProduct(product)
       
-      // Reset form after successful submission
-      setProduct({
+      if(response.ok === true){
+        console.log('Product created:', response)
+        const updatedUser = response.data
+        updateLocalUser(updatedUser)
+        setUser(updatedUser)
+        setProduct({
         userId: user.id,
         addedBy: user.username,
         colors: [] as string[],
+        imageFiles: [],
         productName: '',
         price: 0,
         condition: '',
@@ -95,10 +94,15 @@ const AddProductPage = () => {
         size: '',
         categories: [],
         description: '',
-        store: user.store
+        store: null,
       })
       setImagePreviews([])
       setImageFiles([])
+    }else{
+      console.log('Error:', response.error)
+      setSubmitError(response.error)
+    }
+     
       
     } catch (error) {
       console.error('Error creating product:', error)
@@ -126,7 +130,7 @@ const AddProductPage = () => {
       // Add to files array for backend upload
       newImageFiles.push(file)
       
-      // Create preview for UI
+      // Image preview UI
       const reader = new FileReader()
       reader.onloadend = () => {
         newImagePreviews.push(reader.result as string)
@@ -221,7 +225,7 @@ const AddProductPage = () => {
 
             {/* Product Colors */}
           <div className="md:col-span-2 space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Categories</label>
+            <label className="block text-sm font-medium text-gray-700">Choose available colours</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {availableColors.map(color => (
                 <label key={color} className="flex items-center space-x-2">
@@ -335,7 +339,7 @@ const AddProductPage = () => {
 
           {/* Categories */}
           <div className="md:col-span-2 space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Categories</label>
+            <label className="block text-sm font-medium text-gray-700">Choose Categories</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {availableCategories.map(category => (
                 <label key={category} className="flex items-center space-x-2">

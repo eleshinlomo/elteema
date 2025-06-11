@@ -1,6 +1,6 @@
 'use client';
 import { useContext, useEffect, useState } from "react";
-import Feeds from "../../../../components/feed/feeds";
+import Feeds from "./feeds";
 import Featured from "../../../../components/product/featured";
 import Trending from "../../../../components/product/trending";
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider";

@@ -1,4 +1,4 @@
-import { ProductProps } from "../data/productsdata";
+
 
 
 export interface StoreProps {

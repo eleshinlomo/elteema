@@ -1,6 +1,6 @@
 'use client'
 import {useState, useEffect, useContext} from 'react'
-import { ProductProps} from "../data/productsdata"
+import { ProductProps } from '../api/product'
 import Image from 'next/image'
 import AllProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'

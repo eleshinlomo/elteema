@@ -1,6 +1,6 @@
 'use client'
 import { useContext } from "react"
-import CreateStore from "../../../../../components/store/createStore"
+import CreateStore from "./createStore"
 import { GeneralContext } from "../../../../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
 
