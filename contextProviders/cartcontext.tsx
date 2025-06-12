@@ -27,7 +27,7 @@ interface ContextDefaultProps {
     totalPrice: number;
     setTotalPrice: (value: number)=>void;
     quantity: number;
-    Products: ProductProps[];
+    
 }
 
 const defaultValues: ContextDefaultProps = {
@@ -42,7 +42,7 @@ const defaultValues: ContextDefaultProps = {
     totalItems: 0,
     totalPrice: 0,
     quantity: 0,
-    Products: []
+
 };
 
 export const CartContext = createContext<ContextDefaultProps>(defaultValues);
@@ -54,9 +54,10 @@ export const CartProvider = ({ children }: ContextProps) => {
     const [totalItems, setTotalItems] = useState<number>(0);
     const [isAdded, setIsAdded] = useState<boolean>(false);
     const [quantity, setQuantity] = useState<number>(0);
+    // Contexts
     const {Products} = useContext(ProductContext)
     const generalContext: any = useContext(GeneralContext)
-    const {user, setUser} = generalContext
+    
 
      // This we use to set saved Cart values and also update whenever new item is added to the cart
       const handleFetchCart = ()=>{
@@ -171,7 +172,7 @@ export const CartProvider = ({ children }: ContextProps) => {
         handleQuantityIncrease,
         handleQuantityDecrease,
         setTotalPrice,
-        Products
+    
     };
 
     return (

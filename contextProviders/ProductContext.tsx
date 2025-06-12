@@ -7,6 +7,7 @@ interface ProductContextProps {
 
 interface InitialValuesProps {
     Products: ProductProps[];
+    setProducts: (value: [])=>void;
     oldSize: string; // Keeping this for backward compatibility
     setOldSize: (value: string) => void; // Keeping this for backward compatibility
     productSizes: Record<number, string>; // New: Tracks sizes per product
@@ -19,6 +20,7 @@ interface InitialValuesProps {
 
 const initialValues: InitialValuesProps = {
     Products: [],
+    setProducts: ()=>{},
     oldSize: '',
     setOldSize: () => {},
     productSizes: {}, // Initialize empty object
@@ -60,7 +62,8 @@ export const ProductContextProvider = ({ children }: ProductContextProps) => {
     }, []);
     
     const values: InitialValuesProps = {
-        Products,
+        Products, 
+        setProducts,
         oldSize, // Still provided for backward compatibility
         setOldSize, // Still provided for backward compatibility
         productSizes, // New

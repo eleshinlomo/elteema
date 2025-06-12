@@ -7,6 +7,7 @@ import ProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
 import PurchaseAlert from './purchaseAlert'
 import HotProductFlash from './hotProductFlash'
+import { ProductContext } from '../../contextProviders/ProductContext'
 
 
 const SwipeProduct = () => {
@@ -16,8 +17,8 @@ const SwipeProduct = () => {
     const [searchedItemFound, setSearchedItemFound] = useState(false)
     const [isFocused, setIsFocused] = useState(false)
 
-    const cartContext = useContext(CartContext)
-    const { Products } = cartContext
+       // Hooks
+       const {Products} = useContext(ProductContext)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setItemToSearch(e.target.value)

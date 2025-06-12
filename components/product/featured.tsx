@@ -8,6 +8,7 @@ import { CartContext } from '../../contextProviders/cartcontext'
 import PurchaseAlert from './purchaseAlert'
 import DisplayStore from '../../app/(pages)/(allroutes)/dashboard/storepage/displayStore'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ProductContext } from '../../contextProviders/ProductContext'
 
 const Featured = () => {
     const [allProducts, setAllProducts] = useState<ProductProps[]>([])
@@ -16,9 +17,8 @@ const Featured = () => {
     const [searchedItemFound, setSearchedItemFound] = useState(false)
     const [isFocused, setIsFocused] = useState(false)
     const [showHero, setShowHero] = useState(true)
-
-    const cartContext = useContext(CartContext)
-    const { Products } = cartContext
+    // Hooks
+    const {Products} = useContext(ProductContext)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setItemToSearch(e.target.value)

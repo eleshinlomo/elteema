@@ -2,25 +2,27 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { ProductProps } from '../api/product'
 import Image from 'next/image'
-import AllProductDisplay from './ProductsDisplay'
-import { CartContext } from '../../contextProviders/cartcontext'
 import SkeletonPage from '../skeletonPage'
 import DisplayStore from '../../app/(pages)/(allroutes)/dashboard/storepage/displayStore'
+import { ProductContext } from '../../contextProviders/ProductContext'
 
 
 
 const Trending = ()=>{
     
-   const [trendingItems, setTrendingItems] = useState<ProductProps | any>([])
-    const cartContext = useContext(CartContext)
-    const {Products} = cartContext
+  
+       // Hooks
+       const {Products} = useContext(ProductContext)
+        const [trendingItems, setTrendingItems] = useState<ProductProps | any>([])
 
-    useEffect(()=>{
-    if(Products && Products.length > 0){
-      const items: any = Products.filter((item)=>item.categories?.includes('trending'))
-      setTrendingItems(items)
-    }
-    }, [Products])
+ useEffect(() => {
+  if (Products?.length > 0) {
+    const items = Products.filter((item) => 
+      (Array.isArray(item.categories) ? item.categories : []).includes('trending')
+    );
+    setTrendingItems(items);
+  }
+}, [Products?.length]);
 
    const message = "Loading trending items..."
 

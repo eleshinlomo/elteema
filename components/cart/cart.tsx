@@ -77,6 +77,7 @@ const Cart = () => {
       <button
         onClick={() => setDrawerOpen(true)}
         aria-label="Open cart"
+        suppressHydrationWarning
       >
         <CartBasket />
       </button>
@@ -98,10 +99,10 @@ const Cart = () => {
           <a href='/' className='mt-2 font-extrabold'>ELTEEMA</a>
           <button 
             onClick={() => setDrawerOpen(false)} 
-            className="p-1" 
+            className="p-1 text-xl h-8 w-8 font-extrabold" 
             aria-label="Close cart"
           >
-            <div className='text-xl h-8 w-8 font-extrabold'> X</div>
+            X
           </button>
         </div>
 

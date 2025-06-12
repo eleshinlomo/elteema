@@ -8,6 +8,7 @@ import SkeletonPage from '../skeletonPage'
 import { capitalize } from '../utils'
 import CategoryNotFound from './productCatNotFound'
 import DisplayStore from '../../app/(pages)/(allroutes)/dashboard/storepage/displayStore'
+import { ProductContext } from '../../contextProviders/ProductContext'
 
 interface CateroryProps{
     category: string;
@@ -16,8 +17,8 @@ interface CateroryProps{
 const ProductCategory = ({category}: CateroryProps)=>{
     
    const [categoryItems, setCategoryItems] = useState<ProductProps | any>([])
-    const cartContext = useContext(CartContext)
-    const {Products} = cartContext
+    // Hooks
+    const {Products} = useContext(ProductContext)
 
     useEffect(()=>{
     if(Products && Products.length > 0){

@@ -6,15 +6,16 @@ import { searchSingleProduct } from '../utils'
 import AllProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
 import SkeletonPage from '../skeletonPage'
+import { ProductContext } from '../../contextProviders/ProductContext'
 
 
 
 const New = ()=>{
     
     const [newList, setNewList] = useState<ProductProps[]>([])
-    const cartContext = useContext(CartContext)
-    const {Products} = cartContext
     const message = 'Loading new items...'
+    // Hooks
+    const {Products} = useContext(ProductContext)
     
     
 

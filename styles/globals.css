@@ -16,6 +16,10 @@ html {
   position: fixed; */
 }
 
+nextjs-portal {
+  display: none;
+}
+
 
 @media (prefers-color-scheme: dark) {
   :root {

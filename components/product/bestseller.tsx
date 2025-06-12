@@ -5,12 +5,12 @@ import Image from 'next/image'
 import AllProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
 import SkeletonPage from '../skeletonPage'
+import { ProductContext } from '../../contextProviders/ProductContext'
 
 
 const Bestsellers = ()=>{
  const [bestsellers, setBestsellers] = useState<ProductProps[]>([])
- const cartContext = useContext(CartContext)
- const {Products} = cartContext
+const {Products} = useContext(ProductContext)
 
  const getBestsellers  = ()=>{
     const bestSellerItems: ProductProps[] = Products.filter((item)=>item.categories?.some((cat)=>cat === 'bestseller'))

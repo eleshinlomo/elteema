@@ -1,14 +1,16 @@
 'use client'
 
 import { useState, ChangeEvent, FormEvent, useContext } from 'react'
-import { createProduct, CreateProductProps} from '../../../../../components/api/product'
+import { createProduct, CreateProductProps, getAllProducts} from '../../../../../components/api/product'
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider'
 import { FiImage, FiX, FiPlus, FiMinus } from 'react-icons/fi'
 import Image from 'next/image'
 import { updateLocalUser } from '../../../../../components/data/userdata'
+import { ProductContext } from '../../../../../contextProviders/ProductContext'
 
 const AddProductPage = () => {
   const { user, setUser } = useContext(GeneralContext)
+  const {setProducts, Products} = useContext(ProductContext)
   const [imagePreviews, setImagePreviews] = useState<string[]>([])
   const [imageFiles, setImageFiles] = useState<File[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -52,7 +54,6 @@ const AddProductPage = () => {
   const handleCreateProduct = async (e: FormEvent) => {
     e.preventDefault()
     setSubmitError('')
-    setImageFiles([])
     setIsSubmitting(true)
     setSubmitError(null)
 
@@ -81,6 +82,9 @@ const AddProductPage = () => {
         const updatedUser = response.data
         updateLocalUser(updatedUser)
         setUser(updatedUser)
+        const updatedProducts = await getAllProducts()
+        setProducts(updatedProducts)
+        console.log('UPDATED PRODUCTS', Products)
         setProduct({
         userId: user.id,
         addedBy: user.username,

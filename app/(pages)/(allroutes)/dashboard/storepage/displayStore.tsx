@@ -4,10 +4,11 @@ import { CartContext } from '../../../../../contextProviders/cartcontext'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { capitalize, formatCurrency } from '../../../../../components/utils'
 import PopularBadge from '../../../../../components/product/popularBadge'
+import { ProductProps } from '../../../../../components/api/product'
 
 
 interface StoreDisplayProps {
-    productArray: any[];
+    productArray: ProductProps[];
     numPerPage: number;
 }
 
@@ -62,7 +63,7 @@ const DisplayStore = ({ productArray, numPerPage }: StoreDisplayProps) => {
                                         <div className='mt-1 flex-grow'>
                                             <div className='flex justify-between items-start'>
                                                 <h5 className='text-sm font-medium text-gray-800 line-clamp-1 flex-grow'>
-                                                    {item.name}
+                                                    {item.productName}
                                                 </h5>
                                                 <span className='text-xs text-gray-500 ml-1'>{item.numOfItemsSold} sold</span>
                                             </div>

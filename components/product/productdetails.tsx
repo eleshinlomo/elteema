@@ -69,10 +69,10 @@ const ProductDetails = ({ id }: DetailsProps) => {
 
   // Sample images - replace with your actual image array
   const productImages = [
-    { src: product.imageFiles[0], label: 'Front View' },
-    { src: product.imageFiles[1], label: 'Back View' },
-    { src: product.imageFiles[2], label: 'Side View' },
-    { src: product.imageFiles[3], label: 'Detail View' }
+    { src: product.src, label: 'Front View' },
+    { src: product.src, label: 'Back View' },
+    { src: product.src, label: 'Side View' },
+    { src: product.src, label: 'Detail View' }
   ];
 
   return (
@@ -151,7 +151,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
               onClick={() => setOpenImageModal(true)}
             >
               <Image 
-                src={product.imageFiles[0]} 
+                src={product.src} 
                 alt={product.productName} 
                 fill
                 className="object-contain hover:scale-105 transition-transform duration-300"

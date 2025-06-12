@@ -39,7 +39,7 @@ const Hero = () => {
     };
 
     return (
-        <div className="relative w-full h-[200px] md:h-[300px] lg:h-[400px] overflow-hidden group">
+        <div className="relative w-full h-[200px] md:h-[300px] lg:h-[400px] overflow-hidden group" suppressHydrationWarning>
             {/* Slides */}
             {HeroData.map((hero, index) => (
                 <div 
@@ -71,6 +71,7 @@ const Hero = () => {
                 onClick={goToPrev}
                 className="absolute left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-all opacity-0 group-hover:opacity-100"
                 aria-label="Previous slide"
+                suppressHydrationWarning
             >
                 &lt;
             </button>
@@ -90,6 +91,7 @@ const Hero = () => {
                         onClick={() => goToSlide(index)}
                         className={`w-3 h-3 rounded-full transition-all ${index === currentSlide ? 'bg-green-500 w-6' : 'bg-white bg-opacity-50 hover:bg-opacity-100'}`}
                         aria-label={`Go to slide ${index + 1}`}
+                        suppressHydrationWarning
                     />
                 ))}
             </div>

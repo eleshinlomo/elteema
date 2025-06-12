@@ -8,6 +8,7 @@ import { CartContext } from '../../contextProviders/cartcontext'
 import PurchaseAlert from './purchaseAlert'
 import DisplayStore from '../../app/(pages)/(allroutes)/dashboard/storepage/displayStore'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ProductContext } from '../../contextProviders/ProductContext'
 
 interface FeaturedProps {
     setShowSearch: (value: boolean)=>void
@@ -21,8 +22,8 @@ const FeaturedMobile = ({setShowSearch}: FeaturedProps) => {
     const [isFocused, setIsFocused] = useState(false)
     const [showHero, setShowHero] = useState(true)
 
-    const cartContext = useContext(CartContext)
-    const { Products } = cartContext
+    // Hooks
+    const {Products} = useContext(ProductContext)
 
     const handleShowFeed =()=>{
         setShowSearch(false)

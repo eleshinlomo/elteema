@@ -56,14 +56,14 @@ const NavRightSide = () => {
             Sign In
           </Link>
 
-          <Link href="/authpages/signup">
-            <button
+          <Link href="/authpages/signup"
+            
               className="whitespace-nowrap ease-in-up shadow-btn hover:shadow-btn-hover rounded-md bg-green-600 hover:bg-green-700
               py-1 px-3 text-sm font-medium text-white transition duration-300 hover:bg-opacity-90
               md:py-1.5 md:px-4"
             >
               Sign Up
-            </button>
+            
           </Link>
         </>
       )}
