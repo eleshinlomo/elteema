@@ -23,6 +23,7 @@ export interface ProductProps {
     userId: number;
     productId: number;
     addedBy: string;
+    src: string;
     productName: string;
     price: number;
     colors: string[];
