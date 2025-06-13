@@ -47,8 +47,8 @@ const StoreProducts = () => {
       </div>
       <div className="space-y-4">
         {storeProducts?.length > 0 ? storeProducts.map((product) => 
-        <div>
-          <div key={product.productId} className="flex items-center">
+        <div key={product.productId}>
+          <div  className="flex items-center">
             <img
               src={product.src}
               alt={product.productName}

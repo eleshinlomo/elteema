@@ -36,7 +36,7 @@ const AddProductPage = () => {
   const [success, setSuccess] = useState('')
   
   const [product, setProduct] = useState<CreateProductProps>({
-    userId: user.id,
+    userId: user.userId,
     addedBy: user.username,
     colors: [] as string[],
     imageFiles: [] as File[],
