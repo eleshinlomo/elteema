@@ -1,34 +1,52 @@
 'use client'
 
 import { useState, ChangeEvent, FormEvent, useContext } from 'react'
-import { createProduct, CreateProductProps, getAllProducts} from '../../../../../components/api/product'
+import {  getAllProducts } from '../../../../../components/api/product'
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider'
 import { FiImage, FiX, FiPlus, FiMinus } from 'react-icons/fi'
 import Image from 'next/image'
 import { updateLocalUser } from '../../../../../components/data/userdata'
 import { ProductContext } from '../../../../../contextProviders/ProductContext'
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+
+export interface CreateProductProps {
+    userId: number | any;
+    addedBy: string;
+    productName: string;
+    imageFiles: File[];
+    price: number;
+    colors: string[];
+    condition: string;
+    deliveryMethod: string;
+    quantity: number;
+    size: string;
+    category: string;
+    description: string;
+    store: any | null;         
+}
+
 const AddProductPage = () => {
   const { user, setUser } = useContext(GeneralContext)
-  const {setProducts, Products} = useContext(ProductContext)
+  const { setProducts, Products } = useContext(ProductContext)
   const [imagePreviews, setImagePreviews] = useState<string[]>([])
   const [imageFiles, setImageFiles] = useState<File[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
-  
+  const [success, setSuccess] = useState('')
   
   const [product, setProduct] = useState<CreateProductProps>({
     userId: user.id,
     addedBy: user.username,
     colors: [] as string[],
-    imageFiles,
+    imageFiles: [] as File[],
     productName: '',
     price: 0,
     condition: '',
     deliveryMethod: '',
     quantity: 1,
     size: '',
-    categories: [] as string[],
+    category: '',
     description: '',
     store: user.store
   })
@@ -41,115 +59,163 @@ const AddProductPage = () => {
     }))
   }
 
-  const handleCategoryChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleColorChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target
     setProduct(prev => {
-      const newCategories = checked
-        ? [...prev.categories, value]
-        : prev.categories.filter(cat => cat !== value)
-      return { ...prev, category: newCategories }
+      const newColors = checked
+        ? [...prev.colors, value]
+        : prev.colors.filter(color => color !== value)
+      return { ...prev, colors: newColors }
     })
   }
 
-  const handleCreateProduct = async (e: FormEvent) => {
-    e.preventDefault()
-    setSubmitError('')
-    setIsSubmitting(true)
-    setSubmitError(null)
-
-    try {
-      // Validate required fields
-      if (!product.productName || !product.price || !product.description) {
-        throw new Error('Please fill in all required fields')
-      }
-
-      if (imageFiles.length === 0) {
-        throw new Error('Please upload at least one product image')
-      }
-
-      // Create FormData object
-      const formData: any = new FormData()
   
-      
-      
-     
-       console.log('FORMDATA', product)
-      // Send formData to the API
-      const response = await createProduct(product)
-      
-      if(response.ok === true){
-        console.log('Product created:', response)
-        const updatedUser = response.data
-        updateLocalUser(updatedUser)
-        setUser(updatedUser)
-        const updatedProducts = await getAllProducts()
-        setProducts(updatedProducts)
-        console.log('UPDATED PRODUCTS', Products)
-        setProduct({
+  const handleCreateProduct = async (e: FormEvent) => {
+  e.preventDefault()
+  setSubmitError('')
+  setIsSubmitting(true)
+  setSubmitError(null)
+  setSuccess('')
+
+  try {
+    // Validate required fields
+    if (!product.productName || !product.price || !product.description) {
+      throw new Error('Please fill in all required fields')
+    }
+
+    if (imageFiles.length === 0) {
+      throw new Error('Please upload at least one product image')
+    }
+
+    // Create FormData instead of sending JSON
+    const formData = new FormData()
+    
+    // Append all product data (except imageFiles)
+    formData.append('userId', product.userId)
+    formData.append('addedBy', product.addedBy)
+    formData.append('productName', product.productName)
+    formData.append('price', product.price.toString())
+    formData.append('condition', product.condition)
+    formData.append('deliveryMethod', product.deliveryMethod)
+    formData.append('quantity', product.quantity.toString())
+    formData.append('size', product.size)
+    formData.append('category', product.category)
+    formData.append('description', product.description)
+    formData.append('store', product.store)
+    
+    // Append colors as array
+    product.colors.forEach(color => {
+      formData.append('colors', color)
+    })
+    
+    // Append all image files
+    imageFiles.forEach(file => {
+      formData.append('images', file) // Must match Multer field name ('images')
+    })
+
+    // Send formData to the API
+    const response = await fetch(`${BASE_URL}/product/createproduct`, {
+      method: 'POST',
+      body: formData // Don't set Content-Type header - browser will set it with boundary
+    })
+
+    const data = await response.json()
+    
+    if(data.ok === true){
+      const updatedUser = data.data
+      updateLocalUser(updatedUser)
+      setUser(updatedUser)
+      const updatedProducts = await getAllProducts()
+      setProducts(updatedProducts)
+      setSuccess(data.message)
+      // Reset form
+      setProduct({
         userId: user.id,
         addedBy: user.username,
-        colors: [] as string[],
-        imageFiles: [],
+        colors: [],
+        imageFiles,
         productName: '',
         price: 0,
         condition: '',
         deliveryMethod: '',
         quantity: 1,
         size: '',
-        categories: [],
+        category: '',
         description: '',
-        store: null,
+        store: user.store,
       })
       setImagePreviews([])
       setImageFiles([])
-    }else{
-      console.log('Error:', response.error)
-      setSubmitError(response.error)
+      window.location.href = '#nav-top'
+    } else {
+      setSubmitError(data.error)
     }
-     
-      
-    } catch (error) {
-      console.error('Error creating product:', error)
-      setSubmitError(error instanceof Error ? error.message : 'Failed to create product')
-    } finally {
-      setIsSubmitting(false)
-    }
+  } catch (error) {
+    console.error('Error creating product:', error)
+    setSubmitError(error instanceof Error ? error.message : 'Failed to create product')
+  } finally {
+    setIsSubmitting(false)
+  }
+}
+
+const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const files = e.target.files;
+  if (!files) return;
+
+  // Clear previous selections if we want to replace all images
+  // Or keep this to allow adding more images
+  const currentCount = imageFiles.length;
+  const remainingSlots = 4 - currentCount;
+  
+  if (remainingSlots <= 0) {
+    alert('Maximum 4 images allowed');
+    return;
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (!files) return
+  const selectedFiles = Array.from(files).slice(0, remainingSlots);
+  if (selectedFiles.length === 0) return;
 
-    // Limited to 4 images
-    const selectedFiles = Array.from(files).slice(0, 4 - imageFiles.length)
-    if (selectedFiles.length === 0) return
+  const newImagePreviews: string[] = [];
+  const newImageFiles: File[] = [];
+  
+  selectedFiles.forEach(file => {
+    // Validate file type
+    if (!file.type.match('image.*')) {
+      alert(`File ${file.name} is not an image`);
+      return;
+    }
 
-    const newImagePreviews: string[] = []
-    const newImageFiles: File[] = []
+    // Add to files array
+    newImageFiles.push(file);
     
-    selectedFiles.forEach(file => {
-      // Validate file type
-      if (!file.type.match('image.*')) return
-
-      // Add to files array for backend upload
-      newImageFiles.push(file)
-      
-      // Image preview UI
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        newImagePreviews.push(reader.result as string)
+    // Create preview
+    const reader = new FileReader();
+    reader.onload = (loadEvent) => {
+      if (loadEvent.target?.result) {
+        newImagePreviews.push(loadEvent.target.result as string);
+        
+        // Update state when all previews are ready
         if (newImagePreviews.length === selectedFiles.length) {
-          setImagePreviews(prev => [...prev, ...newImagePreviews])
-          setImageFiles(prev => [...prev, ...newImageFiles])
+          setImagePreviews(prev => [...prev, ...newImagePreviews]);
+          setImageFiles(prev => [...prev, ...newImageFiles]);
+          setProduct(prev => ({
+            ...prev,
+            imageFiles: [...prev.imageFiles, ...newImageFiles]
+          }));
         }
       }
-      reader.readAsDataURL(file)
-    })
-  }
+    };
+    reader.readAsDataURL(file);
+  });
+};
 
   const removeImage = (index: number) => {
     setImagePreviews(prev => prev.filter((_, i) => i !== index))
     setImageFiles(prev => prev.filter((_, i) => i !== index))
+    setProduct(prev => ({
+      ...prev,
+      imageFiles: prev.imageFiles.filter((_, i) => i !== index)
+    }))
   }
 
   const incrementQuantity = () => {
@@ -162,18 +228,7 @@ const AddProductPage = () => {
     }
   }
 
-  const availableCategories = [
-    'Electronics',
-    'Clothing',
-    'Home & Garden',
-    'Sports',
-    'Toys',
-    'Books',
-    'Beauty',
-    'Health'
-  ]
-
-    const availableColors = [
+  const availableColors = [
     'black',
     'white',
     'pink',
@@ -185,10 +240,17 @@ const AddProductPage = () => {
     'silver'
   ]
 
-
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Add New Product</h2>
+      {!success ? <h2 className="text-2xl font-bold text-gray-800 mb-6">Add New Product</h2>:
+      <div className='flex gap-2 pt-2 pb-4'>
+        <span className='text-green-900 font-extrabold'>{success}</span>
+         <a href='/dashboard/storepage'><button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
+            Back to store
+          </button>
+          </a>
+        </div>
+      }
       
       {submitError && (
         <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -227,7 +289,35 @@ const AddProductPage = () => {
             />
           </div>
 
-            {/* Product Colors */}
+          {/* Categories */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Choose category</label>
+            <select
+              value={product.category}
+              name='category'
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              required
+            >
+              <option value=''>Select category</option>
+              <option value='electronics'>Electronics</option>
+              <option value='sports'>Sports</option>
+              <option value='beauty'>Beauty</option>
+              <option value='clothing'>Clothing</option>
+              <option value='toys'>Toys</option>
+              <option value='health'>Health</option>
+              <option value='home & garden'>Home & Garden</option>
+              <option value='hospitality & restaurant'>Hospitality & Tourism</option>
+              <option value='crop farm product'>Crop Farm product</option>
+              <option value='livestock farm product'>Livestock farm product</option>
+              <option value='education'>Education</option>
+              <option value='automobile'>Automobile</option>
+            </select>
+          </div>
+
+     
+
+          {/* Product Colors */}
           <div className="md:col-span-2 space-y-2">
             <label className="block text-sm font-medium text-gray-700">Choose available colours</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -237,7 +327,7 @@ const AddProductPage = () => {
                     type="checkbox"
                     value={color}
                     checked={product.colors.includes(color)}
-                    onChange={handleCategoryChange}
+                    onChange={handleColorChange}
                     className="rounded text-green-600 focus:ring-green-500"
                   />
                   <span>{color}</span>
@@ -245,7 +335,6 @@ const AddProductPage = () => {
               ))}
             </div>
           </div>
-
 
           {/* Product Description */}
           <div className="md:col-span-2 space-y-2">
@@ -341,25 +430,6 @@ const AddProductPage = () => {
             </select>
           </div>
 
-          {/* Categories */}
-          <div className="md:col-span-2 space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Choose Categories</label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {availableCategories.map(category => (
-                <label key={category} className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    value={category}
-                    checked={product.categories.includes(category)}
-                    onChange={handleCategoryChange}
-                    className="rounded text-green-600 focus:ring-green-500"
-                  />
-                  <span>{category}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
           {/* Image Upload */}
           <div className="md:col-span-2 space-y-2">
             <label className="block text-sm font-medium text-gray-700">Product Images *</label>
@@ -375,8 +445,8 @@ const AddProductPage = () => {
               />
             </label>
             <p className="text-xs text-gray-500 mt-1">
-              {imageFiles.length > 0 
-                ? `${imageFiles.length} image(s) selected (max 4)` 
+              {product.imageFiles.length > 0 
+                ? `${product.imageFiles.length} image(s) selected (max 4)` 
                 : 'Upload up to 4 images (JPEG, PNG)'}
             </p>
           </div>

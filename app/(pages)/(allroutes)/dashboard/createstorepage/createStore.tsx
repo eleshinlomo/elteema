@@ -1,14 +1,11 @@
 'use client'
-import { useState, FormEvent, useContext } from "react"
+import { useState, FormEvent, useContext, ChangeEvent } from "react"
 import { createStore } from "./storeFunctions"
 import { GeneralContext } from "../../../../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
 import { updateLocalUser } from "../../../../../components/data/userdata"
 
 const CreateStore = () => {
-
-  
-
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
@@ -21,12 +18,9 @@ const CreateStore = () => {
     logo: '',
     phone: '',
     email: '',
-  
+    city: '',
+    state: ''
   })
-  
-  
-
- 
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -38,21 +32,22 @@ const CreateStore = () => {
       const response = await createStore(formData)
       console.log(response)
       if(response.ok){
-      setSuccess(response.message)
-      const updatedUser = response.data
-      updateLocalUser(updatedUser) // Must update local user
-      setUser(updatedUser) // Must update current user
-      setFormData({
-        userId: user.id,
-        tagline: '',
-        name: '',
-        logo: '',
-        phone: '',
-        email: '',
-        
-      })
-      window.location.href='#create-store-bottom'
-      }else{
+        setSuccess(response.message)
+        const updatedUser = response.data
+        updateLocalUser(updatedUser)
+        setUser(updatedUser)
+        setFormData({
+          userId: user.id,
+          tagline: '',
+          name: '',
+          logo: '',
+          phone: '',
+          email: '',
+          city: '',
+          state: ''
+        })
+        window.location.href='#create-store-bottom'
+      } else {
         console.log(response)
         setError(response.error)
       }
@@ -64,7 +59,8 @@ const CreateStore = () => {
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Updated to handle both input and select elements
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
@@ -112,8 +108,8 @@ const CreateStore = () => {
             />
           </div>
 
-              <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          <div>
+            <label htmlFor="tagline" className="block text-sm font-medium text-gray-700">
               Store Tagline
             </label>
             <input
@@ -175,6 +171,37 @@ const CreateStore = () => {
             />
           </div>
 
+          {/* City */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Which city is your store located?</label>
+            <select
+              value={formData.city}
+              name='city'
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              required
+            >
+              <option value=''>Select city</option>
+              <option value='ikeja'>Ikeja</option>
+              <option value='ikorodu'>Ikorodu</option>
+            </select>
+          </div>
+
+          {/* State */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Which state is your store located?</label>
+            <select
+              value={formData.state}
+              name='state'
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              required
+            >
+              <option value=''>Select state</option>
+              <option value='lagos'>Lagos</option>
+            </select>
+          </div>
+
           <div>
             <button
               type="submit"
@@ -185,7 +212,7 @@ const CreateStore = () => {
             </button>
           </div>
         </form>
-          }
+        }
       </div>
     </div>
   )

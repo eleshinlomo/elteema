@@ -8,7 +8,7 @@ import { useContext } from 'react';
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider';
 import { capitalize } from '../../../../../components/utils';
 import StoreProducts from './(storecomponents)/storeProducts';
-import Orders from './(storecomponents)/Orders';
+import CompletedOrders from './(storecomponents)/completedOrders';
 
 
 const StorePage = () => {
@@ -21,9 +21,9 @@ const StorePage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-4 pt-16">
-      <header className="mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">{user?.store ? capitalize(user.store.name) : null} Dashboard</h1>
-        <p className="text-gray-600">Welcome back! Here&apos;s what&apos;s happening with your store today.</p>
+      <header className="mb-2">
+        <h3 className="text-xl font-bold text-gray-800">Welcome back <span className='font-extrabold'>{capitalize(user?.username)}</span>! Here&apos;s what&apos;s happening with your store today.
+        </h3>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
@@ -46,7 +46,7 @@ const StorePage = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Orders />
+        <CompletedOrders />
         <StoreProducts />
       </div>
     </div>

@@ -23,7 +23,7 @@ const OrderStatusCards = () => {
       iconColor: 'text-blue-500',
     },
     {
-      title: 'Processing',
+      title: 'Processing orders',
       text: 'Buyer can cancel order',
       value: 8,
       change: -2,
@@ -41,7 +41,7 @@ const OrderStatusCards = () => {
       iconColor: 'text-purple-500',
     },
     {
-      title: 'Shipped',
+      title: 'Shipped orders',
       text: 'Buyer cannot cancel order',
       value: 15,
       change: 8,
@@ -49,15 +49,7 @@ const OrderStatusCards = () => {
       color: 'border-purple-500',
       iconColor: 'text-purple-500',
     },
-    {
-      title: 'Completed',
-      text: 'Buyer cannot cancel order',
-      value: 42,
-      change: 5,
-      Icon: FiCheckCircle,
-      color: 'border-green-500',
-      iconColor: 'text-green-500',
-    },
+  
   ];
 
   const { user } = useContext(GeneralContext);
@@ -65,6 +57,7 @@ const OrderStatusCards = () => {
 
   return (
     <div>
+       <p className="text-gray-600 font-bold text-xl">Order Status</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {cards?.map((card, index) => (
           <StatusCard key={index} {...card} />

@@ -58,6 +58,7 @@ const DashNavBar = ({ user }: { user: UserProps | any }) => {
 
 // Reusable NavButton component
 const NavButton = ({ href, icon, label }: DashNavProps) => (
+  <div id='nav-top'>
   <a href={href} className="group">
     <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 rounded-lg transition-all
                       hover:bg-emerald-50 hover:text-emerald-700 group-hover:scale-[1.02]">
@@ -65,6 +66,7 @@ const NavButton = ({ href, icon, label }: DashNavProps) => (
       <span>{label}</span>
     </button>
   </a>
+  </div>
 )
 
 export default DashNavBar

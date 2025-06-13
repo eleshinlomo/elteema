@@ -1,5 +1,9 @@
 'use client';
 
+import { useContext, useState, useEffect } from "react";
+import { GeneralContext } from "../../../../../../contextProviders/GeneralProvider";
+import { ProductProps } from "../../../../../../components/api/product";
+
 interface StoreProductsProps {
   id: string;
   name: string;
@@ -11,6 +15,15 @@ interface StoreProductsProps {
 }
 
 const StoreProducts = () => {
+  const {user} = useContext(GeneralContext)
+  const [storeProducts, setStoreProducts] = useState<ProductProps[]>([])
+
+  useEffect(()=>{
+    if(user?.store?.items.length > 0){
+      setStoreProducts(user.store.items)
+    }
+  }, [user?.store.items])
+
   const products: StoreProductsProps[] = [
     {
       id: '1',
@@ -33,11 +46,12 @@ const StoreProducts = () => {
         </button>
       </div>
       <div className="space-y-4">
-        {products.map((product) => (
-          <div key={product.id} className="flex items-center">
+        {storeProducts?.length > 0 ? storeProducts.map((product) => 
+        <div>
+          <div key={product.productId} className="flex items-center">
             <img
-              src={product.image}
-              alt={product.name}
+              src={product.src}
+              alt={product.productName}
               className="w-12 h-12 rounded-md object-cover"
               loading="lazy"
               width={48}
@@ -45,17 +59,34 @@ const StoreProducts = () => {
             />
             <div className="ml-4 flex-1">
               <div className="flex justify-between">
-                <h3 className="text-sm font-medium text-gray-800">{product.name}</h3>
+                <h3 className="text-sm font-medium text-gray-800">{product.productName}</h3>
                 <span className="text-sm font-medium text-gray-800">N{product.price.toFixed(2)}</span>
               </div>
-              <p className="text-xs text-gray-500">{product.category}</p>
+              <p className="text-xs text-gray-500">{product.categories}</p>
               <div className="mt-1 flex justify-between">
-                <span className="text-xs text-gray-500">{product.sales} sold</span>
-                <span className="text-xs font-medium text-blue-500">${product.revenue.toFixed(2)}</span>
+                <span className="text-xs text-gray-500">{product.numOfItemsSold} sold</span>
+                {/* <span className="text-xs font-medium text-blue-500">N{product.revenue.toFixed(2)}</span> */}
               </div>
             </div>
+             </div>
+
+             {/* Action buttons */}
+             <div className="flex gap-2 pt-2">
+               <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
+                  Edit
+               </button>
+               <button className='text-xs py-1 px-2 rounded bg-red-600 hover:bg-red-700 text-white'>
+                  Delete
+               </button>
+            </div>
+
           </div>
-        ))}
+          ) : 
+          <div>
+            You have no product in your store.
+          </div>
+        
+      }
       </div>
     </div>
   );

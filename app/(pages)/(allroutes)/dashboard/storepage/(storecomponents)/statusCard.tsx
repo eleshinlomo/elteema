@@ -18,12 +18,16 @@ const StatusCard = ({ title, text, value, change, Icon, color, iconColor }: Stat
           <p className={`text-xs mt-1 ${change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
             {change >= 0 ? `↑ ${change}%` : `↓ ${Math.abs(change)}%`} from last week
           </p>
-          <p className="text-sm font-extrabold text-red-500">{text}</p>
+         
         </div>
         <div className="p-3 rounded-full bg-opacity-20 bg-gray-500">
           <Icon className={`${iconColor} text-xl`} />
         </div>
       </div>
+       <p className="text-sm font-extrabold text-red-500">{text}</p>
+       <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
+            View
+          </button>
     </div>
   );
 };

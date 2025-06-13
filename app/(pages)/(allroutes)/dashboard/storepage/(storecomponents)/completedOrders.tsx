@@ -12,7 +12,7 @@ type Order = {
   items: number;
 };
 
-const Orders = () => {
+const CompletedOrders = () => {
   const [mounted, setMounted] = useState(false);
   const [ordersWithFormattedDate, setOrdersWithFormattedDate] = useState<Order[]>([]);
 
@@ -115,7 +115,7 @@ const Orders = () => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-lg font-semibold text-gray-800">All Orders</h2>
+        <h2 className="text-lg font-semibold text-gray-800">Completed Orders</h2>
         <button className="text-blue-500 hover:text-blue-600 text-sm font-medium">View All</button>
       </div>
       <div className="overflow-x-auto">
@@ -147,8 +147,13 @@ const Orders = () => {
           </tbody>
         </table>
       </div>
+       <a href='/dashboard/addproductpage'>
+      <button className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition duration-200">
+        Delete Store
+      </button>
+      </a>
     </div>
   );
 };
 
-export default Orders;
+export default CompletedOrders;

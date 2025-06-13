@@ -3,21 +3,7 @@
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-export interface CreateProductProps {
-    userId: number;
-    addedBy: string;
-    productName: string;
-    price: number;
-    colors: string[];
-    condition: string;
-    deliveryMethod: string;
-    imageFiles: any[];
-    quantity: number;
-    size: string;
-    categories: string[];
-    description: string;
-    store: null;         
-}
+
 
 export interface ProductProps {
     userId: number;
@@ -29,7 +15,7 @@ export interface ProductProps {
     colors: string[];
     condition: string;
     deliveryMethod: string;
-    imageFiles: any[];
+    imageFiles: File[];
     quantity: number;
     size: string;
     categories: string[];
@@ -45,25 +31,25 @@ export interface ProductProps {
 
 
 // Create products
-export const createProduct = async (product: CreateProductProps)=>{
+// export const createProduct = async (product: CreateProductProps)=>{
 
 
- try{
-  const response = await fetch(`${BASE_URL}/product/createproduct`, {
-   mode: 'cors',
-   method: 'POST',
-   headers: {"Content-Type": "application/json"},
-   body: JSON.stringify(product)
-  })
+//  try{
+//   const response = await fetch(`${BASE_URL}/product/createproduct`, {
+//    mode: 'cors',
+//    method: 'POST',
+//    headers: {"Content-Type": "application/json"},
+//    body: JSON.stringify(product)
+//   })
 
-  if(!response) return 'No response from server'
-   const data = await response.json()
-   return data
-}catch(err){
-    console.error(err)
-    return err
-}
-}
+//   if(!response) return 'No response from server'
+//    const data = await response.json()
+//    return data
+// }catch(err){
+//     console.error(err)
+//     return err
+// }
+// }
 
 // All products
 export const getAllProducts = async ()=>{
