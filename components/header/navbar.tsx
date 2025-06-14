@@ -14,7 +14,7 @@ const NavBar = () => {
   const [openIndex, setOpenIndex] = useState(-1);
 
 
-  const { isLoggedIn, setIsLoggedIn, user, sticky, setSticky } = useContext(GeneralContext);
+  const { isLoggedIn, setIsLoggedIn, user, sticky, setSticky, setPage } = useContext(GeneralContext);
 
   const pathName = usePathname();
   // Navbar toggle
@@ -88,12 +88,16 @@ const NavBar = () => {
                 {navdata.map((menuItem, index) => (
                   <li key={index} className="group relative">
                     {menuItem.path ? (
-                      <Link
-                        href={menuItem.path}
-                        className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 hover:text-green-400 transition-colors duration-200`}
-                      >
-                        {menuItem.title}
-                      </Link>
+                      
+                          
+                          <Link
+                            href={menuItem.path}
+                            className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 hover:text-green-400 transition-colors duration-200`}
+                            
+                            >
+                            {menuItem.title}
+                          </Link>
+                      
                     ) : (
                       <>
                         <p

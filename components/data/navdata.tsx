@@ -21,159 +21,46 @@ const navData: NavProps[] = [
     path: "/contactpage",
     newTab: false,
   },
-  
-
-  {
+    {
     id: 3,
-    title: "Farm",
+    title: "About",
+    path: "/aboutpage",
     newTab: false,
-    submenu: [
-      {
-        id: 1,
-        title: "Grains & Cereals",
-        path: "/men/accessories",
-        newTab: false,
-      },
-      {
-        id: 2,
-        title: "Tubers & Root Crops",
-        path: "/men/shoes",
-        newTab: false,
-      },
-      {
-        id: 3,
-        title: "Legumes & Pulses",
-        path: "/men/clothings",
-        newTab: false,
-      },
+  },
+  {
+    id: 4,
+    title: "Faq",
+    path: "/faqpage",
+    newTab: false,
+  },
       
-      {
-        id: 4,
-        title: "Vegetables",
-        path: "/men/clothings",
-        newTab: false,
-      },
-      {
-        id: 5,
-        title: "Fruits",
-        path: "/men/clothings",
-        newTab: false,
-      },
-      {
-        id: 6,
-        title: "Livestock & Animal",
-        path: "/men/clothings",
-        newTab: false,
-      },
+     
       {
         id: 7,
-        title: "Processed Products",
-        path: "/men/clothings",
+        title: "Sell on Elteema",
+        path: `/dashboard`,
         newTab: false,
       },
-     
     
-    ],
-  },
-
-  {
-    id: 4,
-    title: "Clothings",
-    newTab: false,
-    submenu: [
       {
-        id: 3,
-        title: "Agbada",
-        path: "/men/clothings",
+        id: 7,
+        title: "Deliver for Elteema",
+        path:`/driverpage`,
         newTab: false,
       },
-      
-      {
-        id: 3,
-        title: "Ankara",
-        path: "/women/clothings",
+       {
+        id: 7,
+        title: "Restaurants",
+        path:`/restaurantpage`,
+        newTab: false,
+      },
+       {
+        id: 7,
+        title: "Hotels",
+        path:`/hotelpage`,
         newTab: false,
       },
   
-      {
-        id: 1,
-        title: "Aso Oke men",
-        path: "/women/accessories",
-        newTab: false,
-      },
-      {
-        id: 1,
-        title: "Aso Oke women",
-        path: "/women/accessories",
-        newTab: false,
-      },
-      {
-        id: 2,
-        title: "Adire men",
-        path: "/women/shoes",
-        newTab: false,
-      },
-      {
-        id: 2,
-        title: "Adire women",
-        path: "/women/shoes",
-        newTab: false,
-      },
-      {
-        id: 3,
-        title: "Men Natives",
-        path: "/women/clothings",
-        newTab: false,
-      },
-      {
-        id: 3,
-        title: "Women Natives",
-        path: "/women/clothings",
-        newTab: false,
-      },
- 
-     
-    
-    ],
-  },
-  {
-    id: 4,
-    title: "Shoes",
-    newTab: false,
-    submenu: [
-      {
-        id: 8,
-        title: "Women Shoes",
-        path: "/men/clothings",
-        newTab: false,
-      },
-      {
-        id: 9,
-        title: "Men Shoes",
-        path: "/men/clothings",
-        newTab: false,
-      },
-    ]
-  },
-  {
-    id: 4,
-    title: "Accessories",
-    newTab: false,
-    submenu: [
-      {
-        id: 8,
-        title: "Women Accessories",
-        path: "/men/clothings",
-        newTab: false,
-      },
-      {
-        id: 9,
-        title: "Men Accessories",
-        path: "/men/clothings",
-        newTab: false,
-      },
-    ]
-  },
   {
     id: 4,
     title: "Quick links",
@@ -198,7 +85,7 @@ const navData: NavProps[] = [
       {
         id: 7,
         title: "Sell on Elteema",
-        path: `/dashboard`,
+        path: `/dashboard/createstore`,
         newTab: false,
       },
     

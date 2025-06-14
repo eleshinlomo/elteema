@@ -13,7 +13,7 @@ const Bestsellers = ()=>{
 const {Products} = useContext(ProductContext)
 
  const getBestsellers  = ()=>{
-    const bestSellerItems: ProductProps[] = Products.filter((item)=>item.categories?.some((cat)=>cat === 'bestseller'))
+    const bestSellerItems: ProductProps[] = Products.filter((item)=>item.category === 'bestseller')
     if(bestSellerItems.length > 0){
         setBestsellers(bestSellerItems)
     }

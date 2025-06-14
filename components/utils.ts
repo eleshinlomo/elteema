@@ -109,21 +109,25 @@ export const getItemQuantity = (targetid: number, Products: ProductProps[])=>{
 
 
 export const checkCategoryWithClothSize = (id: number, Products: ProductProps[]) => {
-  
+  let hasSize = false
   if (!id || !Products || Products.length === 0) return false;
   const product = Products.find((item)=>item.productId === id)
-  const hasSize = product?.categories.some(cat => 
-    clotheCategoryWithSize.includes(cat.toLowerCase())
-  );
+  if(product){
+  hasSize = clotheCategoryWithSize.includes(product?.category)
+  }
+  
   return hasSize;
 }
 
 export const checkCategoryWithShoeSize = (id: number, Products: ProductProps[]) => {
    if (!id || !Products || Products.length === 0) return false;
+   let hasSize = false;
   const product = Products.find((item)=>item.productId === id)
-  const hasSize = product?.categories.some(cat => 
-    shoeCategoryWithSize.includes(cat.toLowerCase())
-  );
+  if(product){
+
+  hasSize = shoeCategoryWithSize.includes(product?.category.toLowerCase())
+  }
+  
   return hasSize;
 }
 

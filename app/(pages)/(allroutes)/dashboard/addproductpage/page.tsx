@@ -15,7 +15,7 @@ export interface CreateProductProps {
     addedBy: string;
     productName: string;
     imageFiles: File[];
-    price: number;
+    price: string;
     colors: string[];
     condition: string;
     deliveryMethod: string;
@@ -41,7 +41,7 @@ const AddProductPage = () => {
     colors: [] as string[],
     imageFiles: [] as File[],
     productName: '',
-    price: 0,
+    price: '',
     condition: '',
     deliveryMethod: '',
     quantity: 1,
@@ -55,7 +55,7 @@ const AddProductPage = () => {
     const { name, value } = e.target
     setProduct(prev => ({
       ...prev,
-      [name]: name === 'price' || name === 'quantity' ? Number(value) : value
+      [name]: name === 'price' || name === 'quantity' ? Number(value) || '' : value
     }))
   }
 
@@ -116,7 +116,10 @@ const AddProductPage = () => {
     // Send formData to the API
     const response = await fetch(`${BASE_URL}/product/createproduct`, {
       method: 'POST',
-      body: formData // Don't set Content-Type header - browser will set it with boundary
+      body: formData, // Don't set Content-Type header - browser will set it with boundary
+      headers: {
+        'userId': user.id //Used for the middleware on backend
+      }
     })
 
     const data = await response.json()
@@ -135,7 +138,7 @@ const AddProductPage = () => {
         colors: [],
         imageFiles,
         productName: '',
-        price: 0,
+        price: '',
         condition: '',
         deliveryMethod: '',
         quantity: 1,

@@ -1,28 +1,24 @@
 'use client'
-import {useState, useEffect} from 'react'
-import TestimonialsPage from "../../../../components/Testimonials";
-import Search from "../../../../components/product/search";
-import Bestsellers from "../../../../components/product/bestseller";
-import Trending from "../../../../components/product/trending";
-import New from "../../../../components/product/new";
+import {useState, useEffect, useContext} from 'react'
 import CookiePolicy from "../../../../components/cookieAcceptPage";
-import Feeds from '../feedspage/feeds';
-import Featured from '../../../../components/product/featured';
 import FeedsPage from '../feedspage/page';
+import { GeneralContext } from '../../../../contextProviders/GeneralProvider';
+
+import { usePathname } from 'next/navigation';
 
 export default function Home() {
-
  
+  const {page, setPage} = useContext(GeneralContext)
+  const path = usePathname()
+
+
   return (
     <div id='top' className="">
       
-      {/* <Featured /> */}
-      <FeedsPage />
-      {/* <Bestsellers />
-      <New />
-      <Trending />
-      <TestimonialsPage />
-      <CookiePolicy /> */}
+  
+  
+      <FeedsPage /> 
+      <CookiePolicy />
     </div>
   );
 }

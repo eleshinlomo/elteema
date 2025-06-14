@@ -47,11 +47,11 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
                                 
                                     <div className='flex gap-1' >
                                     
-                                        {item.categories.map((cat, index)=>
-                                        <a key={index} href={`/categorypage/${encodeURIComponent(cat)}`} className="bg-green-100 px-2  ">
-                                            {cat}
+                                        
+                                        <a key={index} href={`/categorypage/${encodeURIComponent(item.category)}`} className="bg-green-100 px-2  ">
+                                            {item.category}
                                         </a>
-                                        )}
+                                        
                                     
                                     </div>
                                 

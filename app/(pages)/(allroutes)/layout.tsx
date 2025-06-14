@@ -140,7 +140,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
   useEffect(() => {
     verifyPersistentLogin()
     
-  }, [email, code])
+  }, [email, code, isLoggedIn])
   
 // useEffect(()=>{
 //      if(user && user?.store.length > 0){

@@ -1,7 +1,12 @@
-
+'use client'
+import { useContext } from 'react';
 import { FaLeaf, FaHandsHelping, FaGlobeAfrica, FaTshirt, FaCarrot } from 'react-icons/fa';
+import { GeneralContext } from '../../../../contextProviders/GeneralProvider';
 
 const AboutPage = () => {
+
+  const {isLoggedIn} = useContext(GeneralContext)
+
   return (
     <div className="min-h-screen bg-green-50">
       {/* Hero Section */}
@@ -131,14 +136,21 @@ const AboutPage = () => {
             Elteema is your platform for connection and growth.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a href='/allstorespage'><button className="bg-white text-green-800 px-6 py-3 rounded-lg font-semibold hover:bg-green-100 transition">
+            <a href='/'><button className="bg-white text-green-800 px-6 py-3 rounded-lg font-semibold hover:bg-green-100 transition">
               Shop Our Collection
             </button>
             </a>
-            <a href='/dashboard/sellerpage'><button className="border-2 border-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
-              Become a Partner
+            {isLoggedIn ?
+             <a href='/dashboard'><button className="border-2 border-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+              Go to Dashboard
+            </button>
+            </a>:
+              <a href='/authpages/signup'>
+                <button className="border-2 border-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+              Join Elteema
             </button>
             </a>
+            }
           </div>
         </div>
       </div>

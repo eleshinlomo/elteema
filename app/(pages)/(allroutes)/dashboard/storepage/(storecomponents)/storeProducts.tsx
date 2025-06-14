@@ -62,7 +62,7 @@ const StoreProducts = () => {
                 <h3 className="text-sm font-medium text-gray-800">{product.productName}</h3>
                 <span className="text-sm font-medium text-gray-800">N{product.price.toFixed(2)}</span>
               </div>
-              <p className="text-xs text-gray-500">{product.categories}</p>
+              <p className="text-xs text-gray-500">{product.category}</p>
               <div className="mt-1 flex justify-between">
                 <span className="text-xs text-gray-500">{product.numOfItemsSold} sold</span>
                 {/* <span className="text-xs font-medium text-blue-500">N{product.revenue.toFixed(2)}</span> */}

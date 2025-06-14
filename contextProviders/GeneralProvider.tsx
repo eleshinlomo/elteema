@@ -11,6 +11,8 @@ interface GeneralProps {
 export interface GeneralContextInitialProps {
     isLoggedIn: boolean,
     isLoading: boolean;
+    page: string;
+    setPage: (value: string)=>void;
     sticky: boolean;
     userStore: ProductProps[];
     setUserStore: (value: null | any)=>void;
@@ -26,6 +28,8 @@ export interface GeneralContextInitialProps {
 const initialValues : GeneralContextInitialProps = {
   sticky: false,
   userStore: [],
+  page: '',
+  setPage: (value: string)=>{},
   setUserStore: ()=>{},
   setSticky: ()=>{},
   isLoggedIn: false,
@@ -49,6 +53,7 @@ export const GeneralProvider = ({children}: GeneralProps)=>{
     const [isLoading, setIsLoading] = useState(false)
     const [sticky, setSticky] = useState(false);
     const [feeds, setFeeds] = useState<FeedProps[]>([])
+    const [page, setPage] = useState('Home')
 
     
 
@@ -64,7 +69,9 @@ const values : GeneralContextInitialProps = {
     userStore,
     setUserStore,
     feeds,
-    setFeeds
+    setFeeds,
+    page,
+    setPage
 }
     return (
     <GeneralContext.Provider value={values}>

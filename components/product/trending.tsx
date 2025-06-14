@@ -13,13 +13,12 @@ const Trending = ()=>{
   
        // Hooks
        const {Products} = useContext(ProductContext)
-        const [trendingItems, setTrendingItems] = useState<ProductProps | any>([])
+       const [trendingItems, setTrendingItems] = useState<ProductProps | any>([])
 
  useEffect(() => {
   if (Products?.length > 0) {
-    const items = Products.filter((item) => 
-      (Array.isArray(item.categories) ? item.categories : []).includes('trending')
-    );
+    const items = Products.filter((item) => item.numOfItemsSold >= 5)
+    
     setTrendingItems(items);
   }
 }, [Products?.length]);
@@ -33,7 +32,7 @@ const Trending = ()=>{
             {trendingItems && trendingItems.length > 0 ? <DisplayStore productArray={Products} numPerPage={2} />
             : <SkeletonPage message={message} />}
 
-  </div>
+    </div>
     )
 }
 

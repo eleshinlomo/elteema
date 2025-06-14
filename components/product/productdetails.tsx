@@ -188,7 +188,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.productName}</h1>
               
-              <div className="flex px-4 gap-2 mb-4 text-center">
+              {/* <div className="flex px-4 gap-2 mb-4 text-center">
                 {product?.categories?.map((cat, index) => (
                   <a 
                     key={index}
@@ -198,7 +198,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
                     {cat}
                   </a>
                 ))}
-              </div>
+              </div> */}
               
               <div className="flex items-center mb-6">
                 <span className="text-3xl font-bold text-green-600">{formatCurrency('NGN', product.price)}</span>

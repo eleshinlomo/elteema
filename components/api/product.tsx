@@ -18,7 +18,7 @@ export interface ProductProps {
     imageFiles: File[];
     quantity: number;
     size: string;
-    categories: string[];
+    category: string;
     description: string;
     store: null;         
     star: number;
@@ -30,26 +30,7 @@ export interface ProductProps {
 }
 
 
-// Create products
-// export const createProduct = async (product: CreateProductProps)=>{
 
-
-//  try{
-//   const response = await fetch(`${BASE_URL}/product/createproduct`, {
-//    mode: 'cors',
-//    method: 'POST',
-//    headers: {"Content-Type": "application/json"},
-//    body: JSON.stringify(product)
-//   })
-
-//   if(!response) return 'No response from server'
-//    const data = await response.json()
-//    return data
-// }catch(err){
-//     console.error(err)
-//     return err
-// }
-// }
 
 // All products
 export const getAllProducts = async ()=>{
