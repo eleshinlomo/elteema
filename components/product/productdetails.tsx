@@ -1,15 +1,15 @@
-'use client'
+'use client';
+
 import { useState, useEffect, useContext } from "react";
 import Image from 'next/image';
 import AddToCartButton from "../cart/addtocartbtn";
 import { CartContext } from "../../contextProviders/cartcontext";
-import { formatCurrency, getItemQuantity, getSingleProduct} from "../utils";
+import { formatCurrency, getItemQuantity, getSingleProduct } from "../utils";
 import ProductSize from "./productSize";
 import BuyNowButton from "../cart/buyNowBtn";
 import { ProductProps } from '../api/product'
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import { ProductContext } from "../../contextProviders/ProductContext";
-
 
 interface DetailsProps {
   id: number;
@@ -20,20 +20,18 @@ const ProductDetails = ({ id }: DetailsProps) => {
   const [error, setError] = useState('');
   const [openImageModal, setOpenImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [isAdded, setIsAdded] = useState<boolean>(false)
-  const { cart }  = useContext(CartContext);
-  const {user} = useContext(GeneralContext)
-  const { 
-        Products,
-        oldSize,
-        setOldSize,
-        showClotheSizeInput,
-        setShowClotheSizeInput,
-        showShoeSizeInput,
-        setShowShoeSizeInput} = useContext(ProductContext)
-  
-   
- 
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+  const { cart } = useContext(CartContext);
+  const { user } = useContext(GeneralContext);
+  const {
+    Products,
+    oldSize,
+    setOldSize,
+    showClotheSizeInput,
+    setShowClotheSizeInput,
+    showShoeSizeInput,
+    setShowShoeSizeInput
+  } = useContext(ProductContext);
 
   useEffect(() => {
     const handlegetSingleProduct = () => {
@@ -47,14 +45,13 @@ const ProductDetails = ({ id }: DetailsProps) => {
 
     handlegetSingleProduct();
     // check if item is added to cart
-    const item = cart.find((item)=> item.productId === product?.productId)
-    if(item?.isAdded){
-      setIsAdded(true)
-    }else{
-      setIsAdded(false)
+    const item = cart.find((item) => item.productId === product?.productId);
+    if (item?.isAdded) {
+      setIsAdded(true);
+    } else {
+      setIsAdded(false);
     }
-  }, [id, Products, oldSize, error, user, isAdded, cart]);
-
+  }, [id, Products, oldSize, error, user, isAdded, cart, product?.productId]);
 
   if (!product) {
     return (
@@ -67,29 +64,31 @@ const ProductDetails = ({ id }: DetailsProps) => {
     );
   }
 
-  // Sample images - replace with your actual image array
-  const productImages = [
-    { src: product.src, label: 'Front View' },
-    { src: product.src, label: 'Back View' },
-    { src: product.src, label: 'Side View' },
-    { src: product.src, label: 'Detail View' }
-  ];
+  // Process product images - ensure they're in array format
+  const productImages = Array.isArray(product.images) 
+    ? product.images.map((img, index) => ({
+        src: img,
+        label: ['Front View', 'Back View', 'Side View', 'Detail View'][index] || 'Product Image'
+      }))
+    : [{ src: product.images, label: 'Product Image' }];
+
+  const mainImage = productImages[selectedImage]?.src || productImages[0]?.src;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="flex gap-3">
-      <a href='/'>
+        <a href='/'>
           <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
-            Conitnue shopping
+            Continue shopping
           </button>
-      </a>
-      <a href='/faqpage'>
+        </a>
+        <a href='/faqpage'>
           <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
-            See faq
+            See FAQ
           </button>
-      </a>
+        </a>
       </div>
-      
+
       {/* Image Modal */}
       {openImageModal && (
         <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
@@ -105,21 +104,21 @@ const ProductDetails = ({ id }: DetailsProps) => {
               </button>
             </div>
             <div>
-              
-            <div className="relative h-72 mt-4 w-full bg-gray-100">
-              <Image
-                src={productImages[selectedImage].src}
-                alt={productImages[selectedImage].label}
-                fill
-                className="object-contain"
-                quality={100}
-              />
+              <div className="relative h-72 mt-4 w-full bg-gray-100">
+                <Image
+                  src={mainImage}
+                  alt={productImages[selectedImage]?.label || 'Product image'}
+                  fill
+                  className="object-contain"
+                  quality={100}
+                  priority
+                />
+              </div>
             </div>
-            </div>
-            
+
             <div className="p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-2">{productImages[selectedImage].label}</h3>
-              
+              <h3 className="text-xl font-bold text-gray-800 mb-2">{productImages[selectedImage]?.label}</h3>
+
               <div className="flex gap-4 mt-6 overflow-x-auto py-2">
                 {productImages.map((img, index) => (
                   <button
@@ -132,6 +131,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
                       alt={img.label}
                       fill
                       className="object-cover"
+                      sizes="80px"
                     />
                   </button>
                 ))}
@@ -142,21 +142,22 @@ const ProductDetails = ({ id }: DetailsProps) => {
       )}
 
       {/* Product Main Content */}
-      <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-md overflow-hidden mt-6">
         <div className="md:flex">
           {/* Product Image Gallery */}
           <div className="md:w-1/2 p-6">
-            <div 
+            <div
               className="relative h-96 w-full rounded-xl overflow-hidden bg-gray-50 cursor-zoom-in"
               onClick={() => setOpenImageModal(true)}
             >
-              <Image 
-                src={product.src} 
-                alt={product.productName} 
+              <Image
+                src={mainImage}
+                alt={product.productName}
                 fill
                 className="object-contain hover:scale-105 transition-transform duration-300"
                 sizes="(max-width: 768px) 100vw, 50vw"
                 quality={100}
+                priority
               />
               <div className="absolute bottom-4 right-4 bg-white/80 rounded-full p-2 shadow-sm">
                 <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -164,19 +165,20 @@ const ProductDetails = ({ id }: DetailsProps) => {
                 </svg>
               </div>
             </div>
-            
+
             <div className="flex gap-4 mt-4 overflow-x-auto py-2">
               {productImages.map((img, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className="flex-shrink-0 relative h-16 w-16 rounded-md overflow-hidden border border-gray-200 hover:border-green-500 transition-colors"
+                  className={`flex-shrink-0 relative h-16 w-16 rounded-md overflow-hidden border ${selectedImage === index ? 'border-green-500' : 'border-gray-200'}`}
                 >
                   <Image
                     src={img.src}
                     alt={img.label}
                     fill
                     className="object-cover"
+                    sizes="64px"
                   />
                 </button>
               ))}
@@ -187,82 +189,68 @@ const ProductDetails = ({ id }: DetailsProps) => {
           <div className="md:w-1/2 p-6 md:p-8 flex flex-col">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.productName}</h1>
-              
-              {/* <div className="flex px-4 gap-2 mb-4 text-center">
-                {product?.categories?.map((cat, index) => (
-                  <a 
-                    key={index}
-                    href={`/categorypage/${encodeURIComponent(cat)}`}
-                    className="text-md   text-green-800 mx-0 py-1   hover:bg-green-200 transition-colors"
-                  >
-                    {cat}
-                  </a>
-                ))}
-              </div> */}
-              
+
               <div className="flex items-center mb-6">
                 <span className="text-3xl font-bold text-green-600">{formatCurrency('NGN', product.price)}</span>
               </div>
-              
+
               <div className="prose max-w-none text-gray-600 mb-8">
                 <p>{product.description || 'No description available'}</p>
               </div>
             </div>
-            
+
             {/* Size Selector */}
             <div className="mb-8">
-              <ProductSize 
-              // setOldSize={setOldSize} 
-              // oldSize={oldSize}
-              targetId={product.productId} 
-              isAdded={isAdded} 
-              setIsAdded={setIsAdded} 
-              error={error}
-              setError={setError}
-              showClotheSizeInput={showClotheSizeInput}
-              setShowClotheSizeInput={setShowClotheSizeInput}
-              showShoeSizeInput={showShoeSizeInput}
-              setShowShoeSizeInput={setShowShoeSizeInput} 
-              />
-            </div>
-            
-            {/* Action Buttons */}
-            <div className="flex flex-col justify-center items-center gap-4">
-              {!isAdded ?
-              <div className="flex gap-4">
-
-                <AddToCartButton targetid={product.productId}  
-                oldSize={oldSize}
-                isAdded={isAdded} 
-                setIsAdded={setIsAdded} 
+              <ProductSize
+                targetId={product.productId}
+                isAdded={isAdded}
+                setIsAdded={setIsAdded}
+                error={error}
                 setError={setError}
                 showClotheSizeInput={showClotheSizeInput}
+                setShowClotheSizeInput={setShowClotheSizeInput}
                 showShoeSizeInput={showShoeSizeInput}
-             
-                 />
-                <BuyNowButton 
-                targetid={product.productId} 
-                oldSize={oldSize}
-                setError={setError} 
-                showClotheSizeInput={showClotheSizeInput}
-                showShoeSizeInput={showShoeSizeInput}
-                 />
-              </div>:
-              <div className="flex gap-2">
+                setShowShoeSizeInput={setShowShoeSizeInput}
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col justify-center items-center gap-4">
+              {!isAdded ? (
+                <div className="flex gap-4">
+                  <AddToCartButton
+                    targetid={product.productId}
+                    oldSize={oldSize}
+                    isAdded={isAdded}
+                    setIsAdded={setIsAdded}
+                    setError={setError}
+                    showClotheSizeInput={showClotheSizeInput}
+                    showShoeSizeInput={showShoeSizeInput}
+                  />
+                  <BuyNowButton
+                    targetid={product.productId}
+                    oldSize={oldSize}
+                    setError={setError}
+                    showClotheSizeInput={showClotheSizeInput}
+                    showShoeSizeInput={showShoeSizeInput}
+                  />
+                </div>
+              ) : (
+                <div className="flex gap-2">
                   <a href="/checkoutpage">
                     <button className="text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white">
                       Checkout
                     </button>
                   </a>
-  
+
                   <a href="/">
-                  <button className="text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white">
-                  Continue shopping
-                  </button>
-                    </a>
-              </div>
-              }
-              
+                    <button className="text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white">
+                      Continue shopping
+                    </button>
+                  </a>
+                </div>
+              )}
+
               <button
                 onClick={() => setOpenImageModal(true)}
                 className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 hover:border-green-500 text-gray-700 py-3 px-6 rounded-lg font-medium transition-all duration-300"

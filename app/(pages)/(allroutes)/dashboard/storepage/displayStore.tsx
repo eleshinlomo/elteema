@@ -1,3 +1,4 @@
+'use client'
 import { useState, useContext, useEffect } from 'react'
 import Image from 'next/image'
 import { CartContext } from '../../../../../contextProviders/cartcontext'
@@ -52,7 +53,7 @@ const DisplayStore = ({ productArray, numPerPage }: StoreDisplayProps) => {
                                     <a href={`/productpage/${item.productId}`} className='flex flex-col h-full'>
                                         <div className='relative aspect-[4/3] w-full flex-shrink-0 rounded-md overflow-hidden'>
                                             <Image 
-                                                src={item.src} 
+                                                src={item?.images?.[0]} 
                                                 alt={item.productName}
                                                 fill
                                                 className='object=cover'
@@ -65,7 +66,7 @@ const DisplayStore = ({ productArray, numPerPage }: StoreDisplayProps) => {
                                                 <h5 className='text-sm font-medium text-gray-800 line-clamp-1 flex-grow'>
                                                     {item.productName}
                                                 </h5>
-                                                <span className='text-xs text-gray-500 ml-1'>{item.numOfItemsSold} sold</span>
+                                                <span className='text-xs text-gray-500 ml-1'>{`${item.numOfItemsSold === 0 ? 'New' : item.numOfItemsSold}`} </span>
                                             </div>
                                             <p className='text-green-600 font-bold text-sm mt-0.5'>{formatCurrency('NGN', item.price)}</p>
                                             <div className='flex items-center mt-0.5'>

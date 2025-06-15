@@ -111,7 +111,7 @@ const CheckoutPage = () => {
   }, [user?.state])
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16">
+    <div className="min-h-screen bg-gray-50 py-24">
       {user && isLoggedIn ? (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
           {/* Header */}
@@ -173,10 +173,10 @@ const CheckoutPage = () => {
                       <div className="flex-1">
                         <div className='flex gap-4'>
                         <h3 className="text-lg font-medium text-gray-900">
-                          {capitalize(item.name)}
+                          {capitalize(item.productName)}
                         </h3>
                         <div className='relative h-10 w-10 border border-green-800'>
-                          <Image src={item.src} alt='Item image' fill />
+                          <Image src={item.images?.[0]} alt='Item image' fill />
                         </div>
                         </div>
                         <p className="text-sm text-gray-500 mt-1">

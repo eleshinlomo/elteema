@@ -17,7 +17,7 @@ const Trending = ()=>{
 
  useEffect(() => {
   if (Products?.length > 0) {
-    const items = Products.filter((item) => item.numOfItemsSold >= 5)
+    const items = Products.filter((item) => item.numOfItemsSold >= 0)
     
     setTrendingItems(items);
   }

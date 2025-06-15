@@ -235,7 +235,7 @@ const Feeds = ({setShowSearch}: Props) => {
                                 <div className='p-4'>
                                     {feed?.store?.items?.length > 0 ? (
                                         <DisplayStore 
-                                            productArray={feed.store.items} 
+                                            productArray={feed.store?.items} 
                                             numPerPage={window.innerWidth < 768 ? 1 : 2} 
                                         />
                                     ) : (

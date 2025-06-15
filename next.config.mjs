@@ -8,6 +8,7 @@ const nextConfig = {
       "via.placeholder.com",
       "localhost",
       "elteema.vercel.app",
+      "elteema.com",
       "store.myafros.com"
     ],
   }

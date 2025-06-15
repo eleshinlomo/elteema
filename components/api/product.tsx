@@ -15,7 +15,8 @@ export interface ProductProps {
     colors: string[];
     condition: string;
     deliveryMethod: string;
-    imageFiles: File[];
+    imageFiles: File[]; //Image array sent to the server
+    images: string[]; // Image array received from server
     quantity: number;
     size: string;
     category: string;
