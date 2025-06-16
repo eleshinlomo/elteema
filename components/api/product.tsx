@@ -24,6 +24,7 @@ export interface ProductProps {
     store: null;         
     star: number;
     totalVotes: number;
+    totalSales: number;
     numOfItemsSold: number;
     isAdded: boolean;
     orderStatus: string[];
@@ -37,7 +38,7 @@ export interface ProductProps {
 export const getAllProducts = async ()=>{
 
     try{
-    const response = await fetch(`${BASE_URL}/products/allproducts`, {
+    const response = await fetch(`${BASE_URL}/store/allstores`, {
        mode: 'cors'
     })
     if(!response) return
@@ -45,10 +46,34 @@ export const getAllProducts = async ()=>{
     
     if(data.ok) {
         console.log(data)
-        return data.products
+        return data
     }
     console.log('Unable to fetch')
     return
+}catch(err){
+    console.log(err)
+}
+    
+}
+
+//Delete products
+export const deleteProduct = async (userId: number, productId: number)=>{
+    
+    try{
+    const response = await fetch(`${BASE_URL}/product/deleteproduct`, {
+       mode: 'cors',
+       method: 'DELETE',
+       headers: {
+        'Content-Type': 'application/json',
+        'userId': userId.toString()
+
+       },
+       body: JSON.stringify({userId, productId})
+    })
+    if(!response) return 'No response from server'
+    const data: any = await response.json()
+    return data
+    
 }catch(err){
     console.log(err)
 }

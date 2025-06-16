@@ -32,7 +32,7 @@ const Featured = () => {
             return
         }
 
-        const filteredItems = Products.filter((item) => 
+        const filteredItems = Products?.filter((item) => 
             item.productName.toLowerCase().includes(itemToSearch.toLowerCase())
         )
         
@@ -46,8 +46,12 @@ const Featured = () => {
     }, [itemToSearch])
 
     useEffect(() => {
+       
+        if(Products?.length > 0){
+        console.log('PRODUCTS TO FEATURE', Products)
         setAllProducts(Products)
-    }, [])
+        }
+    }, [Products?.length])
 
     return (
         <div id='search' className="hidden md:flex flex-col bg-gradient-to-b from-green-50 to-white mt-2 pb-16 w-full">

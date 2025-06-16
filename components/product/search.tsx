@@ -31,7 +31,8 @@ const Search = () => {
             return
         }
 
-        const filteredItems = Products.filter((item) => 
+        const filteredItems = Products?.filter((item)  => 
+            
             item.productName.toLowerCase().includes(itemToSearch.toLowerCase())
         )
         
@@ -45,7 +46,7 @@ const Search = () => {
 
     useEffect(() => {
         setAllProducts(Products)
-    }, [])
+    }, [Products.length])
 
     return (
         <div id='search' className="bg-gradient-to-b from-green-50 to-white mt-32 pb-16 ">

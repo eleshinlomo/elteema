@@ -1,3 +1,4 @@
+'use client'
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 import { ProductProps, getAllProducts } from '../components/api/product';
 
@@ -20,7 +21,7 @@ interface InitialValuesProps {
 
 const initialValues: InitialValuesProps = {
     Products: [],
-    setProducts: ()=>{},
+    setProducts: (value: [])=>{},
     oldSize: '',
     setOldSize: () => {},
     productSizes: {}, // Initialize empty object
@@ -46,16 +47,16 @@ export const ProductContextProvider = ({ children }: ProductContextProps) => {
             ...prev,
             [productId]: size
         }));
-        // Maintain backward compatibility
+        
         setOldSize(size);
     };
 
     useEffect(() => {
         const handleGetProducts = async () => {
             const products = await getAllProducts();
-            console.log('PRODUCTS', Products);
-            if(products?.length > 0){
-                setProducts(products);
+            console.log('PRODUCTS', products.stores); //products.stores is array containing stores
+            if(products){
+                setProducts(products.stores[0].items);
             }
         }
         handleGetProducts();
@@ -64,10 +65,10 @@ export const ProductContextProvider = ({ children }: ProductContextProps) => {
     const values: InitialValuesProps = {
         Products, 
         setProducts,
-        oldSize, // Still provided for backward compatibility
-        setOldSize, // Still provided for backward compatibility
-        productSizes, // New
-        setProductSize, // New
+        oldSize, 
+        setOldSize, 
+        productSizes, 
+        setProductSize, 
         showClotheSizeInput,
         setShowClotheSizeInput,
         showShoeSizeInput,

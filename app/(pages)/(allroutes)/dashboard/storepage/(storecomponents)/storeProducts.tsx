@@ -2,40 +2,36 @@
 
 import { useContext, useState, useEffect } from "react";
 import { GeneralContext } from "../../../../../../contextProviders/GeneralProvider";
-import { ProductProps } from "../../../../../../components/api/product";
+import { deleteProduct, ProductProps } from "../../../../../../components/api/product";
+import { updateLocalUser } from "../../../../../../components/data/userdata";
+import { Store } from "lucide-react";
 
-interface StoreProductsProps {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  sales: number;
-  revenue: number;
-  image: string;
-}
+
 
 const StoreProducts = () => {
-  const {user} = useContext(GeneralContext)
-  const [storeProducts, setStoreProducts] = useState<ProductProps[]>([])
+  const {user, setUser} = useContext(GeneralContext)
+  const [storeProducts, setStoreProducts] = useState<ProductProps[]>(user?.store?.items)
 
-  useEffect(()=>{
-    if(user?.store?.items.length > 0){
-      setStoreProducts(user.store.items)
+   const handleDeleteProduct = async (productId: number)=>{
+  const userId = user.id
+    const response = await deleteProduct(userId, productId)
+    if(response.ok){
+      const updatedUser = response.data
+      updateLocalUser(updatedUser)
+      setUser(updatedUser)
+      setStoreProducts(updatedUser.store.items)
     }
-  }, [user?.store.items])
+    console.log(response)
+ }
 
-  const products: StoreProductsProps[] = [
-    {
-      id: '1',
-      name: 'Aso oke',
-      category: 'men clothes',
-      price: 129.99,
-      sales: 245,
-      revenue: 31647.55,
-      image: 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80',
-    },
-   
-  ];
+
+useEffect(()=>{
+
+}, [storeProducts])
+
+
+
+
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -65,7 +61,7 @@ const StoreProducts = () => {
               <p className="text-xs text-gray-500">{product.category}</p>
               <div className="mt-1 flex justify-between">
                 <span className="text-xs text-gray-500">{product.numOfItemsSold} sold</span>
-                {/* <span className="text-xs font-medium text-blue-500">N{product.revenue.toFixed(2)}</span> */}
+                <span className="text-xs font-medium text-blue-500">Total Sales: N{product.totalSales.toFixed(2)}</span>
               </div>
             </div>
              </div>
@@ -73,9 +69,11 @@ const StoreProducts = () => {
              {/* Action buttons */}
              <div className="flex gap-2 pt-2">
                <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
-                  Edit
+                  View or Edit
                </button>
-               <button className='text-xs py-1 px-2 rounded bg-red-600 hover:bg-red-700 text-white'>
+               <button className='text-xs py-1 px-2 rounded bg-red-600 hover:bg-red-700 text-white'
+                onClick={()=>handleDeleteProduct(product.productId)}
+               >
                   Delete
                </button>
             </div>

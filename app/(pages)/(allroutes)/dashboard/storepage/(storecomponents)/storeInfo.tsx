@@ -14,7 +14,9 @@ const StoreInfo = () => {
           <FiShoppingBag className="text-blue-500 text-xl" />
         </div>
         <div>
-          <span className='flex gap-3'><h2 className="text-xl font-semibold text-gray-800">{capitalize(user?.store?.name)}</h2>
+          <span className='flex gap-3'><h2 className="text-xl font-semibold text-gray-800">{capitalize(user?.store?.name)}
+            <span className='text-xs'>({user.store.items.length} {user.store.items.length <= 1 ? 'Item' : 'Items'}) </span>
+          </h2>
             <a href='/dashboard/createstorepage'><button
             className={`text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white`}>
               Edit store
@@ -53,7 +55,7 @@ const StoreInfo = () => {
 
       <a href='/dashboard/addproductpage'>
       <button className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition duration-200">
-        Add New Product
+        Add New Item
       </button>
       </a>
       

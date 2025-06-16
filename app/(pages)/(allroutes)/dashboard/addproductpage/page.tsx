@@ -128,8 +128,8 @@ const AddProductPage = () => {
       const updatedUser = data.data
       updateLocalUser(updatedUser)
       setUser(updatedUser)
-      const updatedProducts = await getAllProducts()
-      setProducts(updatedProducts)
+      const updatedStores = await getAllProducts()
+      setProducts(updatedStores?.stores?.[0].items)
       setSuccess(data.message)
       // Reset form
       setProduct({

@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { UserProps } from "../../../../components/data/userdata"
 import { Home, User, CreditCard, Store, Settings, ShoppingBag } from "lucide-react"
 
 interface DashNavProps {
   href: string; icon: React.ReactNode; label: string;
 }
+
 
 const DashNavBar = ({ user }: { user: UserProps | any }) => {
   return (

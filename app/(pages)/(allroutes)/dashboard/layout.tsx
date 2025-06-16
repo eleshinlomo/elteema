@@ -23,12 +23,15 @@ const DashboardLayout = ({children}: DashboardProps)=>{
   const {isLoggedIn, user} = useContext(GeneralContext)
   const router = useRouter()
  
-   if(!isLoggedIn){
+   
+ 
+  useEffect(()=>{
+
+}, [user])
+
+  if(!isLoggedIn){
      return <NotLoggedInPage />
   }
-
-
-  
 
 
  

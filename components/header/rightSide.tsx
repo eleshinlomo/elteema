@@ -24,7 +24,7 @@ const NavRightSide = () => {
     setTotalItems(0)
     setTotalPrice(0)
     setUser(null)
-    router.push('/authpages/signin')
+    router.push('/')
   }
 
   return (
