@@ -14,7 +14,7 @@ const Trending = () => {
   useEffect(() => {
     const items = Array.isArray(Products) && Products.filter((item) => item.numOfItemsSold >= 0)
     setTrendingItems(items)
-  }, [Products?.[0]?.productName])
+  }, [trendingItems.length])
 
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
