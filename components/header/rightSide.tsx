@@ -29,6 +29,7 @@ const NavRightSide = () => {
   }
 
   return (
+    <div className="md:flex gap-4">
     <div className="flex items-center gap-4">
       {isLoggedIn && user ? (
         <>
@@ -68,8 +69,9 @@ const NavRightSide = () => {
           </Link>
         </>
       )}
-
-      <PWAInstallButton />
+      </div>
+      {/* Mobile pwa display */}
+      <div className=" my-4 flex justify-center"><PWAInstallButton /></div>
     </div>
   )
 }

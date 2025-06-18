@@ -50,10 +50,12 @@ export default function PWAInstallButton() {
   return (
     <button
       onClick={onClick}
-      className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+      className="flex whitespace-nowrap ease-in-up shadow-btn hover:shadow-btn-hover rounded-md bg-green-800 hover:bg-green-900
+              py-1 px-3 text-sm font-medium text-white transition duration-300 hover:bg-opacity-90
+              md:py-1.5 md:px-4"
       aria-label="Install app"
     >
-      <FiDownload />
+      <FiDownload className='mt-1' />
       Install App
     </button>
   );

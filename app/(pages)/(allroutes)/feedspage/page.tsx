@@ -69,7 +69,7 @@ const FeedsPage = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
                 >
-                    <div className="bg-green-100 rounded-2xl shadow-lg p-4 h-full border border-green-200 ml-2">
+                    <div className=" rounded-2xl shadow-lg p-4 h-full border border-green-200 ml-2">
                         <Trending />
                     </div>
                 </motion.div>
@@ -78,7 +78,7 @@ const FeedsPage = () => {
             {/* Mobile Overlay */}
             {windowWidth < 1024 && showSearch && 
                 <motion.div 
-                    className="fixed inset-0 bg-green-50 z-30 overflow-y-auto transition-colors duration-300 pt-6"
+                    className="fixed inset-0  z-30 overflow-y-auto transition-colors duration-300 pt-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
