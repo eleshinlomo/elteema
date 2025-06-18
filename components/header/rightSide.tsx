@@ -6,6 +6,7 @@ import { GeneralContext, GeneralContextInitialProps } from "../../contextProvide
 import {useRouter} from 'next/navigation'
 import { CartContext } from "../../contextProviders/cartcontext";
 import { fetchCart } from "../utils";
+import PWAInstallButton from "../PWADownloadButton";
 
 const NavRightSide = () => {
   const cartContext = useContext(CartContext)
@@ -67,6 +68,8 @@ const NavRightSide = () => {
           </Link>
         </>
       )}
+
+      <PWAInstallButton />
     </div>
   )
 }

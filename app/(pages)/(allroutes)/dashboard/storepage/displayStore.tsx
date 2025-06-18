@@ -50,17 +50,17 @@ const DisplayStore = ({ productArray, numPerPage }: StoreDisplayProps) => {
                         {currentItems.map((item, StoreIndex) => (
                             <div key={StoreIndex} className='border border-gray-200 rounded-lg p-2 hover:shadow-md transition-shadow'>
                                 <div className='flex flex-col h-full'>
-                                    <a href={`/productpage/${item.productId}`} className='flex flex-col h-full'>
-                                        <div className='relative aspect-[4/3] w-full flex-shrink-0 rounded-md overflow-hidden'>
-                                            <Image 
-                                                src={item?.images?.[0]} 
-                                                alt={item.productName}
-                                                fill
-                                                className='object=cover'
-                                                sizes="(max-width: 768px) 100vw, 50vw"
-                                            />
-                                            <PopularBadge item={item} />
-                                        </div>
+                                    <a href={`/productpage/${item.productId}`} className='flex flex-col '>
+                              <div className="relative h-32 w-24 flex-shrink-0 rounded-md overflow-hidden">
+    <Image 
+        src={item?.images?.[0]} 
+        alt={item.productName}
+        fill
+        className="object-cover object-center"
+        sizes="100vw"
+    />
+    <PopularBadge item={item} />
+</div>
                                         <div className='mt-1 flex-grow'>
                                             <div className='flex justify-between items-start'>
                                                 <h5 className='text-sm font-medium text-gray-800 line-clamp-1 flex-grow'>
