@@ -12,6 +12,7 @@ import Featured from '../../../../components/product/featured'
 import PostFeed from './postFeed'
 import HotProductFlash from '../../../../components/product/hotProductFlash'
 import { SearchIcon } from 'lucide-react'
+import FeedFooter from './footer'
 
 interface Props {
     setShowSearch: (value: boolean) => void
@@ -248,6 +249,7 @@ const Feeds = ({setShowSearch}: Props) => {
                 ))}
             </div>
         </div>
+        <FeedFooter />
       </div>
     )
 }
