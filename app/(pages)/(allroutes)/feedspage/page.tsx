@@ -35,9 +35,20 @@ const FeedsPage = () => {
     }, [scrolledPast20]);
 
     return (
-        <div className={`relative bg-green-50 text-green-900 min-h-screen transition-colors duration-300 ${sticky ? 'pt-10' : 'pt-10'} `}>
+        <div className={`relative min-h-screen transition-colors duration-300 ${sticky ? 'pt-10' : 'pt-10'}`}
+             style={{
+                 background: "linear-gradient(135deg, #f0fff4 0%, #e6fffa 50%, #f0fff4 100%)",
+                 backgroundImage: "radial-gradient(circle at 10% 20%, rgba(178, 245, 234, 0.2) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(178, 245, 234, 0.2) 0%, transparent 20%)"
+             }}>
+            {/* Subtle leaf pattern in the background */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none"
+                 style={{
+                     backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 12.627a4 4 0 0 0-5.656 0L36 25.657l-4.971-4.971a4 4 0 0 0-5.657 0L12.627 36.97a4 4 0 0 0 0 5.657L25.657 54.6a4 4 0 0 0 5.657 0l12.728-12.728a4 4 0 0 0 0-5.657L36 30.343l12.627-12.627a4 4 0 0 0 0-5.657l-4.971-4.971z' fill='%2348bb78' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E\")"
+                 }}>
+            </div>
+
             {/* Grid Layout */}
-            <div className="grid grid-cols-1 md:grid-cols-3 w-full pt-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 w-full pt-6 relative z-10">
 
                 {/* Left Sidebar - Fixed */}
                 <div className="">
@@ -47,7 +58,7 @@ const FeedsPage = () => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
                     >
-                        <div className="bg-green-100 rounded-2xl shadow-lg p-4 h-full border border-green-200 mr-2">
+                        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 h-full border border-green-200/50 mr-2 hover:shadow-green-200/50 transition-all duration-300">
                             <Featured />
                         </div>
                     </motion.div>
@@ -69,7 +80,7 @@ const FeedsPage = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
                 >
-                    <div className=" rounded-2xl shadow-lg p-4 h-full border border-green-200 ml-2">
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 h-full border border-green-200/50 ml-2 hover:shadow-green-200/50 transition-all duration-300">
                         <Trending />
                     </div>
                 </motion.div>
@@ -78,7 +89,7 @@ const FeedsPage = () => {
             {/* Mobile Overlay */}
             {windowWidth < 1024 && showSearch && 
                 <motion.div 
-                    className="fixed inset-0  z-30 overflow-y-auto transition-colors duration-300 pt-6"
+                    className="fixed inset-0 bg-white/95 z-30 overflow-y-auto transition-colors duration-300 pt-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}

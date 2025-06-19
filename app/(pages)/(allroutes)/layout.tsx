@@ -6,6 +6,11 @@ import { getLocalUser, updateLocalUser, UserProps } from "../../../components/da
 import { persistLogin, verifyCode } from "../../../components/api/auth"
 import { useRouter } from "next/navigation"
 import ScrollTopButton from "../../../components/scrollTopButton"
+import NavBar from "../../../components/header/navbar"
+import MobileFooter from "../../../components/mobileFooter"
+import Footer from "../../../components/footer"
+import { usePathname } from "next/navigation"
+
 
 interface AllRoutesProps {
     children: React.ReactNode
@@ -22,7 +27,10 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
   const searchParams = useSearchParams()
   let code = searchParams.get('code')
   let email = searchParams.get('email')
+
+  // Hooks
   const router = useRouter()
+  const path = usePathname()
 
   useEffect(()=>{
     if(code && email){
@@ -152,8 +160,14 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
   return (
     <Suspense>
       <div>
+          <NavBar />
           {children}
           <ScrollTopButton />
+          {/* Mobile footer */}
+          <MobileFooter />
+          {/* Desktop Footer */}
+          <div className="hidden md:block">{path !== '/' && <Footer />}</div>
+          
       </div>
       </Suspense>
   )

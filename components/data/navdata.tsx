@@ -40,6 +40,20 @@ const navData: NavProps[] = [
         path:`/hotelpage`,
         newTab: false,
       },
+      {
+    id: 4,
+    title: "Faq",
+    path: "/faqpage",
+    newTab: false,
+  },
+      
+     
+      {
+        id: 7,
+        title: "Sell on Elteema",
+        path: `/dashboard/createstorepage`,
+        newTab: false,
+      },
   
   {
     id: 4,

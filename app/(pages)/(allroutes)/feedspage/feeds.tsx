@@ -12,7 +12,7 @@ import Featured from '../../../../components/product/featured'
 import PostFeed from './postFeed'
 import HotProductFlash from '../../../../components/product/hotProductFlash'
 import { SearchIcon } from 'lucide-react'
-import FeedFooter from './footer'
+import FeedFooter from '../../../../components/mobileFooter'
 
 interface Props {
     setShowSearch: (value: boolean) => void
@@ -30,9 +30,11 @@ const Feeds = ({setShowSearch}: Props) => {
     const [username, setUsername] = useState('')
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
     const [isEditing, setIsEditing] = useState(false)
+   
 
     const toggleMenu = (feedId: number) => {
         setActiveMenuId(activeMenuId === feedId ? null : feedId)
+      
     }
 
     
@@ -50,7 +52,7 @@ const Feeds = ({setShowSearch}: Props) => {
         if(user?.username){
             setUsername(user.username)
         }
-    }, [text, likedPosts, user, username])
+    }, [text, likedPosts, user, username, feeds.length])
 
     const toggleLike = (postId: string) => {
         setLikedPosts(prev => ({
@@ -59,19 +61,24 @@ const Feeds = ({setShowSearch}: Props) => {
         }))
     }
     
-
-    const saveEditedFeed = (newFeed: FeedProps, feedId: number) => {
-        // if(newFeed){
-        //    setFeeds(prev=>[...prev, newFeed])
-        // }
-    }
-
+    
     const updateFeed = (feedId: number) => {
-        const feed = feeds.find((f)=>f.feedId === feedId)
-        console.log('FEED', feed)
-        if(feed){
-            setIsEditing(true)
-        }
+        const updatedFeed: any = feeds.map((feed)=>{
+            if(feed.feedId === feedId){
+                return {
+                    ...feed,
+                    text: text
+                }
+            }
+            return feed
+        })
+        
+        console.log('FEED', updatedFeed)
+        setFeeds(updatedFeed)
+        setIsEditing(false)
+        setActiveMenuId(null)
+        setText('')
+        
     }
 
     // useEffect(() => {
@@ -140,7 +147,7 @@ const Feeds = ({setShowSearch}: Props) => {
                                 </div>
                                 <div>
                                     <h3 className='font-semibold text-white'>
-                                        Posted by: {capitalize(feed.postedBy)}
+                                        {capitalize(feed.postedBy)}
                                     </h3>
                                 </div>
                             </div>
@@ -153,7 +160,7 @@ const Feeds = ({setShowSearch}: Props) => {
                                             <div className='flex gap-4'>
                                                 <button 
                                                     className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white w-full'
-                                                    onClick={()=>isEditing ? updateFeed(feed.feedId) : null}
+                                                    onClick={isEditing ? ()=>updateFeed(feed.feedId) : ()=>setIsEditing(true)}
                                                 >
                                                     {isEditing ? 'Save' : 'Edit'}
                                                 </button>
@@ -190,7 +197,9 @@ const Feeds = ({setShowSearch}: Props) => {
                                         <textarea 
                                             className="w-full bg-white p-2 rounded border border-green-200 focus:ring-1 focus:ring-green-300 focus:outline-none"
                                             rows={3}
-                                            defaultValue={feed.text}        
+                                        
+                                            value={text} 
+                                            onChange={(e)=>setText(e.target.value)}     
                                         />
                                     ) : (
                                         feed.text
@@ -230,7 +239,7 @@ const Feeds = ({setShowSearch}: Props) => {
                                 <div className='bg-gradient-to-r from-gray-800 to-green-300 p-3 flex items-center'>
                                     <RiVerifiedBadgeFill className='text-white mr-2 text-xl' />
                                     <h3 className='text-lg font-bold text-white'>
-                                        {feed.store?.name || 'My Store'}
+                                        {'My Store'}
                                     </h3>
                                 </div>
                                 <div className='p-4'>

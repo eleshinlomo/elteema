@@ -7,6 +7,7 @@ import {useRouter} from 'next/navigation'
 import { CartContext } from "../../contextProviders/cartcontext";
 import { fetchCart } from "../utils";
 import PWAInstallButton from "../PWADownloadButton";
+import Cart from "../cart/cart";
 
 const NavRightSide = () => {
   const cartContext = useContext(CartContext)
@@ -29,8 +30,10 @@ const NavRightSide = () => {
   }
 
   return (
-    <div className="md:flex gap-4">
-    <div className="flex items-center gap-4">
+    <div className=" flex gap-4">
+    
+    {/* Right side buttons */}
+    <div className="hidden md:flex items-center gap-4">
       {isLoggedIn && user ? (
         <>
         <Link
@@ -70,8 +73,10 @@ const NavRightSide = () => {
         </>
       )}
       </div>
-      {/* Mobile pwa display */}
+      {/* pwa display */}
       <div className=" my-4 flex justify-center"><PWAInstallButton /></div>
+       {/* Cart - Always visible */}
+              <Cart />
     </div>
   )
 }

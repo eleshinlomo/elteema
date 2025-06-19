@@ -46,7 +46,7 @@ const DashboardLayout = ({children}: DashboardProps)=>{
                     <DashSideBar />
                 </div>
 
-                 <div className="px-4 pt-16">
+                 <div className="px-4 py-16">
                     <DashNavBar user={user} />
                     {children}
                 </div>

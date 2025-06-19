@@ -1,10 +1,9 @@
 'use client'
  
-import NavBar from "../../components/header/navbar"
+
 import { useState, useEffect, useContext, Suspense} from "react"
 import { usePathname } from "next/navigation"
 import { CartProvider} from '../../contextProviders/cartcontext'
-import Footer from "../../components/footer"
 import { GeneralProvider } from "../../contextProviders/GeneralProvider"
 import { useSearchParams } from "next/navigation"
 import { ProductContextProvider } from "../../contextProviders/ProductContext"
@@ -33,9 +32,7 @@ const PagesLayout = ({children} : PagesRoutesProps)=>{
             <GeneralProvider>
             <ProductContextProvider>
             <CartProvider>
-            <NavBar />
             {children}
-            {/* <Footer /> */}
             </CartProvider>
             </ProductContextProvider>
             </GeneralProvider>
