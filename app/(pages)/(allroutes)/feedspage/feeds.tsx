@@ -29,16 +29,29 @@ const Feeds = ({setShowSearch}: Props) => {
     const [error, setError] = useState('')
     const [username, setUsername] = useState('')
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
-    const [isEditing, setIsEditing] = useState(false)
-   
+    const [editingFeedId, setEditingFeedId] = useState<number | null>(null)
+    const [editTexts, setEditTexts] = useState<Record<number, string>>({})
 
-    const toggleMenu = (feedId: number) => {
+    const openActionButtons = (feedId: number) => {
         setActiveMenuId(activeMenuId === feedId ? null : feedId)
-      
     }
 
-    
-    
+    const closeActionButtons = (feedId: number)=>{
+        setEditingFeedId(null)
+        setActiveMenuId(null)
+    }
+
+    const openEditMode = (feedId: number)=>{
+        setEditingFeedId(feedId)
+        const feedToEdit = feeds.find(feed => feed.feedId === feedId)
+        if (feedToEdit) {
+            setEditTexts(prev => ({
+                ...prev,
+                [feedId]: feedToEdit.text
+            }))
+        }
+    }
+
     const handleGetFeeds = async () => {
        const initialFeeds: FeedProps[] | any = await getFeeds()
        if(initialFeeds?.feeds?.length > 0) {
@@ -61,13 +74,12 @@ const Feeds = ({setShowSearch}: Props) => {
         }))
     }
     
-    
     const updateFeed = (feedId: number) => {
-        const updatedFeed: any = feeds.map((feed)=>{
+        const updatedFeed = feeds.map((feed)=>{
             if(feed.feedId === feedId){
                 return {
                     ...feed,
-                    text: text
+                    text: editTexts[feedId] || '' // Allow empty text
                 }
             }
             return feed
@@ -75,24 +87,19 @@ const Feeds = ({setShowSearch}: Props) => {
         
         console.log('FEED', updatedFeed)
         setFeeds(updatedFeed)
-        setIsEditing(false)
+        setEditingFeedId(null)
         setActiveMenuId(null)
-        setText('')
-        
     }
 
-    // useEffect(() => {
-    //     const handleClickOutside = (e: MouseEvent) => {
-    //         if (!(e.target as HTMLElement).closest('.action-menu-container')) {
-    //             closeMenu()
-    //         }
-    //     }
-    //     document.addEventListener('mousedown', handleClickOutside)
-    //     return () => document.removeEventListener('mousedown', handleClickOutside)
-    // }, [])
+    const handleEditTextChange = (feedId: number, value: string) => {
+        setEditTexts(prev => ({
+            ...prev,
+            [feedId]: value
+        }))
+    }
 
     return (
-      <div id='new' className='py-2 bg-gray-50 w-full'>
+      <div id='new' className='pt-2 pb-24 md:pb-12 bg-gray-50 w-full'>
         <div className='mx-auto px-4'>
             <h2 className="text-2xl font-bold text-green-700 mb-6 text-center bg-white/90 p-2 rounded-lg shadow-sm">
                 {username ? `Welcome back, ${capitalize(username)}!` : 'Talk, Buy & Sell!'}
@@ -111,14 +118,9 @@ const Feeds = ({setShowSearch}: Props) => {
                     setIsTyping={setIsTyping} 
                     error={error}
                     setError={setError}
-                    isEditing={isEditing}
+                    isEditing={false}
                     setShowSearch={setShowSearch}
                 />
-                {/* Feed and Search buttons */}
-                {/* <span className=' bg-green-600  flex justify-center  py-2'>
-                    <SearchIcon />
-                    <button className=' text-white px-2' onClick={handleShowSearch}>Search Products</button>
-                </span> */}
             </div>
             
             {/* This featured only shows in mobile view */}
@@ -160,9 +162,9 @@ const Feeds = ({setShowSearch}: Props) => {
                                             <div className='flex gap-4'>
                                                 <button 
                                                     className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white w-full'
-                                                    onClick={isEditing ? ()=>updateFeed(feed.feedId) : ()=>setIsEditing(true)}
+                                                    onClick={editingFeedId === feed.feedId ? ()=>updateFeed(feed.feedId) : ()=>openEditMode(feed.feedId)}
                                                 >
-                                                    {isEditing ? 'Save' : 'Edit'}
+                                                    {editingFeedId === feed.feedId ? 'Save' : 'Edit'}
                                                 </button>
                                                 <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
                                                     Delete
@@ -176,11 +178,12 @@ const Feeds = ({setShowSearch}: Props) => {
                                     </div>
                                 )}
                                 
+                                {/* Show or close actions buttons */}
                                 <button 
                                     className='text-white' 
                                     onClick={(e) => {
                                         e.stopPropagation()
-                                        toggleMenu(feed.feedId)
+                                        activeMenuId === feed.feedId ? closeActionButtons(feed.feedId) : openActionButtons(feed.feedId)
                                     }}
                                 >
                                     <BsThreeDotsVertical />
@@ -192,14 +195,13 @@ const Feeds = ({setShowSearch}: Props) => {
                         <div className=''>
                             {/* Text Section with Action Buttons */}
                             <div className='bg-green-50 rounded-lg p-4 mb-4 border border-green-100 relative pb-12'>
-                                <p className='text-green-800 font-medium leading-relaxed text-start   '>
-                                    {isEditing ? (
+                                <p className='text-green-800 font-medium leading-relaxed text-start'>
+                                    {editingFeedId === feed.feedId ? (
                                         <textarea 
                                             className="w-full bg-white p-2 rounded border border-green-200 focus:ring-1 focus:ring-green-300 focus:outline-none"
                                             rows={3}
-                                        
-                                            value={text} 
-                                            onChange={(e)=>setText(e.target.value)}     
+                                            value={editTexts[feed.feedId] ?? feed.text}
+                                            onChange={(e) => handleEditTextChange(feed.feedId, e.target.value)}     
                                         />
                                     ) : (
                                         feed.text
