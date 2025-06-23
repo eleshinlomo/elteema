@@ -5,33 +5,46 @@ import { GeneralContext } from "../../../../../../contextProviders/GeneralProvid
 import { deleteProduct, ProductProps } from "../../../../../../components/api/product";
 import { updateLocalUser } from "../../../../../../components/data/userdata";
 import { Store } from "lucide-react";
-
-
+import ProductSize from "../../../../../../components/product/productSize";
+import { ProductContext } from "../../../../../../contextProviders/ProductContext";
 
 const StoreProducts = () => {
   const {user, setUser} = useContext(GeneralContext)
+  const {Products, setProducts} = useContext(ProductContext)
+  
   const [storeProducts, setStoreProducts] = useState<ProductProps[]>(user?.store?.items)
+  const [currentPage, setCurrentPage] = useState(1)
+  const productsPerPage = 5
 
-   const handleDeleteProduct = async (productId: number)=>{
-  const userId = user.id
+  // Calculate pagination
+  const indexOfLastProduct = currentPage * productsPerPage
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage
+  const currentProducts = storeProducts?.slice(indexOfFirstProduct, indexOfLastProduct) || []
+  const totalPages = Math.ceil((storeProducts?.length || 0) / productsPerPage)
+
+  const handleDeleteProduct = async (productId: number)=>{
+    const userId = user.id
     const response = await deleteProduct(userId, productId)
     if(response.ok){
-      const updatedUser = response.data
-      updateLocalUser(updatedUser)
-      setUser(updatedUser)
-      setStoreProducts(updatedUser.store.items)
+      const {updatedUser, products} = response.data
+      if(updatedUser){
+        updateLocalUser(updatedUser)
+        setUser(updatedUser)
+        setStoreProducts(updatedUser.store.items)
+      }
+
+      // We also update all products to reflect the removed product
+      if(products?.length > 0){
+        setProducts(products)
+      }
+      
     }
     console.log(response)
- }
+  }
 
-
-useEffect(()=>{
-
-}, [storeProducts])
-
-
-
-
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber)
+  }
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -42,11 +55,11 @@ useEffect(()=>{
         </button>
       </div>
       <div className="space-y-4">
-        {storeProducts?.length > 0 ? storeProducts.map((product) => 
+        {currentProducts?.length > 0 ? currentProducts.map((product) => 
         <div key={product.productId}>
           <div  className="flex items-center">
             <img
-              src={product.src}
+              src={product?.images[0]}
               alt={product.productName}
               className="w-12 h-12 rounded-md object-cover"
               loading="lazy"
@@ -83,9 +96,43 @@ useEffect(()=>{
           <div>
             You have no product in your store.
           </div>
-        
-      }
+        }
       </div>
+
+      {/* Pagination */}
+      {storeProducts?.length > productsPerPage && (
+        <div className="flex justify-center mt-6">
+          <nav className="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50'}`}
+            >
+              <span className="sr-only">Previous</span>
+              &larr; Previous
+            </button>
+            
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+              <button
+                key={number}
+                onClick={() => handlePageChange(number)}
+                className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${currentPage === number ? 'z-10 bg-blue-50 border-blue-500 text-blue-600' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'}`}
+              >
+                {number}
+              </button>
+            ))}
+            
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50'}`}
+            >
+              <span className="sr-only">Next</span>
+              Next &rarr;
+            </button>
+          </nav>
+        </div>
+      )}
     </div>
   );
 };

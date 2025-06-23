@@ -1,11 +1,18 @@
 'use client';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FiShoppingBag, FiStar, FiUser, FiDollarSign } from 'react-icons/fi';
 import { GeneralContext } from '../../../../../../contextProviders/GeneralProvider';
 import { capitalize } from '../../../../../../components/utils';
 
 const StoreInfo = () => {
   const {user} = useContext(GeneralContext)
+  const [storeName, setStoreName] = useState('')
+
+  useEffect(()=>{
+   if(user){
+    setStoreName(user?.store.storeName)
+   }
+  }, [user])
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -14,8 +21,8 @@ const StoreInfo = () => {
           <FiShoppingBag className="text-blue-500 text-xl" />
         </div>
         <div>
-          <span className='flex gap-3'><h2 className="text-xl font-semibold text-gray-800">{capitalize(user?.store?.name)}
-            <span className='text-xs'>({user.store.items.length} {user.store.items.length <= 1 ? 'Item' : 'Items'}) </span>
+          <span className='flex gap-3'><h2 className="text-xl font-semibold text-gray-800">{capitalize(storeName)}
+            <span className='text-xs'>({user.store?.items?.length || 0} {user.store?.items?.length <= 1 ? 'Item' : 'Items'}) </span>
           </h2>
             <a href='/dashboard/createstorepage'><button
             className={`text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white`}>

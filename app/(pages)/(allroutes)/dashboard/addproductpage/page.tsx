@@ -23,7 +23,7 @@ export interface CreateProductProps {
     size: string;
     category: string;
     description: string;
-    store: any | null;         
+          
 }
 
 const AddProductPage = () => {
@@ -48,7 +48,7 @@ const AddProductPage = () => {
     size: '',
     category: '',
     description: '',
-    store: user.store
+    
   })
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -85,6 +85,7 @@ const AddProductPage = () => {
 
     if (imageFiles.length === 0) {
       throw new Error('Please upload at least one product image')
+      window.location.href = '#nav-top'
     }
 
     // Create FormData instead of sending JSON
@@ -101,7 +102,7 @@ const AddProductPage = () => {
     formData.append('size', product.size)
     formData.append('category', product.category)
     formData.append('description', product.description)
-    formData.append('store', product.store)
+    
     
     // Append colors as array
     product.colors.forEach(color => {
@@ -123,13 +124,15 @@ const AddProductPage = () => {
     })
 
     const data = await response.json()
-    
+    // We handle response
     if(data.ok === true){
       const updatedUser = data.data
       updateLocalUser(updatedUser)
       setUser(updatedUser)
-      const updatedStores = await getAllProducts()
-      setProducts(updatedStores?.stores?.[0].items)
+      const updatedProducts = await getAllProducts()
+      if(updatedProducts?.length > 0){
+      setProducts(updatedProducts)
+      }
       setSuccess(data.message)
       // Reset form
       setProduct({
@@ -145,17 +148,19 @@ const AddProductPage = () => {
         size: '',
         category: '',
         description: '',
-        store: user.store,
+        
       })
       setImagePreviews([])
       setImageFiles([])
       window.location.href = '#nav-top'
     } else {
       setSubmitError(data.error)
+      window.location.href = '#nav-top'
     }
   } catch (error) {
     console.error('Error creating product:', error)
     setSubmitError(error instanceof Error ? error.message : 'Failed to create product')
+    window.location.href = '#nav-top'
   } finally {
     setIsSubmitting(false)
   }
@@ -182,7 +187,7 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
   const newImageFiles: File[] = [];
   
   selectedFiles.forEach(file => {
-    // Validate file type
+    // file type validation
     if (!file.type.match('image.*')) {
       alert(`File ${file.name} is not an image`);
       return;
@@ -191,13 +196,13 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Add to files array
     newImageFiles.push(file);
     
-    // Create preview
+    // Image preview
     const reader = new FileReader();
     reader.onload = (loadEvent) => {
       if (loadEvent.target?.result) {
         newImagePreviews.push(loadEvent.target.result as string);
         
-        // Update state when all previews are ready
+        // We must Update state when all previews are ready
         if (newImagePreviews.length === selectedFiles.length) {
           setImagePreviews(prev => [...prev, ...newImagePreviews]);
           setImageFiles(prev => [...prev, ...newImageFiles]);

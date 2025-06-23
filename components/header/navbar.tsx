@@ -45,7 +45,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className="relative pb-16 ">
+    <div className="relative pb-16 w-full">
       <div className="fixed  w-full"><HeaderAlert /></div>
 
       <header

@@ -1,4 +1,4 @@
-interface StatusCardProps  {
+export interface StatusCardProps  {
   title: string;
   text: string;
   value: number;
@@ -8,7 +8,7 @@ interface StatusCardProps  {
   iconColor: string;
 };
 
-const StatusCard = ({ title, text, value, change, Icon, color, iconColor }: StatusCardProps) => {
+const StatusCard = ({ title, text, value, change, Icon, color, iconColor }: StatusCardProps | any) => {
   return (
     <div className={`bg-white p-4 rounded-lg shadow-sm border-l-4 ${color}`}>
       <div className="flex justify-between items-center">

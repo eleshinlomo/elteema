@@ -1,28 +1,27 @@
 'use client'
-import React, {useState, useEffect, useContext} from 'react'
-import { capitalize } from '../../../../components/utils'
+import React, { useState, useEffect, useContext, useRef } from 'react'
+import { capitalize, formatNumber } from '../../../../components/utils'
 import { GeneralContext } from '../../../../contextProviders/GeneralProvider'
-import { FeedProps, getFeeds } from './feedFunctions'
-import { FiMessageSquare, FiShare2 } from 'react-icons/fi'
-import { AiOutlineLike, AiFillLike } from 'react-icons/ai'
+import { getFeeds } from '../../../../components/api/feed'
+import { FiMessageSquare, FiShare2, FiX } from 'react-icons/fi'
+import { AiOutlineLike, AiFillLike, AiOutlinePicture } from 'react-icons/ai'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { RiVerifiedBadgeFill } from 'react-icons/ri'
-import DisplayStore from '../dashboard/storepage/displayStore'
 import Featured from '../../../../components/product/featured'
 import PostFeed from './postFeed'
 import HotProductFlash from '../../../../components/product/hotProductFlash'
 import { SearchIcon } from 'lucide-react'
 import FeedFooter from '../../../../components/mobileFooter'
+import Image from 'next/image'
+import { CommentsModal } from './comments'
+import ShareButton from './shareButton'
 
 interface Props {
     setShowSearch: (value: boolean) => void
 }
 
-const Feeds = ({setShowSearch}: Props) => {
-    
-   
-    const {user, feeds, setFeeds, userStore, setUserStore} = useContext(GeneralContext)
-    const message = 'Loading new items...'
+const Feeds = ({ setShowSearch }: Props) => {
+    const { user, feeds, setFeeds } = useContext(GeneralContext)
     const [text, setText] = useState('')
     const [isTyping, setIsTyping] = useState(false)
     const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({})
@@ -31,41 +30,27 @@ const Feeds = ({setShowSearch}: Props) => {
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
     const [editingFeedId, setEditingFeedId] = useState<number | null>(null)
     const [editTexts, setEditTexts] = useState<Record<number, string>>({})
-
-    const openActionButtons = (feedId: number) => {
-        setActiveMenuId(activeMenuId === feedId ? null : feedId)
-    }
-
-    const closeActionButtons = (feedId: number)=>{
-        setEditingFeedId(null)
-        setActiveMenuId(null)
-    }
-
-    const openEditMode = (feedId: number)=>{
-        setEditingFeedId(feedId)
-        const feedToEdit = feeds.find(feed => feed.feedId === feedId)
-        if (feedToEdit) {
-            setEditTexts(prev => ({
-                ...prev,
-                [feedId]: feedToEdit.text
-            }))
-        }
-    }
-
-    const handleGetFeeds = async () => {
-       const initialFeeds: FeedProps[] | any = await getFeeds()
-       if(initialFeeds?.feeds?.length > 0) {
-             setFeeds(initialFeeds.feeds)
-       }
-    }
+    const [previewImages, setPreviewImages] = useState<Record<number, string[]>>({})
+    const [uploadedImages, setUploadedImages] = useState<Record<number, File[]>>({})
+    const fileInputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
-        console.log('FEEDS', feeds)
-        handleGetFeeds()
-        if(user?.username){
+        const fetchFeeds = async () => {
+            try {
+                const result = await getFeeds()
+                if (result?.feeds?.length > 0) {
+                    setFeeds(result.feeds)
+                }
+            } catch (err) {
+                console.error('Error fetching feeds:', err)
+            }
+        }
+
+        fetchFeeds()
+        if (user?.username) {
             setUsername(user.username)
         }
-    }, [text, likedPosts, user, username, feeds.length])
+    }, [user, setFeeds])
 
     const toggleLike = (postId: string) => {
         setLikedPosts(prev => ({
@@ -73,195 +58,372 @@ const Feeds = ({setShowSearch}: Props) => {
             [postId]: !prev[postId]
         }))
     }
-    
-    const updateFeed = (feedId: number) => {
-        const updatedFeed = feeds.map((feed)=>{
-            if(feed.feedId === feedId){
-                return {
-                    ...feed,
-                    text: editTexts[feedId] || '' // Allow empty text
-                }
-            }
-            return feed
-        })
-        
-        console.log('FEED', updatedFeed)
-        setFeeds(updatedFeed)
+
+    const openActionButtons = (feedId: number) => {
+        setActiveMenuId(activeMenuId === feedId ? null : feedId)
+    }
+
+    const closeActionButtons = () => {
         setEditingFeedId(null)
         setActiveMenuId(null)
     }
 
-    const handleEditTextChange = (feedId: number, value: string) => {
-        setEditTexts(prev => ({
-            ...prev,
-            [feedId]: value
-        }))
+    const openEditMode = (feedId: number) => {
+        setEditingFeedId(feedId)
+        const feedToEdit = feeds.find(feed => feed.feedId === feedId)
+        if (feedToEdit) {
+            setEditTexts(prev => ({
+                ...prev,
+                [feedId]: feedToEdit.text
+            }))
+            // Initialize with existing images if any
+            if (feedToEdit.images?.length > 0) {
+                setPreviewImages(prev => ({
+                    ...prev,
+                    [feedId]: feedToEdit.images
+                }))
+            }
+        }
+    }
+
+    const handleImageUpload = (feedId: number, e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const files = Array.from(e.target.files)
+            // Validate files
+            if (files.some(file => file.size > 5 * 1024 * 1024)) {
+                setError('One or more images exceed 5MB limit')
+                return
+            }
+
+            const newPreviewUrls = files.map(file => URL.createObjectURL(file))
+            
+            setPreviewImages(prev => ({
+                ...prev,
+                [feedId]: [...(prev[feedId] || []), ...newPreviewUrls]
+            }))
+            
+            setUploadedImages(prev => ({
+                ...prev,
+                [feedId]: [...(prev[feedId] || []), ...files]
+            }))
+        }
+    }
+
+    const removeImage = (feedId: number, index: number) => {
+        setPreviewImages(prev => {
+            const updated = { ...prev }
+            if (updated[feedId]) {
+                updated[feedId] = updated[feedId].filter((_, i) => i !== index)
+                if (updated[feedId].length === 0) {
+                    delete updated[feedId]
+                }
+            }
+            return updated
+        })
+        
+        setUploadedImages(prev => {
+            const updated = { ...prev }
+            if (updated[feedId]) {
+                updated[feedId] = updated[feedId].filter((_, i) => i !== index)
+                if (updated[feedId].length === 0) {
+                    delete updated[feedId]
+                }
+            }
+            return updated
+        })
+    }
+
+    const triggerFileInput = (feedId: number) => {
+        if (fileInputRef.current) {
+            fileInputRef.current.setAttribute('data-feed-id', feedId.toString())
+            fileInputRef.current.click()
+        }
+    }
+
+    const updateFeed = async (feedId: number) => {
+        try {
+            const formData = new FormData()
+            formData.append('text', editTexts[feedId] || '')
+            formData.append('feedId', feedId.toString())
+            
+            // Add new images if any
+            const files = uploadedImages[feedId] || []
+            files.forEach(file => {
+                formData.append('images', file)
+            })
+
+            const response = await fetch('/api/feed/update', {
+                method: 'POST',
+                body: formData
+            })
+
+            const result = await response.json()
+            
+            if (result.ok) {
+                const updatedFeeds = await getFeeds()
+                setFeeds(updatedFeeds.feeds)
+                setEditingFeedId(null)
+                setActiveMenuId(null)
+                
+                // Clean up preview images
+                setPreviewImages(prev => {
+                    const updated = { ...prev }
+                    delete updated[feedId]
+                    return updated
+                })
+                setUploadedImages(prev => {
+                    const updated = { ...prev }
+                    delete updated[feedId]
+                    return updated
+                })
+            } else {
+                setError(result.error || 'Failed to update post')
+            }
+        } catch (err) {
+            console.error('Error updating feed:', err)
+            setError('Failed to update post')
+        }
     }
 
     return (
-      <div id='new' className='pt-2 pb-24 md:pb-12 bg-gray-50 w-full'>
-        <div className='mx-auto px-4'>
-            <h2 className="text-2xl font-bold text-green-700 mb-6 text-center bg-white/90 p-2 rounded-lg shadow-sm">
-                {username ? `Welcome back, ${capitalize(username)}!` : 'Talk, Buy & Sell!'}
-            </h2>
+        <div className="pt-2 pb-24 md:pb-12 bg-gray-50 w-full">
+            <input 
+                type="file" 
+                ref={fileInputRef}
+                onChange={(e) => {
+                    const feedId = parseInt(e.currentTarget.getAttribute('data-feed-id') || '0')
+                    handleImageUpload(feedId, e)
+                }}
+                multiple
+                accept="image/*"
+                className="hidden"
+            />
             
-            <div className={`text-center text-sm ${error ? 'text-red-500' : ''}`}>
-                {error ? error : <HotProductFlash />}
-            </div>
-            
-            {/* Create Post Card */}
-            <div className='bg-green-400 rounded-xl shadow-md p-1 mb-6 border border-gray-200'>
-                <PostFeed
-                    text={text} 
-                    setText={setText} 
-                    isTyping={isTyping} 
-                    setIsTyping={setIsTyping} 
-                    error={error}
-                    setError={setError}
-                    isEditing={false}
-                    setShowSearch={setShowSearch}
-                />
-            </div>
-            
-            {/* This featured only shows in mobile view */}
-            <div className='md:hidden'>
-                <Featured />
-            </div>
+            <div className="mx-auto px-4 max-w-3xl">
+                <h2 className="text-2xl font-bold text-green-700 mb-6 text-center bg-white/90 p-3 rounded-lg shadow-sm">
+                    {username ? `Welcome back, ${capitalize(username)}!` : 'Talk, Buy & Sell!'}
+                </h2>
+                
+                <div className={`text-center text-sm ${error ? 'text-red-500' : ''}`}>
+                    {error ? error : <HotProductFlash />}
+                </div>
+                
+                {/* Create Post Card */}
+                <div className="bg-white rounded-xl shadow-md p-4 mb-6 border border-gray-200">
+                    <PostFeed
+                        text={text} 
+                        setText={setText} 
+                        isTyping={isTyping} 
+                        setIsTyping={setIsTyping} 
+                        error={error}
+                        setError={setError}
+                        isEditing={false}
+                        setShowSearch={setShowSearch}
+                    />
+                </div>
+                
+                {/* Mobile featured section */}
+                <div className="md:hidden mb-6">
+                    <Featured />
+                </div>
 
-            {/* No feeds display */}
-            {feeds?.length === 0 &&
-              <div className='bg-white rounded-xl shadow-md p-8 text-center border border-gray-200'>
-                  <h3 className='text-lg font-medium text-gray-800 mb-2'>No posts yet</h3>
-                  <p className='text-gray-600'>Be the first to share something!</p>
-              </div>
-            }
-            
-            {/* Feeds Section */}
-            <div className='space-y-6'>
-                {feeds?.length > 0 && 
-                feeds?.sort((a: any,b: any)=>new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((feed, index) => (
-                    <div key={index} className='rounded-xl shadow-md overflow-hidden border border-gray-200'>
-                        {/* Feed Header */}
-                        <div className='p-4 flex justify-between items-center border-b border-gray-100 bg-green-700'>
-                            <div className='flex items-center space-x-3'>
-                                <div className='h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold'>
-                                    {feed.postedBy.charAt(0).toUpperCase()}
+                {/* No feeds display */}
+                {feeds?.length === 0 && (
+                    <div className="bg-white rounded-xl shadow-md p-8 text-center border border-gray-200">
+                        <h3 className="text-lg font-medium text-gray-800 mb-2">No posts yet</h3>
+                        <p className="text-gray-600">Be the first to share something!</p>
+                    </div>
+                )}
+                
+                {/* Feeds Section */}
+                <div className="space-y-6">
+                    {feeds?.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                        .map((feed) => (
+                        <div key={feed.feedId} className="rounded-xl shadow-md overflow-hidden border border-gray-200 bg-white">
+                            {/* Feed Header */}
+                            <div className="p-4 flex justify-between items-center border-b border-gray-100 bg-gradient-to-r from-green-700 to-green-500">
+                                <div className="flex items-center space-x-3">
+                                    <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center text-green-700 font-bold">
+                                        {feed.postedBy.charAt(0).toUpperCase()}
+                                    </div>
+                                    <div>
+                                        <h3 className="font-semibold text-white">
+                                            {capitalize(feed.postedBy)}
+                                        </h3>
+                                        <p className="text-xs text-white/80">
+                                            {new Date(feed.createdAt).toLocaleString()}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 className='font-semibold text-white'>
-                                        {capitalize(feed.postedBy)}
-                                    </h3>
+                                
+                                {/* Action buttons */}
+                                <div className="flex gap-2 relative">
+                                    {activeMenuId === feed.feedId && (
+                                        <div className="absolute right-10 top-0 bg-white shadow-lg rounded-md z-10 p-1 min-w-[120px]">
+                                            {user?.username === feed.postedBy ? (
+                                                <div className="flex flex-col gap-1">
+                                                    <button 
+                                                        className="text-xs py-1 px-3 rounded bg-green-600 hover:bg-green-700 text-white text-left"
+                                                        onClick={editingFeedId === feed.feedId ? 
+                                                            () => updateFeed(feed.feedId) : 
+                                                            () => openEditMode(feed.feedId)}
+                                                    >
+                                                        {editingFeedId === feed.feedId ? 'Save' : 'Edit'}
+                                                    </button>
+                                                    <button className="text-xs py-1 px-3 rounded bg-red-600 hover:bg-red-700 text-white text-left">
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <button className="text-xs py-1 px-3 rounded bg-green-600 hover:bg-green-700 text-white">
+                                                    See profile
+                                                </button>
+                                            )}
+                                        </div>
+                                    )}
+                                    
+                                    <button 
+                                        className="text-white hover:text-gray-200 transition-colors" 
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            activeMenuId === feed.feedId ? 
+                                                closeActionButtons() : 
+                                                openActionButtons(feed.feedId)
+                                        }}
+                                    >
+                                        <BsThreeDotsVertical size={18} />
+                                    </button>
                                 </div>
                             </div>
                             
-                            {/* Action buttons */}
-                            <div className='flex gap-2 relative'>
-                                {activeMenuId === feed.feedId && (
-                                    <div className='absolute right-10 top-0 text-white shadow-lg rounded-md z-10'>
-                                        {user?.username === feed.postedBy ? (
-                                            <div className='flex gap-4'>
-                                                <button 
-                                                    className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white w-full'
-                                                    onClick={editingFeedId === feed.feedId ? ()=>updateFeed(feed.feedId) : ()=>openEditMode(feed.feedId)}
-                                                >
-                                                    {editingFeedId === feed.feedId ? 'Save' : 'Edit'}
-                                                </button>
-                                                <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        ) : (
-                                            <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
-                                                See profile
-                                            </button>
-                                        )}
-                                    </div>
-                                )}
-                                
-                                {/* Show or close actions buttons */}
-                                <button 
-                                    className='text-white' 
-                                    onClick={(e) => {
-                                        e.stopPropagation()
-                                        activeMenuId === feed.feedId ? closeActionButtons(feed.feedId) : openActionButtons(feed.feedId)
-                                    }}
-                                >
-                                    <BsThreeDotsVertical />
-                                </button>
-                            </div>
-                        </div>
-                        
-                        {/* Feed Content */}
-                        <div className=''>
-                            {/* Text Section with Action Buttons */}
-                            <div className='bg-green-50 rounded-lg p-4 mb-4 border border-green-100 relative pb-12'>
-                                <p className='text-green-800 font-medium leading-relaxed text-start'>
+                            {/* Feed Content */}
+                            <div className="p-4">
+                                {/* Text Section */}
+                                <div className="mb-4">
                                     {editingFeedId === feed.feedId ? (
                                         <textarea 
-                                            className="w-full bg-white p-2 rounded border border-green-200 focus:ring-1 focus:ring-green-300 focus:outline-none"
+                                            className="w-full bg-gray-50 p-3 rounded-lg border border-gray-200 focus:ring-1 focus:ring-green-300 focus:outline-none"
                                             rows={3}
                                             value={editTexts[feed.feedId] ?? feed.text}
-                                            onChange={(e) => handleEditTextChange(feed.feedId, e.target.value)}     
+                                            onChange={(e) => setEditTexts(prev => ({
+                                                ...prev,
+                                                [feed.feedId]: e.target.value
+                                            }))}     
                                         />
                                     ) : (
-                                        feed.text
+                                        <p className="text-gray-800 leading-relaxed whitespace-pre-line">
+                                            {feed.text}
+                                        </p>
                                     )}
-                                </p>
+                                </div>
                                 
-                                {/* Action Buttons positioned at bottom of text area */}
-                                <div className='absolute bottom-2 left-4 right-4 flex justify-between'>
+                                {/* Image Section */}
+                                <div className="mb-4">
+                                    {editingFeedId === feed.feedId && (
+                                        <div className="mb-3">
+                                            <button 
+                                                type="button"
+                                                onClick={() => triggerFileInput(feed.feedId)}
+                                                className="flex items-center gap-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition-colors"
+                                            >
+                                                <AiOutlinePicture size={18} />
+                                                Add Images
+                                            </button>
+                                        </div>
+                                    )}
+                                    
+                                    {(previewImages[feed.feedId]?.length > 0 || feed.images?.length > 0) && (
+                                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                            {/* Show edited images first */}
+                                            {previewImages[feed.feedId]?.map((img, idx) => (
+                                                <div key={`edit-${idx}`} className="relative aspect-square rounded-lg overflow-hidden border border-gray-200">
+                                                    <Image
+                                                        src={img}
+                                                        alt={`Post image ${idx + 1}`}
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                    {editingFeedId === feed.feedId && (
+                                                        <button 
+                                                            onClick={() => removeImage(feed.feedId, idx)}
+                                                            className="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1 hover:bg-black/70"
+                                                        >
+                                                            <FiX size={14} />
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            ))}
+                                            
+                                            {/* Show original feed images */}
+                                            {feed.images?.map((img: any, idx: number) => (
+                                                !previewImages[feed.feedId]?.includes(img) && (
+                                                    <div key={`orig-${idx}`} className="relative aspect-square rounded-lg overflow-hidden border border-gray-200">
+                                                        <Image
+                                                            src={img}
+                                                            alt={`Post image ${idx + 1}`}
+                                                            fill
+                                                            className="object-cover"
+                                                        />
+                                                    </div>
+                                                )
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                                
+                                {/* Action Buttons */}
+                                <div className="flex justify-between border-t border-gray-100 pt-3">
                                     <button 
-                                        className={`flex items-center space-x-1 px-3 py-1 rounded-full ${likedPosts[feed.feedId] ? 'text-blue-600' : 'text-gray-600'} hover:bg-gray-200`}
+                                        className={`flex items-center space-x-1 px-3 py-1 rounded-full ${likedPosts[feed.feedId] ? 'text-blue-600' : 'text-gray-600'} hover:bg-gray-100`}
                                         onClick={() => toggleLike(feed.feedId.toString())}
                                     >
                                         {likedPosts[feed.feedId] ? (
-                                            <AiFillLike className='text-lg' />
+                                            <AiFillLike className="text-lg" />
                                         ) : (
-                                            <AiOutlineLike className='text-lg' />
+                                            <AiOutlineLike className="text-lg" />
                                         )}
-                                        <span className='font-medium text-sm'>
+                                        <span className="font-medium text-sm">
                                             {feed.likes + (likedPosts[feed.feedId] ? 1 : 0)}
                                         </span>
                                     </button>
-                                    
-                                    <button className='flex items-center space-x-1 px-3 py-1 rounded-full text-gray-600 hover:bg-gray-200'>
-                                        <FiMessageSquare className='text-lg' />
-                                        <span className='font-medium text-sm'>{feed.comments}</span>
+
+                                    <button className="flex items-center space-x-1 px-3 py-1 rounded-full text-gray-600 hover:bg-gray-100">
+                                        <span className="font-medium text-sm">
+                                            {feed.totalSales ? `${formatNumber(feed.totalSales)} in sales` : 'New seller'}
+                                        </span>
                                     </button>
                                     
-                                    <button className='flex items-center space-x-1 px-3 py-1 rounded-full text-gray-600 hover:bg-gray-200'>
-                                        <FiShare2 className='text-lg' />
-                                        <span className='font-medium text-sm'>Share</span>
+                                    <button className="flex items-center space-x-1 px-3 py-1 rounded-full text-gray-600 hover:bg-gray-100">
+                                        <CommentsModal comments={feed.comments} />
+                                        
                                     </button>
+                                    
+                                    <ShareButton />
                                 </div>
                             </div>
 
                             {/* Store Section */}
-                            <div className='mt-4 bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden'>
-                                <div className='bg-gradient-to-r from-gray-800 to-green-300 p-3 flex items-center'>
-                                    <RiVerifiedBadgeFill className='text-white mr-2 text-xl' />
-                                    <h3 className='text-lg font-bold text-white'>
-                                        {'My Store'}
-                                    </h3>
+                            {feed.store && (
+                                <div className="mt-2 bg-gray-50 rounded-b-lg border-t border-gray-200 p-3">
+                                    <div className="flex items-center">
+                                        <RiVerifiedBadgeFill className="text-green-600 mr-2 text-xl" />
+                                        <h3 className="text-sm font-bold text-gray-700">
+                                            <a 
+                                                href={`/storefront/${feed.store.storeId}/${feed.store.storeName.toLowerCase().replace(/\s+/g, '-')}`}
+                                                className="hover:underline"
+                                            >
+                                                Visit {feed.store.storeName}
+                                            </a>
+                                        </h3>
+                                    </div>
                                 </div>
-                                <div className='p-4'>
-                                    {feed?.store?.items?.length > 0 ? (
-                                        <DisplayStore 
-                                            productArray={feed.store?.items} 
-                                            numPerPage={window.innerWidth < 768 ? 1 : 2} 
-                                        />
-                                    ) : (
-                                        <p className='text-gray-400 text-center py-4'>No store items available</p>
-                                    )}
-                                </div>
-                            </div>
+                            )}
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
+            <FeedFooter />
         </div>
-        <FeedFooter />
-      </div>
     )
 }
 

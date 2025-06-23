@@ -7,7 +7,7 @@ import { CartContext } from '../../contextProviders/cartcontext'
 import SkeletonPage from '../skeletonPage'
 import { capitalize } from '../utils'
 import CategoryNotFound from './productCatNotFound'
-import DisplayStore from '../../app/(pages)/(allroutes)/dashboard/storepage/displayStore'
+import DisplayStore from '../displayStore'
 import { ProductContext } from '../../contextProviders/ProductContext'
 
 interface CateroryProps{

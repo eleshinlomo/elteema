@@ -1,11 +1,14 @@
+import { data } from "framer-motion/client";
+import { StoreProps } from "./store";
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-interface StoreProps {
-   name: string;
-   logo: string;
-   items: []
+export interface CreateFeedProps {
+   userId: number;
+   text: string;
+   imageUrl: string;
+   
 }
 
 export interface FeedProps {
@@ -16,30 +19,44 @@ export interface FeedProps {
    imageUrl: string;
    likes:0;
    comments: string[];
-   store: StoreProps
+   images: string[];
+   createdAt: Date;
+   store: StoreProps;
+   totalSales: number;
 }
 
-export const createFeed = async (userId: number, text: string, imageUrl: string)=>{
-    const payload = {
-            userId,
-            text,
-            imageUrl,
-        }
-     const response = await fetch(`${BASE_URL}/feed/createfeed`, {
-        
-         mode: 'cors',
-         method: 'POST',
-         headers: {'Content-Type': 'application/json'},
-         body: JSON.stringify(payload)
-     })
 
-     if(!response){
-        console.log('No response from the server')
-     }
 
-     const data = await response.json()
-     return data
-}
+
+export const createFeed = async (formData: any, userId: number) => {
+
+      for (const [key, value] of formData.entries()) {
+      console.log('PAYLOAD DATA', key, value);
+    }
+
+  try {
+    const response = await fetch(`${BASE_URL}/feed/createfeed`, {
+      method: 'POST',
+      mode: 'cors',
+      body: formData,
+      headers: {'userId': userId.toString()}
+    
+      // No headers - browser will set Content-Type automatically
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return { ok: false, error: errorData.message || 'Failed to create feed' };
+    }
+
+    const data = await response.json();
+    return { ok: true, ...data };
+    
+  } catch (error) {
+    console.error('Error creating feed:', error);
+    return { ok: false, error: 'Network error occurred' };
+  }
+};
 
 
 export const getFeeds = async ()=>{

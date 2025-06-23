@@ -1,11 +1,11 @@
 'use client'
 import { useState, useContext, useEffect } from 'react'
 import Image from 'next/image'
-import { CartContext } from '../../../../../contextProviders/cartcontext'
+import { CartContext } from '../contextProviders/cartcontext'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import { capitalize, formatCurrency } from '../../../../../components/utils'
-import PopularBadge from '../../../../../components/product/popularBadge'
-import { ProductProps } from '../../../../../components/api/product'
+import { capitalize, formatCurrency } from './utils'
+import PopularBadge from './product/popularBadge'
+import { ProductProps } from './api/product'
 
 
 interface StoreDisplayProps {
@@ -40,7 +40,7 @@ const DisplayStore = ({ productArray, numPerPage }: StoreDisplayProps) => {
     useEffect(() => {
         
         setCurrentPage(0)
-    }, [productArray])
+    }, [productArray.length])
 
     return (
         <div>

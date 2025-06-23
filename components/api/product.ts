@@ -1,7 +1,8 @@
-
+import { StoreProps } from "./store";
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+
 
 
 
@@ -9,10 +10,12 @@ export interface ProductProps {
     userId: number;
     productId: number;
     addedBy: string;
+    eta: string;
     src: string;
     productName: string;
     price: number;
-    colors: string[];
+    color: string; // For buyer
+    colors: string[]; // For sellers
     condition: string;
     deliveryMethod: string;
     imageFiles: File[]; //Image array sent to the server
@@ -21,7 +24,9 @@ export interface ProductProps {
     size: string;
     category: string;
     description: string;
-    store: null;         
+    store: StoreProps;  
+    storeName: string; 
+    storeCity: string;      
     star: number;
     totalVotes: number;
     totalSales: number;
@@ -38,18 +43,14 @@ export interface ProductProps {
 export const getAllProducts = async ()=>{
 
     try{
-    const response = await fetch(`${BASE_URL}/store/allstores`, {
+    const response = await fetch(`${BASE_URL}/product/allproducts`, {
        mode: 'cors'
     })
     if(!response) return
     const data: any = await response.json()
+    return data
     
-    if(data.ok) {
-        console.log(data)
-        return data
-    }
-    console.log('Unable to fetch')
-    return
+   
 }catch(err){
     console.log(err)
 }

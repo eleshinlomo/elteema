@@ -64,7 +64,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
     );
   }
 
-  // Process product images - ensure they're in array format
+  // Product images - in array format
   const productImages = Array.isArray(product.images) 
     ? product.images.map((img, index) => ({
         src: img,

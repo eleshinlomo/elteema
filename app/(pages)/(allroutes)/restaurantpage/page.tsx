@@ -1,7 +1,7 @@
 'use client'
 import { useContext } from "react"
 import { ProductContext } from "../../../../contextProviders/ProductContext"
-import DisplayStore from "../dashboard/storepage/displayStore"
+import DisplayStore from "../../../../components/displayStore"
 
 const RestaurantsPage = ()=>{
     

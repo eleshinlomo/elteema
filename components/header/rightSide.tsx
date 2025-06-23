@@ -29,6 +29,10 @@ const NavRightSide = () => {
     router.push('/')
   }
 
+  useEffect(()=>{
+
+  }, [totalItems, totalPrice, cart])
+
   return (
     <div className=" flex gap-4">
     
@@ -74,7 +78,7 @@ const NavRightSide = () => {
       )}
       </div>
       {/* pwa display */}
-      <div className=" my-4 flex justify-center"><PWAInstallButton /></div>
+      <div className="mt-6"><PWAInstallButton /></div>
        {/* Cart - Always visible */}
               <Cart />
     </div>

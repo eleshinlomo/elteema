@@ -1,6 +1,6 @@
 'use client'
 import React, { createContext, useState } from "react"
-import { FeedProps } from "../app/(pages)/(allroutes)/feedspage/feedFunctions";
+import { FeedProps } from "../components/api/feed";
 import { ProductProps } from "../components/api/product";
 import { UserProps } from "../components/data/userdata";
 

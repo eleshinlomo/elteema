@@ -1,5 +1,5 @@
 'use client'
-import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useEffect, useContext, ReactNode, useCallback } from 'react';
 import { ProductProps, getAllProducts } from '../components/api/product';
 
 interface ProductContextProps {
@@ -51,16 +51,19 @@ export const ProductContextProvider = ({ children }: ProductContextProps) => {
         setOldSize(size);
     };
 
-    useEffect(() => {
-        const handleGetProducts = async () => {
-            const products = await getAllProducts();
-            console.log('PRODUCTS', products.stores); //products.stores is array containing stores
-            if(products){
-                setProducts(products.stores[0].items);
-            }
+    const handleGetAllProducts = useCallback(async ()=>{
+        const data = await getAllProducts()
+        
+        const products = data.data
+        console.log('PRODUCTS', data.data)
+        if(products?.length > 0){
+           setProducts(products)
         }
-        handleGetProducts();
-    }, []);
+    }, [Products?.length])
+
+    useEffect(() => {
+        handleGetAllProducts()
+    }, [Products?.length]);
     
     const values: InitialValuesProps = {
         Products, 

@@ -1,20 +1,12 @@
+import { CreateStoreProps, StoreProps } from "../../../../../components/api/store"
 
 
-
-export interface StoreProps {
- userId: number;
- tagline: string;
- name: string;
- logo: string;
- phone: string,
- email: string;
-}
 
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-export const createStore = async (payload : StoreProps)=>{
+export const createStore = async (payload : CreateStoreProps)=>{
      console.log('PAYLOAD', payload)
      const response = await fetch(`${BASE_URL}/store/createstore`, {
         

@@ -1,18 +1,19 @@
 'use client'
 
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState, useEffect, useCallback } from 'react'
 import { GeneralContext } from '../../../../contextProviders/GeneralProvider'
 import SigninPage from '../authpages/signin/page'
-import { calculatePercentagePrice, capitalize, formatCurrency, getItemQuantity, totalPriceForCustomer } from '../../../../components/utils'
+import { calculatePercentagePrice, capitalize, formatCurrency, getItemQuantity, totalPriceForCustomer, updateCart } from '../../../../components/utils'
 import { CartContext } from '../../../../contextProviders/cartcontext'
-import { UserProps } from '../../../../components/data/userdata'
+import { updateLocalUser, UserProps } from '../../../../components/data/userdata'
 import PaymentAlertCard from './paymentAlertCard'
-import { launchPaymentPopup } from './payments/paymentFunctions'
+import { launchPaymentPopup,} from './payments/paymentFunctions'
 import Image from 'next/image'
+import { updateStoreOrder } from '../../../../components/api/store'
 
 const CheckoutPage = () => {
-  const { isLoggedIn, user } = useContext(GeneralContext)
-  const { cart }: any = useContext(CartContext)
+  const { isLoggedIn, user, setUser } = useContext(GeneralContext)
+  const { cart, setCart, setTotalItems, setTotalPrice }: any = useContext(CartContext)
   const [payBtnText, setPayBtnText] = useState('Proceed to Payment')
   const [eta, setEta] = useState('')
   const [customerStateOfResidence, setCustomerStateOfResidence] = useState('')
@@ -20,18 +21,38 @@ const CheckoutPage = () => {
   const [openWarning, setOpenWarning] = useState<boolean>(false)
   const [formattedAddress, setFormattedAddress] = useState<any>('')
   const [totalPricePlusTax, setTotalPricePlusTax] = useState(0)
+  const [paymentMethodError, setPaymentMethodError] = useState('')
 
   
  const handlePaymentPopUp = async () => {
   if (typeof window !== 'undefined') {
     const { launchPaymentPopup } = await import('./payments/paymentFunctions');
+   
     if (totalPricePlusTax) {
       const priceInKobo = totalPricePlusTax * 100;
-      const response = await launchPaymentPopup(user?.email, `${priceInKobo}`);
+      
+         const payload = {
+         email: user?.paymentEmail, 
+         amount: `${priceInKobo}`,
+         callback_url: '/'
+      }
+   
+      const response = await launchPaymentPopup(payload);
       return response;
     }
   }
 };
+
+
+  const linkToUpdateProfile = (
+    <div className="animate-pulse hover:animate-none">
+      <a href={`/dashboard/profilepage`}>
+        <button className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg px-2 py-1 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
+          Complete Your Profile Information
+        </button>
+      </a>
+    </div>
+  )
 
 
  
@@ -46,16 +67,9 @@ const CheckoutPage = () => {
   }, [cart])
 
  
-  const linkToUpdateProfile = (
-    <div className="animate-pulse hover:animate-none">
-      <a href={`/dashboard/profilepage`}>
-        <button className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg px-2 py-1 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
-          Complete Your Profile Information
-        </button>
-      </a>
-    </div>
-  )
 
+ 
+  // Track address
   useEffect(() => {
     if (user?.address) {
       setCustomerStateOfResidence(user.state)
@@ -66,7 +80,28 @@ const CheckoutPage = () => {
     }
   }, [user?.address])
 
+  
+  // Update ETA
+  useEffect(() => {
+    const findEta = () => {
+      if (!user) return
+      if (user.state === 'lagos') {
+        setEta('3 days')
+      } else if (customerStateOfResidence === 'Outside Nigeria') {
+        setEta('3 months')
+      } else if (!customerStateOfResidence || customerStateOfResidence === '') {
+        setEta('Please update state of residence so we can calculate your ETA')
+      } else {
+        setEta('2 weeks')
+      }
+    }
+    findEta()
+  }, [user?.state])
+
+
+  // Make payment
   const handlePayment = async () => {
+    setPaymentMethodError('')
     if (typeof window === 'undefined') return;
     if (!cart || cart?.length === 0) {
       setMessage('Your cart is empty')
@@ -88,30 +123,31 @@ const CheckoutPage = () => {
       setOpenWarning(true)
       return
     }
+    if(!user.paymentEmail){
+      setPaymentMethodError('Go to your dashboard and update your payment method on file')
+      window.location.href = '#payment-top'
+      return
+    }
     
     const response = handlePaymentPopUp()
     console.log('POPUP RESPONSE', response)
+    const updateResponse = await updateStoreOrder(cart, user.id, eta)
+    if(updateResponse.ok){
+       setCart([]) // Needed to clear local state. Although the updated user still comes with an empty cart.
+       updateLocalUser(updateResponse.message)
+       setUser(updateResponse.message)
+       setTotalItems(0)
+       setTotalPrice(0)
+
+    }
+    
     return
   }
 
-  useEffect(() => {
-    const findEta = () => {
-      if (!user) return
-      if (user.state === 'lagos') {
-        setEta('3 days')
-      } else if (customerStateOfResidence === 'Outside Nigeria') {
-        setEta('3 months')
-      } else if (!customerStateOfResidence || customerStateOfResidence === '') {
-        setEta('Please update state of residence so we can calculate your ETA')
-      } else {
-        setEta('2 weeks')
-      }
-    }
-    findEta()
-  }, [user?.state])
+  
 
   return (
-    <div className="min-h-screen bg-gray-50 py-24">
+    <div className="min-h-screen bg-gray-50 py-24" id='payment-top'>
       {user && isLoggedIn ? (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
           {/* Header */}
@@ -119,9 +155,15 @@ const CheckoutPage = () => {
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent">
               Hi {capitalize(user.username)}!
             </h1>
-            <p className="mt-4 text-lg md:text-xl text-gray-600">
-              Review your order before payment
-            </p>
+            {/* Error or header text */}
+            {paymentMethodError ?
+              <a href='/dashboard/paymentmethodspage' className='p-1 rounded-2xl my-4 text-sm md:text-xl text-white font-bold bg-red-500'>
+                Click here to update your payment method
+              </a>:
+              <p className={`mt-4 text-lg md:text-xl text-gray-600`}>
+                Review your order before payment
+              </p>
+            }
             <div className='md:flex justify-center items-center gap-2'>
             <a href="/">
               <button className="mt-6 bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">

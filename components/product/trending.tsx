@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { ProductProps } from '../api/product'
 import { ProductContext } from '../../contextProviders/ProductContext'
 import { motion } from 'framer-motion'
-import DisplayStore from '../../app/(pages)/(allroutes)/dashboard/storepage/displayStore'
+import DisplayStore from '../displayStore'
 import SkeletonPage from '../skeletonPage'
 
 const Trending = () => {
@@ -12,9 +12,15 @@ const Trending = () => {
   const [message] = useState('Discovering hot products...')
 
   useEffect(() => {
-    const items = Array.isArray(Products) && Products.filter((item) => item.numOfItemsSold >= 0)
-    setTrendingItems(items)
-  }, [trendingItems.length])
+    
+    if(Products?.length > 0){
+      const items = Products.filter((item) => item.numOfItemsSold >= 0)
+    
+       setTrendingItems(items)
+      
+    }
+    console.log('TRENDING ARRAY', trendingItems)
+  }, [trendingItems?.length, Products?.length])
 
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
@@ -50,7 +56,7 @@ const Trending = () => {
           {trendingItems && trendingItems.length > 0 ? (
             <div className="">
               <div className="hover:scale-[1.02] transition-transform duration-300">
-                <DisplayStore productArray={Products} numPerPage={2} />
+                <DisplayStore productArray={trendingItems} numPerPage={2} />
               </div>
             </div>
           ) : (

@@ -1,7 +1,7 @@
 'use client'
 
 import SalesChart from './(storecomponents)/salesChart';
-import OrderStatusCards from './(storecomponents)/orderStatusCards';
+import OrderStatusCards from './(storecomponents)/orders/orderStatusCards';
 import StoreInfo from './(storecomponents)/storeInfo';
 import SalesSummary from './(storecomponents)/salesSummary';
 import { useContext } from 'react';

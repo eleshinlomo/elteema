@@ -17,6 +17,14 @@ export const calculatePercentagePrice = (price: number, percentage: number)=>{
      return price * percentage / 100
 }
 
+// Turns 1000s to 1k and 1million to 1m
+export function formatNumber(num: number): string {
+  if (num >= 1_000_000) return (num / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+  if (num >= 1_000) return (num / 1_000).toFixed(1).replace(/\.0$/, "") + "k";
+  return num?.toString();
+}
+
+
 export const formatCurrency = (symbol:string, amount: number)=>{
   const currency = new Intl.NumberFormat('en-US', {
     currency: symbol,

@@ -6,7 +6,7 @@ import Hero from '../hero'
 import ProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
 import PurchaseAlert from './purchaseAlert'
-import DisplayStore from '../../app/(pages)/(allroutes)/dashboard/storepage/displayStore'
+import DisplayStore from '../displayStore'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ProductContext } from '../../contextProviders/ProductContext'
 

@@ -1,31 +1,75 @@
 
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { FiTrendingUp, FiTrendingDown } from 'react-icons/fi';
+import { GeneralContext } from '../../../../../../contextProviders/GeneralProvider';
 
 const SalesSummary = () => {
+  const [salesStats, setSalesStats] = useState([])
+  const {user} = useContext(GeneralContext)
+  const [conversion, setConversion] = useState('3.2%')
+  const [store, setStore] = useState<any | null>(null)
+
+  
+
+ useEffect(()=>{
+  if(user){
+     const userStore = user.store
+     if(userStore){
+      setStore(userStore)
+     }
+  }
+ },[user, store])
+
+  const calculateChange = useCallback((lastValue: number, currentValue: number)=>{
+      const change = lastValue || 0 - currentValue || 0
+      return change.toFixed(2)
+  },[])
+
+    
+    const calculateIsUp = (lastValue: number, currentValue: number)=>{
+      let isUp = false
+     if(currentValue > lastValue){
+      isUp = true
+     }else{
+      isUp = false
+     }
+     return isUp
+  }
+
+
+
+  const avgOrder = ()=>{
+    const orders = store?.orders || [0]
+    const currentSum = orders?.currentOrders?.reduce((item: any, total: any)=>item?.revenue + total, 0) || 0
+    const avgSales = currentSum / 2
+    return `N${avgSales}`
+    
+  }
+
   const stats = [
     {
       title: 'Total Revenue',
-      value: 'N244,780',
-      change: 12.5,
-      isUp: true,
+      value: store?.revenue[1] || 0, //[0, 0] Fist is lastSales and Second is Current sales
+      change: calculateChange(store?.revenue[0], store?.revenue[1]) || 0,
+      isUp: calculateIsUp(store?.revenue[0], store?.revenue[1]) || 0
     },
     {
       title: 'Total Orders',
-      value: '1,248',
-      change: 8.2,
-      isUp: true,
+      value: store?.orders?.currentOrders.length || 0,
+      change: calculateChange(store?.orders?.lastOrders.length || 0, store?.orders?.currentOrders.length || 0),
+      isUp: calculateIsUp(store?.lastOrders, store?.currentOrders)
     },
     {
       title: 'Conversion Rate',
-      value: '3.42%',
+      value: store?.conversion[1] || 0,
       change: -1.1,
-      isUp: false,
+      isUp: calculateIsUp(store?.conversion[0], store?.conversion[1])
     },
     {
       title: 'Avg. Order Value',
-      value: 'N8900.34',
-      change: 2.4,
-      isUp: true,
+      value: avgOrder(),
+      change: calculateChange(0, 0),
+      isUp: true
     },
   ];
 

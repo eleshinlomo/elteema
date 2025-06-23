@@ -44,7 +44,7 @@ const DashNavBar = ({ user }: { user: UserProps | any }) => {
         <NavButton 
           href={user?.store ? '/dashboard/storepage' : '/dashboard/createstorepage'} 
           icon={<Store className="w-4 h-4" />}
-          label={user?.store ? `View Store (${user?.store?.items.length})` : 'Create Store'}
+          label={user?.store ? `View Store (${user?.store?.items?.length || 0 })` : 'Create Store'}
         />
         
         {/* Settings Link */}

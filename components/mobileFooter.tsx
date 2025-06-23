@@ -1,6 +1,6 @@
 'use client'
 import React, { useContext } from "react";
-import { Home, Search, BarChart2, ShoppingBag, LogOutIcon } from "lucide-react";
+import { Home, Search, BarChart2, ShoppingBag, LogOutIcon, LogInIcon } from "lucide-react";
 import { GeneralContext } from "../contextProviders/GeneralProvider";
 import { CartContext } from "../contextProviders/cartcontext";
 import { logout } from "./api/auth";
@@ -16,7 +16,6 @@ const MobileFooter = () => {
 
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
-    // Add navigation logic here
   };
 
    const handleLogout = async () => {
@@ -27,7 +26,7 @@ const MobileFooter = () => {
       setCart(newCart)
       setTotalItems(0)
       setTotalPrice(0)
-      router.push('/')
+      router.push('/authpages/signin')
     }
 
 
@@ -73,7 +72,7 @@ const MobileFooter = () => {
           activeTab === "marketplace" ? "text-blue-600" : "text-gray-500"
         }`}
       >
-        <LogOutIcon className="w-5 h-5" />
+        <LogInIcon className="w-5 h-5" />
         <span className="text-xs mt-1">Sign in</span>
       </button></a>:
 

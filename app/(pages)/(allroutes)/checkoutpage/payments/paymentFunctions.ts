@@ -1,8 +1,17 @@
 'use client'
 import PaystackPop from '@paystack/inline-js'
 import { Console } from 'console'
+import { updateStoreOrder } from '../../../../../components/api/store'
+import { CartProps } from '../../../../../components/api/cart'
 
-export const initializePayment = async (email: string, amount: string) => {
+interface PaymentProps {
+  email: string;
+  amount: string;
+  callback_url: string;
+
+}
+
+export const initializePayment = async (email: string, amount: string, callback_url: string) => {
   if( typeof window !== 'undefined'){
     const metadata = {
         firstname: 'yourname',
@@ -11,6 +20,7 @@ export const initializePayment = async (email: string, amount: string) => {
     const payload = {
         email,
         amount,
+        callback_url,
         metadata: {
           name: 'Paystack transaction'
         },
@@ -47,10 +57,11 @@ export const initializePayment = async (email: string, amount: string) => {
 }
 
 
-export const launchPaymentPopup = async (email: string, amount: string) => {
+export const launchPaymentPopup = async (payload: PaymentProps) => {
     if(typeof window !== 'undefined'){
   try {
-    const response = await initializePayment(email, amount);
+    const {email, amount, callback_url} = payload
+    const response = await initializePayment(email, amount, callback_url);
     console.log('PAYSTACK', response)
     const { access_code, reference } = response;
     
@@ -72,4 +83,6 @@ export const launchPaymentPopup = async (email: string, amount: string) => {
   }
 }
 };
+
+
 

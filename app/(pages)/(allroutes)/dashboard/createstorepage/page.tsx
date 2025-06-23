@@ -13,8 +13,8 @@ const CreateStorePage = () => {
 
   const [formData, setFormData] = useState({
     userId: user.id,
-    name: '',
-    tagline: user?.store?.name || '',
+    storeName: '',
+    tagline: '',
     logo: '',
     phone: '',
     email: '',
@@ -39,21 +39,23 @@ const CreateStorePage = () => {
         setFormData({
           userId: user.id,
           tagline: '',
-          name: '',
+          storeName: '',
           logo: '',
           phone: '',
           email: '',
           city: '',
           state: ''
         })
-        window.location.href='#create-store-bottom'
+        window.location.href='#create-store-top'
       } else {
         console.log(response)
         setError(response.error)
+         window.location.href='#create-store-top'
       }
     } catch (err) {
       setError('Failed to create store. Please try again.')
       console.error(err)
+       window.location.href='#create-store-top'
     } finally {
       setIsLoading(false)
     }
@@ -69,7 +71,7 @@ const CreateStorePage = () => {
   }
 
   return (
-    <div className=" bg-gray-50 px-4 sm:px-6 lg:px-8 mb-24 " id='create-store-bottom'>
+    <div className=" bg-gray-50 px-4 sm:px-6 lg:px-8 mb-24 " id='create-store-top'>
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8">
         {!success && <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-gray-800">Create your store and start selling</h2>
@@ -84,9 +86,9 @@ const CreateStorePage = () => {
         )}
 
         {success && (
-          <div className="mb-4 mt-32 bg-green-100 text-green-700 rounded-md text-center" >
+          <div className="mb-4 mt-32 bg-green-100 text-green-700 rounded-md text-center py-4" >
             <p>{success}</p>
-            <a href='/dashboard/storepage' className="text-blue-700">Visit your store</a>
+            <a href='/dashboard/storepage' className="text-green-900 font-extrabold">Visit your store</a>
           </div>
         )}
 
@@ -97,11 +99,11 @@ const CreateStorePage = () => {
               Store Name
             </label>
             <input
-              id="name"
-              name="name"
+              id="storeName"
+              name="storeName"
               type="text"
               required
-              value={formData.name}
+              value={formData.storeName}
               onChange={handleChange}
               placeholder="Enter store name"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
