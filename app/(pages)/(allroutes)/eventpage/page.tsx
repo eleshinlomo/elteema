@@ -1,12 +1,12 @@
 'use client'
 import { useContext, useState, useEffect } from "react"
-import HotelRoomCard, { HotelArrayProps } from "./hotelRoomCard"
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider"
 import { ProductContext } from "../../../../contextProviders/ProductContext"
+import EventCard from "./eventCard"
 
 const Hotels = ()=>{
     const {Products} = useContext(ProductContext)
-    const [hotels, setHotels] = useState([])
+    const [events, setEvents] = useState([])
 
     const dummy = [
  {hotelName: 'Strobo',
@@ -21,16 +21,15 @@ const Hotels = ()=>{
     ]
     
     useEffect(()=>{
-    const hotelArray: any  = Products.filter((product)=> product.category === 'hotel') 
-    console.log('Hotel Array', hotelArray)
-        setHotels(hotelArray || dummy) 
+    const eventArray: any  = Products.filter((product)=> product.category === 'hotel') 
+    console.log('Hotel Array', eventArray)
+        setEvents(eventArray || dummy) 
     }, [Products?.length])
 
     return (
 
         <div className="pt-24 text-center font-bold">
-            <HotelRoomCard hotels={hotels}  />
-            
+            <EventCard events={events} />
         </div>
     )
 }

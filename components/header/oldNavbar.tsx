@@ -9,7 +9,7 @@ import NavRightSide from "./rightSide";
 import { GeneralContext, GeneralContextInitialProps } from "../../contextProviders/GeneralProvider";
 import Cart from "../cart/cart";
 
-const NavBar = () => {
+const OldNavBar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [openIndex, setOpenIndex] = useState(-1);
 
@@ -45,14 +45,14 @@ const NavBar = () => {
   };
 
   return (
-    <div className="relative pb-16 w-full">
-      <div className="fixed  w-full"><HeaderAlert /></div>
+    <div className="relative  pb-16 w-full">
+      {/* <div className="fixed  w-full"><HeaderAlert /></div> */}
 
       <header
-       className={`header left-0 top-0 z-40 w-full flex justify-between pr-12 ${
+       className={`header fixed z-[8000] left-0 top-0 z-40 w-full flex justify-between px-6 ${
           sticky
-            ? "text-white bg-gradient-to-r from-green-900 to-black/50 fixed z-[8000]  !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
-            : "absolute bg-black text-white top-8"
+            ? "text-white bg-gradient-to-r from-green-900 to-black/50   !bg-opkdrop-blur-sm transition"
+            : "absolute bg-black/80 text-white "
         }`}
       >
         <div className="w-full max-w-7xl  ">
@@ -61,7 +61,7 @@ const NavBar = () => {
             {/* Logo - Made larger */}
             <div className=" ">
               <Link href="/" className={`header-logo block w-full ${sticky ? "py-2 lg:py-2" : "py-2"}`}>
-                <div className="relative h-16 w-32"> {/* Increased size */}
+                <div className="relative h-16 w-16"> {/* Increased size */}
                   <Image
                     src="/images/logos/elteema_logo.png"
                     alt="logo"
@@ -157,4 +157,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default OldNavBar;

@@ -54,8 +54,8 @@ export const ProductContextProvider = ({ children }: ProductContextProps) => {
     const handleGetAllProducts = useCallback(async ()=>{
         const data = await getAllProducts()
         
-        const products = data.data
-        console.log('PRODUCTS', data.data)
+        const products = data?.data
+        console.log('PRODUCTS', data?.data)
         if(products?.length > 0){
            setProducts(products)
         }

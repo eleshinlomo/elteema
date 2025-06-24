@@ -1,11 +1,13 @@
 'use client'
 import React, { useContext } from "react";
-import { Home, Search, BarChart2, ShoppingBag, LogOutIcon, LogInIcon } from "lucide-react";
+import { Home, Search, BarChart2, ShoppingBag, LogOutIcon, LogInIcon, MenuIcon } from "lucide-react";
 import { GeneralContext } from "../contextProviders/GeneralProvider";
 import { CartContext } from "../contextProviders/cartcontext";
 import { logout } from "./api/auth";
 import { fetchCart } from "./utils";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Cart from "./cart/cart";
 
 const MobileFooter = () => {
   const [activeTab, setActiveTab] = React.useState("home");
@@ -32,21 +34,13 @@ const MobileFooter = () => {
 
   return (
     <footer className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200  py-2 flex justify-around items-center z-50">
-      <a href='/'><button
-        onClick={() => handleTabClick("home")}
-        className={`flex flex-col items-center p-2 ${
-          activeTab === "home" ? "text-green-600" : "text-gray-500"
-        }`}
-      >
-        <Home className="w-5 h-5" />
-        <span className="text-xs mt-1">Home</span>
-      </button>
-      </a>
-
+   
+   
+       {/* Search */}
       <button
         onClick={() => handleTabClick("search")}
         className={`flex flex-col items-center p-2 ${
-          activeTab === "search" ? "text-blue-600" : "text-gray-500"
+          activeTab === "search" ? "text-green-600" : "text-gray-500"
         }`}
       >
         <Search className="w-5 h-5" />
@@ -54,9 +48,9 @@ const MobileFooter = () => {
       </button>
 
       <a href='/dashboard'><button
-        // onClick={() => handleTabClick("dashboard")}
+        onClick={() => handleTabClick("dashboard")}
         className={`flex flex-col items-center p-2 ${
-          activeTab === "dashboard" ? "text-blue-600" : "text-gray-500"
+          activeTab === "dashboard" ? "text-green-600" : "text-gray-500"
         }`}
       >
         <BarChart2 className="w-5 h-5" />
@@ -67,9 +61,9 @@ const MobileFooter = () => {
       <div>
        {!isLoggedIn ?
        <a href='/authpages/signin'><button
-        onClick={() => handleTabClick("marketplace")}
+        onClick={() => handleTabClick("signin")}
         className={`flex flex-col items-center p-2 ${
-          activeTab === "marketplace" ? "text-blue-600" : "text-gray-500"
+          activeTab === "signin" ? "text-green-600" : "text-gray-500"
         }`}
       >
         <LogInIcon className="w-5 h-5" />
@@ -79,13 +73,25 @@ const MobileFooter = () => {
       <button
         onClick={handleLogout}
         className={`flex flex-col items-center p-2 ${
-          activeTab === "marketplace" ? "text-blue-600" : "text-gray-500"
+          activeTab === "signout" ? "text-green-600" : "text-gray-500"
         }`}
       >
         <LogOutIcon className="w-5 h-5" />
         <span className="text-xs mt-1">Sign out</span>
       </button>}
       </div>
+
+      
+      {/* Cart  shows only in mobile mode*/}
+      <button
+        onClick={() => handleTabClick("cart")}
+        className={`flex flex-col items-center p-2 text-xs ${
+          activeTab === "cart" ? "text-green-600" : "text-gray-500"
+        }`}
+      >
+      <Cart />
+      
+      </button>
     </footer>
   );
 };

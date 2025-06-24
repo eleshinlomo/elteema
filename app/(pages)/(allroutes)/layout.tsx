@@ -6,10 +6,10 @@ import { getLocalUser, updateLocalUser, UserProps } from "../../../components/da
 import { persistLogin, verifyCode } from "../../../components/api/auth"
 import { useRouter } from "next/navigation"
 import ScrollTopButton from "../../../components/scrollTopButton"
-import NavBar from "../../../components/header/navbar"
 import MobileFooter from "../../../components/mobileFooter"
 import Footer from "../../../components/footer"
 import { usePathname } from "next/navigation"
+import NavBar from "../../../components/header/navBar"
 
 
 interface AllRoutesProps {
@@ -160,6 +160,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
   return (
     <Suspense>
       <div>
+          {/* <NavBar /> */}
           <NavBar />
           {children}
           <ScrollTopButton />
