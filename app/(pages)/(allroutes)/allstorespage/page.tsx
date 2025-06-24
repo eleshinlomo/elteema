@@ -9,7 +9,7 @@ const AllStoresPage = ()=>{
 
     return (
 
-        <div className="pt-16 pb-4">
+        <div className="pt-16 h-screen">
             
            <AllStores />
            

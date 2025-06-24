@@ -10,6 +10,7 @@ import Image from "next/image";
 import Cart from "../cart/cart";
 import PWAInstallButton from "../PWADownloadButton";
 import MenuButton from "./menuButton";
+import { FaShoppingBag } from "react-icons/fa";
 
 const NavBar = () => {
   const [activeTab, setActiveTab] = React.useState("home");
@@ -79,17 +80,6 @@ const NavBar = () => {
       </button>
       </a>
 
-        {/* Hotels */}
-        <a href='/hotelpage'><button
-        onClick={() => handleTabClick("hotels")}
-        className={`flex flex-col items-center p-2 ${
-          activeTab === "hotels" ? "text-green-600" : "text-gray-500"
-        }`}
-      >
-        <HotelIcon className="w-5 h-5" />
-        <span className="text-xs mt-1">Hotels</span>
-      </button>
-      </a>
 
         {/* Events */}
       <a href='/eventpage'><button
@@ -113,6 +103,18 @@ const NavBar = () => {
       >
         <BarChart2 className="w-5 h-5" />
         <span className="text-xs mt-1">Dashboard</span>
+      </button>
+      </a>
+
+         {/* Supermarket */}
+        <a href='/allstorespage'><button
+        onClick={() => handleTabClick("supermarket")}
+        className={`flex flex-col items-center p-2 ${
+          activeTab === "supermarket" ? "text-green-600" : "text-gray-500"
+        }`}
+      >
+        <FaShoppingBag className="w-5 h-5" />
+        <span className="text-xs mt-1">Supermarket</span>
       </button>
       </a>
       
