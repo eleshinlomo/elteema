@@ -52,19 +52,6 @@ const NavBar = () => {
         {/* <span className="text-xs mt-1">Home</span> */}
       </button>
       </a>
-
-    
-     
-     {/* Search */}
-      <button
-        onClick={() => handleTabClick("search")}
-        className={`hidden md:flex flex-col items-center p-2 ${
-          activeTab === "search" ? "text-green-600" : "text-gray-500"
-        }`}
-      >
-      <Search className="w-5 h-5" />
-        <span className="text-xs mt-1">Search</span>
-      </button>
        
       
        
