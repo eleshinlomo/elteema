@@ -35,8 +35,9 @@ const NavBar = () => {
 
 
   return (
-    <div className=" fixed top-0 left-0 right-0 bg-white md:bg-white/50 border-t border-gray-200  py-2 px-2 md:px-4 flex justify-between z-50">
+    <div className=" fixed top-0 left-0 right-0 bg-white md:bg-white/50 border-t border-gray-200  py-2 px-2 md:px-4  z-50">
       
+      <div className="flex justify-between">
       {/* Home */}
       <a href='/'><button
         onClick={() => handleTabClick("home")}
@@ -139,10 +140,10 @@ const NavBar = () => {
         <span className="text-xs mt-1">Sign out</span>
       </button>}
       </div>
-
-      <PWAInstallButton />
-      
-
+        
+        {/* App install desktop mode */}
+        <div className="hidden md:flex"><PWAInstallButton /></div>
+    
       {/* Cart  shows only in desktop mode*/}
       <button
         onClick={() => handleTabClick("cart")}
@@ -166,7 +167,9 @@ const NavBar = () => {
       <span className="text-xs">Menu</span>
       
       </button>
+      </div>
 
+       
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { fetchCart } from "./utils";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Cart from "./cart/cart";
+import PWAInstallButton from "./PWADownloadButton";
 
 const MobileFooter = () => {
   const [activeTab, setActiveTab] = React.useState("home");
@@ -33,7 +34,8 @@ const MobileFooter = () => {
 
 
   return (
-    <footer className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200  py-2 flex justify-around items-center z-50">
+    
+    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200  py-2 flex justify-around items-center z-50">
    
    
        {/* Search */}
@@ -81,6 +83,8 @@ const MobileFooter = () => {
       </button>}
       </div>
 
+       <PWAInstallButton />
+
       
       {/* Cart  shows only in mobile mode*/}
       <button
@@ -92,7 +96,9 @@ const MobileFooter = () => {
       <Cart />
       
       </button>
-    </footer>
+    </div>
+   
+    
   );
 };
 
