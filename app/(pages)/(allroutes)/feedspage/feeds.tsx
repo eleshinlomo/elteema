@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react'
 import { capitalize, formatNumber } from '../../../../components/utils'
 import { GeneralContext } from '../../../../contextProviders/GeneralProvider'
-import { getFeeds } from '../../../../components/api/feed'
+import { deleteFeed, getFeeds, updateFeed } from '../../../../components/api/feed'
 import { FiMessageSquare, FiShare2, FiX } from 'react-icons/fi'
 import { AiOutlineLike, AiFillLike, AiOutlinePicture } from 'react-icons/ai'
 import { BsThreeDotsVertical } from 'react-icons/bs'
@@ -139,27 +139,28 @@ const Feeds = ({ setShowSearch }: Props) => {
             fileInputRef.current.click()
         }
     }
+    
 
-    const updateFeed = async (feedId: number) => {
+    // Update Feed
+    const handleUpdateFeed = async (feedId: number) => {
+        const userId = user?.id
         try {
             const formData = new FormData()
             formData.append('text', editTexts[feedId] || '')
             formData.append('feedId', feedId.toString())
+            formData.append('userId', userId.toString())
             
             // Add new images if any
             const files = uploadedImages[feedId] || []
             files.forEach(file => {
                 formData.append('images', file)
             })
-
-            const response = await fetch('/api/feed/update', {
-                method: 'POST',
-                body: formData
-            })
-
-            const result = await response.json()
             
-            if (result.ok) {
+            
+            const response: any = await updateFeed(formData)
+            console.log(response)
+            
+            if (response.ok) {
                 const updatedFeeds = await getFeeds()
                 setFeeds(updatedFeeds.feeds)
                 setEditingFeedId(null)
@@ -177,12 +178,29 @@ const Feeds = ({ setShowSearch }: Props) => {
                     return updated
                 })
             } else {
-                setError(result.error || 'Failed to update post')
+                setError(response.error)
             }
         } catch (err) {
             console.error('Error updating feed:', err)
             setError('Failed to update post')
         }
+    }
+
+    // Delete
+    const handleDelete = async (feedId: number)=>{
+        try{
+        const response = await deleteFeed(feedId)
+        console.log(response)
+        if(response.ok){
+            setFeeds(response.data)
+                setEditingFeedId(null)
+                setActiveMenuId(null)
+        }else{
+            setError(response.error)
+        }
+      }catch(err){
+        console.log(err)
+      }
     }
 
     return (
@@ -265,12 +283,14 @@ const Feeds = ({ setShowSearch }: Props) => {
                                                     <button 
                                                         className="text-xs py-1 px-3 rounded bg-green-600 hover:bg-green-700 text-white text-left"
                                                         onClick={editingFeedId === feed.feedId ? 
-                                                            () => updateFeed(feed.feedId) : 
+                                                            () =>handleUpdateFeed(feed.feedId) : 
                                                             () => openEditMode(feed.feedId)}
                                                     >
                                                         {editingFeedId === feed.feedId ? 'Save' : 'Edit'}
                                                     </button>
-                                                    <button className="text-xs py-1 px-3 rounded bg-red-600 hover:bg-red-700 text-white text-left">
+                                                    <button className="text-xs py-1 px-3 rounded bg-red-600 hover:bg-red-700 text-white text-left"
+                                                    onClick={()=>handleDelete(feed.feedId)}
+                                                    >
                                                         Delete
                                                     </button>
                                                 </div>
@@ -311,9 +331,24 @@ const Feeds = ({ setShowSearch }: Props) => {
                                             }))}     
                                         />
                                     ) : (
-                                        <p className="text-gray-800 leading-relaxed whitespace-pre-line">
-                                            {feed.text}
-                                        </p>
+                                        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                                            <div className="p-4">
+                                                <p className="text-gray-800 leading-relaxed whitespace-pre-line mb-4">
+                                                    {feed.text}
+                                                </p>
+                                            {feed.imageUrl && (
+                                            <div className="relative h-64 w-full rounded-md overflow-hidden">
+                                                <Image 
+                                            src={feed.imageUrl} 
+                                            alt='feed image' 
+                                            fill
+                                            className="object-cover"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+                                            />
+                                            </div>
+                                        )}
+                                        </div>
+                                    </div>
                                     )}
                                 </div>
                                 
@@ -409,7 +444,7 @@ const Feeds = ({ setShowSearch }: Props) => {
                                         <RiVerifiedBadgeFill className="text-green-600 mr-2 text-xl" />
                                         <h3 className="text-sm font-bold text-gray-700">
                                             <a 
-                                                href={`/storefront/${feed.store.storeId}/${feed.store.storeName.toLowerCase().replace(/\s+/g, '-')}`}
+                                                href={`/storefront/${feed.store?.storeId}/${feed.store.storeName.toLowerCase().replace(/\s+/g, '-')}`}
                                                 className="hover:underline"
                                             >
                                                 Visit {feed.store.storeName}

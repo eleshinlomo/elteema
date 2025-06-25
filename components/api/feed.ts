@@ -30,10 +30,7 @@ export interface FeedProps {
 
 export const createFeed = async (formData: any, userId: number) => {
 
-      for (const [key, value] of formData.entries()) {
-      console.log('PAYLOAD DATA', key, value);
-    }
-
+  
   try {
     const response = await fetch(`${BASE_URL}/feed/createfeed`, {
       method: 'POST',
@@ -59,6 +56,38 @@ export const createFeed = async (formData: any, userId: number) => {
 };
 
 
+// Update feed
+export const updateFeed = async (formData: any)=>{
+    for (const [key, value] of formData.entries()) {
+  console.log('FORM DATA',key, value);
+}
+     try {
+    const response = await fetch(`${BASE_URL}/feed/updatefeed`, {
+                   
+  
+      method: 'PUT',
+      mode: 'cors',
+      body: formData,
+      
+    
+      // No headers - browser will set Content-Type automatically
+    });
+
+    if (!response) {
+      return 'Failed to create feed' ;
+    }
+
+    const data = await response.json();
+    return data
+    
+  } catch (error) {
+    console.error('Error creating feed:', error);
+    return { ok: false, error: 'Network error occurred' };
+  }
+}
+      
+
+
 export const getFeeds = async ()=>{
     try{
      const response = await fetch(`${BASE_URL}/feed/getfeeds`, {
@@ -78,21 +107,27 @@ export const getFeeds = async ()=>{
    }
 }
 
-export const updateFeed = async (feedId: number, updatedData: Partial<FeedProps>): Promise<FeedProps> => {
-    const response = await fetch(`/api/feeds/${feedId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedData)
-    });
-    if (!response.ok) throw new Error('Failed to update feed');
-    return response.json();
-}
+      
 
-export const deleteFeed = async (feedId: number): Promise<void> => {
-    const response = await fetch(`/api/feeds/${feedId}`, {
-        method: 'DELETE'
-    });
-    if (!response.ok) throw new Error('Failed to delete feed');
+//Delete Feed
+export const deleteFeed = async (feedId: number)=>{
+    
+    try{
+    const response = await fetch(`${BASE_URL}/feed/deletefeed`, {
+       mode: 'cors',
+       method: 'DELETE',
+       headers: {
+        'Content-Type': 'application/json',
+
+       },
+       body: JSON.stringify({feedId})
+    })
+    if(!response) return 'No response from server'
+    const data: any = await response.json()
+    return data
+    
+}catch(err){
+    console.log(err)
+}
+    
 }
