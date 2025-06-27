@@ -1,11 +1,11 @@
 'use client'
 import { useState, useContext, useEffect } from 'react'
 import Image from 'next/image'
-import { CartContext } from '../contextProviders/cartcontext'
+import { CartContext } from '../../../../contextProviders/cartcontext'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import { capitalize, formatCurrency } from './utils'
-import PopularBadge from './product/popularBadge'
-import { ProductProps } from './api/product'
+import { capitalize, formatCurrency } from '../../../../components/utils'
+import PopularBadge from '../../../../components/product/popularBadge'
+import { ProductProps } from '../../../../components/api/product'
 
 
 interface StoreDisplayProps {
@@ -13,7 +13,7 @@ interface StoreDisplayProps {
     numPerPage: number;
 }
 
-const DisplayStore = ({ productArray, numPerPage }: StoreDisplayProps) => {
+const DisplaySuperMarket = ({ productArray, numPerPage }: StoreDisplayProps) => {
     const [error, setError] = useState('')
     const [isAdded, setIsAdded] = useState(false)
     const { cart } = useContext(CartContext)
@@ -45,19 +45,19 @@ const DisplayStore = ({ productArray, numPerPage }: StoreDisplayProps) => {
     return (
         <div>
             {productArray?.length > 0 && (
-                <div className='relative w-full overflow-hidden'>
+                <div className=' relative w-full flex flex-col justify-center items-center overflow-hidden'>
                     <div className={`grid grid-cols-1 md:grid-cols-2 gap-3 mb-2`}>
                         {currentItems.map((item, StoreIndex) => (
                             <div key={StoreIndex} className='border border-gray-200 rounded-lg p-2 hover:shadow-md transition-shadow'>
                                 <div className='flex flex-col h-full'>
                                     <a href={`/productpage/${item.productId}`} className='flex flex-col '>
-                              <div className="relative h-32 w-24 flex-shrink-0 rounded-md overflow-hidden">
+                              <div className="relative aspect-square rounded-lg overflow-hidden border border-gray-200">
     <Image 
         src={item?.images?.[0]} 
         alt={item.productName}
         fill
         className="object-cover object-center"
-        sizes="100vw"
+        
     />
     <PopularBadge item={item} />
 </div>
@@ -175,4 +175,4 @@ const DisplayStore = ({ productArray, numPerPage }: StoreDisplayProps) => {
     )
 }
 
-export default DisplayStore
+export default DisplaySuperMarket

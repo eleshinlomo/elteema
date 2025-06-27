@@ -10,6 +10,7 @@ import MobileFooter from "../../../components/mobileFooter"
 import Footer from "../../../components/footer"
 import { usePathname } from "next/navigation"
 import NavBar from "../../../components/header/navBar"
+import Featured from "../../../components/product/featured"
 
 
 interface AllRoutesProps {
@@ -42,7 +43,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
   }, [])
   
   const generalContext = useContext(GeneralContext)
-  const {isLoggedIn, setIsLoggedIn, user, setUser, userStore, setUserStore} = generalContext
+  const {isLoggedIn, setIsLoggedIn, user, setUser, showSearchPage, setShowSearchPage} = generalContext
 
 
 
@@ -163,6 +164,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
           {/* <NavBar /> */}
           <NavBar />
           {children}
+          {showSearchPage ? <Featured /> : null}
           <ScrollTopButton />
           {/* Mobile footer */}
           <MobileFooter />

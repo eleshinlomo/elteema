@@ -14,7 +14,7 @@ import { FaShoppingBag } from "react-icons/fa";
 
 const NavBar = () => {
   const [activeTab, setActiveTab] = React.useState("home");
-  const {isLoggedIn,setIsLoggedIn, user, setUser} = useContext(GeneralContext)
+  const {isLoggedIn,setIsLoggedIn, user, setUser, showSearchPage, setShowSearchPage} = useContext(GeneralContext)
    const {cart, setCart, totalItems, totalPrice, setTotalItems, setTotalPrice} = useContext(CartContext)
    const router = useRouter()
   
@@ -22,6 +22,13 @@ const NavBar = () => {
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
+
+   const handleShowSearch = (tabName: string)=>{
+     setActiveTab(tabName);
+     setShowSearchPage(true)
+  }
+
+  
 
    const handleLogout = async () => {
       setIsLoggedIn(false)
@@ -39,10 +46,11 @@ const NavBar = () => {
     <div className=" fixed top-0 left-0 right-0 bg-white md:bg-white/50 border-t border-gray-200  py-2 px-2 md:px-4  z-50">
       
       <div className="flex justify-between">
+
       {/* Home */}
       <a href='/'><button
         onClick={() => handleTabClick("home")}
-        className={`flex flex-col items-center p-2 ${
+        className={`hidden md:flex flex-col items-center p-2 ${
           activeTab === "home" ? "text-green-600" : "text-gray-500"
         }`}
       >
@@ -52,9 +60,21 @@ const NavBar = () => {
         {/* <span className="text-xs mt-1">Home</span> */}
       </button>
       </a>
-       
+
+
+           {/* Search */}
+              <button
+                onClick={() => handleShowSearch("search")}
+                className={`md:hidden flex  flex-col items-center p-2 ${
+                  activeTab === "search" ? "text-green-600" : "text-gray-500"
+                }`}
+              >
+                <Search className="w-5 h-5" />
+                <span className="text-xs mt-1">Search</span>
+              </button>
       
        
+      
        {/* Restaurants */}
           <a href='/restaurantpage'><button
         onClick={() => handleTabClick("restaurants")}
@@ -94,7 +114,7 @@ const NavBar = () => {
       </a>
 
          {/* Supermarket */}
-        <a href='/allstorespage'><button
+        <a href='/supermarketpage'><button
         onClick={() => handleTabClick("supermarket")}
         className={`flex flex-col items-center p-2 ${
           activeTab === "supermarket" ? "text-green-600" : "text-gray-500"
@@ -134,6 +154,7 @@ const NavBar = () => {
         <div className="hidden md:flex"><PWAInstallButton /></div>
     
       {/* Cart  shows only in desktop mode*/}
+      <div className="hidden md:flex">
       <button
         onClick={() => handleTabClick("cart")}
         className={`hidden md:flex flex-col items-center p-2 text-xs ${
@@ -143,13 +164,15 @@ const NavBar = () => {
       <Cart />
       
       </button>
+      </div>
 
 
-      {/* Menu  shows only in mobile mode*/}
+      {/* Menu  shows always*/}
+      <div className="w-16 flex-shrink-0">
       <button
-        onClick={() => handleTabClick("cart")}
+        onClick={() => handleTabClick("menu")}
         className={`flex flex-col items-center p-2 text-xs ${
-          activeTab === "signout" ? "text-green-600" : "text-gray-500"
+          activeTab === "menu" ? "text-green-600" : "text-gray-500"
         }`}
       >
       <MenuButton />
@@ -158,7 +181,7 @@ const NavBar = () => {
       </button>
       </div>
 
-       
+      </div>
     </div>
   );
 };

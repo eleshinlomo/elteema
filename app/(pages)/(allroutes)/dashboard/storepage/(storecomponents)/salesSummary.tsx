@@ -20,10 +20,10 @@ const SalesSummary = () => {
   }
  },[user, store])
 
-  const calculateChange = useCallback((lastValue: number, currentValue: number)=>{
+  const calculateChange = (lastValue: number, currentValue: number)=>{
       const change = lastValue || 0 - currentValue || 0
       return change.toFixed(2)
-  },[])
+  }
 
     
     const calculateIsUp = (lastValue: number, currentValue: number)=>{

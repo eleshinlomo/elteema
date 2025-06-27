@@ -117,7 +117,7 @@ const AddProductPage = () => {
     // Send formData to the API
     const response = await fetch(`${BASE_URL}/product/createproduct`, {
       method: 'POST',
-      body: formData, // Don't set Content-Type header - browser will set it with boundary
+      body: formData,
       headers: {
         'userId': user.id //Used for the middleware on backend
       }

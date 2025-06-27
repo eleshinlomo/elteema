@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "app/(pages)/(allroutes)/restaurantpage"  ],
   "exclude": [
     "node_modules"
   ]

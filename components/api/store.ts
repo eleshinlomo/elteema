@@ -19,6 +19,9 @@ export interface StoreProps {
  logo: string;
  phone: string,
  email: string;
+ city: string;
+ state: string;
+ items: []
 }
 
 
@@ -61,4 +64,24 @@ export const updateStoreOrder = async (cart: CartProps[], buyerId: number, eta: 
 }catch(err){
     console.log(err)
 }
+}
+
+
+// Function gets single store
+export const getStore = async (storeName: string)=>{
+
+      const response = await fetch(`${BASE_URL}/store/getstore`, {
+       mode: 'cors',
+       method: 'POST',
+       headers: {
+        'Content-Type': 'application/json',
+
+       },
+       body: JSON.stringify({storeName})
+    })
+    if(!response) return 'No response from server'
+    
+    const data = await response.json()
+    return data
+
 }

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { ProductProps } from '../api/product'
 import { ProductContext } from '../../contextProviders/ProductContext'
 import { motion } from 'framer-motion'
-import DisplayStore from '../displayStore'
+import DisplayStore from '../../app/(pages)/(allroutes)/supermarketpage/displaySupermarket'
 import SkeletonPage from '../skeletonPage'
 
 const Trending = () => {

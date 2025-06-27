@@ -12,7 +12,7 @@ import PWAInstallButton from "./PWADownloadButton";
 
 const MobileFooter = () => {
   const [activeTab, setActiveTab] = React.useState("home");
-  const {isLoggedIn,setIsLoggedIn, user, setUser} = useContext(GeneralContext)
+  const {isLoggedIn,setIsLoggedIn, user, setUser, showSearchPage, setShowSearchPage} = useContext(GeneralContext)
    const {cart, setCart, totalItems, totalPrice, setTotalItems, setTotalPrice} = useContext(CartContext)
    const router = useRouter()
   
@@ -20,6 +20,13 @@ const MobileFooter = () => {
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
+
+   const handleHome = (tabName: string)=>{
+     setActiveTab(tabName);
+     setShowSearchPage(false)
+  }
+
+ 
 
    const handleLogout = async () => {
       setIsLoggedIn(false)
@@ -33,22 +40,31 @@ const MobileFooter = () => {
     }
 
 
+
+
   return (
     
     <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200  py-2 flex justify-around items-center z-50">
-   
-   
-       {/* Search */}
-      <button
-        onClick={() => handleTabClick("search")}
-        className={`flex flex-col items-center p-2 ${
-          activeTab === "search" ? "text-green-600" : "text-gray-500"
-        }`}
-      >
-        <Search className="w-5 h-5" />
-        <span className="text-xs mt-1">Search</span>
-      </button>
+      
 
+        {/* Home */}
+            <a href='/'><button
+              onClick={() => handleHome("home")}
+              className={`md:hidden flex flex-col items-center p-2 ${
+                activeTab === "home" ? "text-green-600" : "text-gray-500"
+              }`}
+            >
+             <div className="relative w-10 h-10 md:mt-1">
+              <Image src='/images/logos/elteema_logo.png' alt='logo' fill />
+             </div>
+              {/* <span className="text-xs mt-1">Home</span> */}
+            </button>
+            </a>
+
+   
+    
+      
+      {/* Dashboard */}
       <a href='/dashboard'><button
         onClick={() => handleTabClick("dashboard")}
         className={`flex flex-col items-center p-2 ${
@@ -60,6 +76,7 @@ const MobileFooter = () => {
       </button>
       </a>
       
+      {/* Auth */}
       <div>
        {!isLoggedIn ?
        <a href='/authpages/signin'><button

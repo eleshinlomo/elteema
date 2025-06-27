@@ -1,8 +1,9 @@
 'use client'
-import React, { createContext, useState } from "react"
+import React, { createContext, useState, useEffect } from "react"
 import { FeedProps } from "../components/api/feed";
 import { ProductProps } from "../components/api/product";
 import { UserProps } from "../components/data/userdata";
+import { usePathname } from "next/navigation";
 
 interface GeneralProps {
     children: React.ReactNode
@@ -23,6 +24,8 @@ export interface GeneralContextInitialProps {
     setUser: (value: null)=>void;
     feeds: FeedProps[];
     setFeeds: (value: FeedProps[])=>void
+    showSearchPage: boolean;
+    setShowSearchPage: (value: boolean)=>void;
 
 }
 const initialValues : GeneralContextInitialProps = {
@@ -40,6 +43,8 @@ const initialValues : GeneralContextInitialProps = {
   setUser: ()=>{},
   feeds: [],
   setFeeds: ()=>{},
+  showSearchPage:false, 
+  setShowSearchPage: ()=>{},
 
 }
 
@@ -54,7 +59,11 @@ export const GeneralProvider = ({children}: GeneralProps)=>{
     const [sticky, setSticky] = useState(false);
     const [feeds, setFeeds] = useState<FeedProps[]>([])
     const [page, setPage] = useState('Home')
+    const [showSearchPage, setShowSearchPage] = useState(false) // Only used in mobile view
 
+    const path = usePathname()
+    
+  
     
 
 const values : GeneralContextInitialProps = {
@@ -71,7 +80,9 @@ const values : GeneralContextInitialProps = {
     feeds,
     setFeeds,
     page,
-    setPage
+    setPage,
+    showSearchPage, setShowSearchPage
+    
 }
     return (
     <GeneralContext.Provider value={values}>

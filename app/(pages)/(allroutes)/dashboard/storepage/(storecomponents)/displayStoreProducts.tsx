@@ -45,13 +45,13 @@ const DisplayStoreProducts = (productArray: any | ProductProps) => {
                             <div key={StoreIndex} className='border border-gray-200 rounded-lg p-2 hover:shadow-md transition-shadow'>
                                 <div className='flex flex-col h-full'>
                                     <a href={`/productpage/${item.id}`} className='flex flex-col h-full'>
-                                        <div className='relative aspect-[4/3] w-full flex-shrink-0 rounded-md overflow-hidden'>
+                                        <div className='relative aspect-square rounded-lg overflow-hidden border border-gray-200'>
                                             <Image 
                                                 src={item.src} 
                                                 alt={item.name}
                                                 fill
-                                                className='object=cover'
-                                                sizes="(max-width: 768px) 100vw, 50vw"
+                                                className='object-cover'
+                                                
                                             />
                                             <PopularBadge item={item} />
                                         </div>

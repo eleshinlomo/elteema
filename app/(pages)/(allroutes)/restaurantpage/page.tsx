@@ -1,7 +1,7 @@
 'use client'
 import { useContext } from "react"
 import { ProductContext } from "../../../../contextProviders/ProductContext"
-import DisplayStore from "../../../../components/displayStore"
+import DisplayStore from "../supermarketpage/displaySupermarket"
 import Image from "next/image"
 
 const RestaurantsPage = ()=>{

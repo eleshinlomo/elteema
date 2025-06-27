@@ -4,7 +4,6 @@ import Feeds from "./feeds";
 import Featured from "../../../../components/product/featured";
 import Trending from "../../../../components/product/trending";
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider";
-import FeaturedMobile from "../../../../components/product/featuredMobile";
 import { motion, AnimatePresence } from "framer-motion";
 
 const FeedsPage = () => {
@@ -58,7 +57,8 @@ const FeedsPage = () => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
                     >
-                        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 h-full border border-green-200/50 mr-2 hover:shadow-green-200/50 transition-all duration-300">
+                      
+                        <div className=" bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 h-full border border-green-200/50 mr-2 hover:shadow-green-200/50 transition-all duration-300">
                             <Featured />
                         </div>
                     </motion.div>
@@ -66,11 +66,7 @@ const FeedsPage = () => {
 
                 {/* Main Content - Centered */}
                 <div className="col-span-1 md:col-span-1">
-                    {showSearch ? (
-                        <FeaturedMobile setShowSearch={setShowSearch} />
-                    ) : (
-                        <Feeds setShowSearch={setShowSearch} />
-                    )}
+                        <Feeds />
                 </div>
 
                 {/* Right Sidebar - Fixed */}
@@ -86,18 +82,7 @@ const FeedsPage = () => {
                 </motion.div>
             </div>
 
-            {/* Mobile Overlay */}
-            {windowWidth < 1024 && showSearch && 
-                <motion.div 
-                    className="fixed inset-0 bg-white/95 z-30 overflow-y-auto transition-colors duration-300 pt-6"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                >
-                    <FeaturedMobile setShowSearch={setShowSearch} />
-                </motion.div>
-            }
+         
         </div>
     );
 };

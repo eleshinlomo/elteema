@@ -22,7 +22,7 @@ const AllProductDisplay = ({ productArray }: AllProductDisplayProps) => {
                             <div className="relative h-60 w-full overflow-hidden">
                             <a href={`/productpage/${item.productId}`}>
                                 <Image 
-                                    src={item.src} 
+                                    src={item.images[0]} 
                                     alt={item.productName} 
                                     fill
                                     objectFit="cover"

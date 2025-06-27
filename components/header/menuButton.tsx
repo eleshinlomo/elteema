@@ -106,11 +106,10 @@ const MenuButton = () => {
           </button>
         </div>
 
-       
+      <MenuContent setDrawerOpen={setDrawerOpen} />
       </div>
-
-      {/* desktop content */}
-      <div className='hidden md:flex'><MenuContent /></div>
+      
+     
     </div>
   );
 };

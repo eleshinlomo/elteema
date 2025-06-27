@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import React, { useState, useEffect, useContext } from 'react'
 import { Search as SearchIcon, Zap, Star, ShoppingBag, ListTree } from 'lucide-react'
 import { ProductProps } from '../api/product'
@@ -6,9 +6,10 @@ import Hero from '../hero'
 import ProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
 import PurchaseAlert from './purchaseAlert'
-import DisplayStore from '../displayStore'
+import DisplayStore from '../../app/(pages)/(allroutes)/supermarketpage/displaySupermarket'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ProductContext } from '../../contextProviders/ProductContext'
+import { GeneralContext } from '../../contextProviders/GeneralProvider'
 
 const Featured = () => {
     const [allProducts, setAllProducts] = useState<ProductProps[]>([])
@@ -19,6 +20,7 @@ const Featured = () => {
     const [showHero, setShowHero] = useState(true)
     // Hooks
     const {Products} = useContext(ProductContext)
+    const {showSearchPage, setShowSearchPage} = useContext(GeneralContext)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setItemToSearch(e.target.value)
@@ -54,7 +56,12 @@ const Featured = () => {
     }, [Products?.length])
 
     return (
-        <div id='search' className="hidden md:flex flex-col bg-gradient-to-b from-green-50 to-white mt-2 pb-16 w-full">
+        <div id='search' className="relative flex flex-col bg-gradient-to-b from-green-50 to-white mt-2 pb-16 w-full" style={{ zIndex: 9999 }}>
+            <button className='absolute right-0 bg-green-800 text-white rounded-2xl z-50 p-2 m-4'
+                onClick={()=>setShowSearchPage(false)}
+            > Close
+            </button>
+            <div className='absolute left-0 right-0 z-50'>
             {/* Animated Content Section */}
             <AnimatePresence mode="wait">
                 {searchedItemFound && searchedItemList.length > 0 ? (
@@ -139,6 +146,7 @@ const Featured = () => {
                         </motion.div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     )

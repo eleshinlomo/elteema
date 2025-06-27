@@ -20,7 +20,7 @@ interface Props {
     setShowSearch: (value: boolean) => void
 }
 
-const Feeds = ({ setShowSearch }: Props) => {
+const Feeds = () => {
     const { user, feeds, setFeeds } = useContext(GeneralContext)
     const [text, setText] = useState('')
     const [isTyping, setIsTyping] = useState(false)
@@ -236,14 +236,11 @@ const Feeds = ({ setShowSearch }: Props) => {
                         error={error}
                         setError={setError}
                         isEditing={false}
-                        setShowSearch={setShowSearch}
+                        
                     />
                 </div>
                 
-                {/* Mobile featured section */}
-                <div className="md:hidden mb-6">
-                    <Featured />
-                </div>
+              
 
                 {/* No feeds display */}
                 {feeds?.length === 0 && (
@@ -279,16 +276,16 @@ const Feeds = ({ setShowSearch }: Props) => {
                                     {activeMenuId === feed.feedId && (
                                         <div className="absolute right-10 top-0 bg-white shadow-lg rounded-md z-10 p-1 min-w-[120px]">
                                             {user?.username === feed.postedBy ? (
-                                                <div className="flex flex-col gap-1">
+                                                <div className="flex flex-col gap-3">
                                                     <button 
-                                                        className="text-xs py-1 px-3 rounded bg-green-600 hover:bg-green-700 text-white text-left"
+                                                        className="text-xs py-2 px-3 rounded bg-green-600 hover:bg-green-700 text-white text-left"
                                                         onClick={editingFeedId === feed.feedId ? 
                                                             () =>handleUpdateFeed(feed.feedId) : 
                                                             () => openEditMode(feed.feedId)}
                                                     >
                                                         {editingFeedId === feed.feedId ? 'Save' : 'Edit'}
                                                     </button>
-                                                    <button className="text-xs py-1 px-3 rounded bg-red-600 hover:bg-red-700 text-white text-left"
+                                                    <button className="text-xs py-2 px-3 rounded bg-red-600 hover:bg-red-700 text-white text-left"
                                                     onClick={()=>handleDelete(feed.feedId)}
                                                     >
                                                         Delete
@@ -354,18 +351,7 @@ const Feeds = ({ setShowSearch }: Props) => {
                                 
                                 {/* Image Section */}
                                 <div className="mb-4">
-                                    {editingFeedId === feed.feedId && (
-                                        <div className="mb-3">
-                                            <button 
-                                                type="button"
-                                                onClick={() => triggerFileInput(feed.feedId)}
-                                                className="flex items-center gap-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition-colors"
-                                            >
-                                                <AiOutlinePicture size={18} />
-                                                Add Images
-                                            </button>
-                                        </div>
-                                    )}
+                                  
                                     
                                     {(previewImages[feed.feedId]?.length > 0 || feed.images?.length > 0) && (
                                         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -444,7 +430,7 @@ const Feeds = ({ setShowSearch }: Props) => {
                                         <RiVerifiedBadgeFill className="text-green-600 mr-2 text-xl" />
                                         <h3 className="text-sm font-bold text-gray-700">
                                             <a 
-                                                href={`/storefront/${feed.store?.storeId}/${feed.store.storeName.toLowerCase().replace(/\s+/g, '-')}`}
+                                                href={`/storefront/${encodeURIComponent(feed.store.storeName.toLowerCase())}`}
                                                 className="hover:underline"
                                             >
                                                 Visit {feed.store.storeName}

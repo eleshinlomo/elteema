@@ -18,7 +18,7 @@ export interface PostFeedProps {
     error: string
     setError: (error: string) => void
     isEditing: boolean
-    setShowSearch: (show: boolean) => void
+    
 }
 
 
@@ -30,7 +30,6 @@ const PostFeed = ({
     error, 
     setError, 
     isEditing, 
-    setShowSearch 
 }: PostFeedProps) => {
     const [imagePreview, setImagePreview] = useState<string | null>(null)
     const [imageFile, setImageFile] = useState<File | null>(null)
@@ -39,9 +38,7 @@ const PostFeed = ({
     const [likes, setLikes] = useState(0)
     const [comments, setComments] = useState([])
 
-    const handleShowSearch = () => {
-        setShowSearch(true)
-    }
+   
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -144,13 +141,6 @@ const PostFeed = ({
                         className="hidden"
                     />
                     
-                    <button 
-                        onClick={handleShowSearch}
-                        className="text-gray-500 hover:text-green-600 transition-colors md:hidden"
-                        title="Search"
-                    >
-                        <SearchIcon size={20} />
-                    </button>
                 </div>
             </div>
             
