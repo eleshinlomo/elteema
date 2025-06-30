@@ -2,8 +2,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { ProductProps } from '../api/product'
 import Image from 'next/image'
-import AllProductDisplay from './ProductsDisplay'
-import { CartContext } from '../../contextProviders/cartcontext'
 import SkeletonPage from '../skeletonPage'
 import { capitalize } from '../utils'
 import CategoryNotFound from './productCatNotFound'
