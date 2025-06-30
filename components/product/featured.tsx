@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Search as SearchIcon, Zap, Star, ShoppingBag, ListTree } from 'lucide-react'
 import { ProductProps } from '../api/product'
 import Hero from '../hero'
-import ProductDisplay from './ProductsDisplay'
 import { CartContext } from '../../contextProviders/cartcontext'
 import PurchaseAlert from './purchaseAlert'
 import DisplayStore from '../../app/(pages)/(allroutes)/supermarketpage/displaySupermarket'
@@ -39,7 +38,7 @@ const Featured = () => {
         )
         
         setSearchItemList(filteredItems)
-        setSearchedItemFound(filteredItems.length > 0)
+        setSearchedItemFound(filteredItems?.length > 0)
         setShowHero(false)
     }
 
@@ -95,12 +94,12 @@ const Featured = () => {
                         <p className="text-gray-500 mb-6">
                             We couldn&apos;t find any products matching {itemToSearch}
                         </p>
-                        <a href='/'>
+                        <a href='/supermarketpage'>
                             <button 
                                 onClick={() => setItemToSearch('')}
                                 className="px-6 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors shadow-md"
                             >
-                                Browse All Products
+                                GO TO SUPERMARKET
                             </button>
                         </a>
                     </motion.div>

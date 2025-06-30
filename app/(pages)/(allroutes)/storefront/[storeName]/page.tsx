@@ -59,8 +59,9 @@ const StoreFront = () => {
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl font-extrabold text-gray-900 mb-2">{capitalize(store.storeName)}</h1>
-            <p className="text-xl text-gray-600 mb-4">{store.tagline}...</p>
+            <h1 className="text-4xl font-extrabold text-gray-900">{capitalize(store.storeName)}</h1>
+            <p className="text-xl text-gray-600">{store.tagline}...</p>
+            <p className="text-gray-900 mb-4">Contact: {store.phone}</p>
             <div className="flex items-center justify-center space-x-2 text-gray-500">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />

@@ -2,9 +2,6 @@
 import {useState, useEffect, useContext} from 'react'
 import { ProductProps } from '../../../../components/api/product'
 import Image from 'next/image'
-import AllProductDisplay from '../../../../components/product/ProductsDisplay'
-import { CartContext } from '../../../../contextProviders/cartcontext'
-import SkeletonPage from '../../../../components/skeletonPage'
 import { ProductContext } from '../../../../contextProviders/ProductContext'
 import DisplaySuperMarket from './displaySupermarket'
 

@@ -112,7 +112,7 @@ const Cart = () => {
           <p className="text-green-800 font-bold text-lg">
             Subtotal ({totalItems ?? 0}): {formatCurrency('NGN', totalPrice) ?? 0}
           </p>
-          <a href='/'><button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
+          <a href='/supermarketpage'><button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
             Conitnue shopping</button></a>
           </div>
           <button

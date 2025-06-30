@@ -4,12 +4,13 @@ import { useState, useEffect, useContext } from "react";
 import Image from 'next/image';
 import AddToCartButton from "../cart/addtocartbtn";
 import { CartContext } from "../../contextProviders/cartcontext";
-import { formatCurrency, getItemQuantity, getSingleProduct } from "../utils";
+import { capitalize, formatCurrency, getItemQuantity, getSingleProduct } from "../utils";
 import ProductSize from "./productSize";
 import BuyNowButton from "../cart/buyNowBtn";
 import { ProductProps } from '../api/product'
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import { ProductContext } from "../../contextProviders/ProductContext";
+import PopularBadge from "./popularBadge";
 
 interface DetailsProps {
   id: number;
@@ -74,10 +75,11 @@ const ProductDetails = ({ id }: DetailsProps) => {
 
   const mainImage = productImages[selectedImage]?.src || productImages[0]?.src;
 
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="flex gap-3">
-        <a href='/'>
+        <a href='/supermarketpage'>
           <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
             Continue shopping
           </button>
@@ -115,7 +117,8 @@ const ProductDetails = ({ id }: DetailsProps) => {
                 />
               </div>
             </div>
-
+            
+            
             <div className="p-6">
               <h3 className="text-xl font-bold text-gray-800 mb-2">{productImages[selectedImage]?.label}</h3>
 
@@ -188,7 +191,12 @@ const ProductDetails = ({ id }: DetailsProps) => {
           {/* Product Info */}
           <div className="md:w-1/2 p-6 md:p-8 flex flex-col">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.productName}</h1>
+              <h1 className="relative text-3xl font-bold text-gray-900 mb-2">{product.productName}  <PopularBadge item={product} /></h1>
+              
+              <a 
+              href={`/storefront/${product.storeName}`}
+              className="text-blue-500"
+              >Visit {product.storeName} store</a>
 
               <div className="flex items-center mb-6">
                 <span className="text-3xl font-bold text-green-600">{formatCurrency('NGN', product.price)}</span>
@@ -243,7 +251,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
                     </button>
                   </a>
 
-                  <a href="/">
+                  <a href="/supermarketpage">
                     <button className="text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white">
                       Continue shopping
                     </button>
@@ -263,7 +271,17 @@ const ProductDetails = ({ id }: DetailsProps) => {
             </div>
           </div>
         </div>
+
+        {/* Other Information */}
+        <div className="mb-4 px-4">
+        <p><span className="font-bold">Sold by:</span> {capitalize(product.storeName)}</p>
+        <p><span className="font-bold">Returns:</span> {'No returns'}</p>
+        <p className="font-extrabold mt-3">Customer reviews</p>
+        <p className="text-sm">There are no reviews</p>
+        </div>
       </div>
+
+      
     </div>
   );
 };

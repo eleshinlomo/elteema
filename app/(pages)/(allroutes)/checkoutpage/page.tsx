@@ -22,6 +22,7 @@ const CheckoutPage = () => {
   const [formattedAddress, setFormattedAddress] = useState<any>('')
   const [totalPricePlusTax, setTotalPricePlusTax] = useState(0)
   const [paymentMethodError, setPaymentMethodError] = useState('')
+  const [error, setError] = useState('')
 
   
  const handlePaymentPopUp = async () => {
@@ -108,6 +109,11 @@ const CheckoutPage = () => {
       setOpenWarning(true)
       return
     }
+
+    setError("We are unable to process online payments at the moment. Please vist store and call directly to place your order")
+    window.location.href = '#payment-top'
+    return
+
     if (!user.address) {
       setMessage('Please update your address')
       setOpenWarning(true)
@@ -167,7 +173,7 @@ const CheckoutPage = () => {
               </p>
             }
             <div className='md:flex justify-center items-center gap-2'>
-            <a href="/">
+            <a href="/supermarketpage">
               <button className="mt-6 bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
                 Continue shopping
               </button>
@@ -177,6 +183,11 @@ const CheckoutPage = () => {
                 Update Profile
               </button>
               </a>
+            </div>
+
+            {/* Store Order Error Message */}
+            <div className='pt-6'>
+              <p className='text-sm text-red-500 font-bold'>{error}</p>
             </div>
             
             <div className="mt-10 bg-white rounded-xl shadow-sm p-6 max-w-2xl mx-auto">
@@ -226,6 +237,7 @@ const CheckoutPage = () => {
                         <p className="text-sm text-gray-500 mt-1">
                           Quantity: {item.quantity}
                         </p>
+                        <a className='text-blue-500' href={`/storefront/${item.storeName}`}>Visit {item.storeName}</a>
                       </div>
                       <div className="mt-2 sm:mt-0">
                         <p className="text-lg font-semibold text-green-600">
