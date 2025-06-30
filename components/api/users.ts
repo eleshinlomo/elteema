@@ -1,4 +1,6 @@
-import { UserProps } from "../data/userdata";
+
+import { ProductProps } from "./product";
+import { StoreProps } from "./store";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -6,6 +8,34 @@ interface RegisterProps {
     email: string;
     username: string;
   }
+
+
+export interface UserProps {
+    id:number;
+    firstname:  string;
+    lastname:  string;
+    authCode: string;
+    username: string;
+    email: string;
+    cart: ProductProps[],
+    isLoggedIn: boolean;
+    type:  string;
+    role:  string;
+    createdAt:  string;
+    gender: string;
+    cookiesAccepted: boolean;
+    phone:  string;
+    address:  string;
+    city: string;
+    state: string;
+    newsletter: boolean;
+    store: StoreProps;
+    paymentEmail: string;
+    paymentMethod: string;
+    orders: []
+    
+    
+}
 
   
 export const register = async ({email, username} : RegisterProps)=>{

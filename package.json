@@ -13,6 +13,7 @@
     "@radix-ui/react-alert-dialog": "^1.1.11",
     "@radix-ui/react-slot": "^1.2.0",
     "@react-spring/web": "^9.7.5",
+    "ag-grid-react": "^34.0.0",
     "axios": "^1.9.0",
     "chart.js": "^4.4.9",
     "class-variance-authority": "^0.7.0",

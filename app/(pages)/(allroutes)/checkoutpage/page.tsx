@@ -5,7 +5,7 @@ import { GeneralContext } from '../../../../contextProviders/GeneralProvider'
 import SigninPage from '../authpages/signin/page'
 import { calculatePercentagePrice, capitalize, formatCurrency, getItemQuantity, totalPriceForCustomer, updateCart } from '../../../../components/utils'
 import { CartContext } from '../../../../contextProviders/cartcontext'
-import { updateLocalUser, UserProps } from '../../../../components/data/userdata'
+import { updateLocalUser} from '../../../../components/data/userdata'
 import PaymentAlertCard from './paymentAlertCard'
 import { launchPaymentPopup,} from './payments/paymentFunctions'
 import Image from 'next/image'
@@ -131,7 +131,9 @@ const CheckoutPage = () => {
     
     const response = handlePaymentPopUp()
     console.log('POPUP RESPONSE', response)
-    const updateResponse = await updateStoreOrder(cart, user.id, eta)
+    const newStatus = 'processing'
+    const updateResponse = await updateStoreOrder(cart, user.id, eta, newStatus)
+    console.log('ORDER UPDATE', updateResponse)
     if(updateResponse.ok){
        setCart([]) // Needed to clear local state. Although the updated user still comes with an empty cart.
        updateLocalUser(updateResponse.message)

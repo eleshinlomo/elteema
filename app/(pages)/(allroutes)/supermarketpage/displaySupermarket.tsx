@@ -40,21 +40,21 @@ const DisplaySuperMarket = ({ productArray, numPerPage }: StoreDisplayProps) => 
     useEffect(() => {
         
         setCurrentPage(0)
-    }, [productArray.length])
+    }, [productArray?.length])
 
     return (
         <div>
             {productArray?.length > 0 && (
                 <div className=' relative w-full flex flex-col justify-center items-center overflow-hidden'>
                     <div className={`grid grid-cols-1 md:grid-cols-2 gap-3 mb-2`}>
-                        {currentItems.map((item, StoreIndex) => (
+                        {currentItems?.length > 0 && currentItems?.map((item, StoreIndex) => (
                             <div key={StoreIndex} className='border border-gray-200 rounded-lg p-2 hover:shadow-md transition-shadow'>
                                 <div className='flex flex-col h-full'>
-                                    <a href={`/productpage/${item.productId}`} className='flex flex-col '>
+                                    <a href={`/productpage/${item?.productId}`} className='flex flex-col '>
                               <div className="relative aspect-square rounded-lg overflow-hidden border border-gray-200">
     <Image 
         src={item?.images?.[0]} 
-        alt={item.productName}
+        alt={item?.productName}
         fill
         className="object-cover object-center"
         
@@ -64,20 +64,20 @@ const DisplaySuperMarket = ({ productArray, numPerPage }: StoreDisplayProps) => 
                                         <div className='mt-1 flex-grow'>
                                             <div className='flex justify-between items-start'>
                                                 <h5 className='text-sm font-medium text-gray-800 line-clamp-1 flex-grow'>
-                                                    {item.productName}
+                                                    {item?.productName}
                                                 </h5>
-                                                <span className='text-xs text-gray-500 ml-1'>{`${item.numOfItemsSold === 0 ? 'New' : item.numOfItemsSold}`} </span>
+                                                <span className='text-xs text-gray-500 ml-1'>{`${item?.numOfItemsSold === 0 ? 'New' : item?.numOfItemsSold}`} </span>
                                             </div>
-                                            <p className='text-green-600 font-bold text-sm mt-0.5'>{formatCurrency('NGN', item.price)}</p>
+                                            <p className='text-green-600 font-bold text-sm mt-0.5'>{formatCurrency('NGN', item?.price)}</p>
                                             <div className='flex items-center mt-0.5'>
                                                 <div className='flex items-center text-yellow-400'>
                                                     {[...Array(5)].map((_, i) => (
-                                                        <svg key={i} className={`w-2.5 h-2.5 ${i < item.totalVotes ? 'fill-current' : 'fill-none stroke-current'}`} viewBox="0 0 24 24">
+                                                        <svg key={i} className={`w-2.5 h-2.5 ${i < item?.totalVotes ? 'fill-current' : 'fill-none stroke-current'}`} viewBox="0 0 24 24">
                                                             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                                                         </svg>
                                                     ))}
                                                 </div>
-                                                <span className='text-xs text-gray-500 ml-1'>({item.totalVotes})</span>
+                                                <span className='text-xs text-gray-500 ml-1'>({item?.totalVotes})</span>
                                             </div>
                                         </div>
 

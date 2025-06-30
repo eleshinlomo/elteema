@@ -1,3 +1,4 @@
+'use client';
 export interface StatusCardProps  {
   title: string;
   text: string;

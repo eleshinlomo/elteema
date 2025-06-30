@@ -4,7 +4,7 @@ import { ChangeEvent, useContext, useState, useEffect } from 'react'
 import Image from 'next/image'
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider';
 import { updateUser } from '../../../../../components/api/users';
-import { updateLocalUser, UserProps } from '../../../../../components/data/userdata';
+import { updateLocalUser} from '../../../../../components/data/userdata';
 import { updatePaymentMethod } from '../../../../../components/api/payments';
 
 type PaymentMethodType = 'Debit Card' | 'USSD' | 'Paypal' | '';

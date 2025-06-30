@@ -9,6 +9,7 @@ import ProductSize from "../../../../../../components/product/productSize";
 import { ProductContext } from "../../../../../../contextProviders/ProductContext";
 
 const StoreProducts = () => {
+  const [errors, setErrors] = useState<Record<number, string>>({}); // Changed to track errors per product
   const {user, setUser} = useContext(GeneralContext)
   const {Products, setProducts} = useContext(ProductContext)
   
@@ -23,6 +24,25 @@ const StoreProducts = () => {
   const totalPages = Math.ceil((storeProducts?.length || 0) / productsPerPage)
 
   const handleDeleteProduct = async (productId: number)=>{
+    // Clear any previous error for this product
+    setErrors(prev => {
+      const newErrors = {...prev};
+      delete newErrors[productId];
+      return newErrors;
+    });
+
+    const items: any[] = user?.store?.items
+    const productIndex = items?.findIndex((item)=>item.id === productId)
+    const hasPendingOrders = items[productIndex]?.orderStatus
+    
+    if(hasPendingOrders && hasPendingOrders !== ''){
+      setErrors(prev => ({
+        ...prev,
+        [productId]: 'You cannot delete a product with pending orders'
+      }));
+      return
+    }
+    
     const userId = user.id
     const response = await deleteProduct(userId, productId)
     if(response.ok){
@@ -37,7 +57,6 @@ const StoreProducts = () => {
       if(products?.length > 0){
         setProducts(products)
       }
-      
     }
     console.log(response)
   }
@@ -57,6 +76,10 @@ const StoreProducts = () => {
       <div className="space-y-4">
         {currentProducts?.length > 0 ? currentProducts.map((product) => 
         <div key={product.productId}>
+          {/* Show error only for this specific product if it exists */}
+          {errors[product.productId] && (
+            <p className="text-xs text-red-600 font-bold">{errors[product.productId]}</p>
+          )}
           <div  className="flex items-center">
             <img
               src={product?.images[0]}
@@ -69,37 +92,37 @@ const StoreProducts = () => {
             <div className="ml-4 flex-1">
               <div className="flex justify-between">
                 <h3 className="text-sm font-medium text-gray-800">{product.productName}</h3>
-                <span className="text-sm font-medium text-gray-800">N{product.price.toFixed(2)}</span>
+                <span className="text-sm font-medium text-gray-800">₦{product.price.toFixed(2)}</span>
               </div>
               <p className="text-xs text-gray-500">{product.category}</p>
               <div className="mt-1 flex justify-between">
                 <span className="text-xs text-gray-500">{product.numOfItemsSold} sold</span>
-                <span className="text-xs font-medium text-blue-500">Total Sales: N{product.totalSales.toFixed(2)}</span>
+                <span className="text-xs font-medium text-blue-500">Total Sales: ₦{product.totalSales.toFixed(2)}</span>
               </div>
             </div>
-             </div>
-
-             {/* Action buttons */}
-             <div className="flex gap-2 pt-2">
-               <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
-                  View or Edit
-               </button>
-               <button className='text-xs py-1 px-2 rounded bg-red-600 hover:bg-red-700 text-white'
-                onClick={()=>handleDeleteProduct(product.productId)}
-               >
-                  Delete
-               </button>
-            </div>
-
           </div>
-          ) : 
-          <div>
-            You have no product in your store.
+
+          {/* Action buttons */}
+          <div className="flex gap-2 pt-2">
+            <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
+              View or Edit
+            </button>
+            <button 
+              className='text-xs py-1 px-2 rounded bg-red-600 hover:bg-red-700 text-white'
+              onClick={()=>handleDeleteProduct(product.productId)}
+            >
+              Delete
+            </button>
           </div>
+        </div>
+        ) : 
+        <div>
+          You have no product in your store.
+        </div>
         }
       </div>
 
-      {/* Pagination */}
+      {/* Pagination remains the same */}
       {storeProducts?.length > productsPerPage && (
         <div className="flex justify-center mt-6">
           <nav className="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">

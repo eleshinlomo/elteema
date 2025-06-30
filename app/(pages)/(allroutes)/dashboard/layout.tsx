@@ -3,12 +3,11 @@
 import { useContext, useEffect } from "react"
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
-import SigninPage from "../authpages/signin/page"
 import Image from 'next/image'
 import NotLoggedInPage from "../authpages/notLoggedInpage"
 import DashSideBar from "./dashSidebar"
 import DashNavBar from "./dashNavBar"
-import { UserProps } from "../../../../components/data/userdata"
+
 
 
 interface DashboardProps {
@@ -27,7 +26,7 @@ const DashboardLayout = ({children}: DashboardProps)=>{
  
   useEffect(()=>{
 
-}, [user])
+}, [user, user?.orders])
 
   if(!isLoggedIn){
      return <NotLoggedInPage />
@@ -43,7 +42,7 @@ const DashboardLayout = ({children}: DashboardProps)=>{
         <div>
             <div className="flex ">
                 <div className="hidden md:block h-screen  w-1/4 ">
-                    <DashSideBar />
+                    <DashSideBar user={user} />
                 </div>
 
                  <div className="px-4 py-16">

@@ -53,7 +53,7 @@ const Featured = () => {
         console.log('PRODUCTS TO FEATURE', Products)
         setAllProducts(Products)
         }
-    }, [Products?.length])
+    }, [])
 
     return (
         <div id='search' className="relative flex flex-col bg-gradient-to-b from-green-50 to-white mt-2 pb-16 w-full" style={{ zIndex: 9999 }}>

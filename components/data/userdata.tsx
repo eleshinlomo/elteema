@@ -1,31 +1,9 @@
 'use client'
 import { ProductProps } from "../api/product"
+import { UserProps } from "../api/users"
 
 
-export interface UserProps {
-    id:number;
-    firstname:  string;
-    lastname:  string;
-    authCode: string;
-    username: string;
-    email: string;
-    cart: ProductProps[],
-    isLoggedIn: boolean;
-    type:  string;
-    role:  string;
-    createdAt:  string;
-    gender: string;
-    cookiesAccepted: boolean;
-    phone:  string;
-    address:  string;
-    city: string;
-    state: string;
-    newsletter: boolean;
-    store: null;
-    paymentEmail: string;
-    paymentMethod: string;
-    
-}
+
 
 
 const BASE_URL  = process.env.NEXT_PUBLIC_BASE_URL

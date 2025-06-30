@@ -1,7 +1,6 @@
 import { summary } from "framer-motion/client"
 import { ProductProps } from "./api/product"
-import { UserProps, getLocalUser, updateLocalUser } from "./data/userdata"
-import ProductCategory from "./product/productCategory"
+import { getLocalUser, updateLocalUser } from "./data/userdata"
 import { clotheCategoryWithSize, shoeCategoryWithSize } from "./data/categories"
 
 const date = new Date()

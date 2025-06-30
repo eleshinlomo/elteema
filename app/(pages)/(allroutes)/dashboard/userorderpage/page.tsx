@@ -3,6 +3,7 @@
 import { useContext, useState, useEffect } from "react";
 import { GeneralContext } from "../../../../../contextProviders/GeneralProvider";
 import { ProductProps } from "../../../../../components/api/product";
+import { formatCurrency } from "../../../../../components/utils";
 
 interface OrderProps {
   title: string;
@@ -16,12 +17,19 @@ const OrderPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState<ProductProps | null>(null);
   const itemsPerPage = 10;
-  const [isEditing, setIsEditing] = useState(false)
-  const [size, setSize] = useState('')
-   const [color, setColor] = useState('')
+  const [isEditing, setIsEditing] = useState(false);
+  const [size, setSize] = useState('');
+  const [color, setColor] = useState('');
 
-  const handleDeleteAccount = () => {
+  const handleDeleteOrder = () => {
+    if (selectedOrder) {
+      // Add your delete logic here
+      console.log("Deleting order:", selectedOrder);
+      // Filter out the deleted order
+      // setOrders(orders.filter(order => order.id !== selectedOrder.id));
+    }
     setIsDeleteModalOpen(false);
+    setSelectedOrder(null);
   };
 
   useEffect(() => {
@@ -33,6 +41,13 @@ const OrderPage = () => {
     }
   }, [user]);
 
+  // Status Options
+  const orderStatusOptions = [
+    'processing',
+    'awaiting pick-up',
+    'shipped'
+  ];
+
   // Calculate pagination
   const totalPages = Math.ceil(orders.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -43,7 +58,7 @@ const OrderPage = () => {
 
   const handleEdit = (order: ProductProps) => {
     setSelectedOrder(order);
-    setIsEditing(true)
+    setIsEditing(true);
     console.log("Editing order:", order);
   };
 
@@ -53,14 +68,15 @@ const OrderPage = () => {
   };
 
   return (
-    <div className="pt-16  lg:px-16 overflow-hidden">
+    <div className="pt-16 overflow-hidden relative">
       <div className="max-w-sm md:max-w-7xl mx-auto">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Your Orders</h2>
+        <h2 className="text-2xl font-bold text-gray-800">Your Orders</h2>
+        <p className="text-xs mb-6">Items you bought from other stores</p>
 
         {orders.length > 0 ? (
           <div className="bg-white rounded-lg shadow">
-            {/* Table - no horizontal scrolling here */}
-            <div className="">
+            {/* Table */}
+            <div className="overflow-x-auto">
               <table className="w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
@@ -68,8 +84,6 @@ const OrderPage = () => {
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ORIGIN</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DESTINATION</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Color</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ETA</th>
@@ -85,28 +99,20 @@ const OrderPage = () => {
                           {order.orderStatus}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.price}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatCurrency('NGN', order.price)}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.storeName}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.storeCity}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.city}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{isEditing ? <input />: order.size}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.size ? order.size : 'NA'}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="flex items-center">
                           <div className="w-4 h-4 rounded-full mr-2" style={{ backgroundColor: order.color }} />
-                          {order.color}
+                          {order.color ? order.color : 'NA'}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.eta}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.eta ? order.eta : 'Unknown'}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <button
-                          onClick={() => handleEdit(order)}
-                          className="text-indigo-600 hover:text-indigo-900 mr-3"
-                        >
-                          Edit
-                        </button>
-                        <button
                           onClick={() => handleCancel(order)}
-                          className="text-red-600 hover:text-red-900"
+                          className="text-red-600 hover:text-red-900 mr-2"
                         >
                           Cancel
                         </button>
@@ -117,7 +123,7 @@ const OrderPage = () => {
               </table>
             </div>
 
-            {/* Pagination with horizontal scrolling */}
+            {/* Pagination */}
             <div className="bg-white px-4 py-3 border-t border-gray-200">
               <div className="flex-1 flex flex-col sm:flex-row items-center justify-between">
                 <div className="mb-4 sm:mb-0">
@@ -127,7 +133,7 @@ const OrderPage = () => {
                     <span className="font-medium">{orders.length}</span> results
                   </p>
                 </div>
-                <div className=" w-full sm:w-auto">
+                <div className="w-full sm:w-auto">
                   <nav className="relative inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                     <button
                       onClick={() => paginate(Math.max(1, currentPage - 1))}
@@ -183,8 +189,45 @@ const OrderPage = () => {
 
         {/* Delete Confirmation Modal */}
         {isDeleteModalOpen && (
-          <div className="fixed z-10 inset-0 overflow-y-auto">
-            {/* Modal content remains the same */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity">
+            <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 mx-4 transform transition-all">
+              <div className="text-center">
+                <svg
+                  className="mx-auto h-12 w-12 text-red-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                </svg>
+                <h3 className="mt-2 text-lg font-medium text-gray-900">Cancel Order</h3>
+                <p className="mt-2 text-sm text-gray-500">
+                  Are you sure you want to cancel your order for {selectedOrder?.productName}? This action cannot be undone.
+                </p>
+              </div>
+              <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
+                <button
+                  type="button"
+                  onClick={handleDeleteOrder}
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:col-start-2 sm:text-sm"
+                >
+                  Yes, cancel order
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsDeleteModalOpen(false)}
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
+                >
+                  No, keep order
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>

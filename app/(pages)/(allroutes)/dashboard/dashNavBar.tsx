@@ -1,13 +1,15 @@
 import { useEffect } from "react";
-import { UserProps } from "../../../../components/data/userdata"
+import { UserProps } from "../../../../components/api/users";
 import { Home, User, CreditCard, Store, Settings, ShoppingBag } from "lucide-react"
 
 interface DashNavProps {
-  href: string; icon: React.ReactNode; label: string;
+  href: string; 
+  icon: React.ReactNode; 
+  label: string;
 }
 
 
-const DashNavBar = ({ user }: { user: UserProps | any }) => {
+const DashNavBar = ({ user }: { user: UserProps | null }) => {
   return (
     <nav className="bg-white shadow-sm rounded-lg p-4 mb-6">
       <div className="flex flex-wrap items-center justify-start gap-2 md:gap-4">
@@ -20,9 +22,9 @@ const DashNavBar = ({ user }: { user: UserProps | any }) => {
 
              {/* Orders Link */}
         <NavButton 
-          href="/dashboard/orderpage" 
+          href="/dashboard/userorderpage" 
           icon={<Home className="w-4 h-4" />}
-          label="Orders"
+          label={`Orders (${user?.orders?.length})`}
         />
         
         {/* Profile Link */}
@@ -47,7 +49,7 @@ const DashNavBar = ({ user }: { user: UserProps | any }) => {
           label={user?.store ? `View Store (${user?.store?.items?.length || 0 })` : 'Create Store'}
         />
         
-        {/* Settings Link */}
+        {/* Settings Link */}  
         <NavButton 
           href="/dashboard/settingspage" 
           icon={<Settings className="w-4 h-4" />}

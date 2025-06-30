@@ -51,15 +51,14 @@ export const ProductContextProvider = ({ children }: ProductContextProps) => {
         setOldSize(size);
     };
 
-    const handleGetAllProducts = useCallback(async ()=>{
+    const handleGetAllProducts = async ()=>{
         const data = await getAllProducts()
         
-        const products = data?.data
-        console.log('PRODUCTS', data?.data)
-        if(products?.length > 0){
-           setProducts(products)
-        }
-    }, [Products?.length])
+        const products = data?.message
+      
+        setProducts(products)
+        
+    }
 
     useEffect(() => {
         handleGetAllProducts()

@@ -3,7 +3,12 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import { FiTrendingUp, FiTrendingDown } from 'react-icons/fi';
 import { GeneralContext } from '../../../../../../contextProviders/GeneralProvider';
 
-const SalesSummary = () => {
+interface SalesProps {
+  lastOrders: any[];
+  currentOrders: any[]
+}
+
+const SalesSummary = ({lastOrders, currentOrders}: SalesProps) => {
   const [salesStats, setSalesStats] = useState([])
   const {user} = useContext(GeneralContext)
   const [conversion, setConversion] = useState('3.2%')
@@ -38,13 +43,24 @@ const SalesSummary = () => {
 
 
 
-  const avgOrder = ()=>{
-    const orders = store?.orders || [0]
-    const currentSum = orders?.currentOrders?.reduce((item: any, total: any)=>item?.revenue + total, 0) || 0
-    const avgSales = currentSum / 2
-    return `N${avgSales}`
-    
-  }
+const avgOrder = () => {
+  const orders = store?.orders || {};
+  const currentOrders = orders?.currentOrders || [];
+  
+  // Calculate sum properly
+  const currentSum = currentOrders.reduce((total: any, item: any) => {
+    // Ensure item.revenue is a number (fallback to 0 if undefined/NaN)
+    const revenue = Number(item?.revenue) || 0;
+    return total + revenue;
+  }, 0); // Start with 0 as initial value
+
+  // Calculate average (divide by number of orders, or return 0 if no orders)
+  const avgSales = currentOrders.length > 0 
+    ? currentSum / currentOrders.length 
+    : 0;
+
+  return `N${avgSales.toFixed(2)}`; // Format to 2 decimal places
+}
 
   const stats = [
     {
@@ -55,8 +71,8 @@ const SalesSummary = () => {
     },
     {
       title: 'Total Orders',
-      value: store?.orders?.currentOrders.length || 0,
-      change: calculateChange(store?.orders?.lastOrders.length || 0, store?.orders?.currentOrders.length || 0),
+      value: currentOrders.length || 0,
+      change: calculateChange(lastOrders.length || 0, currentOrders.length || 0),
       isUp: calculateIsUp(store?.lastOrders, store?.currentOrders)
     },
     {

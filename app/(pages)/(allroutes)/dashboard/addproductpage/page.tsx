@@ -76,6 +76,8 @@ const AddProductPage = () => {
   setIsSubmitting(true)
   setSubmitError(null)
   setSuccess('')
+  setImagePreviews([])
+  setImageFiles([])
 
   try {
     // Validate required fields
@@ -283,7 +285,7 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 
           {/* Product Price */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Price ($) *</label>
+            <label className="block text-sm font-medium text-gray-700">Price (₦) *</label>
             <input
               type="number"
               value={product.price}
@@ -416,7 +418,7 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
               required
             >
               <option value=''>Select delivery method</option>
-              <option value='elteema delivery'>Use Elteema Delivery</option>
+              <option value='elteema delivery' disabled={true}>Use Elteema Delivery</option>
               <option value='handle delivery myself'>Handle Delivery Myself</option>
             </select>
           </div>

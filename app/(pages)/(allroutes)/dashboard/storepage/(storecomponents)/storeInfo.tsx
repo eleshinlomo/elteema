@@ -2,17 +2,27 @@
 import { useContext, useEffect, useState } from 'react';
 import { FiShoppingBag, FiStar, FiUser, FiDollarSign } from 'react-icons/fi';
 import { GeneralContext } from '../../../../../../contextProviders/GeneralProvider';
-import { capitalize } from '../../../../../../components/utils';
+import { capitalize, formatCurrency } from '../../../../../../components/utils';
+import { StoreProps } from '../../../../../../components/api/store';
 
 const StoreInfo = () => {
   const {user} = useContext(GeneralContext)
   const [storeName, setStoreName] = useState('')
+  const [store, setStore] = useState<StoreProps | null | any>(null)
+  const [withdrawMessage, setWithdrawMessage] = useState('')
 
   useEffect(()=>{
-   if(user){
-    setStoreName(user?.store.storeName)
+   if(user && user.store){
+    setStore(user.store)
    }
   }, [user])
+
+  const handleWithdrawal = ()=>{
+    setWithdrawMessage('')
+    if(store && store.income === 0 || store.income < 100){
+      setWithdrawMessage('You need to earn more than 100 naira to withdraw')
+    }
+  }
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -21,19 +31,30 @@ const StoreInfo = () => {
           <FiShoppingBag className="text-blue-500 text-xl" />
         </div>
         <div>
-          <span className='flex gap-3'><h2 className="text-xl font-semibold text-gray-800">{capitalize(storeName)}
-            <span className='text-xs'>({user.store?.items?.length || 0} {user.store?.items?.length <= 1 ? 'Item' : 'Items'}) </span>
+          <span className='flex gap-3'><h2 className="text-xl font-semibold text-gray-800">{capitalize(store?.storeName)}
+            <span className='text-xs'>({store?.items?.length || 0} {store?.items?.length <= 1 ? 'Item' : 'Items'}) </span>
           </h2>
-            <a href='/dashboard/createstorepage'><button
+            <a href='/dashboard/updatestorepage'><button
             className={`text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white`}>
               Edit store
             </button>
             </a>
           </span>
-          <p className="text-gray-500 text-sm">{capitalize(user?.store?.tagline)}</p>
+          <p className="text-gray-500 text-sm">{capitalize(store?.tagline)}</p>
         </div>
       </div>
       
+      {/* Income and withdraw section */}
+      <div className='flex flex-col gap-1 py-4'>
+        <p className='text-xs text-red-500 font-bold'>{withdrawMessage}</p>
+        <div className=''>Earned Income: <span className='text-xl text-green-600'>{formatCurrency('NGN', store?.income)}</span></div> 
+        <button
+            className={`w-full text-xs py-2 px-2 rounded bg-green-600 hover:bg-green-700 text-white`}
+            onClick={handleWithdrawal}
+            >
+              Withdraw
+          </button>
+      </div>
       <div className="space-y-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
@@ -53,10 +74,10 @@ const StoreInfo = () => {
         
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <FiDollarSign className="text-green-500 mr-2" />
+            <span className="text-green-500 mr-2">₦</span>
             <span className="text-gray-600">Avg. Order</span>
           </div>
-          <span className="font-medium">N0</span>
+          <span className="font-medium">₦0</span>
         </div>
       </div>
 

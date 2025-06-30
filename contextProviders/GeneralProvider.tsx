@@ -2,7 +2,7 @@
 import React, { createContext, useState, useEffect } from "react"
 import { FeedProps } from "../components/api/feed";
 import { ProductProps } from "../components/api/product";
-import { UserProps } from "../components/data/userdata";
+import { UserProps } from "../components/api/users";
 import { usePathname } from "next/navigation";
 
 interface GeneralProps {

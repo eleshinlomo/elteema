@@ -8,7 +8,7 @@ const RestaurantsPage = ()=>{
     
     const {Products} = useContext(ProductContext)
 
-    const restaurants = Products.filter((product)=> product.category === 'restaurant')
+    const restaurants = Products?.filter((product)=> product.category === 'restaurant')
 
     return (
 

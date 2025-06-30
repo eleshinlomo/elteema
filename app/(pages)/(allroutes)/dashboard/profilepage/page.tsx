@@ -1,7 +1,7 @@
 'use client';
 import { useState, FormEvent, useEffect, useContext} from 'react';
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider';
-import { updateLocalUser, UserProps } from '../../../../../components/data/userdata';
+import { updateLocalUser} from '../../../../../components/data/userdata';
 import { BotIcon, Edit, File, FolderClosed, InfoIcon, ShieldClose } from 'lucide-react';
 import { cities, states } from '../../../../../components/data/locations';
 import { capitalize } from '../../../../../components/utils';
@@ -131,6 +131,7 @@ const CustomerDashboard = () => {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                       disabled={!isEditing}
+                      required
                     />
                   </div>
 
@@ -144,6 +145,7 @@ const CustomerDashboard = () => {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                       disabled={!isEditing}
+                      required
                     />
                   </div>
                   
@@ -160,6 +162,7 @@ const CustomerDashboard = () => {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500
                        focus:border-emerald-500 transition"
                       disabled
+                      required
                     />
                   </div>
                   
@@ -173,6 +176,7 @@ const CustomerDashboard = () => {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                       disabled={!isEditing}
+                      required
                     />
                   </div>
 
@@ -185,6 +189,7 @@ const CustomerDashboard = () => {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                       disabled={!isEditing}
+                      required
                     >
                       <option>Select gender</option>
                       <option value='male'>Male</option>
@@ -198,6 +203,7 @@ const CustomerDashboard = () => {
                       type="text"
                       name="address"
                       value={isEditing ? address : user?.address}
+                      required
                       onChange={(e)=>setAddress(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
@@ -211,6 +217,7 @@ const CustomerDashboard = () => {
                       name="city"
                       value={city}
                       onChange={(e)=>setCity(e.target.value)}
+                      required
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                       disabled={!isEditing}
@@ -226,6 +233,7 @@ const CustomerDashboard = () => {
                       name="state"
                       value={state}
                       onChange={(e)=>setState(e.target.value)}
+                      required
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
                       focus:border-emerald-500 transition"
                       disabled={!isEditing}

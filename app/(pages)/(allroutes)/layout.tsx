@@ -2,7 +2,7 @@
 import { useSearchParams } from "next/navigation"
 import { useContext, useState, useEffect, Suspense } from "react"
 import { GeneralContext } from "../../../contextProviders/GeneralProvider"
-import { getLocalUser, updateLocalUser, UserProps } from "../../../components/data/userdata"
+import { getLocalUser, updateLocalUser} from "../../../components/data/userdata"
 import { persistLogin, verifyCode } from "../../../components/api/auth"
 import { useRouter } from "next/navigation"
 import ScrollTopButton from "../../../components/scrollTopButton"

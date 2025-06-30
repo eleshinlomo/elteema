@@ -1,36 +1,18 @@
 'use client'
 import { useState, FormEvent, useEffect, useContext} from 'react';
 import { GeneralContext } from '../../../../contextProviders/GeneralProvider';
-import { updateLocalUser, UserProps } from '../../../../components/data/userdata';
-import { BotIcon, Edit, File, FolderClosed, InfoIcon, ShieldClose } from 'lucide-react';
-import { cities, states } from '../../../../components/data/locations';
+import { BotIcon, Edit, File, FolderClosed, InfoIcon, ShieldClose, StoreIcon } from 'lucide-react';
 import { capitalize } from '../../../../components/utils';
-import { updateUser } from '../../../../components/api/users';
+import { UserProps } from "../../../../components/api/users";
 
 
-const DashSideBar = () => {
+
+
+const DashSideBar = ({user}: {user: UserProps}) => {
  
-  
- 
-  const generalContext = useContext(GeneralContext)
-  const {user, setUser} = generalContext
-  
-  
-  
+  useEffect(()=>{
 
-
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, type, checked, value } = e.target;
-  //   setUser((prev: UserProps) => ({
-  //     ...prev,
-  //     [name]: type === 'checkbox' ? checked : value
-  //   }));
-  // };
-  
-   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
-
-  
-
+  }, [user?.orders])
 
   return (
     <div className="  px-6 pt-24">
@@ -63,13 +45,12 @@ const DashSideBar = () => {
 
                       
                   </li>
-
+                     {/* Orders */}
                      <li className='flex gap-2'>
-                    <a href="/dashboard/orderpage" className="flex items-center p-3 rounded-lg bg-emerald-50 text-emerald-700 font-medium">
-                      <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
+                    <a href="/dashboard/userorderpage" className="flex items-center p-3 rounded-lg bg-emerald-50 text-emerald-700 font-medium">
+                     <StoreIcon className='w-5 h-5 mr-3' />
                       Orders
+                      <span>({user?.orders?.length})</span>
                     </a>
                   </li>
                 
@@ -81,14 +62,14 @@ const DashSideBar = () => {
                       Payment Methods
                     </a>
                   </li>
-              
+                   {/* Store link */}
                     <li>
-                    <a href={user?.store?.name ? '/dashboard/storepage'  : '/dashboard/createstorepage'}
+                    <a href={user?.store?.storeName ? '/dashboard/storepage'  : '/dashboard/createstorepage'}
                      className="flex items-center p-3 rounded-lg text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 transition">
                       <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                       </svg> 
-                        {user?.store?.name ? `View Store (${user?.store?.items?.length || 0})`  : 'Create Store'}
+                        {user?.store?.storeName ? `View Store (${user?.store?.items?.length || 0})`  : 'Create Store'}
                     </a>
                     
                   </li>
