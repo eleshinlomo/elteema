@@ -12,7 +12,7 @@ const StoreFront = () => {
   const storeName = decodeURIComponent(params?.storeName?.toString()) || ''
   const [store, setStore] = useState<StoreProps | null>(null)
   const [error, setError] = useState('')
-  const storeAddress = store ? `${capitalize(store.city)}, ${capitalize(store.state)}` : ''
+  const storeAddress = store ? `${store.address}, ${capitalize(store.city)}, ${capitalize(store.state)}, ${store.country}` : ''
 
   useEffect(() => {
     const handleGetStore = async () => {
@@ -29,7 +29,7 @@ const StoreFront = () => {
     }
 
     handleGetStore()
-  }, [storeName])
+  }, [storeName, store])
 
   if (error) {
     return (

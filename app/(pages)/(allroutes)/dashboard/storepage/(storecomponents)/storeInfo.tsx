@@ -10,6 +10,7 @@ const StoreInfo = () => {
   const [storeName, setStoreName] = useState('')
   const [store, setStore] = useState<StoreProps | null | any>(null)
   const [withdrawMessage, setWithdrawMessage] = useState('')
+   const storeAddress = store ? `${store.address}, ${capitalize(store.city)}, ${capitalize(store.state)}, ${store.country}` : ''
 
   useEffect(()=>{
    if(user && user.store){
@@ -72,17 +73,26 @@ const StoreInfo = () => {
           <span className="font-medium">0</span>
         </div>
         
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center pb-3">
           <div className="flex items-center">
             <span className="text-green-500 mr-2">₦</span>
             <span className="text-gray-600">Avg. Order</span>
           </div>
           <span className="font-medium">₦0</span>
         </div>
+           
       </div>
-
+      
+            <div className="flex my-3 text-gray-500">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+              </svg>
+              <span>{storeAddress}</span>
+            </div>
+      
+      <a className=' text-blue-700 px-1' href={`/storefront/${store?.storeName}`}>Visit storefront</a>
       <a href='/dashboard/addproductpage'>
-      <button className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition duration-200">
+      <button className="mt-3 w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition duration-200">
         Add New Item
       </button>
       </a>

@@ -3,7 +3,21 @@ import { StoreProps } from "./store";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-
+export interface CreateProductProps {
+    userId: number | any;
+    addedBy: string;
+    productName: string;
+    imageFiles: File[];
+    price: string;
+    colors: string[];
+    condition: string;
+    deliveryMethod: string;
+    quantity: number;
+    sizes: string[];
+    category: string;
+    description: string;
+          
+}
 
 
 export interface ProductProps {

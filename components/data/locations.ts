@@ -64,3 +64,12 @@ export const states = [
 'Yobe',
 'Zamfara'
 ]
+
+export const countries = [
+    'Nigeria',
+    'Canada',
+    'United States',
+    'United Kingdom',
+    'Germany',
+    
+]

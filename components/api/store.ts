@@ -10,8 +10,10 @@ export interface CreateStoreProps {
  phone: string,
  email: string;
  industry: string;
+ address: '',
  city: string;
  state: string;
+ country: string;
 }
 
 export interface StoreProps {
@@ -23,8 +25,10 @@ export interface StoreProps {
  phone: string,
  email: string;
  industry: string;
+ address: '',
  city: string;
  state: string;
+ country: string;
  items: []
 }
 

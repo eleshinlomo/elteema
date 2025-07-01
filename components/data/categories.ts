@@ -1,5 +1,33 @@
 
-
+export const categories = [
+    
+    'agbada', 
+    'aso oke',
+    'automobile',
+    'appliances',
+    'beauty product',
+    'back-pack',
+    'clothing',
+    'clothing',
+    'computers',
+    'crop farm product',
+    'education',
+    'electronics',
+    'health',
+    'home & garden',
+    'kid toys',
+    'livestock farm product',
+    'lunch box',
+    'mobile phone',
+    'men natives', 
+    'men clothings',
+    'restaurant',
+    'robotics',
+    'sports',
+    'women clothings',
+    'women natives', 
+    'women ankara',
+               ]
 
 
 // This array is just for checking if item needs size to be displayed
@@ -8,10 +36,11 @@ export const clotheCategoryWithSize = [
     'agbada', 
     'men natives', 
     'women clothings',
-     'women natives', 
-     'women ankara',
-     'clothes',
-     'clothing'
+    'women natives', 
+    'women ankara',
+    'clothes',
+    'clothing',
+
                ]
 
 export const shoeCategoryWithSize = [

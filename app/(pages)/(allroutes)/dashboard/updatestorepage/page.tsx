@@ -4,8 +4,10 @@ import { useState, useEffect, FormEvent, useContext, ChangeEvent } from "react"
 import { GeneralContext } from "../../../../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
 import { updateLocalUser } from "../../../../../components/data/userdata"
-import { cities, states } from "../../../../../components/data/locations"
+import { cities, countries, states } from "../../../../../components/data/locations"
 import { CreateStoreProps, StoreProps, updateStore } from "../../../../../components/api/store"
+import { capitalize } from "../../../../../components/utils"
+import { industries } from "../../../../../components/data/industries"
 
 const CreateStorePage = () => {
   const [isLoading, setIsLoading] = useState(false)                          
@@ -23,8 +25,10 @@ const CreateStorePage = () => {
     phone: '',
     email: '',
     industry: '',
+    address: '',
     city: '',
-    state: ''
+    state: '',
+    country: ''
   })
 
   const toggleIsEditing = () => {
@@ -39,8 +43,10 @@ const CreateStorePage = () => {
         phone: store.phone || '',
         email: store.email || '',
         industry: store.industry || '',
+        address: store.address || '',
         city: store.city || '',
-        state: store.state || ''
+        state: store.state || '',
+        country: store.country || ''
       })
     }
   }
@@ -94,8 +100,10 @@ const CreateStorePage = () => {
         phone: user.store.phone || '',
         email: user.store.email || '',
         industry: user.store.industry || '',
+        address: user.store.address || '',
         city: user.store.city || '',
-        state: user.store.state || ''
+        state: user.store.state || '',
+        country: user.store.country || ''
       })
     }
   }, [user])
@@ -206,29 +214,41 @@ const CreateStorePage = () => {
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">What do you or your business do?</label>
-            <select
-              value={formData.industry}
-              name='industry'
-              onChange={handleChange}
-              disabled={!isEditing}
-              className={`w-full px-4 py-2 border ${isEditing ? 'border-gray-300' : 'border-transparent bg-gray-50'} rounded-md focus:outline-none focus:ring-2 focus:ring-green-500`}
-              required
-            >
-              <option value=''>Select Industry</option>
-              <option value='product'>Product</option>
-              <option value='service'>Service</option>
-              <option value='restaurant'>Food/Restaurant</option>
-              <option value='event'>Events</option>
-              <option value='Agriculture'>Agriculture</option>
-              <option value='musician'>Musician</option>
-              <option value='dj'>DJ</option>
-              <option value='comedian'>Comedian</option>
-              <option value='fashion designer'>Fashion Designer</option>
-            </select>
-          </div>
+             {/* Product/Services */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">What do you or your business do?</label>
+                <select
+                  value={formData.industry}
+                  name='industry'
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  required
+                >
+                  <option value=''>Select Industry</option>
+              
+                  {industries?.map((industry, index)=><option value={industry} key={index}>{capitalize(industry)}</option>)}
+            
+                </select>
+              </div>
 
+            {/* Address */}
+            <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Store Address
+            </label>
+            <input
+              id="address"
+              name="address"
+              type="address"
+              required
+              value={formData.address}
+              onChange={handleChange}
+              placeholder="Enter store address"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+            />
+          </div>
+           
+           {/* City */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">Which city is your store located?</label>
             <select
@@ -241,11 +261,12 @@ const CreateStorePage = () => {
             >
               <option value=''>Select city</option>
               {cities?.map((city, index) => (
-                <option key={index} value={city}>{city}</option>
+                <option key={index} value={city}>{capitalize(city)}</option>
               ))}
             </select>
           </div>
-
+          
+          {/* State */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">Which state is your store located?</label>
             <select
@@ -259,6 +280,24 @@ const CreateStorePage = () => {
               <option value=''>Select state</option>
               {states?.map((state, index) => (
                 <option key={index} value={state}>{state}</option>
+              ))}
+            </select>
+          </div>
+
+             {/* Country */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Which country is your store located?</label>
+            <select
+              value={formData.country}
+              name='country'
+              onChange={handleChange}
+              disabled={!isEditing}
+              className={`w-full px-4 py-2 border ${isEditing ? 'border-gray-300' : 'border-transparent bg-gray-50'} rounded-md focus:outline-none focus:ring-2 focus:ring-green-500`}
+              required
+            >
+              <option value=''>Select country</option>
+              {countries?.map((country, index) => (
+                <option key={index} value={country}>{country}</option>
               ))}
             </select>
           </div>

@@ -3,14 +3,22 @@ import { useState, useEffect, FormEvent, useContext, ChangeEvent } from "react"
 import { GeneralContext } from "../../../../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
 import { updateLocalUser } from "../../../../../components/data/userdata"
-import { cities, states } from "../../../../../components/data/locations"
+import { cities, countries, states } from "../../../../../components/data/locations"
 import { createStore, CreateStoreProps } from "../../../../../components/api/store"
+import { capitalize } from "../../../../../components/utils"
+import { industries } from "../../../../../components/data/industries"
+
+
+
 
 const CreateStorePage = () => {
   const [isLoading, setIsLoading] = useState(false)                          
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const {user, setUser}= useContext(GeneralContext)
+
+
+
 
   const [formData, setFormData] = useState<CreateStoreProps>({
     userId: user.id,
@@ -20,8 +28,10 @@ const CreateStorePage = () => {
     phone: '',
     email: '',
     industry: '',
+    address: '',
     city: '',
-    state: ''
+    state: '',
+    country: ''
   })
 
 
@@ -56,8 +66,10 @@ const CreateStorePage = () => {
           phone: '',
           email: '',
           industry: '',
+          address: '',
           city: '',
-          state: ''
+          state: '',
+          country: ''
         })
         window.location.href='#create-store-top'
       } else {
@@ -156,7 +168,7 @@ const CreateStorePage = () => {
 
           <div>
             <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-              Phone Number
+              Phone Number (will be shown publicly)
             </label>
             <input
               id="phone"
@@ -172,7 +184,7 @@ const CreateStorePage = () => {
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email Address
+              Email Address (not shown publicly)
             </label>
             <input
               id="email"
@@ -198,17 +210,26 @@ const CreateStorePage = () => {
             >
               <option value=''>Select Industry</option>
           
-              <option value='product'>Product</option>
-              <option value='service'>Service</option>
-              <option value='restaurant'>Food/Restaurant</option>
-               <option value='event'>Events</option>
-                <option value='Agriculture'>Agriculture</option>
-                <option value='musician'>Musician</option>
-                <option value='dj'>DJ</option>
-                <option value='comedian'>Comedian</option>
-                <option value='fashion designer'>Fashion Designer</option>
-            
+              {industries?.map((industry, index)=><option value={industry} key={index}>{capitalize(industry)}</option>)}
+        
             </select>
+          </div>
+            
+            {/* Address */}
+            <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Store Address
+            </label>
+            <input
+              id="address"
+              name="address"
+              type="address"
+              required
+              value={formData.address}
+              onChange={handleChange}
+              placeholder="Enter store address"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+            />
           </div>
 
           {/* City */}
@@ -223,7 +244,7 @@ const CreateStorePage = () => {
             >
               <option value=''>Select city</option>
               {cities?.map((city, index)=>
-              <option value={city} key={index}>{city}</option>
+              <option value={city} key={index}>{capitalize(city)}</option>
             )}
             
             </select>
@@ -244,6 +265,23 @@ const CreateStorePage = () => {
               <option value=''>Select state</option>
                 {states?.map((state, index)=>
               <option value={state} key={index}>{state}</option>
+            )}
+            </select>
+          </div>
+
+            {/* Country */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Which Country is your store located?</label>
+            <select
+              value={formData.country}
+              name='country'
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              required
+            >
+              <option value=''>Select country</option>
+                {countries?.map((country, index)=>
+              <option value={country} key={index}>{country}</option>
             )}
             </select>
           </div>

@@ -6,6 +6,8 @@ import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { capitalize, formatCurrency } from '../../../../components/utils'
 import PopularBadge from '../../../../components/product/popularBadge'
 import { ProductProps } from '../../../../components/api/product'
+import { industries } from '../../../../components/data/industries'
+import { categories } from '../../../../components/data/categories'
 
 
 interface StoreDisplayProps {

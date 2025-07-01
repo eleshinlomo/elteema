@@ -20,10 +20,10 @@ useEffect(()=>{
     return (
         <div>
             <a className="relative cursor-pointer ">
-                <p className={`absolute  top-[-24px]  md:top-[-15px] right-[-12px] md:right-[4px]  bg-red-500 text-white text-xs rounded-full  px-2 py-1 z-10`}>
+                <p className={`absolute  top-[-24px]  md:top-[-28px] right-[-12px] md:right-[4px]  bg-red-500 text-white text-xs rounded-full  px-2 py-1 z-10`}>
                     {totalItems ? totalItems : 0}
                 </p>
-                <ShoppingBasketIcon className={`absolute top-[-24px] md:top-[-12px] right-[-16px]  md:right-[-1px]    mt-2  h-8 w-8`} />
+                <ShoppingBasketIcon className={`absolute top-[-24px] md:top-[-24px] right-[-16px]  md:right-[-1px]    mt-2  h-8 w-8`} />
             </a>
         </div>
     );

@@ -3,8 +3,10 @@ import React, { useState, useEffect, useContext } from 'react'
 import { ProductProps } from '../api/product'
 import { ProductContext } from '../../contextProviders/ProductContext'
 import { motion } from 'framer-motion'
-import DisplayStore from '../../app/(pages)/(allroutes)/supermarketpage/displaySupermarket'
+import DisplayProducts from './displayProducts'
 import SkeletonPage from '../skeletonPage'
+import TestDisplay from './textDisplay'
+import ProductDetails from './productdetails'
 
 const Trending = () => {
   const { Products } = useContext(ProductContext)
@@ -23,12 +25,14 @@ const Trending = () => {
   }, [Products?.length])
 
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+    <section className="relative py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white  overflow-hidden">
+   
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
       </div>
+
 
       <div className="max-w-7xl mx-auto relative">
         {/* Animated Header */}
@@ -55,9 +59,10 @@ const Trending = () => {
         >
           {trendingItems && trendingItems.length > 0 ? (
             <div className="">
-              <div className="hover:scale-[1.02] transition-transform duration-300">
-                <DisplayStore productArray={trendingItems} numPerPage={2} />
-              </div>
+              {trendingItems.map((item: any, index: number)=>
+              <div className="hover:scale-[1.02] transition-transform duration-300" key={index}>
+                <ProductDetails id={item.productId}  />
+              </div>)}
             </div>
           ) : (
             <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">

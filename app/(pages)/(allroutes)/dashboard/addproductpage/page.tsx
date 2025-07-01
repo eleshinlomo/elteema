@@ -1,30 +1,17 @@
 'use client'
 
 import { useState, ChangeEvent, FormEvent, useContext } from 'react'
-import {  getAllProducts } from '../../../../../components/api/product'
+import {  CreateProductProps, getAllProducts } from '../../../../../components/api/product'
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider'
 import { FiImage, FiX, FiPlus, FiMinus } from 'react-icons/fi'
 import Image from 'next/image'
 import { updateLocalUser } from '../../../../../components/data/userdata'
 import { ProductContext } from '../../../../../contextProviders/ProductContext'
+import { categories } from '../../../../../components/data/categories'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-export interface CreateProductProps {
-    userId: number | any;
-    addedBy: string;
-    productName: string;
-    imageFiles: File[];
-    price: string;
-    colors: string[];
-    condition: string;
-    deliveryMethod: string;
-    quantity: number;
-    size: string;
-    category: string;
-    description: string;
-          
-}
+
 
 const AddProductPage = () => {
   const { user, setUser } = useContext(GeneralContext)
@@ -45,7 +32,7 @@ const AddProductPage = () => {
     condition: '',
     deliveryMethod: '',
     quantity: 1,
-    size: '',
+    sizes: [] as string[],
     category: '',
     description: '',
     
@@ -66,6 +53,16 @@ const AddProductPage = () => {
         ? [...prev.colors, value]
         : prev.colors.filter(color => color !== value)
       return { ...prev, colors: newColors }
+    })
+  }
+
+    const handleSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target
+    setProduct(prev => {
+      const newSizes = checked
+        ? [...prev.sizes, value]
+        : prev.sizes.filter(size => size !== value)
+      return { ...prev, sizes: newSizes }
     })
   }
 
@@ -101,7 +98,6 @@ const AddProductPage = () => {
     formData.append('condition', product.condition)
     formData.append('deliveryMethod', product.deliveryMethod)
     formData.append('quantity', product.quantity.toString())
-    formData.append('size', product.size)
     formData.append('category', product.category)
     formData.append('description', product.description)
     
@@ -109,6 +105,11 @@ const AddProductPage = () => {
     // Append colors as array
     product.colors.forEach(color => {
       formData.append('colors', color)
+    })
+
+    // Append sizes as array
+    product.sizes.forEach(size => {
+      formData.append('sizes', size)
     })
     
     // Append all image files
@@ -147,7 +148,7 @@ const AddProductPage = () => {
         condition: '',
         deliveryMethod: '',
         quantity: 1,
-        size: '',
+        sizes: [],
         category: '',
         description: '',
         
@@ -250,6 +251,18 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     'silver'
   ]
 
+    const availableSizes = [
+    'black',
+    'white',
+    'pink',
+    'brown',
+    'red',
+    'blue',
+    'yellow',
+    'green',
+    'silver'
+  ]
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
       {!success ? <h2 className="text-2xl font-bold text-gray-800 mb-6">Add New Product</h2>:
@@ -310,18 +323,24 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
               required
             >
               <option value=''>Select category</option>
-              <option value='electronics'>Electronics</option>
-              <option value='sports'>Sports</option>
-              <option value='beauty'>Beauty</option>
-              <option value='clothing'>Clothing</option>
-              <option value='toys'>Toys</option>
-              <option value='health'>Health</option>
-              <option value='home & garden'>Home & Garden</option>
-              <option value='hospitality & restaurant'>Hospitality & Tourism</option>
-              <option value='crop farm product'>Crop Farm product</option>
-              <option value='livestock farm product'>Livestock farm product</option>
-              <option value='education'>Education</option>
-              <option value='automobile'>Automobile</option>
+              {categories?.map((category, index)=><option key={index}>{category}</option>)}
+            </select>
+          </div>
+
+                 {/* Delivery Method */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Delivery Method *</label>
+            <select
+              value={product.deliveryMethod}
+              name='deliveryMethod'
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              required
+            >
+              <option value=''>Select delivery method</option>
+              <option value='elteema delivery' disabled={true}>Use Elteema Delivery</option>
+              <option value='handle delivery myself'>Handle Delivery Myself</option>
+              <option value='uber delivery'>Uber delivery</option>
             </select>
           </div>
 
@@ -329,7 +348,7 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 
           {/* Product Colors */}
           <div className="md:col-span-2 space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Choose available colours</label>
+            <label className="block text-sm font-medium text-gray-700">Choose all the available colours you have for this product</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {availableColors.map(color => (
                 <label key={color} className="flex items-center space-x-2">
@@ -362,7 +381,10 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 
           {/* Quantity */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Quantity *</label>
+            <label className="flex gap-2 text-sm font-medium text-gray-700">Quantity * 
+              <p className='text-xs'>How many items of this product do you have?</p>
+            </label>
+            
             <div className="flex items-center">
               <button
                 type="button"
@@ -407,37 +429,25 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
             </select>
           </div>
 
-          {/* Delivery Method */}
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Delivery Method *</label>
-            <select
-              value={product.deliveryMethod}
-              name='deliveryMethod'
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-              required
-            >
-              <option value=''>Select delivery method</option>
-              <option value='elteema delivery' disabled={true}>Use Elteema Delivery</option>
-              <option value='handle delivery myself'>Handle Delivery Myself</option>
-            </select>
-          </div>
+   
 
-          {/* Product Size */}
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Size</label>
-            <select
-              value={product.size}
-              name='size'
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-            >
-              <option value=''>Select size</option>
-              <option value='small'>Small</option>
-              <option value='medium'>Medium</option>
-              <option value='large'>Large</option>
-              <option value='extra large'>Extra Large</option>
-            </select>
+            {/* Product Sizes */}
+          <div className="md:col-span-2 space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Choose all the available sizes you have for this product</label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {availableSizes.map(size => (
+                <label key={size} className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    value={size}
+                    checked={product.sizes.includes(size)}
+                    onChange={handleSizeChange}
+                    className="rounded text-green-600 focus:ring-green-500"
+                  />
+                  <span>{size}</span>
+                </label>
+              ))}
+            </div>
           </div>
 
           {/* Image Upload */}

@@ -167,6 +167,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
           {showSearchPage ? <Featured /> : null}
           <ScrollTopButton />
           {/* Mobile footer */}
+          
           <MobileFooter />
           {/* Desktop Footer */}
           <div className="hidden md:block">{path !== '/' && <Footer />}</div>
