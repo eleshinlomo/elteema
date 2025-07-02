@@ -46,7 +46,7 @@ const DisplayProducts = ({ productArray, numPerPage }: StoreDisplayProps) => {
     return (
         <div>
             {productArray?.length > 0 && (
-                <div className=' relative w-full flex flex-col  overflow-hidden'>
+                <div className=' relative w-full flex flex-col justify-center  items-center pt-24 overflow-hidden'>
                     <div className={`grid grid-cols-1 md:grid-cols-2 gap-3 mb-2`}>
                         {currentItems?.length > 0 && currentItems?.map((item, StoreIndex) => (
                             <div key={StoreIndex} className='border border-gray-200 rounded-lg p-2 hover:shadow-md transition-shadow'>

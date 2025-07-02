@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { updateLocalUser } from '../../../../../components/data/userdata'
 import { ProductContext } from '../../../../../contextProviders/ProductContext'
 import { categories } from '../../../../../components/data/categories'
+import { sizes } from '../../../../../components/data/sizes'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -73,8 +74,7 @@ const AddProductPage = () => {
   setIsSubmitting(true)
   setSubmitError(null)
   setSuccess('')
-  setImagePreviews([])
-  setImageFiles([])
+  
 
   try {
     // Validate required fields
@@ -251,17 +251,7 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     'silver'
   ]
 
-    const availableSizes = [
-    'black',
-    'white',
-    'pink',
-    'brown',
-    'red',
-    'blue',
-    'yellow',
-    'green',
-    'silver'
-  ]
+   
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -382,7 +372,7 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
           {/* Quantity */}
           <div className="space-y-2">
             <label className="flex gap-2 text-sm font-medium text-gray-700">Quantity * 
-              <p className='text-xs'>How many items of this product do you have?</p>
+              <p className='text-xs'>How many of this product do you have?</p>
             </label>
             
             <div className="flex items-center">
@@ -435,16 +425,16 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
           <div className="md:col-span-2 space-y-2">
             <label className="block text-sm font-medium text-gray-700">Choose all the available sizes you have for this product</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {availableSizes.map(size => (
-                <label key={size} className="flex items-center space-x-2">
+              {sizes.map((size, index) => (
+                <label key={index} className="flex items-center space-x-2">
                   <input
                     type="checkbox"
-                    value={size}
-                    checked={product.sizes.includes(size)}
+                    value={size.value}
+                    checked={product.sizes.includes(size.value)}
                     onChange={handleSizeChange}
                     className="rounded text-green-600 focus:ring-green-500"
                   />
-                  <span>{size}</span>
+                  <span>{size.text}</span>
                 </label>
               ))}
             </div>

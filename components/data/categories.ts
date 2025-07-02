@@ -21,6 +21,7 @@ export const categories = [
     'mobile phone',
     'men natives', 
     'men clothings',
+    'processed foods',
     'restaurant',
     'robotics',
     'sports',

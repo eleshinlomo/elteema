@@ -36,7 +36,7 @@ const NavBar = () => {
   return (
     <div className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm py-2 px-2 md:px-4 z-50">
       <div className="flex justify-between items-center">
-        {/* Home */}
+        {/* Home - Adjusted to match other icons */}
         <a href='/'>
           <button
             onClick={() => handleTabClick("home")}
@@ -44,9 +44,16 @@ const NavBar = () => {
               activeTab === "home" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
             }`}
           >
-            <div className="relative w-8 h-8 md:w-10 md:h-10">
-              <Image src='/images/logos/elteema_logo.png' alt='logo' fill className="object-contain" />
+            <div className="relative w-6 h-6"> 
+              <Image 
+                src='/images/logos/elteema_logo.png' 
+                alt='logo' 
+                fill 
+                className="object-contain" 
+                sizes="24px" // Added sizes attribute for optimization
+              />
             </div>
+            <span className="text-xs mt-1">Home</span> 
           </button>
         </a>
 
@@ -58,7 +65,7 @@ const NavBar = () => {
               activeTab === "restaurants" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
             }`}
           >
-            <WineIcon className="w-5 h-5" />
+            <WineIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 for consistency */}
             <span className="text-xs mt-1">Restaurants</span>
           </button>
         </a>
@@ -71,7 +78,7 @@ const NavBar = () => {
               activeTab === "events" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
             }`}
           >
-            <PartyPopperIcon className="w-5 h-5" />
+            <PartyPopperIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
             <span className="text-xs mt-1">Events</span>
           </button>
         </a>
@@ -84,7 +91,7 @@ const NavBar = () => {
               activeTab === "dashboard" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
             }`}
           >
-            <BarChart2 className="w-5 h-5" />
+            <BarChart2 className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
             <span className="text-xs mt-1">Dashboard</span>
           </button>
         </a>
@@ -97,7 +104,7 @@ const NavBar = () => {
               activeTab === "supermarket" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
             }`}
           >
-            <FaShoppingBag className="w-5 h-5" />
+            <FaShoppingBag className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
             <span className="text-xs mt-1">Supermarket</span>
           </button>
         </a>
@@ -112,7 +119,7 @@ const NavBar = () => {
                   activeTab === "signin" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
                 }`}
               >
-                <LogInIcon className="w-5 h-5" />
+                <LogInIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
                 <span className="text-xs mt-1">Sign in</span>
               </button>
             </a> :
@@ -122,7 +129,7 @@ const NavBar = () => {
                 activeTab === "signout" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
               }`}
             >
-              <LogOutIcon className="w-5 h-5" />
+              <LogOutIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
               <span className="text-xs mt-1">Sign out</span>
             </button>
           }

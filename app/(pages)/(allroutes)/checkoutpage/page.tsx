@@ -110,10 +110,7 @@ const CheckoutPage = () => {
       return
     }
 
-    setError("We are unable to process online payments at the moment. Please vist store and call directly to place your order")
-    window.location.href = '#payment-top'
-    return
-
+   
     if (!user.address) {
       setMessage('Please update your address')
       setOpenWarning(true)
@@ -146,6 +143,7 @@ const CheckoutPage = () => {
        setUser(updateResponse.message)
        setTotalItems(0)
        setTotalPrice(0)
+       window.location.href = '/dashboard/userorderpage'
 
     }
     

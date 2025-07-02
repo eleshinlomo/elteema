@@ -2,9 +2,9 @@
 import { useContext, useEffect, useState } from "react";
 import Feeds from "./feeds";
 import Featured from "../../../../components/product/featured";
-import Trending from "../../../../components/product/trending";
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider";
 import { motion, AnimatePresence } from "framer-motion";
+import ProductDetails from "../../../../components/product/productdetails";
 
 const FeedsPage = () => {
     const { sticky } = useContext(GeneralContext);
@@ -34,7 +34,7 @@ const FeedsPage = () => {
     }, [scrolledPast20]);
 
     return (
-        <div className={`relative min-h-screen transition-colors duration-300 ${sticky ? 'pt-10' : 'pt-10'}`}
+        <div className={`relative  transition-colors duration-300 ${sticky ? 'pt-10' : 'pt-10'}`}
              style={{
                  background: "linear-gradient(135deg, #f0fff4 0%, #e6fffa 50%, #f0fff4 100%)",
                  backgroundImage: "radial-gradient(circle at 10% 20%, rgba(178, 245, 234, 0.2) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(178, 245, 234, 0.2) 0%, transparent 20%)"
@@ -77,7 +77,7 @@ const FeedsPage = () => {
                     transition={{ duration: 0.4, ease: "easeOut" }}
                 >
                     <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 h-full border border-green-200/50 ml-2 hover:shadow-green-200/50 transition-all duration-300">
-                        <Trending />
+                      <ProductDetails />
                     </div>
                 </motion.div>
             </div>
