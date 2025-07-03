@@ -3,7 +3,7 @@
 import { useContext, useState, useEffect } from "react";
 import { GeneralContext } from "../../../../../contextProviders/GeneralProvider";
 import { ProductProps } from "../../../../../components/api/product";
-import { formatCurrency } from "../../../../../components/utils";
+import { capitalize, formatCurrency } from "../../../../../components/utils";
 
 interface OrderProps {
   title: string;
@@ -84,9 +84,11 @@ const OrderPage = () => {
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store Phone</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store Location</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Color</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ETA</th>
+                    {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ETA</th> */}
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
@@ -101,6 +103,8 @@ const OrderPage = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatCurrency('NGN', order.price)}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.storeName}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.storePhone}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{`${capitalize(order.storeCity)}, ${capitalize(order.storeState)}`}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.size ? order.size : 'NA'}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="flex items-center">
@@ -108,7 +112,7 @@ const OrderPage = () => {
                           {order.color ? order.color : 'NA'}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.eta ? order.eta : 'Unknown'}</td>
+                      {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.eta ? order.eta : 'Unknown'}</td> */}
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <button
                           onClick={() => handleCancel(order)}

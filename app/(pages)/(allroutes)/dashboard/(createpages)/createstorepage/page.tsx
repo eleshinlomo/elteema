@@ -1,12 +1,12 @@
 'use client'
 import { useState, useEffect, FormEvent, useContext, ChangeEvent } from "react"
-import { GeneralContext } from "../../../../../contextProviders/GeneralProvider"
+import { GeneralContext } from "../../../../../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
-import { updateLocalUser } from "../../../../../components/data/userdata"
-import { cities, countries, states } from "../../../../../components/data/locations"
-import { createStore, CreateStoreProps } from "../../../../../components/api/store"
-import { capitalize } from "../../../../../components/utils"
-import { industries } from "../../../../../components/data/industries"
+import { updateLocalUser } from "../../../../../../components/data/userdata"
+import { cities, countries, states } from "../../../../../../components/data/locations"
+import { createStore, CreateStoreProps } from "../../../../../../components/api/store"
+import { capitalize } from "../../../../../../components/utils"
+import { industries } from "../../../../../../components/data/industries"
 
 
 

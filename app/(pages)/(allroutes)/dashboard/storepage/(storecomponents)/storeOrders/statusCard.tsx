@@ -25,7 +25,7 @@ const StatusCard = ({ title, text, value, change, Icon, color, iconColor }: Stat
           <Icon className={`${iconColor} text-xl`} />
         </div>
       </div>
-       <p className="text-sm font-extrabold text-red-500">{text}</p>
+       <p className={`text-sm font-extrabold ${title === 'Shipped orders' ? 'text-green-600' : 'text-red-500 '} `}>{text}</p>
        <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
             View
           </button>

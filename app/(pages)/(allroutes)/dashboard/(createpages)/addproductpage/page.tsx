@@ -1,14 +1,14 @@
 'use client'
 
 import { useState, ChangeEvent, FormEvent, useContext } from 'react'
-import {  CreateProductProps, getAllProducts } from '../../../../../components/api/product'
-import { GeneralContext } from '../../../../../contextProviders/GeneralProvider'
+import {  CreateProductProps, getAllProducts } from '../../../../../../components/api/product'
+import { GeneralContext } from '../../../../../../contextProviders/GeneralProvider'
 import { FiImage, FiX, FiPlus, FiMinus } from 'react-icons/fi'
 import Image from 'next/image'
-import { updateLocalUser } from '../../../../../components/data/userdata'
-import { ProductContext } from '../../../../../contextProviders/ProductContext'
-import { categories } from '../../../../../components/data/categories'
-import { sizes } from '../../../../../components/data/sizes'
+import { updateLocalUser } from '../../../../../../components/data/userdata'
+import { ProductContext } from '../../../../../../contextProviders/ProductContext'
+import { categories } from '../../../../../../components/data/categories'
+import { sizes } from '../../../../../../components/data/sizes'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -74,6 +74,8 @@ const AddProductPage = () => {
   setIsSubmitting(true)
   setSubmitError(null)
   setSuccess('')
+  setImageFiles([])
+  setImagePreviews([])
   
 
   try {

@@ -12,7 +12,11 @@ import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import { ProductContext } from "../../contextProviders/ProductContext";
 import PopularBadge from "./popularBadge";
 
-const ProductDetails = () => {
+interface ProductDetailsProps {
+  productArray: ProductProps[]
+}
+
+const ProductDetails = ({productArray}: ProductDetailsProps) => {
   const [product, setProduct] = useState<ProductProps | null>(null);
   const [error, setError] = useState('');
   const [selectedImage, setSelectedImage] = useState(0);
@@ -24,7 +28,6 @@ const ProductDetails = () => {
   const productsPerPage = 4;
 
   const {
-    Products,
     oldSize,
     setOldSize,
     showClotheSizeInput,
@@ -34,10 +37,10 @@ const ProductDetails = () => {
   } = useContext(ProductContext);
 
   useEffect(() => {
-    if (Products.length > 0 && !product) {
-      setProduct(Products[0]);
+    if (productArray.length > 0 && !product) {
+      setProduct(productArray[0]);
     }
-  }, [Products, product]);
+  }, [productArray, product]);
 
   useEffect(() => {
     if (product) {
@@ -60,8 +63,8 @@ const ProductDetails = () => {
   // Pagination logic
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = Products.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(Products.length / productsPerPage);
+  const currentProducts = productArray.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(productArray.length / productsPerPage);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
@@ -87,14 +90,15 @@ const ProductDetails = () => {
   return (
     <>
       {/* Product Preview Section - Compact Cards */}
-      <div className="mb-4 w-full">
-        <h2 className="text-lg font-semibold mb-2">Browse Products</h2>
-        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-2">
-          {currentProducts.map((item) => (
+      <div className="mb-4 w-full px-4">
+         <h2 className="text-lg font-semibold mb-2">Browse Products</h2>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3">
+          {currentProducts?.map((item) => (
             <div
               key={item.productId}
               onClick={() => onOpen(item)}
-              className="cursor-pointer border rounded-md overflow-hidden hover:shadow-sm transition-all flex flex-col h-full"
+              className="cursor-pointer border rounded-md overflow-hidden hover:shadow-md transition-all flex flex-col h-full min-w-0 
+    p-2 sm:p-3 md:p-2 lg:p-1.5 text-sm md:text-xs"
             >
               <div className="relative aspect-square w-full">
                 <Image
@@ -105,18 +109,32 @@ const ProductDetails = () => {
                   sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
                 />
               </div>
-              <div className="p-1.5">
-                <h3 className="font-medium text-gray-900 text-xs line-clamp-2">{item.productName}</h3>
-                <p className="text-green-600 font-semibold text-xs mt-0.5">
-                  {formatCurrency('NGN', item.price)}
-                </p>
-              </div>
+              
+                  <div className="flex flex-col justify-between flex-1">
+  {/* Product Name */}
+  <h3 className="text-xs sm:text-sm font-extrabold text-gray-900 line-clamp-2 h-10">
+    {item?.productName?.toUpperCase()}
+  </h3>
+
+  {/* Price + Button Row */}
+  <div className="flex flex-wrap items-center justify-between gap-y-1 mt-2">
+    <span className="text-sm font-bold text-gray-900 max-w-[60%] ">
+      ₦{item?.price?.toLocaleString()}
+    </span>
+    <button className="bg-green-600 text-white text-xs sm:text-sm font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 px-2 py-1 whitespace-nowrap">
+      In Stock
+    </button>
+  </div>
+</div>
+
+
+
             </div>
           ))}
         </div>
 
         {/* Pagination */}
-        {Products.length > productsPerPage && (
+        {productArray.length > productsPerPage && (
           <div className="flex justify-center mt-4">
             <nav className="inline-flex rounded-md shadow-sm">
               <button
@@ -172,7 +190,8 @@ const ProductDetails = () => {
               <div className="flex flex-col md:flex-row">
                 {/* Image Section */}
                 <div className="w-full md:w-1/2 bg-gray-50 p-3 sm:p-6">
-                  <div className="relative aspect-square w-full rounded-lg sm:rounded-xl overflow-hidden">
+                 <div className="relative aspect-square w-full max-w-full md:max-w-[95%] mx-auto">
+
                     <Image
                       src={mainImage}
                       alt={product.productName}

@@ -21,7 +21,7 @@ const SuperMarket = ()=>{
     return (
         <div id='supermarket-top' className='py-16'>
             <h2 className="text-3xl font-bold text-gray-800 pb-8 pt-16 text-center ">Elteema Supermarket</h2>
-              <ProductDetails />
+              <ProductDetails productArray={Products} />
 
     </div>
     )

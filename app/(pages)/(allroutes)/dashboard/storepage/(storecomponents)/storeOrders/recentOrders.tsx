@@ -35,6 +35,7 @@ const RecentStoreOrders = ({currentOrders}: RecentOrdersProps) => {
 
   // Status Options
   const orderStatusOptions = [
+    'processing',
     'awaiting pick-up',
     'shipped',
     'cancel'

@@ -40,7 +40,9 @@ export interface ProductProps {
     description: string;
     store: StoreProps;  
     storeName: string; 
-    storeCity: string;      
+    storeCity: string; 
+    storeState: string; 
+    storePhone: number;     
     star: number;
     totalVotes: number;
     totalSales: number;

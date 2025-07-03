@@ -5,7 +5,8 @@ import { useEffect, useState } from "react"
 import { getStore, StoreProps } from "../../../../../components/api/store"
 import Image from "next/image"
 import { capitalize } from "../../../../../components/utils"
-import { TruckIcon } from "lucide-react"
+import { LocateIcon, TruckIcon } from "lucide-react"
+import ProductDetails from "../../../../../components/product/productdetails"
 
 const StoreFront = () => {
   const params: any = useParams()
@@ -61,13 +62,12 @@ const StoreFront = () => {
           <div className="text-center">
             <h1 className="text-4xl font-extrabold text-gray-900">{capitalize(store.storeName)}</h1>
             <p className="text-xl text-gray-600">{store.tagline}...</p>
-            <p className="text-gray-900 mb-4">Contact: {store.phone}</p>
-            <div className="flex items-center justify-center space-x-2 text-gray-500">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-              </svg>
-              <span>{storeAddress}</span>
-            </div>
+          <div className="flex items-center justify-center gap-2 text-gray-500 ">
+  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+  </svg>
+  <span>{storeAddress}</span>
+</div>
           </div>
         </div>
       </div>
@@ -75,49 +75,10 @@ const StoreFront = () => {
       {/* Products Section */}
       <div className="max-w-3xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
         {store.items?.length > 0 ? (
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {store.items.map((product: any, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <a href={`/productpage/${product.productId}`} className="block">
-                  {/* Product Image */}
-                  <div className="relative aspect-square">
-                    <Image 
-                      src={product.images[0]} 
-                      alt={product.productName} 
-                      fill 
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  </div>
-                  
-                  {/* Product Info */}
-                  <div className="p-4">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
-                        <a href={`/categorypage/${product.category}`} className="hover:underline">
-                          {product.category}
-                        </a>
-                      </span>
-                      <div className="flex gap-1">
-                         <TruckIcon />
-                        <span className="text-sm text-green-500">
-                            {product.deliveryMethod === 'elteema delivery' ? 'Elteema Delivery': 'Owner Delivery'}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{product.productName}</h3>
-                    
-                    <div className="flex items-center justify-between mt-4">
-                      <span className="text-xl font-bold text-gray-900">₦{product.price.toLocaleString()}</span>
-                      <button className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300">
-                        Add to Cart
-                      </button>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            ))}
+          <div>
+           
+              {/* Product Info */}
+                  <ProductDetails productArray={store.items} />
           </div>
         ) : (
           <div className="text-center py-12">

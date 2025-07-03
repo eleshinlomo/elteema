@@ -5,9 +5,12 @@ import Featured from "../../../../components/product/featured";
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductDetails from "../../../../components/product/productdetails";
+import HotMobilePreview from "../../../../components/hotMobilePreview";
+import { ProductContext } from "../../../../contextProviders/ProductContext";
 
 const FeedsPage = () => {
     const { sticky } = useContext(GeneralContext);
+    const {Products} = useContext(ProductContext)
     const [scrolledPast20, setScrolledPast20] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
     const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
@@ -77,7 +80,7 @@ const FeedsPage = () => {
                     transition={{ duration: 0.4, ease: "easeOut" }}
                 >
                     <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 h-full border border-green-200/50 ml-2 hover:shadow-green-200/50 transition-all duration-300">
-                      <ProductDetails />
+                      <ProductDetails productArray={Products} />
                     </div>
                 </motion.div>
             </div>

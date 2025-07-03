@@ -134,7 +134,7 @@ const CheckoutPage = () => {
     
     const response = handlePaymentPopUp()
     console.log('POPUP RESPONSE', response)
-    const newStatus = 'processing'
+    const newStatus = 'pending'
     const updateResponse = await updateStoreOrder(cart, user.id, eta, newStatus)
     console.log('ORDER UPDATE', updateResponse)
     if(updateResponse.ok){

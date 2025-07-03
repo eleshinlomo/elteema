@@ -15,6 +15,7 @@ import FeedFooter from '../../../../components/mobileFooter'
 import Image from 'next/image'
 import { CommentsModal } from './comments'
 import ShareButton from './shareButton'
+import HotMobilePreview from '../../../../components/hotMobilePreview'
 
 interface Props {
     setShowSearch: (value: boolean) => void
@@ -221,6 +222,9 @@ const Feeds = () => {
                 <h2 className="text-2xl font-bold text-green-700 mb-6 text-center bg-white/90 p-3 rounded-lg shadow-sm">
                     {username ? `Welcome back, ${capitalize(username)}!` : 'Talk, Buy & Sell!'}
                 </h2>
+
+                {/* Hot product preview */}
+                <HotMobilePreview />
                 
                 <div className={`text-center text-sm ${error ? 'text-red-500' : ''}`}>
                     {error ? error : <HotProductFlash />}
