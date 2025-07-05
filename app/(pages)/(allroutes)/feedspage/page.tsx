@@ -80,7 +80,7 @@ const FeedsPage = () => {
                     transition={{ duration: 0.4, ease: "easeOut" }}
                 >
                     <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 h-full border border-green-200/50 ml-2 hover:shadow-green-200/50 transition-all duration-300">
-                      <ProductDetails productArray={Products} />
+                      <ProductDetails productArray={Products} text={'Bestsellers'} />
                     </div>
                 </motion.div>
             </div>

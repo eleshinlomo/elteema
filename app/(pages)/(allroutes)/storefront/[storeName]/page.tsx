@@ -78,7 +78,7 @@ const StoreFront = () => {
           <div>
            
               {/* Product Info */}
-                  <ProductDetails productArray={store.items} />
+                  <ProductDetails productArray={store.items} text={'Items to buy'} />
           </div>
         ) : (
           <div className="text-center py-12">
