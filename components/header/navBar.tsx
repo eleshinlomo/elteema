@@ -8,7 +8,6 @@ import { fetchCart } from "../utils";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Cart from "../cart/cart";
-import PWAInstallButton from "../PWADownloadButton";
 import MenuButton from "./menuButton";
 import { FaShoppingBag } from "react-icons/fa";
 
@@ -96,18 +95,22 @@ const NavBar = () => {
           </button>
         </a>
 
-        {/* Supermarket */}
-        <a href='/supermarketpage'>
+        {/* createstorelandingpage */}
+        <a href='/createstorelandingpage'>
           <button
-            onClick={() => handleTabClick("supermarket")}
+            onClick={() => handleTabClick("createstorelandingpage")}
             className={`flex flex-col items-center p-2 transition-colors duration-200 ${
-              activeTab === "supermarket" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
+              activeTab === "createstorelandingpage" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
             }`}
           >
             <FaShoppingBag className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
-            <span className="text-xs mt-1">Supermarket</span>
+            <span className="text-xs mt-1">Sell on Elteema</span>
           </button>
         </a>
+
+
+   
+  
 
         {/* Auth */}
         <div>
@@ -136,10 +139,11 @@ const NavBar = () => {
         </div>
         
         {/* App install desktop mode */}
-        <div className="hidden md:flex">
+        {/* <div className="hidden md:flex">
           <PWAInstallButton />
         </div>
-    
+     */}
+     
         {/* Cart - shows only in desktop mode */}
         <div className="hidden md:flex">
           <button
@@ -153,7 +157,7 @@ const NavBar = () => {
         </div>
 
         {/* Menu - shows always */}
-        <div className="w-16 flex-shrink-0">
+          <div className="w-16 flex-shrink-0">
           <button
             onClick={() => handleTabClick("menu")}
             className={`flex flex-col items-center p-2 transition-colors duration-200 ${
@@ -164,6 +168,7 @@ const NavBar = () => {
             <span className="text-xs">Menu</span>
           </button>
         </div>
+      
       </div>
     </div>
   );

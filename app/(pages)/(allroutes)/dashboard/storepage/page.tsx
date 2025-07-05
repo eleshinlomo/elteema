@@ -32,7 +32,7 @@ const StorePage = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-4 pt-16">
+    <div className="min-h-screen bg-gray-50 pb-4 pt-16 px-4">
       <header className="mb-2">
         <h3 className="text-xl font-bold text-gray-800">Welcome back <span className='font-extrabold'>{capitalize(user?.username)}</span>! Here&apos;s what&apos;s happening with your store today.
         </h3>

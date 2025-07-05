@@ -14,8 +14,10 @@ const HotProductFlash = () => {
     { name: 'online transactions are safe', href: '#' },
     // { name: 'Seller gets paid when order is received', href: '#' },
     { name: 'Shop faster in your city', href: '#' },
-    { name: 'Pick-up in public places.', href: '#' },
-    {name: 'Avoid night time pick-ups', href: '#' },
+    { name: 'Old takers dey shop here.', href: '#' },
+    {name: 'Everybody dey shop here', href: '#' },
+    {name: 'Shop like a true prince', href: '#' },
+
   ];
 
   useEffect(() => {

@@ -15,7 +15,7 @@ const PurchaseAlert = () => {
     ];
     
     const sampleLocations: string[] = [
-      "Ikorodu, USA",
+      "Agric, Ikorodu",
       "London, UK",
       "Lekki, Lagos",
       "Maryland, US",

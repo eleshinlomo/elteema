@@ -157,7 +157,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
 //         }
 // },[user?.store])
  
-
+const dashboardPaths = path.startsWith('dashboard')
   return (
     <Suspense>
       <div>
@@ -170,7 +170,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
           
           <MobileFooter />
           {/* Desktop Footer */}
-          <div className="hidden md:block">{path !== '/' && <Footer />}</div>
+          <div className="hidden md:block">{!path.startsWith('/dashboard') && <Footer />}</div>
           
       </div>
       </Suspense>

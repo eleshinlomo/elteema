@@ -15,7 +15,7 @@ const DashSideBar = ({user}: {user: UserProps}) => {
   }, [user?.orders])
 
   return (
-    <div className="  px-6 pt-24">
+    <div className="fixed  px-6 pt-24">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-xl font-bold text-gray-800 mb-8">Account Settings</h1>
         

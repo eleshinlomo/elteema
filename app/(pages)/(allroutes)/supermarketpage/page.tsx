@@ -19,11 +19,11 @@ const SuperMarket = ()=>{
 
   const message = 'Loading supermarket items...'
     return (
-        <div id='supermarket-top' className='py-16'>
-            <h2 className="text-3xl font-bold text-gray-800 pb-8 pt-16 text-center ">Elteema Supermarket</h2>
-              <ProductDetails productArray={Products} />
+        <div id='supermarket-top' className='pt-2'>
+            {/* <h2 className="text-2xl font-bold text-gray-800 pb-8 pt-16 text-center ">Your all-in-one marketplace, only on Elteema.</h2> */}
+              <ProductDetails productArray={Products} text={'Your all-in-one marketplace, only on Elteema'} />
 
-    </div>
+       </div>
     )
 }
 
