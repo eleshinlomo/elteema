@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useContext } from 'react';
-import { ProductContext } from '../contextProviders/ProductContext';
+import { ProductContext } from '../../contextProviders/ProductContext';
 import Image from 'next/image';
-import AddToCartButton from './cart/addtocartbtn';
-import { CartContext } from '../contextProviders/cartcontext';
-import { capitalize, formatCurrency } from './utils';
+import AddToCartButton from '../cart/addtocartbtn';
+import { CartContext } from '../../contextProviders/cartcontext';
+import { capitalize, formatCurrency } from '../utils';
 
-const HotMobilePreview = () => {
+const HotProductsPreview = () => {
   const { Products } = useContext(ProductContext);
   const { cart } = useContext(CartContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +32,7 @@ const HotMobilePreview = () => {
     <>
       {/* Horizontal product scroll preview */}
       <div className="px-4 pt-4">
-        <h3 className="text-2xl font-bold text-gray-800 mb-2">Super Deals</h3>
+        <h3 className="text-2xl text-center font-bold text-gray-800 mb-2">Super Deals</h3>
         <div className="flex space-x-3 overflow-x-auto pb-2 scrollbar-hide">
           {mobileProducts.map((product) => (
             <div
@@ -125,4 +125,4 @@ const HotMobilePreview = () => {
   );
 };
 
-export default HotMobilePreview;
+export default HotProductsPreview;

@@ -3,12 +3,13 @@ import { StoreProps } from "./store";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
+// For sellers
 export interface CreateProductProps {
     userId: number | any;
     addedBy: string;
     productName: string;
     imageFiles: File[];
-    price: string;
+    price: number; // Needed to keep this as string to prevent 0 getting appended to new price in the form
     colors: string[];
     condition: string;
     deliveryMethod: string;
@@ -19,7 +20,25 @@ export interface CreateProductProps {
           
 }
 
+// For sellers
+export interface UpdateProductProps {
+    productId: number;
+    userId: number | any;
+    addedBy: string;
+    productName: string;
+    imageFiles: File[];
+    price: number; // Needed to keep this as string to prevent 0 getting appended to new price in the form
+    colors: string[];
+    condition: string;
+    deliveryMethod: string;
+    quantity: number;
+    sizes: string[];
+    category: string;
+    description: string;
+          
+}
 
+// For buyers
 export interface ProductProps {
     userId: number;
     productId: number;
@@ -28,14 +47,12 @@ export interface ProductProps {
     src: string;
     productName: string;
     price: number;
-    color: string; // For buyer
-    colors: string[]; // For sellers
+    colors: string[]; 
     condition: string;
     deliveryMethod: string;
-    imageFiles: File[]; //Image array sent to the server
     images: string[]; // Image array received from server
     quantity: number;
-    size: string;
+    sizes: string[];
     category: string;
     description: string;
     store: StoreProps;  
@@ -54,6 +71,55 @@ export interface ProductProps {
 
 
 
+export const createProduct = async (formData: any, userId: number)=>{
+    try{
+        const response = await fetch(`${BASE_URL}/product/createproduct`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'userId': userId.toString() //Used for the middleware on backend
+          }
+        })
+
+        if(!response){
+            return 'No response from server'
+        }
+    
+        const data = await response.json()
+        return data
+    }catch(err){
+       console.log(err)
+       return err
+    }
+}
+
+
+// Update Product
+export const updateProduct = async (formData: any, userId: number)=>{
+
+     try{
+        const response = await fetch(`${BASE_URL}/product/updateproduct`, {
+          method: 'PUT',
+          body: formData,
+          headers: {
+            'userId': userId.toString() //Used for the middleware on backend
+          }
+        })
+
+        if(!response){
+            return 'No response from server'
+        }
+    
+        const data = await response.json()
+        return data
+    }catch(err){
+       console.log(err)
+       return err
+    }
+
+}
+
+
 
 // All products
 export const getAllProducts = async ()=>{
@@ -65,8 +131,6 @@ export const getAllProducts = async ()=>{
     if(!response) return
     const data: any = await response.json()
     return data
-    
-   
 }catch(err){
     console.log(err)
 }

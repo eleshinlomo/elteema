@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, ChangeEvent, FormEvent, useContext } from 'react'
-import {  CreateProductProps, getAllProducts } from '../../../../../../components/api/product'
+import {  createProduct, CreateProductProps, getAllProducts } from '../../../../../../components/api/product'
 import { GeneralContext } from '../../../../../../contextProviders/GeneralProvider'
 import { FiImage, FiX, FiPlus, FiMinus } from 'react-icons/fi'
 import Image from 'next/image'
@@ -29,7 +29,7 @@ const AddProductPage = () => {
     colors: [] as string[],
     imageFiles: [] as File[],
     productName: '',
-    price: '',
+    price: 0,
     condition: '',
     deliveryMethod: '',
     quantity: 1,
@@ -118,27 +118,19 @@ const AddProductPage = () => {
     imageFiles.forEach(file => {
       formData.append('images', file) // Must match Multer field name ('images')
     })
-
-    // Send formData to the API
-    const response = await fetch(`${BASE_URL}/product/createproduct`, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'userId': user.id //Used for the middleware on backend
-      }
-    })
-
-    const data = await response.json()
+     
+    const response: any = await createProduct(formData, user?.id)
+    
     // We handle response
-    if(data.ok === true){
-      const updatedUser = data.data
+    if(response.ok === true){
+      const updatedUser = response.data
       updateLocalUser(updatedUser)
       setUser(updatedUser)
       const updatedProducts = await getAllProducts()
       if(updatedProducts?.length > 0){
       setProducts(updatedProducts)
       }
-      setSuccess(data.message)
+      setSuccess(response.message)
       // Reset form
       setProduct({
         userId: user.id,
@@ -146,7 +138,7 @@ const AddProductPage = () => {
         colors: [],
         imageFiles,
         productName: '',
-        price: '',
+        price: 0,
         condition: '',
         deliveryMethod: '',
         quantity: 1,
@@ -159,7 +151,7 @@ const AddProductPage = () => {
       setImageFiles([])
       window.location.href = '#nav-top'
     } else {
-      setSubmitError(data.error)
+      setSubmitError(response.error)
       window.location.href = '#nav-top'
     }
   } catch (error) {

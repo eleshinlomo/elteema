@@ -17,7 +17,10 @@ const CreateStorePage = () => {
   const [success, setSuccess] = useState('')
   const {user, setUser}= useContext(GeneralContext)
 
-
+  
+  if(user?.store){
+    window.location.href = '/dashboard/storepage'
+  }
 
 
   const [formData, setFormData] = useState<CreateStoreProps>({

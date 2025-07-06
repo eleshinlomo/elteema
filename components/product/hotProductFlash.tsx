@@ -43,7 +43,6 @@ const HotProductFlash = () => {
       <div className={`flex items-center transition-all duration-500 ${isAnimating ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'}`}>
       
         <div className="text-center">
-          <span className="text-sm font-medium text-gray-600">Pro tip: </span>
           {showItem ? (
             <a 
               href={showItem.href} 

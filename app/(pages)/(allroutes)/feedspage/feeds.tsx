@@ -15,7 +15,7 @@ import FeedFooter from '../../../../components/mobileFooter'
 import Image from 'next/image'
 import { CommentsModal } from './comments'
 import ShareButton from './shareButton'
-import HotMobilePreview from '../../../../components/hotMobilePreview'
+import HotMobilePreview from '../../../../components/product/hotProductsPreview'
 
 interface Props {
     setShowSearch: (value: boolean) => void

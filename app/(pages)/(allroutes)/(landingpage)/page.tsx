@@ -7,7 +7,7 @@ import { GeneralContext } from '../../../../contextProviders/GeneralProvider';
 import { usePathname } from 'next/navigation';
 import Featured from '../../../../components/product/featured';
 import SuperMarket from '../supermarketpage/page';
-import HotMobilePreview from '../../../../components/hotMobilePreview';
+import HotMobilePreview from '../../../../components/product/hotProductsPreview';
 import HotProductFlash from '../../../../components/product/hotProductFlash';
 import PurchaseAlert from '../../../../components/product/purchaseAlert';
 import { ProductContext } from '../../../../contextProviders/ProductContext';
@@ -37,7 +37,7 @@ export default function Home() {
     }else{
     setSortItems(Products)
     }
-  }, [sortItems, itemsToSort])
+  }, [sortItems, Products, itemsToSort])
 
   return (
     <div id='top' className="relative pt-24 bg-gray-50">
@@ -81,7 +81,7 @@ export default function Home() {
             <HotMobilePreview />
           </div>
 
-          <ProductDetails productArray={sortItems} text='Your all-in-one marketplace, only on Elteema' />
+          <ProductDetails productArray={sortItems} text='Fresh from farms' />
 
          
         </div>

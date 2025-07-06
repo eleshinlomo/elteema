@@ -104,9 +104,11 @@ const StoreProducts = () => {
 
           {/* Action buttons */}
           <div className="flex gap-2 pt-2">
-            <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
-              View or Edit
-            </button>
+            <a href={`/dashboard/updateproductpage/${product.productId}`}>
+              <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
+                View or Edit
+              </button>
+            </a>
             <button 
               className='text-xs py-1 px-2 rounded bg-red-600 hover:bg-red-700 text-white'
               onClick={()=>handleDeleteProduct(product.productId)}

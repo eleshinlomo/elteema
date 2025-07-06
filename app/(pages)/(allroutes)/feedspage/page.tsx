@@ -5,7 +5,7 @@ import Featured from "../../../../components/product/featured";
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductDetails from "../../../../components/product/productdetails";
-import HotMobilePreview from "../../../../components/hotMobilePreview";
+import HotMobilePreview from "../../../../components/product/hotProductsPreview";
 import { ProductContext } from "../../../../contextProviders/ProductContext";
 
 const FeedsPage = () => {

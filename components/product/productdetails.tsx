@@ -89,8 +89,9 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
   return (
     <>
       {/* Product Preview Section - Compact Cards */}
-      <div className="mb-4 w-full px-4">
-        <h2 className="text-2xl font-semibold mb-2">{text}</h2>
+      <div className="mb-24 w-full px-4 ">
+        {/* TEXT */}
+        <h2 className="text-2xl font-semibold mb-2 text-center py-4">{text}</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
           {currentProducts?.map((item) => (
             <div
@@ -163,7 +164,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
 
       {/* Full Page Modal Overlay */}
       {isOpen && selectedProduct && (
-        <div className="fixed inset-0 z-[9999] overflow-y-auto">
+        <div className="fixed inset-0 z-[9999] overflow-y-auto ">
           <div
             className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
             onClick={onClose}
