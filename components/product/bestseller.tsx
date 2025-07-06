@@ -2,7 +2,7 @@
 import {useState, useEffect, useContext} from 'react'
 import { ProductProps } from '../api/product'
 import Image from 'next/image'
-import DisplayProducts from './displayProducts'
+import ProductDetails from './productdetails'
 import { CartContext } from '../../contextProviders/cartcontext'
 import SkeletonPage from '../skeletonPage'
 import { ProductContext } from '../../contextProviders/ProductContext'
@@ -27,7 +27,7 @@ const {Products} = useContext(ProductContext)
     return (
         <div id='bestsellers'>
             <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Bestsellers</h2>
-            {bestsellers && bestsellers.length > 0 ? <DisplayProducts productArray={bestsellers.slice(0, 4)} numPerPage={4} />:
+            {bestsellers && bestsellers.length > 0 ? <ProductDetails productArray={bestsellers.slice(0, 4)} text='Bestsellers' />:
             <SkeletonPage message={message} />
             }
         

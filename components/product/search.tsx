@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Search as SearchIcon, Zap, Star, ShoppingBag, ListTree } from 'lucide-react'
 import { ProductProps } from '../api/product'
 import Hero from '../hero'
-import DisplayProducts from './displayProducts'
+import ProductDetails from './productdetails'
 import PurchaseAlert from './purchaseAlert'
 import HotProductFlash from './hotProductFlash'
 import { ProductContext } from '../../contextProviders/ProductContext'
@@ -96,7 +96,7 @@ const Search = () => {
                         <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
                             Search Results for <span className="text-green-600">{itemToSearch}</span>
                         </h2>
-                        <DisplayProducts productArray={searchedItemList} numPerPage={4} />
+                        <ProductDetails productArray={searchedItemList} text='Searched Items' />
                     </div>
                 ) : itemToSearch && !searchedItemFound ? (
                     <div className="text-center py-16 animate-fadeIn">
@@ -126,7 +126,7 @@ const Search = () => {
                         <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
                             Featured African Products
                         </h2>
-                         <DisplayProducts productArray={searchedItemList} numPerPage={4} />
+                         <ProductDetails productArray={searchedItemList} text='Searched Items' />
                     </div>
                 )}
             </div>

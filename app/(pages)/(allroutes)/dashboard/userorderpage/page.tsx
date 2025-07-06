@@ -105,11 +105,11 @@ const OrderPage = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.storeName}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.storePhone}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{`${capitalize(order.storeCity)}, ${capitalize(order.storeState)}`}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.size ? order.size : 'NA'}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.sizes ? order.sizes[0] : 'NA'}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="flex items-center">
-                          <div className="w-4 h-4 rounded-full mr-2" style={{ backgroundColor: order.color }} />
-                          {order.color ? order.color : 'NA'}
+                          <div className="w-4 h-4 rounded-full mr-2" style={{ backgroundColor: order.colors[0] }} />
+                          {order.colors ? order.colors[0] : 'NA'}
                         </div>
                       </td>
                       {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.eta ? order.eta : 'Unknown'}</td> */}

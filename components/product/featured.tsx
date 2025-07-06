@@ -5,7 +5,7 @@ import { ProductProps } from '../api/product'
 import Hero from '../hero'
 import { CartContext } from '../../contextProviders/cartcontext'
 import PurchaseAlert from './purchaseAlert'
-import DisplayStore from '../../app/(pages)/(allroutes)/supermarketpage/displaySupermarket'
+import ProductDetails from './productdetails'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ProductContext } from '../../contextProviders/ProductContext'
 import { GeneralContext } from '../../contextProviders/GeneralProvider'
@@ -71,7 +71,7 @@ const Featured = () => {
                         <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">
                             Search Results for <span className="text-green-600">{itemToSearch}</span>
                         </h2>
-                        <DisplayStore productArray={searchedItemList} numPerPage={2} />
+                        <ProductDetails productArray={searchedItemList} text={'Searched items'} />
                     </motion.div>
                 ) : itemToSearch && !searchedItemFound ? (
                     <motion.div

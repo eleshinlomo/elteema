@@ -3,7 +3,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import { ProductProps } from '../api/product'
 import Image from 'next/image'
 import { searchSingleProduct } from '../utils'
-import DisplayProducts from './displayProducts'
+import ProductDetails from './productdetails'
 import { CartContext } from '../../contextProviders/cartcontext'
 import SkeletonPage from '../skeletonPage'
 import { ProductContext } from '../../contextProviders/ProductContext'
@@ -43,7 +43,7 @@ const New = ()=>{
             <div >
     
        
-                {newList && newList.length > 0 ?<DisplayProducts productArray={newList.slice(0, 4)} numPerPage={4} />:
+                {newList && newList.length > 0 ?<ProductDetails productArray={newList.slice(0, 4)} text='New Items' />:
                 <SkeletonPage message={message} />
                 }
     
