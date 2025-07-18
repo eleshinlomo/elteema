@@ -52,7 +52,7 @@ const HotProductsPreview = () => {
   };
 
   useEffect(() => {
-    setHotProducts(Products?.slice(0, 6)); // Show first 6
+    setHotProducts(Products?.slice(0, 10)); // Show first 6
   }, [Products?.length]);
 
   return (
