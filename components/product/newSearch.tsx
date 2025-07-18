@@ -192,7 +192,7 @@ const NewSearch = () => {
             {/* No results found */}
             {searchResults.length === 0 && savedSearchQueries.length === 0 && inputValue && (
               <div className="p-4 text-center text-gray-500">
-                No results found for "{inputValue}"
+                No results found for {inputValue}
               </div>
             )}
           </div>
