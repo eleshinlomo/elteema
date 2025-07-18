@@ -1,6 +1,6 @@
 'use client'
 import React, { useContext } from "react";
-import { Home, Search, BarChart2, ShoppingBag, LogOutIcon, LogInIcon, MenuIcon } from "lucide-react";
+import { Home, Search, BarChart2, ShoppingBag, LogOutIcon, LogInIcon, MenuIcon, HomeIcon } from "lucide-react";
 import { GeneralContext } from "../contextProviders/GeneralProvider";
 import { CartContext } from "../contextProviders/cartcontext";
 import { logout } from "./api/auth";
@@ -50,16 +50,18 @@ const MobileFooter = () => {
   return (
     
     <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200  py-1  flex justify-around items-center z-50">
-       {/* Search */}
+       {/* Home */}
+            <a href='/'>
               <button
-                onClick={() => handleShowSearch("search")}
-                className={`md:hidden flex  flex-col items-center p-2 ${
-                  activeTab === "search" ? "text-green-600" : "text-gray-500"
+                onClick={() => handleTabClick("home")}
+                className={`flex flex-col items-center p-2 transition-colors duration-200 ${
+                  activeTab === "home" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
                 }`}
               >
-                <Search className="w-5 h-5" />
-                <span className="text-xs mt-1">Search</span>
+                <HomeIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 for consistency */}
+                <span className="text-xs mt-1">Home</span>
               </button>
+            </a>
    
     
       

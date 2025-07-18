@@ -40,7 +40,7 @@ const NavBar = () => {
         <a href='/'>
           <button
             onClick={() => handleTabClick("home")}
-            className={`flex flex-col items-center p-2 transition-colors duration-200 ${
+            className={`hidden md:flex flex-col items-center p-2 transition-colors duration-200 ${
               activeTab === "home" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
             }`}
           >
