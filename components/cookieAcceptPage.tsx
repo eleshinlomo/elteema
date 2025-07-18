@@ -1,47 +1,85 @@
 'use client'
 import React, { useState, useEffect, useContext } from 'react';
-import { updateLocalUser } from './data/userdata';
+import { getLocalUser, updateLocalUser } from './utils';
 import { GeneralContext } from '../contextProviders/GeneralProvider';
+import { updateUserCookie } from './api/users';
 
-const CookiePolicy = () => {
+const CookiePolicyPage = () => {
   const { user, setUser } = useContext(GeneralContext);
-  const [showBanner, setShowBanner] = useState<boolean | null>(null);
+  const [showBanner, setShowBanner] = useState<boolean>(true);
+   const [guestUser, setGuestUser] = useState<any | null>(null)
 
-  console.log('USER', user);
+  
 
   useEffect(() => {
-    if (user) {
-      setShowBanner(user.cookiesAccepted || user.cookiesAccepted === false ? false : true);
+    if (user && user.isCookieAccepted === true || user && user.isCookieAccepted === false) {
+      setShowBanner(false);
+    }else if(guestUser && guestUser.isCookieAccepted === true || guestUser && guestUser.isCookieAccepted === false){
+     setShowBanner(false)
     }else{
       setShowBanner(true)
     }
-  }, [user]);
+  }, [user, guestUser ]);
+
+
+
+  useEffect(() => {
+  const localUser = getLocalUser();
+  if (localUser) {
+    setGuestUser(localUser); // ⬅️ Initialize state from localStorage
+  }
+}, []);
+
 
   const handleCookieChoice = (accepted: boolean) => {
-    let updatedUser;
     
-    if (user) {
-      updatedUser = { ...user, cookiesAccepted: accepted };
-    } else {
-      updatedUser = { anonymous: true, cookiesAccepted: accepted };
+    
+    if (!user) {
+      const localUser = getLocalUser()
+      if(localUser){
+        const updatedUser = {...localUser, isCookieAccepted: accepted}
+        setGuestUser(updatedUser)
+        updateLocalUser(updatedUser);
+        
+      }else{
+      const updatedUser = {...guestUser, anonymous: true, isCookieAccepted: accepted };
+       setGuestUser(updatedUser)
+       updateLocalUser(updatedUser);
+        
+      }
     }
-
-    updateLocalUser(updatedUser);
-    setUser(updatedUser);
-    setShowBanner(false);
   };
 
-  const handleAcceptCookies = () => handleCookieChoice(true);
-  const handleDeclineCookies = () => handleCookieChoice(false);
+  const handleAcceptCookies = async () => {
+    const accepted = true
+    handleCookieChoice(accepted)
+    if(user){
+    const updatedUser = await updateUserCookie(user._id, accepted)
+    updateLocalUser(updatedUser)
+    setUser(user)
+  }
+  }
 
-  if (showBanner === null || !showBanner) return null;
+  const handleDeclineCookies = async () => {
+    const accepted = false
+    handleCookieChoice(false)
+    if(user){
+      const updatedUser = await updateUserCookie(user._id, accepted)
+      updateLocalUser(updatedUser)
+      setUser(user)
+    }
+  }
+
+
 
   return (
+    <div>
+    {showBanner ? 
     <div className="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 flex flex-col md:flex-row justify-between items-center z-[9999]">
       <p className="text-sm text-center md:text-left mb-2 md:mb-0">
         We use cookies to enhance your experience. By continuing to visit this site, you agree to our use of cookies.{' '}
         <a
-          href="/cookie-policy"
+          href="/policies/cookiepolicy"
           target="_blank"
           rel="noopener noreferrer"
           className="text-green-400 underline hover:text-green-300"
@@ -63,8 +101,9 @@ const CookiePolicy = () => {
           Decline
         </button>
       </div>
+    </div>: null}
     </div>
   );
 };
 
-export default CookiePolicy;
+export default CookiePolicyPage;

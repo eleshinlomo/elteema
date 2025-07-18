@@ -30,7 +30,7 @@ const MobileFooter = () => {
 
    const handleLogout = async () => {
       setIsLoggedIn(false)
-      const response = await logout(user?.email)
+      const response = await logout(user?.email, user?.isCookieAccepted)
       console.log(response)
       const newCart = fetchCart()
       setCart(newCart)
@@ -49,7 +49,7 @@ const MobileFooter = () => {
 
   return (
     
-    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200  py-2 flex justify-around items-center z-50">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200  py-1  flex justify-around items-center z-50">
        {/* Search */}
               <button
                 onClick={() => handleShowSearch("search")}

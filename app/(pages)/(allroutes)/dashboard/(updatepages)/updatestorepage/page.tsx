@@ -9,6 +9,7 @@ import { CreateStoreProps, StoreProps, updateStore } from "../../../../../../com
 import { capitalize } from "../../../../../../components/utils"
 import { industries } from "../../../../../../components/data/industries"
 
+
 const CreateStorePage = () => {
   const [isLoading, setIsLoading] = useState(false)                          
   const [error, setError] = useState('')
@@ -18,7 +19,10 @@ const CreateStorePage = () => {
   const [store, setStore] = useState<StoreProps | null>(null)
 
   const [formData, setFormData] = useState<CreateStoreProps>({
-    userId: user.id,
+    userId: user._id,
+    bankAccountName: '',
+    bankAccountNumber: '',
+    bvn: '',
     storeName: '',
     tagline: '',
     logo: '',
@@ -36,7 +40,10 @@ const CreateStorePage = () => {
     // When canceling edit, reset form data to store values
     if (isEditing && store) {
       setFormData({
-        userId: user.id,
+        userId: user._id,
+        bankAccountName: store.bankAccountName || '',
+        bankAccountNumber: store.bankAccountNumber || '',
+        bvn: store.bvn ||  '',
         storeName: store.storeName || '',
         tagline: store.tagline || '',
         logo: store.logo || '',
@@ -93,8 +100,11 @@ const CreateStorePage = () => {
     if(user && user.store){
       setStore(user.store)
       setFormData({
-        userId: user.id,
+        userId: user._id,
         storeName: user.store.storeName || '',
+        bankAccountName: user.store.bankAccountName || '',
+        bankAccountNumber: user.store.bankAccountNumber || '',
+        bvn: user.store.bvn ||  '',
         tagline: user.store.tagline || '',
         logo: user.store.logo || '',
         phone: user.store.phone || '',
@@ -300,6 +310,58 @@ const CreateStorePage = () => {
                 <option key={index} value={country}>{country}</option>
               ))}
             </select>
+          </div>
+
+          
+            {/* Store bank account name */}
+            <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Bank account name for your store
+            </label>
+            <input
+              id="bankAccountName"
+              name="bankAccountName"
+              type="bankAccountName"
+              required
+              value={formData.bankAccountName}
+              onChange={handleChange}
+              placeholder="Enter store bank account name"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+            />
+          </div>
+            
+              {/* Store bank account number */}
+            <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Bank account number for your store
+            </label>
+            <input
+              id="bankAccountNumber"
+              name="bankAccountNumber"
+              type="bankAccountNumber"
+              required
+              value={formData.bankAccountNumber}
+              onChange={handleChange}
+              placeholder="Enter store bank account number"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+            />
+          </div>
+
+            {/* BVN */}
+            <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Your bvn
+            </label>
+            <input
+              id="bvn"
+              name="bvn"
+              type="bvn"
+              required
+              value={formData.bvn}
+              onChange={handleChange}
+              placeholder="Enter your bvn"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+            />
           </div>
 
           {isEditing && (

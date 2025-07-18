@@ -9,39 +9,45 @@ export interface CreateProductProps {
     addedBy: string;
     productName: string;
     imageFiles: File[];
+    imageUrls: string[];
     price: number; // Needed to keep this as string to prevent 0 getting appended to new price in the form
     colors: string[];
     condition: string;
     deliveryMethod: string;
     quantity: number;
-    sizes: string[];
     category: string;
     description: string;
+    unitCost: number;
+     shoeSizes: string[];
+    clotheSizes: string[];
           
 }
 
 // For sellers
 export interface UpdateProductProps {
-    productId: number;
-    userId: number | any;
+    productId: string | any;
+    userId: string | any;
     addedBy: string;
     productName: string;
     imageFiles: File[];
+    imageUrls: string[];
     price: number; // Needed to keep this as string to prevent 0 getting appended to new price in the form
     colors: string[];
     condition: string;
     deliveryMethod: string;
     quantity: number;
-    sizes: string[];
+     shoeSizes: string[];
+    clotheSizes: string[];
     category: string;
     description: string;
+    unitCost: number;
           
 }
 
 // For buyers
 export interface ProductProps {
     userId: number;
-    productId: number;
+    _id: string;
     addedBy: string;
     eta: string;
     src: string;
@@ -50,9 +56,11 @@ export interface ProductProps {
     colors: string[]; 
     condition: string;
     deliveryMethod: string;
-    images: string[]; // Image array received from server
+    imageFiles: File[];
+    imageUrls: string[]; // Image array received from server
     quantity: number;
-    sizes: string[];
+    shoeSizes: string[];
+    clotheSizes: string[];
     category: string;
     description: string;
     store: StoreProps;  
@@ -67,17 +75,19 @@ export interface ProductProps {
     isAdded: boolean;
     orderStatus: string[];
     productPageVisits: 256
+    unitCost: number;
 }
 
 
 
-export const createProduct = async (formData: any, userId: number)=>{
+export const createProduct = async (formData: FormData, userId: number)=>{
+  
     try{
         const response = await fetch(`${BASE_URL}/product/createproduct`, {
           method: 'POST',
           body: formData,
           headers: {
-            'userId': userId.toString() //Used for the middleware on backend
+            'userId': userId?.toString() //Used for the middleware on backend
           }
         })
 
@@ -95,14 +105,14 @@ export const createProduct = async (formData: any, userId: number)=>{
 
 
 // Update Product
-export const updateProduct = async (formData: any, userId: number)=>{
+export const updateProduct = async (formData: any, userId: string)=>{
 
      try{
         const response = await fetch(`${BASE_URL}/product/updateproduct`, {
           method: 'PUT',
           body: formData,
           headers: {
-            'userId': userId.toString() //Used for the middleware on backend
+            'userId': userId //Used for the middleware on backend
           }
         })
 
@@ -138,7 +148,7 @@ export const getAllProducts = async ()=>{
 }
 
 //Delete products
-export const deleteProduct = async (userId: number, productId: number)=>{
+export const deleteProduct = async (userId: string, productId: string)=>{
     
     try{
     const response = await fetch(`${BASE_URL}/product/deleteproduct`, {

@@ -1,8 +1,6 @@
 'use client'
 import PaystackPop from '@paystack/inline-js'
-import { Console } from 'console'
-import { updateStoreOrder } from '../../../../../components/api/store'
-import { CartProps } from '../../../../../components/api/cart'
+
 
 interface PaymentProps {
   email: string;

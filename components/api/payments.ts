@@ -1,20 +1,19 @@
+import { initialize } from "next/dist/server/lib/render-server";
 
-interface PaymentProps {
-  paymentEmail: string;
-  paymentMethod: string;
-}
+
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-export const updatePaymentMethod = async (payload: PaymentProps) => {
-  
-    try{
-   
-    const response = await fetch(`${BASE_URL}/payment/updatepaymentmethod`, {
+
+
+
+  // initialize Payment
+  export const intializePayment = async (userId: string)=>{
+     const response = await fetch(`${BASE_URL}/payment/initializepayment`, {
       mode: 'cors',
-      method: 'PUT',
+      method: 'GET',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(payload)
+      body: JSON.stringify({userId})
     })
     if(!response) {
       console.log('No response from server')
@@ -23,7 +22,21 @@ export const updatePaymentMethod = async (payload: PaymentProps) => {
 
     const data = await response.json()
     return data
-  }catch(err){
-    console.log(err)
   }
-  };
+
+
+  const validateBVN = ()=>{
+
+    const metadata = {
+       "country": "NG",
+      "type": "bank_account",
+      "account_number": "0111111111",
+      "bvn": "222222222221",
+      "bank_code": "007",
+      "first_name": "Uchenna",
+      "last_name": "Okoro"
+    }
+    const response = fetch('https://api.paystack.co/customer/{customer_code}/identification', {
+      method: 'POST'
+    })
+  }

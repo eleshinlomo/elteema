@@ -19,7 +19,7 @@ const NavRightSide = () => {
 
   const handleLogout = async () => {
     setIsLoggedIn(false)
-    const response = await logout(user?.email)
+    const response = await logout(user?.email, user?.isCookieAccepted)
     console.log(response)
     const newCart = fetchCart()
     setCart(newCart)

@@ -1,43 +1,56 @@
 'use client'
-import React, {useState, useEffect, useContext} from 'react'
+
+import React, { useState, useEffect, useContext } from 'react'
 import { ProductProps } from '../api/product'
-import Image from 'next/image'
 import SkeletonPage from '../skeletonPage'
 import { capitalize } from '../utils'
 import CategoryNotFound from './productCatNotFound'
-import DisplayStore from '../../app/(pages)/(allroutes)/supermarketpage/displaySupermarket'
 import { ProductContext } from '../../contextProviders/ProductContext'
+import ProductDetails from './productdetails'
 
-interface CateroryProps{
-    category: string;
+interface CategoryProps {
+  category: string;
 }
 
-const ProductCategory = ({category}: CateroryProps)=>{
-    
-   const [categoryItems, setCategoryItems] = useState<ProductProps | any>([])
-    // Hooks
-    const {Products} = useContext(ProductContext)
+const ProductCategory = ({ category }: CategoryProps) => {
+  const [categoryItems, setCategoryItems] = useState<ProductProps[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const { Products } = useContext(ProductContext)
 
-    useEffect(()=>{
-    if(Products && Products.length > 0){
-      const items: any = Products.filter((item)=>item.category.toLowerCase() === decodeURIComponent(category.toLowerCase()))
+  useEffect(() => {
+    if (Products) {
+      const items = Products.filter(item => 
+        item.category.toLowerCase() === decodeURIComponent(category.toLowerCase())
+      )
       setCategoryItems(items)
+      setIsLoading(false)
     }
-    }, [Products])
+  }, [Products, category])
 
-   const message = `Loading items...`
-
-
+  if (isLoading) {
     return (
-      <div className='pb-8'>
-           <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">{capitalize(decodeURIComponent(category))}</h2>
-            {categoryItems && categoryItems.length > 0 ? <DisplayStore productArray={categoryItems} numPerPage={5} />
-            :
-            <CategoryNotFound category={category} />
-              }
-
-  </div>
+      <div className="py-32">
+        <SkeletonPage message={`Loading ${decodeURIComponent(category)} items...`} />
+      </div>
     )
+  }
+
+  if (categoryItems.length === 0) {
+    return (
+      <div className="py-8">
+        <CategoryNotFound category={category} />
+      </div>
+    )
+  }
+
+  return (
+    <div className="pb-8">
+      <ProductDetails 
+        productArray={categoryItems} 
+        text={`Shop for ${decodeURIComponent(category)}`} 
+      />
+    </div>
+  )
 }
 
 export default ProductCategory

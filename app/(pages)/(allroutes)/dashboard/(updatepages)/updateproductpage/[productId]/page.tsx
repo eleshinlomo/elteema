@@ -5,10 +5,10 @@ import { CreateProductProps, getAllProducts, ProductProps, updateProduct, Update
 import { GeneralContext } from '../../../../../../../contextProviders/GeneralProvider'
 import { FiImage, FiX, FiPlus, FiMinus, FiEdit2, FiSave } from 'react-icons/fi'
 import Image from 'next/image'
-import { updateLocalUser } from '../../../../../../../components/data/userdata'
+import { calculatePercentagePrice, updateLocalUser } from '../../../../../../../components/utils'
 import { ProductContext } from '../../../../../../../contextProviders/ProductContext'
 import { categories } from '../../../../../../../components/data/categories'
-import { sizes } from '../../../../../../../components/data/sizes'
+import { shoeSizes, clotheSizes } from '../../../../../../../components/data/sizes'
 import { useParams, useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -27,45 +27,54 @@ const UpdateProductPage = () => {
   const [existingProduct, setExistingProduct] = useState<ProductProps | null>(null)
   const [existingImages, setExistingImages] = useState<string[]>([])
   const [imagesToRemove, setImagesToRemove] = useState<string[]>([])
+  const [hasYard, setHasYard] = useState(false)
   const router = useRouter()
   
   const params = useParams()
-  const productId = params?.productId
+  const productId = params?.productId?.toString()
+  
 
   const [productToUpdate, setProductToUpdate] = useState<UpdateProductProps>({
-    productId: Number(productId),
-    userId: user.userId,
+    productId: productId,
+    userId: user._id,
     addedBy: user.username,
     colors: [] as string[],
     imageFiles: [] as File[],
+    imageUrls: [] as string[],
     productName: '',
     price: 0,
     condition: '',
     deliveryMethod: '',
     quantity: 1,
-    sizes: [] as string[],
+    shoeSizes: [] as string[],
+    clotheSizes: [] as string[],
+    unitCost: 1,
     category: '',
     description: '',
   })
 
   const findProduct = () => {
-    const productExists = Products.find((p) => p.productId === Number(productId))
+    const userProducts: ProductProps[] = user?.store?.items || []
+    const productExists = userProducts?.find((p) => p._id === productId)
     if (productExists) {
       setExistingProduct(productExists)
-      setExistingImages(productExists.images || [])
+      setExistingImages(productExists.imageUrls || [])
       
       setProductToUpdate({
-        productId: Number(productId),
-        userId: user.userId,
+        productId: productExists._id,
+        userId: user._id,
         addedBy: user.username,
-        colors: productExists.colors || [],
+        imageUrls: productExists.imageUrls || [],
+        colors: Array.isArray(productExists.colors) ? productExists.colors : [],
         productName: productExists.productName,
-        imageFiles: [],
+        imageFiles: Array.isArray(productExists.imageFiles)  ? productExists.imageFiles : [],
         price: productExists.price || 0,
         condition: productExists.condition,
         deliveryMethod: productExists.deliveryMethod,
         quantity: productExists.quantity,
-        sizes: productExists.sizes || [],
+        shoeSizes: Array.isArray(productExists.shoeSizes) ? productExists.shoeSizes : [],
+        clotheSizes: Array.isArray(productExists.clotheSizes) ? productExists.clotheSizes : [],
+        unitCost: productExists.unitCost || 1,
         category: productExists.category,
         description: productExists.description,
       })
@@ -80,7 +89,7 @@ const UpdateProductPage = () => {
     const { name, value } = e.target
     setProductToUpdate(prev => ({
       ...prev,
-      [name]: name === 'price' || name === 'quantity' ? Number(value) || 0 : value
+      [name]: name === 'price' || name === 'quantity' || name === 'unitCost' ? Number(value) || 0 : value
     }))
   }
 
@@ -94,90 +103,122 @@ const UpdateProductPage = () => {
     })
   }
 
-  const handleSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleShoeSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target
     setProductToUpdate(prev => {
       const newSizes = checked
-        ? [...prev.sizes, value]
-        : prev.sizes.filter(size => size !== value)
-      return { ...prev, sizes: newSizes }
+        ? [...prev.shoeSizes, value]
+        : prev.shoeSizes.filter(size => size !== value)
+      return { ...prev, shoeSizes: newSizes }
     })
   }
 
-  const handleUpdateProduct = async (e: FormEvent) => {
-    e.preventDefault()
-    setSubmitError('')
-    setIsSubmitting(true)
-    setSubmitError(null)
-    setSuccess('')
 
-    try {
-      if (!existingProduct) {
-        throw new Error('Product not found')
-      }
-
-      if (!productToUpdate.productName || !productToUpdate.price || !productToUpdate.description) {
-        throw new Error('Please fill in all required fields')
-      }
-
-      const formData = new FormData()
-      
-      formData.append('productId', existingProduct.productId.toString())
-      formData.append('userId', existingProduct.userId.toString())
-      formData.append('addedBy', existingProduct.addedBy)
-      formData.append('productName', productToUpdate.productName)
-      formData.append('price', productToUpdate.price.toString())
-      formData.append('condition', productToUpdate.condition)
-      formData.append('deliveryMethod', productToUpdate.deliveryMethod)
-      formData.append('quantity', productToUpdate.quantity.toString())
-      formData.append('category', productToUpdate.category)
-      formData.append('description', productToUpdate.description)
-      
-      productToUpdate.colors.forEach(color => {
-        formData.append('colors', color)
-      })
-
-      productToUpdate.sizes.forEach(size => {
-        formData.append('sizes', size)
-      })
-      
-      imageFiles.forEach(file => {
-        formData.append('images', file)
-      })
-
-      imagesToRemove.forEach(image => {
-        formData.append('imagesToRemove', image)
-      })
-
-      const response: any = await updateProduct(formData, user.id)
-      
-      if (response.ok) {
-        const updatedProducts = await getAllProducts()
-        if (updatedProducts?.length > 0) {
-          setProducts(updatedProducts)
-        }
-        setSuccess(response.message)
-        toast.success('Product updated successfully!')
-        setIsEditing(false)
-        updateLocalUser(response.data)
-        setUser(response.data)
-        setImagePreviews([])
-        setImageFiles([])
-        setImagesToRemove([])
-        window.location.href ='#updateproduct-top'
-      } else {
-        setSubmitError(response.error)
-        toast.error(response.error || 'Failed to update product')
-        window.location.href ='#updateproduct-top'
-      }
-    } catch (error) {
-      console.error('Error updating product:', error)
-      setSubmitError(error instanceof Error ? error.message : 'Failed to update product')
-      toast.error(error instanceof Error ? error.message : 'Failed to update product')
-    } finally {
-      setIsSubmitting(false)
-    }
+    const handleClotheSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target
+    setProductToUpdate(prev => {
+      const newSizes = checked
+        ? [...prev.clotheSizes, value]
+        : prev.clotheSizes.filter(size => size !== value)
+      return { ...prev, clotheSizes: newSizes }
+    })
   }
+
+
+  const handleUpdateProduct = async (e: FormEvent) => {
+  e.preventDefault()
+  setSubmitError('')
+  setIsSubmitting(true)
+  setSubmitError(null)
+  setSuccess('')
+
+  try {
+    if (!existingProduct) {
+      throw new Error('Product not found')
+    }
+
+    if (!productToUpdate.productName || !productToUpdate.price || !productToUpdate.description) {
+      throw new Error('Please fill in all required fields')
+    }
+
+    const formData = new FormData()
+
+    formData.append('productId', existingProduct._id.toString())
+    formData.append('userId', user._id.toString())
+
+    // ✅ Only append imageUrls that are NOT marked for removal
+    existingProduct.imageUrls
+      .filter(url => !imagesToRemove.includes(url))
+      .forEach(url => {
+        formData.append('imageUrls', url)
+      })
+
+    formData.append('addedBy', existingProduct.addedBy)
+    formData.append('productName', productToUpdate.productName)
+    formData.append('price', productToUpdate.price.toString())
+    formData.append('unitCost', productToUpdate.unitCost.toString())
+    formData.append('condition', productToUpdate.condition)
+    formData.append('deliveryMethod', productToUpdate.deliveryMethod)
+    formData.append('quantity', productToUpdate.quantity.toString())
+    formData.append('category', productToUpdate.category)
+    formData.append('description', productToUpdate.description)
+
+   console.log('Product COLORS', productToUpdate.colors)
+
+    productToUpdate.colors.forEach(color => {
+      formData.append('colors', color)
+      
+    })
+
+    
+
+    productToUpdate?.shoeSizes.forEach(size => {
+      formData.append('shoeSizes', size)
+    })
+
+     productToUpdate?.clotheSizes.forEach(size => {
+      formData.append('clotheSizes', size)
+    })
+
+    imageFiles?.forEach(file => {
+      formData.append('images', file)
+    })
+
+    imagesToRemove?.forEach(image => {
+      formData.append('imagesToRemove', image)
+    })
+
+    const response: any = await updateProduct(formData, user._id)
+
+    if (response.ok) {
+      const updatedProducts = await getAllProducts()
+      if (updatedProducts?.length > 0) {
+        setProducts(updatedProducts)
+      }
+      setSuccess(response.message)
+      toast.success('Product updated successfully!')
+      setIsEditing(false)
+      updateLocalUser(response.data)
+      setUser(response.data)
+      setImagePreviews([])
+      setImageFiles([])
+      setImagesToRemove([])
+      window.location.href = '#updateproduct-top'
+    } else {
+      setSubmitError(response.error)
+      toast.error(response.error || 'Failed to update product')
+      window.location.href = '#updateproduct-top'
+    }
+  } catch (error) {
+    console.error('Error updating product:', error)
+    setSubmitError(error instanceof Error ? error.message : 'Failed to update product')
+    toast.error(error instanceof Error ? error.message : 'Failed to update product')
+    window.location.href = '#updateproduct-top'
+  } finally {
+    setIsSubmitting(false)
+  }
+}
+
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -230,6 +271,17 @@ const UpdateProductPage = () => {
     }
   }
 
+     const incrementUnitCost = () => {
+
+    setProductToUpdate(prev => ({ ...prev, unitCost: Number(prev.unitCost) + 1 }))
+  }
+
+  const decrementUnitCost= () => {
+    if (productToUpdate.unitCost > 1) {
+      setProductToUpdate(prev => ({ ...prev, unitCost: Number(prev.unitCost) - 1 }))
+    }
+  }
+
   const restoreImage = (image: string) => {
     setImagesToRemove(prev => prev.filter(img => img !== image))
   }
@@ -279,6 +331,13 @@ const UpdateProductPage = () => {
     }))
   ]
 
+
+    const customerSalesIncome = ()=>{
+       const commission = calculatePercentagePrice(Number(productToUpdate.price), 5)
+       const salesIncome = Number(productToUpdate.price) - commission
+       return salesIncome
+    }
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md" id='updateproduct-top'>
       <div className="flex justify-between items-center mb-6">
@@ -289,7 +348,7 @@ const UpdateProductPage = () => {
           {!isEditing ? (
             <button 
               onClick={() => setIsEditing(true)}
-              className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded-md transition-colors"
+              className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded-md transition-colors"
             >
               <FiEdit2 /> Edit
             </button>
@@ -302,7 +361,7 @@ const UpdateProductPage = () => {
                 setImagesToRemove([])
                 findProduct()
               }}
-              className="flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-1 rounded-md transition-colors"
+              className="flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-2 py-1 rounded-md transition-colors"
             >
               Cancel
             </button>
@@ -346,10 +405,12 @@ const UpdateProductPage = () => {
 
           {/* Product Price */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Price (₦) *</label>
+             <label className="block text-sm font-medium text-gray-700">
+              Price (₦) - 5% Elteema fee. You get ₦{customerSalesIncome()} after sales.
+              </label>
             <input
               type="number"
-              value={productToUpdate.price}
+              value={productToUpdate.price.toString()}
               placeholder='Enter price'
               name='price'
               onChange={handleChange}
@@ -360,6 +421,41 @@ const UpdateProductPage = () => {
               disabled={!isEditing}
             />
           </div>
+
+                {/* Unit Cost */}
+                    <div className="space-y-2">
+                       <label className="flex gap-2 text-sm font-medium text-gray-700">Unit Cost * 
+                          <p className='text-sm'>Your product cost ₦{productToUpdate.price} per {productToUpdate.unitCost} {hasYard ? 'yard' : 
+                             `${productToUpdate.unitCost > 1 ? "items" : "item"}`}</p>
+                        </label>
+                      
+                      <div className="flex items-center">
+                        <button
+                          type="button"
+                          onClick={decrementUnitCost}
+                          className="p-2 border border-gray-300 rounded-l-md bg-gray-100 hover:bg-gray-200"
+                          disabled={!isEditing}
+                        >
+                          <FiMinus size={16} />
+                        </button>
+                        <input
+                          type="number"
+                          value={productToUpdate.unitCost}
+                          name='unitCost'
+                          onChange={handleChange}
+                          min="1"
+                          className="w-16 px-4 py-2 border-t border-b border-gray-300 text-center focus:outline-none"
+                        />
+                        <button
+                          type="button"
+                          onClick={incrementUnitCost}
+                          className="p-2 border border-gray-300 rounded-r-md bg-gray-100 hover:bg-gray-200"
+                          disabled={!isEditing}
+                        >
+                          <FiPlus size={16} />
+                        </button>
+                      </div>
+                    </div>
 
           {/* Categories */}
           <div className="space-y-2">
@@ -398,7 +494,7 @@ const UpdateProductPage = () => {
           </div>
 
           {/* Product Colors */}
-          <div className="md:col-span-2 space-y-2">
+          {productToUpdate.colors?.length > 0  && <div className="md:col-span-2 space-y-2">
             <label className="block text-sm font-medium text-gray-700">Available Colors</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {availableColors.map(color => (
@@ -415,7 +511,7 @@ const UpdateProductPage = () => {
                 </label>
               ))}
             </div>
-          </div>
+          </div>}
 
           {/* Product Description */}
           <div className="md:col-span-2 space-y-2">
@@ -469,7 +565,7 @@ const UpdateProductPage = () => {
           </div>
 
           {/* Condition */}
-          <div className="space-y-2">
+          {productToUpdate.condition !== '' && <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">Condition *</label>
             <select
               value={productToUpdate.condition}
@@ -484,19 +580,19 @@ const UpdateProductPage = () => {
               <option value='used'>Used</option>
               <option value='refurbished'>Refurbished</option>
             </select>
-          </div>
+          </div>}
 
-          {/* Product Sizes */}
-          <div className="md:col-span-2 space-y-2">
+          {/* Shoe Sizes */}
+          {productToUpdate.shoeSizes?.length > 0 && <div className="md:col-span-2 space-y-2">
             <label className="block text-sm font-medium text-gray-700">Available Sizes</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {sizes.map((size, index) => (
+              {shoeSizes.map((size, index) => (
                 <label key={index} className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     value={size.value}
-                    checked={productToUpdate.sizes.includes(size.value)}
-                    onChange={handleSizeChange}
+                    checked={productToUpdate.shoeSizes.includes(size.value)}
+                    onChange={handleShoeSizeChange}
                     className="rounded text-green-600 focus:ring-green-500"
                     disabled={!isEditing}
                   />
@@ -504,7 +600,27 @@ const UpdateProductPage = () => {
                 </label>
               ))}
             </div>
-          </div>
+          </div>}
+
+             {/* Clothe Sizes */}
+          {productToUpdate.clotheSizes?.length > 0 &&<div className="md:col-span-2 space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Available Sizes</label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {clotheSizes.map((size, index) => (
+                <label key={index} className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    value={size}
+                    checked={productToUpdate.shoeSizes.includes(size)}
+                    onChange={handleClotheSizeChange}
+                    className="rounded text-green-600 focus:ring-green-500"
+                    disabled={!isEditing}
+                  />
+                  <span className={!isEditing ? 'text-gray-500' : ''}>{size}</span>
+                </label>
+              ))}
+            </div>
+          </div>}
 
           {/* Image Upload */}
           {isEditing && (

@@ -1,14 +1,17 @@
-import { CartProps } from "./cart";
+
 import { ProductProps } from "./product";
 
 
 export interface CreateStoreProps {
- userId: number;
+ userId: string;
  tagline: string;
  storeName: string;
  logo: string;
  phone: string,
  email: string;
+ bvn: string;
+ bankAccountName: string;
+ bankAccountNumber: string;
  industry: string;
  address: '',
  city: string;
@@ -17,10 +20,13 @@ export interface CreateStoreProps {
 }
 
 export interface StoreProps {
- userId: number;
+ userId: string;
  storeId: string;
  tagline: string;
  storeName: string;
+ bankAccountName: string;
+ bankAccountNumber: string;
+ bvn: string;
  logo: string;
  phone: string,
  email: string;
@@ -56,7 +62,7 @@ export const createStore = async (payload : CreateStoreProps)=>{
 
 // Update Store
 export const updateStore = async (payload : CreateStoreProps)=>{
-     console.log('PAYLOAD', payload)
+     
      const response = await fetch(`${BASE_URL}/store/updatestore`, {
         
          mode: 'cors',
@@ -75,10 +81,11 @@ export const updateStore = async (payload : CreateStoreProps)=>{
 
 
 
-export const changeOrderStatus = (cart: CartProps[], newStatus: string)=>{
+export const changeOrderStatus = (cart: ProductProps[], newStatus: string, eta: string)=>{
     const updatedItems = cart.map((item)=>{
        const updatedItem = {
         ...item,
+        eta: eta,
          orderStatus: newStatus,
          income: (item.price * item.quantity)
        }
@@ -89,12 +96,12 @@ export const changeOrderStatus = (cart: CartProps[], newStatus: string)=>{
 
 
 
-export const updateStoreOrder = async (cart: CartProps[], buyerId: number, eta: string, newStatus: string)=>{
+export const updateStoreOrder = async (cart: ProductProps[], buyerId: number, eta: string, newStatus: string)=>{
     if(cart?.length === 0) return 
         try{
-    const items = changeOrderStatus(cart, newStatus)
+    const items = changeOrderStatus(cart, newStatus, eta)
     if(items?.length === 0) return 
-    console.log('ITEMS TO ADD', items)
+
     const response = await fetch(`${BASE_URL}/store/updateorder`, {
        mode: 'cors',
        method: 'PUT',
@@ -102,7 +109,7 @@ export const updateStoreOrder = async (cart: CartProps[], buyerId: number, eta: 
         'Content-Type': 'application/json',
 
        },
-       body: JSON.stringify({items, buyerId, eta})
+       body: JSON.stringify({items, buyerId})
     })
     if(!response) return 'No response from server'
     const data: any = await response.json()
@@ -132,3 +139,27 @@ export const getStore = async (storeName: string)=>{
     return data
 
 }
+
+
+//   Delete Store
+  export const deleteStore = async (userId: string) => {
+  
+    try{
+   
+    const response = await fetch(`${BASE_URL}/store/deletestore`, {
+      mode: 'cors',
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({userId})
+    })
+    if(!response) {
+      console.log('No response from server')
+      return 'No response from server'
+    }
+
+    const data = await response.json()
+    return data
+  }catch(err){
+    console.log(err)
+  }
+  };

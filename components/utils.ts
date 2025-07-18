@@ -1,7 +1,6 @@
 import { summary } from "framer-motion/client"
 import { ProductProps } from "./api/product"
-import { getLocalUser, updateLocalUser } from "./data/userdata"
-import { clotheCategoryWithSize, shoeCategoryWithSize } from "./data/categories"
+import { UserProps } from "./api/users"
 
 const date = new Date()
 export const year = date.getFullYear()
@@ -36,8 +35,8 @@ export const totalPriceForCustomer = (cart: Array<{price: number, quantity: numb
     return cart?.reduce((sum: number, item: {price: number, quantity: number}) => sum + (item.price * item.quantity), 0) || 0
  }
 
-export const getSingleProduct = (id: number, Products: ProductProps[])=>{
-   const product = Products.find((item)=>item.productId === id)
+export const getSingleProduct = (id: string, Products: ProductProps[])=>{
+   const product = Products.find((item)=>item._id === id)
    if(product){
     return product
    }
@@ -55,6 +54,32 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
 }
 
 
+export const getLocalUser = ()=>{
+    
+    if(typeof window !== 'undefined'){
+        const userString = localStorage.getItem('ptlgUser')
+        if(userString){
+           return JSON.parse(userString) 
+        }else{
+            return null
+        }
+        
+    }
+    return null
+}
+
+
+// Must setUser(updatedUser) everytime updateUser fucntion runs
+export const updateLocalUser = (updatedUser: UserProps)=>{
+    if(!updatedUser) return null
+    if(typeof window  !== 'undefined'){
+       localStorage.setItem('ptlgUser', JSON.stringify(updatedUser)) 
+    }
+    return null
+}
+
+
+
 export const fetchCart = ()=>{
     if(typeof window !== 'undefined'){
         const existingUser: any = getLocalUser()
@@ -68,14 +93,20 @@ export const fetchCart = ()=>{
 
   
 
-export const updateCart = (newCart: ProductProps[])=>{
-   const user = getLocalUser()
-   if(user && user.isLoggedIn){
-     const updatedUser = {...user, cart: newCart}
+export const updateLocalCart = (newCart: ProductProps[])=>{
+   const localUser = getLocalUser()
+   if(localUser && localUser.isLoggedIn){
+     const updatedUser = {...localUser, cart: newCart}
      updateLocalUser(updatedUser)
+   }else if(localUser?.isCookieAccepted || localUser.isCookieAccepted === false){
+    
+    //  if a user is not logged in, we still allow them to shop using anonymous user
+     const updatedUser: any = {...localUser, cart: newCart}
+     updateLocalUser(updatedUser)
+    
    }else{
     //  if a user is not logged in, we still allow them to shop using anonymous user
-     const updatedUser: any = {...user, anonymous: true, cart: newCart}
+     const updatedUser: any = {anonymous: true, cart: newCart}
      updateLocalUser(updatedUser)
      
    }
@@ -83,16 +114,16 @@ export const updateCart = (newCart: ProductProps[])=>{
 }
 
 // Runs after cart has been updated
-export const updateProductSize = (targetid: number, cart: ProductProps[], newSize: string)=>{
+export const updateProductSize = (targetid: string, cart: ProductProps[], newSize: string)=>{
    if(!newSize || !targetid || !cart) {
     console.log('Missing values for: cart, targetId, and size')
     return
    }
    
-   const itemIndex = cart.findIndex((item)=>item.productId === targetid)
+   const itemIndex = cart.findIndex((item)=>item._id === targetid)
    if(itemIndex !== -1){
     const updatedCart = [...cart, {...cart[itemIndex], size: newSize}]
-    updateCart(updatedCart)
+    updateLocalCart(updatedCart)
    }
     
     return 
@@ -106,8 +137,8 @@ export const searchSingleProduct = (item: string, originalItems: any[])=>{
   
 }
 
-export const getItemQuantity = (targetid: number, Products: ProductProps[])=>{
-   const product = Products.find((item)=> item.productId === targetid)
+export const getItemQuantity = (targetid: string, Products: ProductProps[])=>{
+   const product = Products.find((item)=> item._id === targetid)
    return product ? product.quantity : 0
    
 }
@@ -115,28 +146,6 @@ export const getItemQuantity = (targetid: number, Products: ProductProps[])=>{
 
 
 
-export const checkCategoryWithClothSize = (id: number, Products: ProductProps[]) => {
-  let hasSize = false
-  if (!id || !Products || Products.length === 0) return false;
-  const product = Products.find((item)=>item.productId === id)
-  if(product){
-  hasSize = clotheCategoryWithSize.includes(product?.category)
-  }
-  
-  return hasSize;
-}
-
-export const checkCategoryWithShoeSize = (id: number, Products: ProductProps[]) => {
-   if (!id || !Products || Products.length === 0) return false;
-   let hasSize = false;
-  const product = Products.find((item)=>item.productId === id)
-  if(product){
-
-  hasSize = shoeCategoryWithSize.includes(product?.category.toLowerCase())
-  }
-  
-  return hasSize;
-}
 
 
 

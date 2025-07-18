@@ -1,14 +1,14 @@
 'use client'
 
-import { useState, ChangeEvent, FormEvent, useContext } from 'react'
+import { useState, ChangeEvent, FormEvent, useContext, useEffect } from 'react'
 import {  createProduct, CreateProductProps, getAllProducts } from '../../../../../../components/api/product'
 import { GeneralContext } from '../../../../../../contextProviders/GeneralProvider'
 import { FiImage, FiX, FiPlus, FiMinus } from 'react-icons/fi'
 import Image from 'next/image'
-import { updateLocalUser } from '../../../../../../components/data/userdata'
+import { calculatePercentagePrice, updateLocalUser } from '../../../../../../components/utils'
 import { ProductContext } from '../../../../../../contextProviders/ProductContext'
-import { categories } from '../../../../../../components/data/categories'
-import { sizes } from '../../../../../../components/data/sizes'
+import { categories, clothingCategories, fabricAndTextileCategories, foodCategories, shoeCategories } from '../../../../../../components/data/categories'
+import { shoeSizes, clotheSizes } from '../../../../../../components/data/sizes'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -22,22 +22,85 @@ const AddProductPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [success, setSuccess] = useState('')
+  const [hasColor, setHasColor] = useState(false)
+  const [hasCondition, setHasCondition] = useState(false)
+   const [hasYard, setHasYard] = useState(false)
+  const [hasClothingSize, setHasClothingSize] = useState(false)
+  const [hasShoeSize, setHasShoeSize] = useState(false)
+  const [category, setCategory] = useState('')
+  const [price, setPrice] = useState('0')
+ 
+ 
+
+
+
   
   const [product, setProduct] = useState<CreateProductProps>({
-    userId: user.userId,
+    userId: user?._id,
     addedBy: user.username,
+    unitCost: 1,
     colors: [] as string[],
     imageFiles: [] as File[],
+    imageUrls: [] as string[],
     productName: '',
     price: 0,
     condition: '',
     deliveryMethod: '',
     quantity: 1,
-    sizes: [] as string[],
+    shoeSizes: [] as string[],
+    clotheSizes: [] as string[],
     category: '',
     description: '',
     
   })
+
+  useEffect(()=>{
+
+    const isFoundInFood = foodCategories.includes(product.category)
+    const isFoundInClothing = clothingCategories.includes(product.category)
+    const isFoundInShoes = shoeCategories.includes(product.category)
+    const isFoundInFabric = fabricAndTextileCategories.includes(product.category)
+
+  // Clothing
+  
+  if(isFoundInClothing){
+    setHasClothingSize(true)
+    setHasColor(true)
+    setHasShoeSize(false)
+    setHasYard(false)
+    setHasCondition(true)
+    
+  }
+ // food
+  else if(isFoundInFood){
+    setHasShoeSize(false)
+    setHasColor(false)
+    setHasClothingSize(false)
+     setHasYard(false)
+     setHasCondition(false)
+  }// Shoe
+  else if(isFoundInShoes){
+    setHasShoeSize(true)
+    setHasColor(true)
+    setHasClothingSize(false)
+     setHasYard(false)
+     setHasCondition(true)
+  }
+ // Textile & fabric
+  else if(isFoundInFabric){
+    setHasYard(true)
+     setHasColor(true)
+     setHasShoeSize(false)
+     setHasCondition(true)
+  }else{
+    setHasShoeSize(false)
+    setHasColor(false)
+    setHasClothingSize(false)
+     setHasYard(false)
+     setHasCondition(true)
+  }
+
+}, [product?.category])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -57,13 +120,23 @@ const AddProductPage = () => {
     })
   }
 
-    const handleSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleClotheSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target
     setProduct(prev => {
       const newSizes = checked
-        ? [...prev.sizes, value]
-        : prev.sizes.filter(size => size !== value)
-      return { ...prev, sizes: newSizes }
+        ? [...prev.clotheSizes, value]
+        : prev.shoeSizes.filter(size => size !== value)
+      return { ...prev, clotheSizes: newSizes }
+    })
+  }
+
+      const handleShoeSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target
+    setProduct(prev => {
+      const newSizes = checked
+        ? [...prev.shoeSizes, value]
+        : prev.clotheSizes.filter(size => size !== value)
+      return { ...prev, shoeSizes: newSizes }
     })
   }
 
@@ -74,8 +147,7 @@ const AddProductPage = () => {
   setIsSubmitting(true)
   setSubmitError(null)
   setSuccess('')
-  setImageFiles([])
-  setImagePreviews([])
+
   
 
   try {
@@ -93,13 +165,15 @@ const AddProductPage = () => {
     const formData = new FormData()
     
     // Append all product data (except imageFiles)
-    formData.append('userId', product.userId)
+    formData.append('userId', user?._id)
     formData.append('addedBy', product.addedBy)
+    formData.append('unitCost', product.unitCost.toString())
     formData.append('productName', product.productName)
-    formData.append('price', product.price.toString())
+    formData.append('imageUrls', product.imageUrls.toString())
+    formData.append('price', product.price?.toString())
     formData.append('condition', product.condition)
     formData.append('deliveryMethod', product.deliveryMethod)
-    formData.append('quantity', product.quantity.toString())
+    formData.append('quantity', product.quantity?.toString())
     formData.append('category', product.category)
     formData.append('description', product.description)
     
@@ -109,17 +183,23 @@ const AddProductPage = () => {
       formData.append('colors', color)
     })
 
-    // Append sizes as array
-    product.sizes.forEach(size => {
-      formData.append('sizes', size)
+    // Append shoes sizes as array
+    product.shoeSizes.forEach(size => {
+      formData.append('shoeSizes', size)
     })
+
+      // Append clothe sizes as array
+    product.clotheSizes.forEach(size => {
+      formData.append('clotheSizes', size)
+    })
+    
     
     // Append all image files
     imageFiles.forEach(file => {
       formData.append('images', file) // Must match Multer field name ('images')
     })
      
-    const response: any = await createProduct(formData, user?.id)
+    const response: any = await createProduct(formData, user?._id)
     
     // We handle response
     if(response.ok === true){
@@ -133,8 +213,10 @@ const AddProductPage = () => {
       setSuccess(response.message)
       // Reset form
       setProduct({
-        userId: user.id,
-        addedBy: user.username,
+        userId: '',
+        addedBy: '',
+        unitCost: 0,
+        imageUrls: [],
         colors: [],
         imageFiles,
         productName: '',
@@ -142,7 +224,8 @@ const AddProductPage = () => {
         condition: '',
         deliveryMethod: '',
         quantity: 1,
-        sizes: [],
+        shoeSizes: [],
+        clotheSizes: [],
         category: '',
         description: '',
         
@@ -233,6 +316,17 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     }
   }
 
+
+    const incrementUnitCost = () => {
+    setProduct(prev => ({ ...prev, unitCost: prev.unitCost + 1 }))
+  }
+
+  const decrementUnitCost= () => {
+    if (product.unitCost > 1) {
+      setProduct(prev => ({ ...prev, unitCost: prev.unitCost - 1 }))
+    }
+  }
+
   const availableColors = [
     'black',
     'white',
@@ -244,6 +338,12 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     'green',
     'silver'
   ]
+
+   const customerSalesIncome = ()=>{
+     const commission = calculatePercentagePrice(Number(product.price), 5)
+     const salesIncome = Number(product.price) - commission
+     return salesIncome
+  }
 
    
 
@@ -282,7 +382,9 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 
           {/* Product Price */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Price (₦) *</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Price (₦) - 5% Elteema fee. You get ₦{customerSalesIncome()} after sales.
+              </label>
             <input
               type="number"
               value={product.price}
@@ -294,6 +396,40 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
               required
             />
+          </div>
+
+              {/* Unit Cost */}
+          <div className="space-y-2">
+            <label className="flex gap-2 text-sm font-medium text-gray-700">Unit Cost * 
+              <p className='text-sm'>Your product cost ₦{product.price} per {product.unitCost} {hasYard ? 'yard' : 
+              `${product.unitCost > 1 ? "items" : "item"}`}</p>
+            </label>
+            
+            <div className="flex items-center">
+              <button
+                type="button"
+                onClick={decrementUnitCost}
+                className="p-2 border border-gray-300 rounded-l-md bg-gray-100 hover:bg-gray-200"
+                // disabled={product.unitCost === ''}
+              >
+                <FiMinus size={16} />
+              </button>
+              <input
+                type="number"
+                value={product.unitCost}
+                name='unitCost'
+                onChange={handleChange}
+                min="1"
+                className="w-16 px-4 py-2 border-t border-b border-gray-300 text-center focus:outline-none"
+              />
+              <button
+                type="button"
+                onClick={incrementUnitCost}
+                className="p-2 border border-gray-300 rounded-r-md bg-gray-100 hover:bg-gray-200"
+              >
+                <FiPlus size={16} />
+              </button>
+            </div>
           </div>
 
           {/* Categories */}
@@ -331,7 +467,7 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
      
 
           {/* Product Colors */}
-          <div className="md:col-span-2 space-y-2">
+          {hasColor && <div className="md:col-span-2 space-y-2">
             <label className="block text-sm font-medium text-gray-700">Choose all the available colours you have for this product</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {availableColors.map(color => (
@@ -347,7 +483,7 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
                 </label>
               ))}
             </div>
-          </div>
+          </div>}
 
           {/* Product Description */}
           <div className="md:col-span-2 space-y-2">
@@ -365,8 +501,8 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 
           {/* Quantity */}
           <div className="space-y-2">
-            <label className="flex gap-2 text-sm font-medium text-gray-700">Quantity * 
-              <p className='text-xs'>How many of this product do you have?</p>
+            <label className="flex gap-2 text-sm font-medium text-gray-700">Number in stock * 
+              <p className='text-sm'>How many of this product do you have?</p>
             </label>
             
             <div className="flex items-center">
@@ -397,7 +533,7 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
           </div>
 
           {/* Condition */}
-          <div className="space-y-2">
+          {hasCondition && <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">Condition *</label>
             <select
               value={product.condition}
@@ -411,28 +547,50 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
               <option value='used'>Used</option>
               <option value='refurbished'>Refurbished</option>
             </select>
-          </div>
+          </div>}
+
+
+    
+
+            {/* Clothe Sizes */}
+          {hasClothingSize && <div className="md:col-span-2 space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Choose all the available sizes you have for this product</label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {clotheSizes.map((size, index) => (
+                <label key={index} className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    value={size}
+                    checked={product.clotheSizes.includes(size)}
+                    onChange={handleClotheSizeChange}
+                    className="rounded text-green-600 focus:ring-green-500"
+                  />
+                  <span>{size}</span>
+                </label>
+              ))}
+            </div>
+          </div>}
 
    
 
-            {/* Product Sizes */}
-          <div className="md:col-span-2 space-y-2">
+            {/* Shoes Sizes */}
+          {hasShoeSize && <div className="md:col-span-2 space-y-2">
             <label className="block text-sm font-medium text-gray-700">Choose all the available sizes you have for this product</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {sizes.map((size, index) => (
+              {shoeSizes.map((size, index) => (
                 <label key={index} className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     value={size.value}
-                    checked={product.sizes.includes(size.value)}
-                    onChange={handleSizeChange}
+                    checked={product.shoeSizes.includes(size.value)}
+                    onChange={handleShoeSizeChange}
                     className="rounded text-green-600 focus:ring-green-500"
                   />
                   <span>{size.text}</span>
                 </label>
               ))}
             </div>
-          </div>
+          </div>}
 
           {/* Image Upload */}
           <div className="md:col-span-2 space-y-2">

@@ -3,7 +3,6 @@ import {useState, useEffect, useContext} from 'react'
 import { ProductProps } from '../../../../components/api/product'
 import Image from 'next/image'
 import { ProductContext } from '../../../../contextProviders/ProductContext'
-import DisplaySuperMarket from './displaySupermarket'
 import ProductDetails from '../../../../components/product/productdetails'
 
 

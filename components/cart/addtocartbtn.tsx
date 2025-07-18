@@ -6,7 +6,7 @@ import { GeneralContext } from "../../contextProviders/GeneralProvider";
 
 
 interface AddToCartBtnProps {
-    targetid: number,
+    targetid: string,
     isAdded: boolean;
     setIsAdded: (value: boolean)=>void
     setError: (value: string)=>void
@@ -43,7 +43,7 @@ const AddToCartButton = ({
         }
        
         setError('')
-        addToCart(targetid, cart, oldSize)
+        addToCart(targetid, oldSize)
         setError('')
         setIsAdded(true)
         setButtonText('Added ✓')
@@ -53,7 +53,7 @@ const AddToCartButton = ({
   
 
     useEffect(() => {
-      const added = cart?.find((item) => item.productId === targetid && item.isAdded)
+      const added = cart?.find((item) => item._id === targetid && item.isAdded)
            console.log('IS ADDED', added?.isAdded)
         if (added && added?.isAdded) {
             setIsAdded(added.isAdded)

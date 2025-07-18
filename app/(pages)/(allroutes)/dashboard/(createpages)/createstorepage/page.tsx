@@ -24,7 +24,10 @@ const CreateStorePage = () => {
 
 
   const [formData, setFormData] = useState<CreateStoreProps>({
-    userId: user.id,
+    userId: user._id,
+    bankAccountName: '',
+    bankAccountNumber: '',
+    bvn: '',
     storeName: '',
     tagline: '',
     logo: '',
@@ -62,7 +65,10 @@ const CreateStorePage = () => {
         updateLocalUser(updatedUser)
         setUser(updatedUser)
         setFormData({
-          userId: user.id,
+          userId: user._id,
+          bankAccountName: '',
+          bankAccountNumber: '',
+          bvn: '',
           tagline: '',
           storeName: '',
           logo: '',
@@ -287,6 +293,57 @@ const CreateStorePage = () => {
               <option value={country} key={index}>{country}</option>
             )}
             </select>
+          </div>
+
+            {/* Store bank account name */}
+            <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Bank account name for your store
+            </label>
+            <input
+              id="bankAccountName"
+              name="bankAccountName"
+              type="bankAccountName"
+              required
+              value={formData.bankAccountName}
+              onChange={handleChange}
+              placeholder="Enter store bank account name"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+            />
+          </div>
+            
+              {/* Store bank account number */}
+            <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Bank account number for your store
+            </label>
+            <input
+              id="bankAccountNumber"
+              name="bankAccountNumber"
+              type="bankAccountNumber"
+              required
+              value={formData.bankAccountNumber}
+              onChange={handleChange}
+              placeholder="Enter store bank account number"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+            />
+          </div>
+
+            {/* BVN */}
+            <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Your bvn
+            </label>
+            <input
+              id="bvn"
+              name="bvn"
+              type="bvn"
+              required
+              value={formData.bvn}
+              onChange={handleChange}
+              placeholder="Enter your bvn"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+            />
           </div>
 
           <div>

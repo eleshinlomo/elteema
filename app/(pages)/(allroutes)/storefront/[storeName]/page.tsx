@@ -8,19 +8,21 @@ import { capitalize } from "../../../../../components/utils"
 import { LocateIcon, TruckIcon } from "lucide-react"
 import ProductDetails from "../../../../../components/product/productdetails"
 
+
 const StoreFront = () => {
   const params: any = useParams()
   const storeName = decodeURIComponent(params?.storeName?.toString()) || ''
   const [store, setStore] = useState<StoreProps | null>(null)
   const [error, setError] = useState('')
   const storeAddress = store ? `${store.address}, ${capitalize(store.city)}, ${capitalize(store.state)}, ${store.country}` : ''
+  
 
   useEffect(() => {
     const handleGetStore = async () => {
       setError('')
       if (storeName) {
         const response = await getStore(storeName)
-        console.log('STORE FRONT', response)
+    
         if (response.ok) {
           setStore(response.message)
         } else {
@@ -30,7 +32,7 @@ const StoreFront = () => {
     }
 
     handleGetStore()
-  }, [storeName, store])
+  }, [storeName, store?.storeName])
 
   if (error) {
     return (
@@ -78,7 +80,7 @@ const StoreFront = () => {
           <div>
            
               {/* Product Info */}
-                  <ProductDetails productArray={store.items} text={'Items to buy'} />
+                  <ProductDetails productArray={store.items} text={`${store?.storeName?.toUpperCase()} BESTSELLERS`} />
           </div>
         ) : (
           <div className="text-center py-12">

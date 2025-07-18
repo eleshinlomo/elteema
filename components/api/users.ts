@@ -9,6 +9,11 @@ interface RegisterProps {
     username: string;
   }
 
+  interface PaymentProps {
+  paymentEmail: string;
+  paymentMethod: string;
+}
+
 
 export interface UserProps {
     id:number;
@@ -18,12 +23,12 @@ export interface UserProps {
     username: string;
     email: string;
     cart: ProductProps[],
+    isCookieAccepted: boolean,
     isLoggedIn: boolean;
     type:  string;
     role:  string;
     createdAt:  string;
     gender: string;
-    cookiesAccepted: boolean;
     phone:  string;
     address:  string;
     city: string;
@@ -69,6 +74,105 @@ export const register = async ({email, username} : RegisterProps)=>{
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(payload)
+    })
+    if(!response) {
+      console.log('No response from server')
+      return 'No response from server'
+    }
+
+    const data = await response.json()
+    return data
+  }catch(err){
+    console.log(err)
+  }
+  };
+
+
+  // Update user cookie
+  export const updateUserCookie = async (userId: string, isCookieAccepted: boolean)=>{
+
+    const payload = {
+      userId,
+      isCookieAccepted
+    }
+      try{
+   
+    const response = await fetch(`${BASE_URL}/users/updatecookie`, {
+      mode: 'cors',
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    })
+    if(!response) {
+      console.log('No response from server')
+      return 'No response from server'
+    }
+
+    const data = await response.json()
+    return data
+  }catch(err){
+    console.log(err)
+  }
+
+  }
+
+
+  export const updatePaymentMethod = async (payload: PaymentProps) => {
+    
+      try{
+     
+      const response = await fetch(`${BASE_URL}/users/updatepaymentmethod`, {
+        mode: 'cors',
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+      })
+      if(!response) {
+        console.log('No response from server')
+        return 'No response from server'
+      }
+  
+      const data = await response.json()
+      return data
+    }catch(err){
+      console.log(err)
+    }
+    };
+
+
+    //   Delete User order
+      export const deleteUserOrder = async (userId: string, orderId: string) => {
+      
+        try{
+       
+        const response = await fetch(`${BASE_URL}/users/deleteuserorder`, {
+          mode: 'cors',
+          method: 'DELETE',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({userId, orderId})
+        })
+        if(!response) {
+          console.log('No response from server')
+          return 'No response from server'
+        }
+    
+        const data = await response.json()
+        return data
+      }catch(err){
+        console.log(err)
+      }
+      };
+
+
+    export const deleteUser = async (userId: string) => {
+  
+    try{
+   
+    const response = await fetch(`${BASE_URL}/users/deleteuser`, {
+      mode: 'cors',
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({userId})
     })
     if(!response) {
       console.log('No response from server')

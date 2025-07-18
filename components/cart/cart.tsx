@@ -67,9 +67,7 @@ const Cart = () => {
     }
   };
 
-  useEffect(()=>{
 
-  }, [cart, isLoggedIn, totalItems, totalPrice,])
 
   return (
     <div className="">
@@ -128,23 +126,23 @@ const Cart = () => {
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {cart && cart.length > 0 ? (
             cart.map((item) => (
-              <div key={item.productId} className="border rounded-lg p-4 bg-white shadow-sm">
+              <div key={item._id} className="border rounded-lg p-4 bg-white shadow-sm">
                 <div className="flex justify-between items-center">
                   <div>
-                    <a href={`/productpage/${item.productId}`}>
+                    <a href={`/productpage/${item._id}`}>
                       <h3 className="font-semibold text-gray-800">{item.productName}</h3>
                     </a>
                   </div>
                   <div className="flex items-center space-x-2">
                     <button
-                      onClick={() => handleQuantityDecrease(item.productId)}
+                      onClick={() => handleQuantityDecrease(item._id)}
                       className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full"
                     >
                       -
                     </button>
                     <span className="w-6 text-center">{item.quantity}</span>
                     <button
-                      onClick={() => handleQuantityIncrease(item.productId)}
+                      onClick={() => handleQuantityIncrease(item._id)}
                       className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full"
                     >
                       +
@@ -152,13 +150,13 @@ const Cart = () => {
                   </div>
                 </div>
                 <div className="flex justify-between items-center mt-2">
-                  <a href={`/productpage/${item.productId}`}>
+                  <a href={`/productpage/${item._id}`}>
                     <p className="text-green-800 font-medium">
                     {formatCurrency('NGN', item.price )}
                     </p>
                   </a>
                   <button
-                    onClick={() => removeItem(item.productId)}
+                    onClick={() => removeItem(item._id)}
                     className="text-red-700 bg-red-100 hover:bg-red-200 rounded-lg px-3 py-1 transition"
                   >
                     Remove

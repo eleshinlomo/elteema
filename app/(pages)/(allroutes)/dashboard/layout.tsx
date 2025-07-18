@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
 import Image from 'next/image'
@@ -21,12 +21,23 @@ const DashboardLayout = ({children}: DashboardProps)=>{
 
   const {isLoggedIn, user} = useContext(GeneralContext)
   const router = useRouter()
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true)
+
+
+    useEffect(() => {
+        // Simulate auth check delay (replace with actual auth check if needed)
+        const timer = setTimeout(() => {
+            setIsCheckingAuth(false)
+        }, 50)
+
+        return () => clearTimeout(timer)
+    }, [isLoggedIn, user])
  
    
+    if(isCheckingAuth){
+      return <div className="py-24 text-center w-full">Loading page...</div>
+    }
  
-  useEffect(()=>{
-
-}, [user, user?.orders])
 
   if(!isLoggedIn){
      return <NotLoggedInPage />

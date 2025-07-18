@@ -24,7 +24,7 @@ const DashNavBar = ({ user }: { user: UserProps | null }) => {
         <NavButton 
           href="/dashboard/userorderpage" 
           icon={<Home className="w-4 h-4" />}
-          label={`Orders (${user?.orders?.length})`}
+          label={`Orders (${user?.orders?.length || 0})`}
         />
         
         {/* Profile Link */}

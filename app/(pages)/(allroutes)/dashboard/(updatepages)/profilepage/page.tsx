@@ -1,19 +1,17 @@
 'use client';
 import { useState, FormEvent, useEffect, useContext} from 'react';
-import { GeneralContext } from '../../../../../contextProviders/GeneralProvider';
-import { updateLocalUser} from '../../../../../components/data/userdata';
+import { GeneralContext } from '../../../../../../contextProviders/GeneralProvider';
+import { updateLocalUser} from '../../../../../../components/data/userdata';
 import { BotIcon, Edit, File, FolderClosed, InfoIcon, ShieldClose } from 'lucide-react';
-import { cities, states } from '../../../../../components/data/locations';
-import { capitalize } from '../../../../../components/utils';
-import { updateUser } from '../../../../../components/api/users';
-import DashSideBar from '../dashSidebar';
-import Cart from '../../../../../components/cart/cart';
+import { cities, states } from '../../../../../../components/data/locations';
+import { capitalize } from '../../../../../../components/utils';
+import { updateUser } from '../../../../../../components/api/users';
+import DashSideBar from '../../dashSidebar';
+import Cart from '../../../../../../components/cart/cart';
 
 const CustomerDashboard = () => {
-  const [currentPassword, setCurrentPassword] = useState('');
+
   const [error, setError] = useState('')
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
@@ -30,9 +28,11 @@ const CustomerDashboard = () => {
 
   const handleUpdateUser = async (e: FormEvent) => {
     e.preventDefault()
+    setError('')
     try{
       const payload: any = {
-        id: user.id,
+        id: user._id,
+        cart: user.cart,
         username: user.username,
         firstname,
         lastname,

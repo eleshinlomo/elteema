@@ -1,6 +1,6 @@
 'use client'
 import React, { useContext } from "react";
-import { Home, Search, BarChart2, ShoppingBag, LogOutIcon, LogInIcon, WineIcon, HotelIcon, MenuIcon, PartyPopperIcon } from "lucide-react";
+import { Home, Search, BarChart2, ShoppingBag, LogOutIcon, LogInIcon, WineIcon, HotelIcon, MenuIcon, PartyPopperIcon, HomeIcon, ForkKnifeCrossedIcon, SplineIcon, CookingPotIcon, ShirtIcon } from "lucide-react";
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import { CartContext } from "../../contextProviders/cartcontext";
 import { logout } from "../api/auth";
@@ -23,7 +23,7 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     setIsLoggedIn(false)
-    const response = await logout(user?.email)
+    const response = await logout(user?.email, user?.isCookieAccepted)
     console.log(response)
     const newCart = fetchCart()
     setCart(newCart)
@@ -35,7 +35,8 @@ const NavBar = () => {
   return (
     <div className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm py-2 px-2 md:px-4 z-50">
       <div className="flex justify-between items-center">
-        {/* Home - Adjusted to match other icons */}
+
+        {/* Home */}
         <a href='/'>
           <button
             onClick={() => handleTabClick("home")}
@@ -43,42 +44,34 @@ const NavBar = () => {
               activeTab === "home" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
             }`}
           >
-            <div className="relative w-6 h-6"> 
-              <Image 
-                src='/images/logos/elteema_logo.png' 
-                alt='logo' 
-                fill 
-                className="object-contain" 
-                sizes="24px" // Added sizes attribute for optimization
-              />
-            </div>
-            <span className="text-xs mt-1">Home</span> 
+            <HomeIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 for consistency */}
+            <span className="text-xs mt-1">Home</span>
           </button>
         </a>
 
-        {/* Restaurants */}
-        <a href='/restaurantpage'>
+        {/* Fabrics */}
+        <a href={`/categorypage/${'fabrics & textiles'}`}>
           <button
-            onClick={() => handleTabClick("restaurants")}
+            onClick={() => handleTabClick("fabric")}
             className={`flex flex-col items-center p-2 transition-colors duration-200 ${
-              activeTab === "restaurants" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
+              activeTab === "fabric" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
             }`}
           >
-            <WineIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 for consistency */}
-            <span className="text-xs mt-1">Restaurants</span>
+            <ShirtIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 for consistency */}
+            <span className="text-xs mt-1">Fabric</span>
           </button>
         </a>
 
-        {/* Events */}
-        <a href='/eventpage'>
+        {/* Spices */}
+        <a href={`/categorypage/${'vegetable & spice'}`}>
           <button
-            onClick={() => handleTabClick("events")}
+            onClick={() => handleTabClick("spices")}
             className={`flex flex-col items-center p-2 transition-colors duration-200 ${
-              activeTab === "events" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
+              activeTab === "spices" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
             }`}
           >
-            <PartyPopperIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
-            <span className="text-xs mt-1">Events</span>
+            <CookingPotIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
+            <span className="text-xs mt-1">Spices</span>
           </button>
         </a>
 
@@ -104,7 +97,7 @@ const NavBar = () => {
             }`}
           >
             <FaShoppingBag className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
-            <span className="text-xs mt-1">Sell on Elteema</span>
+            <span className="text-xs mt-1">Sell</span>
           </button>
         </a>
 

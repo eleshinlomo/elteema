@@ -3,17 +3,16 @@
 import { useContext, useState, useEffect } from "react";
 import { GeneralContext } from "../../../../../../contextProviders/GeneralProvider";
 import { deleteProduct, ProductProps } from "../../../../../../components/api/product";
-import { updateLocalUser } from "../../../../../../components/data/userdata";
+import { updateLocalUser } from "../../../../../../components/utils";
 import { Store } from "lucide-react";
-import ProductSize from "../../../../../../components/product/productSize";
 import { ProductContext } from "../../../../../../contextProviders/ProductContext";
 
 const StoreProducts = () => {
-  const [errors, setErrors] = useState<Record<number, string>>({}); // Changed to track errors per product
+  const [errors, setErrors] = useState<Record<string, string>>({}); // Changed to track errors per product
   const {user, setUser} = useContext(GeneralContext)
   const {Products, setProducts} = useContext(ProductContext)
   
-  const [storeProducts, setStoreProducts] = useState<ProductProps[]>(user?.store?.items)
+  const [storeProducts, setStoreProducts] = useState<ProductProps[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const productsPerPage = 5
 
@@ -23,7 +22,14 @@ const StoreProducts = () => {
   const currentProducts = storeProducts?.slice(indexOfFirstProduct, indexOfLastProduct) || []
   const totalPages = Math.ceil((storeProducts?.length || 0) / productsPerPage)
 
-  const handleDeleteProduct = async (productId: number)=>{
+
+  useEffect(()=>{
+    if(user){
+      setStoreProducts(user.store.items)
+    }
+  }, [user])
+
+  const handleDeleteProduct = async (productId: string)=>{
     // Clear any previous error for this product
     setErrors(prev => {
       const newErrors = {...prev};
@@ -32,7 +38,7 @@ const StoreProducts = () => {
     });
 
     const items: any[] = user?.store?.items
-    const productIndex = items?.findIndex((item)=>item.id === productId)
+    const productIndex = items?.findIndex((item)=>item._id === productId)
     const hasPendingOrders = items[productIndex]?.orderStatus
     
     if(hasPendingOrders && hasPendingOrders !== ''){
@@ -43,10 +49,10 @@ const StoreProducts = () => {
       return
     }
     
-    const userId = user.id
+    const userId = user._id
     const response = await deleteProduct(userId, productId)
     if(response.ok){
-      const {updatedUser, products} = response.data
+      const {updatedUser, updatedProducts} = response.data
       if(updatedUser){
         updateLocalUser(updatedUser)
         setUser(updatedUser)
@@ -54,8 +60,8 @@ const StoreProducts = () => {
       }
 
       // We also update all products to reflect the removed product
-      if(products?.length > 0){
-        setProducts(products)
+      if(updatedProducts?.length > 0){
+        setProducts(updatedProducts)
       }
     }
     console.log(response)
@@ -64,6 +70,8 @@ const StoreProducts = () => {
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber)
   }
+
+
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -75,14 +83,14 @@ const StoreProducts = () => {
       </div>
       <div className="space-y-4">
         {currentProducts?.length > 0 ? currentProducts.map((product) => 
-        <div key={product.productId}>
+        <div key={product._id}>
           {/* Show error only for this specific product if it exists */}
-          {errors[product.productId] && (
-            <p className="text-xs text-red-600 font-bold">{errors[product.productId]}</p>
+          {errors[product._id] && (
+            <p className="text-xs text-red-600 font-bold">{errors[product._id]}</p>
           )}
           <div  className="flex items-center">
             <img
-              src={product?.images[0]}
+              src={product?.imageUrls[0]}
               alt={product.productName}
               className="w-12 h-12 rounded-md object-cover"
               loading="lazy"
@@ -104,14 +112,14 @@ const StoreProducts = () => {
 
           {/* Action buttons */}
           <div className="flex gap-2 pt-2">
-            <a href={`/dashboard/updateproductpage/${product.productId}`}>
+            <a href={`/dashboard/updateproductpage/${product._id}`}>
               <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
                 View or Edit
               </button>
             </a>
             <button 
               className='text-xs py-1 px-2 rounded bg-red-600 hover:bg-red-700 text-white'
-              onClick={()=>handleDeleteProduct(product.productId)}
+              onClick={()=>handleDeleteProduct(product._id)}
             >
               Delete
             </button>

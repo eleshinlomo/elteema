@@ -6,7 +6,7 @@ import { ProductProps } from "../api/product"
 import { useRouter } from "next/navigation"
 
 interface AddToCartBtnProps {
-    targetid: number,
+    targetid: string,
     setError: (value: string)=>void
     oldSize: string;
     showClotheSizeInput: boolean
@@ -37,14 +37,14 @@ const BuyNowButton = ({
         }
 
         setError('')
-        addToCart(targetid, cart, oldSize)
+        addToCart(targetid, oldSize)
         setError('')
         router.push('/checkoutpage')
     }
     
 
     useEffect(() => {
-      const added = cart?.find((item) => item.productId === targetid && item.isAdded)
+      const added = cart?.find((item) => item._id === targetid && item.isAdded)
 
         if (added && added?.isAdded) {
             setButtonText('Checkout')

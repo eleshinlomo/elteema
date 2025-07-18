@@ -48,7 +48,7 @@ const CategoryNotFound = ({ category }: CatNotFoundProps) => {
                     
                     <div className="space-y-4">
                         <a 
-                            href="/sellerspage" 
+                            href="/createstorelandingpage" 
                             className="inline-block px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-500 text-white font-bold rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
                         >
                             SELL ON ELTEEMA

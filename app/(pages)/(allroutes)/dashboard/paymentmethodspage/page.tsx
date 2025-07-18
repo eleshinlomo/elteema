@@ -3,9 +3,9 @@
 import { ChangeEvent, useContext, useState, useEffect } from 'react'
 import Image from 'next/image'
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider';
-import { updateUser } from '../../../../../components/api/users';
-import { updateLocalUser} from '../../../../../components/data/userdata';
-import { updatePaymentMethod } from '../../../../../components/api/payments';
+import { updatePaymentMethod, updateUser } from '../../../../../components/api/users';
+import { updateLocalUser } from '../../../../../components/utils';
+
 
 type PaymentMethodType = 'Debit Card' | 'USSD' | 'Paypal' | '';
 
@@ -27,13 +27,12 @@ const PaymentMethodsPage = () => {
     if(user && paymentEmail && paymentMethod){
        
         // const updatedUser: UserProps = {...user, paymentMethod: updatedPaymentMethod, paymentEmail: updatedPaymentEmail}
-        const payload = {userId: user.id, paymentEmail, paymentMethod}
+        const payload = {userId: user._id, paymentEmail, paymentMethod}
         const data = await updatePaymentMethod(payload)
 
         if(data.ok){
             const newUser = data.data
             console.log(data)
-            console.log('NEW USER', newUser)
               setUser(newUser)
             updateLocalUser(newUser)
             setIsEditing(false)

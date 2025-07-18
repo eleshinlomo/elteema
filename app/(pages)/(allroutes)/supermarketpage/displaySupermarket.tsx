@@ -6,8 +6,7 @@ import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { capitalize, formatCurrency } from '../../../../components/utils'
 import PopularBadge from '../../../../components/product/popularBadge'
 import { ProductProps } from '../../../../components/api/product'
-import { industries } from '../../../../components/data/industries'
-import { categories } from '../../../../components/data/categories'
+
 
 
 interface StoreDisplayProps {
@@ -52,10 +51,10 @@ const DisplaySuperMarket = ({ productArray, numPerPage }: StoreDisplayProps) => 
                         {currentItems?.length > 0 && currentItems?.map((item, StoreIndex) => (
                             <div key={StoreIndex} className='border border-gray-200 rounded-lg p-2 hover:shadow-md transition-shadow'>
                                 <div className='flex flex-col h-full'>
-                                    <a href={`/productpage/${item?.productId}`} className='flex flex-col '>
+                                    <a href={`/productpage/${item?._id}`} className='flex flex-col '>
                               <div className="relative aspect-square rounded-lg overflow-hidden border border-gray-200">
     <Image 
-        src={item?.images?.[0]} 
+        src={item?.imageUrls?.[0]} 
         alt={item?.productName}
         fill
         className="object-cover object-center"

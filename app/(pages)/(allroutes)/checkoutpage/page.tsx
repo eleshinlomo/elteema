@@ -3,9 +3,9 @@
 import { useContext, useState, useEffect, useCallback } from 'react'
 import { GeneralContext } from '../../../../contextProviders/GeneralProvider'
 import SigninPage from '../authpages/signin/page'
-import { calculatePercentagePrice, capitalize, formatCurrency, getItemQuantity, totalPriceForCustomer, updateCart } from '../../../../components/utils'
+import { calculatePercentagePrice, capitalize, formatCurrency, totalPriceForCustomer} from '../../../../components/utils'
 import { CartContext } from '../../../../contextProviders/cartcontext'
-import { updateLocalUser} from '../../../../components/data/userdata'
+import { updateLocalUser } from '../../../../components/utils'
 import PaymentAlertCard from './paymentAlertCard'
 import { launchPaymentPopup,} from './payments/paymentFunctions'
 import Image from 'next/image'
@@ -48,7 +48,7 @@ const CheckoutPage = () => {
   const linkToUpdateProfile = (
     <div className="animate-pulse hover:animate-none">
       <a href={`/dashboard/profilepage`}>
-        <button className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg px-2 py-1 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
+        <button className="bg-gradient-to-r from-red-500 to-red-600 px-1 rounded-lg text-sm text-white font-medium shadow-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
           Complete Your Profile Information
         </button>
       </a>
@@ -87,10 +87,13 @@ const CheckoutPage = () => {
     const findEta = () => {
       if (!user) return
       if (user.state === 'lagos') {
-        setEta('3 days')
-      } else if (customerStateOfResidence === 'Outside Nigeria') {
-        setEta('3 months')
-      } else if (!customerStateOfResidence || customerStateOfResidence === '') {
+        setEta('2 days')
+      }  if (user.state !== 'lagos') {
+        setEta('5 days')
+      }
+      else if (user.state === 'Outside Nigeria') {
+        setEta('1 month')
+      } else if (!user.state) {
         setEta('Please update state of residence so we can calculate your ETA')
       } else {
         setEta('2 weeks')
@@ -132,15 +135,14 @@ const CheckoutPage = () => {
       return
     }
     
-    const response = handlePaymentPopUp()
-    console.log('POPUP RESPONSE', response)
+  
     const newStatus = 'pending'
-    const updateResponse = await updateStoreOrder(cart, user.id, eta, newStatus)
+    const updateResponse = await updateStoreOrder(cart, user._id, eta, newStatus)
     console.log('ORDER UPDATE', updateResponse)
     if(updateResponse.ok){
        setCart([]) // Needed to clear local state. Although the updated user still comes with an empty cart.
-       updateLocalUser(updateResponse.message)
-       setUser(updateResponse.message)
+       updateLocalUser(updateResponse.data)
+       setUser(updateResponse.data)
        setTotalItems(0)
        setTotalPrice(0)
        window.location.href = '/dashboard/userorderpage'
@@ -221,7 +223,8 @@ const CheckoutPage = () => {
             {cart && cart.length > 0 ? (
               <ul className="divide-y divide-gray-100">
                 {cart.map((item: any, index: number) => (
-                  <a href={`/productpage/${item.id}`} key={index}><li  className="p-6 hover:bg-gray-50 transition-colors duration-200">
+                  <div key={index}>
+                    <li  className="p-6 hover:bg-gray-50 transition-colors duration-200">
                     <div className="flex flex-col sm:flex-row justify-between">
                       <div className="flex-1">
                         <div className='flex gap-4'>
@@ -229,7 +232,7 @@ const CheckoutPage = () => {
                           {capitalize(item.productName)}
                         </h3>
                         <div className='relative h-10 w-10 border border-green-800'>
-                          <Image src={item.images?.[0]} alt='Item image' fill />
+                          <Image src={item?.imageUrls? item.imageUrls[0] : ''} alt='Item image' fill />
                         </div>
                         </div>
                         <p className="text-sm text-gray-500 mt-1">
@@ -243,7 +246,7 @@ const CheckoutPage = () => {
                         </p>
                       </div>
                     </div>
-                  </li></a>
+                  </li></div>
                 ))}
               </ul>
             ) : (

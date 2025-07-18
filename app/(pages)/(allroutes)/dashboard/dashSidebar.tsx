@@ -50,7 +50,7 @@ const DashSideBar = ({user}: {user: UserProps}) => {
                     <a href="/dashboard/userorderpage" className="flex items-center p-3 rounded-lg bg-emerald-50 text-emerald-700 font-medium">
                      <StoreIcon className='w-5 h-5 mr-3' />
                       Orders
-                      <span>({user?.orders?.length})</span>
+                      <span>({user?.orders?.length || 0})</span>
                     </a>
                   </li>
                 

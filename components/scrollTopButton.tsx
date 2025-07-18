@@ -25,7 +25,7 @@ const ScrollTopButton = () => {
   };
 
   return (
-    <div className={`overflow-hidden fixed right-6 bottom-6 z-50 transition-all duration-500 ease-in-out ${
+    <div className={`overflow-hidden fixed right-6 bottom-16 z-50 transition-all duration-500 ease-in-out ${
       isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
     }`}>
       <button

@@ -11,7 +11,7 @@ const ProductCategoryPage = ()=>{
 
     return (
 
-        <div className="pt-32">
+        <div className="pt-32 pb-16">
            <ProductCategory category={category} />
         </div>
     )

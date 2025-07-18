@@ -5,7 +5,6 @@ import Image from 'next/image';
 import AddToCartButton from "../cart/addtocartbtn";
 import { CartContext } from "../../contextProviders/cartcontext";
 import { capitalize, formatCurrency, getItemQuantity } from "../utils";
-import ProductSize from "./productSize";
 import BuyNowButton from "../cart/buyNowBtn";
 import { ProductProps } from '../api/product'
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
@@ -40,7 +39,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
 
   useEffect(() => {
     if (selectedProduct) {
-      const item = cart.find((item) => item.productId === selectedProduct.productId);
+      const item = cart?.find((item) => item._id === selectedProduct._id);
       setIsAdded(!!item?.isAdded);
     }
   }, [cart, productArray, selectedProduct]);
@@ -60,8 +59,8 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
   // Pagination logic
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = productArray.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(productArray.length / productsPerPage);
+  const currentProducts = productArray?.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(productArray?.length / productsPerPage);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
@@ -76,32 +75,31 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
   }
 
   const productImages = selectedProduct 
-    ? Array.isArray(selectedProduct.images)
-      ? selectedProduct.images.map((img, index) => ({
+    ? Array.isArray(selectedProduct.imageUrls)
+      ? selectedProduct.imageUrls.map((img, index) => ({
           src: img,
           label: ['Front View', 'Back View', 'Side View', 'Detail View'][index] || 'Product Image'
         }))
-      : [{ src: selectedProduct.images, label: 'Product Image' }]
+      : [{ src: selectedProduct.imageUrls, label: 'Product Image' }]
     : [];
 
   const mainImage = productImages[selectedImage]?.src || productImages[0]?.src;
 
   return (
     <>
-      {/* Product Preview Section - Compact Cards */}
-      <div className="mb-24 w-full px-4 ">
-        {/* TEXT */}
+      {/* Product Preview Section */}
+      <div className="mb-4 w-full px-4">
         <h2 className="text-2xl font-semibold mb-2 text-center py-4">{text}</h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
           {currentProducts?.map((item) => (
             <div
-              key={item.productId}
+              key={item._id}
               onClick={() => onOpen(item)}
-              className="cursor-pointer border rounded-md overflow-hidden hover:shadow-md transition-all flex flex-col h-full min-w-0 p-2 sm:p-3 md:p-2 lg:p-1.5 text-sm md:text-xs"
+              className="cursor-pointer border rounded-md overflow-hidden hover:shadow-md transition-all flex flex-col h-full"
             >
               <div className="relative aspect-square w-full">
                 <Image
-                  src={Array.isArray(item.images) ? item.images[0] : item.images}
+                  src={Array.isArray(item.imageUrls) ? item.imageUrls[0] : item.imageUrls}
                   alt={item.productName}
                   fill
                   className="object-cover"
@@ -109,17 +107,17 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
                 />
               </div>
               
-              <div className="flex flex-col justify-between flex-1">
-                <h3 className="text-xs sm:text-sm font-extrabold text-gray-900 line-clamp-2 h-10">
+              <div className="flex flex-col justify-between flex-1 p-2">
+                <h3 className="text-xs font-semibold text-gray-900 line-clamp-2">
                   {item?.productName?.toUpperCase()}
                 </h3>
-                <div className="flex flex-wrap items-center justify-between gap-y-1 mt-2">
-                  <span className="text-sm font-bold text-gray-900 max-w-[60%]">
+                <div className="flex items-center justify-between mt-1">
+                  <span className="text-xs font-bold text-gray-900">
                     ₦{item?.price?.toLocaleString()}
                   </span>
-                  <button className="bg-green-600 text-white text-xs sm:text-sm font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 px-2 py-1 whitespace-nowrap">
-                    In Stock
-                  </button>
+                  <span className="text-[10px] bg-green-100 text-green-800 px-1 py-0.5 rounded">
+                    in {item.category}
+                  </span>
                 </div>
               </div>
             </div>
@@ -127,7 +125,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
         </div>
 
         {/* Pagination */}
-        {productArray.length > productsPerPage && (
+        {productArray?.length > productsPerPage && (
           <div className="flex justify-center mt-4">
             <nav className="inline-flex rounded-md shadow-sm">
               <button
@@ -162,28 +160,28 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
         )}
       </div>
 
-      {/* Full Page Modal Overlay */}
+      {/* Responsive Modal */}
       {isOpen && selectedProduct && (
-        <div className="fixed inset-0 z-[9999] overflow-y-auto ">
+        <div className="fixed inset-0 z-[100]">
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
           ></div>
 
-          <div className="relative z-10 min-h-screen flex items-center justify-center p-2 sm:p-4">
-            <div className="relative bg-white rounded-xl sm:rounded-2xl shadow-xl w-full max-w-6xl mx-auto my-4 sm:my-8 overflow-hidden">
+          <div className="relative z-10 flex items-center justify-center p-2 sm:p-4 h-full w-full">
+            <div className="relative bg-white rounded-xl shadow-xl w-full max-w-4xl mx-auto flex flex-col h-[95dvh] sm:h-auto sm:max-h-[90vh]">
               <button
                 onClick={onClose}
-                className="absolute top-2 right-2 sm:top-4 sm:right-4 z-50 text-gray-600 hover:text-red-500 text-xl sm:text-2xl font-bold bg-white rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center shadow-md"
+                className="absolute top-2 right-2 sm:top-4 sm:right-4 z-50 text-gray-600 hover:text-red-500 text-xl font-bold bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md"
                 aria-label="Close product details"
               >
                 &times;
               </button>
 
-              <div className="flex flex-col md:flex-row">
+              <div className="flex flex-col md:flex-row h-full overflow-y-auto">
                 {/* Image Section */}
-                <div className="w-full md:w-1/2 bg-gray-50 p-3 sm:p-6">
-                  <div className="relative aspect-square w-full max-w-full md:max-w-[95%] mx-auto">
+                <div className="w-full md:w-1/2 bg-gray-50 p-3 sm:p-4 flex flex-col">
+                  <div className="relative aspect-square w-full">
                     <Image
                       src={mainImage}
                       alt={selectedProduct.productName}
@@ -193,15 +191,14 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
                       priority
                     />
                   </div>
-                  <div className="flex gap-2 sm:gap-3 mt-3 sm:mt-4 overflow-x-auto pb-1 sm:pb-2">
+                  <div className="flex gap-2 mt-3 overflow-x-auto py-1">
                     {productImages.map((img, index) => (
                       <button
                         key={index}
                         onClick={() => setSelectedImage(index)}
-                        className={`flex-shrink-0 h-14 w-14 sm:h-20 sm:w-20 relative rounded-md overflow-hidden border-2 ${
+                        className={`flex-shrink-0 h-12 w-12 sm:h-14 sm:w-14 relative rounded-md overflow-hidden border-2 ${
                           selectedImage === index ? 'border-green-500' : 'border-gray-200'
                         }`}
-                        aria-label={`View ${img.label}`}
                       >
                         <Image
                           src={img.src}
@@ -215,47 +212,39 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
                 </div>
 
                 {/* Product Info Section */}
-                <div className="w-full md:w-1/2 p-3 sm:p-6 md:p-4 lg:p-6 xl:p-8 flex flex-col">
-                  <div className="mb-3 sm:mb-4">
-                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">
-                      {selectedProduct.productName} <PopularBadge item={selectedProduct} />
-                    </h2>
+                <div className="w-full md:w-1/2 p-3 sm:p-4 flex flex-col">
+                  <div className="space-y-1 sm:space-y-2">
+                    <span className="flex gap-3">
+                      <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+                        {selectedProduct.productName} <PopularBadge item={selectedProduct} />
+                      </h2>
+                      {/* Cartogory link */}
+                      <a href={`/categorypage/${selectedProduct.category}`} className="text-[12px]  bg-green-100 text-green-800 px-1 py-0.5 rounded">
+                    in {selectedProduct.category}
+                  </a>
+                    </span>
                     <a
                       href={`/storefront/${selectedProduct.storeName}`}
-                      className="text-xs sm:text-sm text-blue-600 underline hover:text-blue-800"
+                      className="text-xs sm:text-sm text-blue-600 underline hover:text-blue-800 block"
                     >
                       Visit {selectedProduct.storeName}
                     </a>
+                    <p className="text-lg sm:text-xl text-green-600 font-semibold">
+                      {formatCurrency('NGN', Number(selectedProduct.price))}
+                    </p>
+                    <p className="text-gray-600 text-sm sm:text-base">
+                      {selectedProduct.description || 'No description available'}
+                    </p>
                   </div>
-
-                  <p className="text-xl sm:text-2xl text-green-600 font-semibold mb-3 sm:mb-4">
-                    {formatCurrency('NGN', Number(selectedProduct.price))}
-                  </p>
-                  <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
-                    {selectedProduct.description || 'No description available'}
-                  </p>
 
                   {/* Size Selector */}
-                  <div className="mb-4 sm:mb-6">
-                    <ProductSize
-                      targetId={Number(selectedProduct.productId)}
-                      isAdded={isAdded}
-                      setIsAdded={setIsAdded}
-                      error={error}
-                      setError={setError}
-                      showClotheSizeInput={showClotheSizeInput}
-                      setShowClotheSizeInput={setShowClotheSizeInput}
-                      showShoeSizeInput={showShoeSizeInput}
-                      setShowShoeSizeInput={setShowShoeSizeInput}
-                    />
-                  </div>
-
+                
                   {/* Action Buttons */}
-                  <div className="flex gap-2 sm:gap-3 flex-wrap mt-auto">
+                  <div className="flex flex-col sm:flex-row gap-2 mt-auto pt-2 sm:pt-3">
                     {!isAdded ? (
                       <>
                         <AddToCartButton
-                          targetid={Number(selectedProduct.productId)}
+                          targetid={selectedProduct._id}
                           oldSize={oldSize}
                           isAdded={isAdded}
                           setIsAdded={setIsAdded}
@@ -264,7 +253,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
                           showShoeSizeInput={showShoeSizeInput}
                         />
                         <BuyNowButton
-                          targetid={Number(selectedProduct.productId)}
+                          targetid={selectedProduct._id}
                           oldSize={oldSize}
                           setError={setError}
                           showClotheSizeInput={showClotheSizeInput}
@@ -274,7 +263,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
                     ) : (
                       <a
                         href="/checkoutpage"
-                        className="bg-green-600 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:bg-green-700 text-xs sm:text-sm transition-colors"
+                        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-sm text-center"
                       >
                         Go to Checkout
                       </a>
@@ -282,10 +271,10 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
                   </div>
 
                   {/* Additional Product Info */}
-                  <div className="border-t mt-4 sm:mt-6 pt-3 sm:pt-4 text-xs sm:text-sm text-gray-600">
+                  <div className="border-t mt-2 sm:mt-3 pt-2 sm:pt-3 text-xs sm:text-sm text-gray-600 space-y-1">
                     <p><strong>Sold by:</strong> {capitalize(selectedProduct.storeName)}</p>
-                    <p className="mt-1 sm:mt-2"><strong>Returns:</strong> No returns</p>
-                    <p className="mt-2 sm:mt-3 font-bold">Customer Reviews</p>
+                    <p><strong>Returns:</strong> No returns</p>
+                    <p className="font-bold">Customer Reviews</p>
                     <p>No reviews yet.</p>
                   </div>
                 </div>

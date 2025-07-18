@@ -1,3 +1,5 @@
+import { updateLocalUser } from "../utils"
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 
@@ -47,11 +49,14 @@ export const verifyCode = async (authCode: string, authEmail: string)=>{
 
 }
 
-export const logout = async (email: string)=>{
+export const logout = async (email: string, isCookieAccepted: boolean)=>{
   if(!email) return 'missing email'
 
   if(window !== null){
     localStorage.removeItem('ptlgUser')
+    // We re-add user's cookie history to make it persist.
+    const guestUser: any = {anonymous: true, isCookieAccepted: isCookieAccepted}
+    updateLocalUser(guestUser)
   }
   const response: any = await fetch(`${BASE_URL}/auth/logout`, {
     method: 'POST',

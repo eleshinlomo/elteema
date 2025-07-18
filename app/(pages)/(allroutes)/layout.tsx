@@ -2,7 +2,7 @@
 import { useSearchParams } from "next/navigation"
 import { useContext, useState, useEffect, Suspense } from "react"
 import { GeneralContext } from "../../../contextProviders/GeneralProvider"
-import { getLocalUser, updateLocalUser} from "../../../components/data/userdata"
+import { getLocalUser, updateLocalUser } from "../../../components/utils"
 import { persistLogin, verifyCode } from "../../../components/api/auth"
 import { useRouter } from "next/navigation"
 import ScrollTopButton from "../../../components/scrollTopButton"
@@ -11,6 +11,7 @@ import Footer from "../../../components/footer"
 import { usePathname } from "next/navigation"
 import NavBar from "../../../components/header/navBar"
 import Featured from "../../../components/product/featured"
+import { updateCart } from "../../../components/api/cart"
 
 
 interface AllRoutesProps {
@@ -59,41 +60,29 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
           if(code && email){
              
              const data: any = await verifyCode(code, email)
-             
-              
               if(data.ok){
                 let verifiedUser: any = data.data
-                 console.log('USER DATA', data)
-                 console.log('VERIFIED USER', verifiedUser)
-                  const existingUser: any = getLocalUser()
-                  if(existingUser && verifiedUser && existingUser.anonymous && existingUser.cookiesAccepted){
-                    //We only grab the cookiesAcceptance and discard the localUser
-                    const updatedUser: any = {...verifiedUser, cart: existingUser.cart, cookiesAccepted: existingUser?.cookiesAccepted} 
-                    localStorage.removeItem('ptlgUser')
+                  const existingUser: any = getLocalUser() //Exisiting user is for guest user. Usually with no id.
+                  const existingUserCart = existingUser?.cart
+                    let mergedCart: any = []
+                    if(existingUserCart && verifiedUser){
+                       mergedCart = [...existingUserCart, verifiedUser.cart]
+                        updateCart(verifiedUser._id, mergedCart)
+                       
+                    }else{
+                      const userCart = verifiedUser?.cart
+                      mergedCart = userCart
+                    }
+                    const updatedUser = {...verifiedUser, cart: mergedCart}
                     updateLocalUser(updatedUser)
                     setUser(updatedUser)
-                  }else if(existingUser && verifiedUser && existingUser.anonymous && existingUser.cart){
-                    //We only grab the cart, and discard the localUser
-                    const updatedUser: any = {...verifiedUser, cart: existingUser.cart} 
-                    localStorage.removeItem('ptlgUser')
-                    updateLocalUser(updatedUser)
-                    setUser(updatedUser)
-                  }else if(existingUser && verifiedUser && existingUser.anonymous && existingUser.cart && existingUser.cookiesAccepted){
-                    //We only grab the cart, cookiesAcceptance and discard the localUser
-                    const updatedUser: any = {...verifiedUser, cart: existingUser.cart, cookiesAccepted: existingUser?.cookiesAccepted} 
-                    localStorage.removeItem('ptlgUser')
-                    updateLocalUser(updatedUser)
-                    setUser(updatedUser)
-                  }
-                  else {
-                  updateLocalUser(verifiedUser)
-                  setUser(verifiedUser)
-                  }
-                  code = ''
-                  email = ''
-                  setIsLoading(false)
-                  router.push('/')
-                
+                  
+                    code = ''
+                    email = ''
+                    setIsLoading(false)
+                    router.push('/')
+                  
+              
               } 
              
               return
@@ -117,25 +106,16 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
   
         if (localUser && localUser.authCode && localUser.email) {
           const confirmedUser = await persistLogin(localUser.authCode, localUser.email)
-
+            console.log('Confirmed User', confirmedUser)
           if(confirmedUser.ok){
-            setIsLoggedIn(localUser.isLoggedIn);
-            setUser(localUser);
+            setIsLoggedIn(confirmedUser.data.isLoggedIn);
+            setUser(confirmedUser.data);
              return;
            }else{
             setUser(null)
             setIsLoggedIn(false)
            }
         
-         
-        }else if(localUser && localUser.anonymous){ //When cookies is accepted or declined, an anonymous user is also created.
-                setUser(localUser)
-                setIsLoggedIn(false)
-                return
-                // This allows guest user to continue shopping
-        }else{
-          console.log('No user found')
-          return null
         }
       }else  {
         // Only call handleVerify if we have code and email
@@ -151,13 +131,9 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
     
   }, [email, code, isLoggedIn])
   
-// useEffect(()=>{
-//      if(user && user?.store.length > 0){
-//             setUserStore(user.store)
-//         }
-// },[user?.store])
+
  
-const dashboardPaths = path.startsWith('dashboard')
+
   return (
     <Suspense>
       <div>
@@ -167,7 +143,6 @@ const dashboardPaths = path.startsWith('dashboard')
           {showSearchPage ? <Featured /> : null}
           <ScrollTopButton />
           {/* Mobile footer */}
-          
           <MobileFooter />
           {/* Desktop Footer */}
           <div className="hidden md:block">{!path.startsWith('/dashboard') && <Footer />}</div>
