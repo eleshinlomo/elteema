@@ -20,7 +20,7 @@ const ProductCategory = ({ category }: CategoryProps) => {
   useEffect(() => {
     if (Products) {
       const items = Products.filter(item => 
-        item.category.toLowerCase() === decodeURIComponent(category.toLowerCase())
+        item.category.toLowerCase() === decodeURIComponent(category.toLowerCase()) || item.productName.toLowerCase() === category.toLowerCase()
       )
       setCategoryItems(items)
       setIsLoading(false)

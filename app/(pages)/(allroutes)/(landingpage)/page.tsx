@@ -16,6 +16,7 @@ import { ProductProps } from '../../../../components/api/product';
 import FabricProducts from '../../../../components/product/fabricProduct';
 import VegetableProducts from '../../../../components/product/vegetable';
 import ProcessedFoodProducts from '../../../../components/product/processedFoods';
+import NewSearch from '../../../../components/product/newSearch';
 
 export default function Home() {
   const { page, setPage, showSearchPage, setShowSearchPage } = useContext(GeneralContext);
@@ -43,12 +44,13 @@ export default function Home() {
   }, [sortItems, Products, itemsToSort])
 
   return (
-    <div id='top' className="relative py-24  bg-gray-50">
+    <div id='top' className=" py-24  bg-gray-50">
    
-
+         <NewSearch />
         {/* Main Content (Supermarket) */}
         <div className="col-span-1 md:col-span-2">
            <HotProductFlash />
+
           <div className="">
             <HotMobilePreview />
           </div>
