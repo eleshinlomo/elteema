@@ -97,7 +97,7 @@ const AddProductPage = () => {
     setHasColor(false)
     setHasClothingSize(false)
      setHasYard(false)
-     setHasCondition(true)
+     setHasCondition(false)
   }
 
 }, [product?.category])
@@ -398,7 +398,24 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
             />
           </div>
 
-              {/* Unit Cost */}
+         
+
+          {/* Categories */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Choose category</label>
+            <select
+              value={product.category}
+              name='category'
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              required
+            >
+              <option value=''>Select category</option>
+              {categories?.map((category, index)=><option key={index}>{category}</option>)}
+            </select>
+          </div>
+
+               {/* Unit Cost */}
           <div className="space-y-2">
             <label className="flex gap-2 text-sm font-medium text-gray-700">Unit Cost * 
               <p className='text-sm'>Your product cost ₦{product.price} per {product.unitCost} {hasYard ? 'yard' : 
@@ -430,21 +447,6 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
                 <FiPlus size={16} />
               </button>
             </div>
-          </div>
-
-          {/* Categories */}
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Choose category</label>
-            <select
-              value={product.category}
-              name='category'
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-              required
-            >
-              <option value=''>Select category</option>
-              {categories?.map((category, index)=><option key={index}>{category}</option>)}
-            </select>
           </div>
 
                  {/* Delivery Method */}

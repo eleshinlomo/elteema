@@ -9,7 +9,7 @@ import { updateLocalUser } from '../../../../components/utils'
 import PaymentAlertCard from './paymentAlertCard'
 import { launchPaymentPopup,} from './payments/paymentFunctions'
 import Image from 'next/image'
-import { updateStoreOrder } from '../../../../components/api/store'
+import { createUserOrder } from '../../../../components/api/users'
 
 const CheckoutPage = () => {
   const { isLoggedIn, user, setUser } = useContext(GeneralContext)
@@ -137,7 +137,7 @@ const CheckoutPage = () => {
     
   
     const newStatus = 'pending'
-    const updateResponse = await updateStoreOrder(cart, user._id, eta, newStatus)
+    const updateResponse = await createUserOrder(cart, user._id, eta, newStatus)
     console.log('ORDER UPDATE', updateResponse)
     if(updateResponse.ok){
        setCart([]) // Needed to clear local state. Although the updated user still comes with an empty cart.

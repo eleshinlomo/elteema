@@ -133,7 +133,7 @@ const NewSearch = () => {
                 {searchResults.slice(0, 5).map((product, index) => (
                   <a
                     key={`product-${index}`}
-                    href={`/categorypage/${product.productName.replace(/\s+/g, '-').toLowerCase()}`}
+                    href={`/categorypage/${encodeURIComponent(product.productName)}`}
                     className="block px-4 py-3 hover:bg-green-50 transition-colors duration-200 flex items-center"
                   >
                     <FiTag className="text-gray-400 mr-3" />
@@ -157,7 +157,7 @@ const NewSearch = () => {
                   .map((category, index) => (
                     <a
                       key={`category-${index}`}
-                      href={`/categorypage/${category}`}
+                      href={`/categorypage/${encodeURIComponent(category)}`}
                       className="block px-4 py-3 hover:bg-green-50 transition-colors duration-200 flex items-center"
                     >
                       <FiShoppingBag className="text-gray-400 mr-3" />

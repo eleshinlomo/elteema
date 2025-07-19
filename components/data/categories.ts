@@ -14,9 +14,10 @@ export const categories = [
     'fabrics & textiles',
     'farm crops',
     'farm livestock',
-    'groceries',
+    'fruits',
     'fashion women',
     'Fashion men',
+    'groceries',
     'health',
     'home & garden',
     'kids clothing',
@@ -34,12 +35,13 @@ export const categories = [
     'tuber',
     'restaurant',
     'robotics',
-    'sports',
+    'sports & fitness',
     'women clothings',
     'women natives', 
     'women ankara',
     'women shoes',
     'women accessories',
+    'others'
     
                ]
 
@@ -55,7 +57,8 @@ export const foodCategories = [
 ]
 
 
-// This array is just for checking if item needs size to be displayed
+// The  arrays below are just for checking if input needs to be displayed.
+
 export const clothingCategories = [
     'men clothings', 
     'agbada', 

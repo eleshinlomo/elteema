@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Home, Search, BarChart2, ShoppingBag, LogOutIcon, LogInIcon, WineIcon, HotelIcon, MenuIcon, PartyPopperIcon, HomeIcon, ForkKnifeCrossedIcon, SplineIcon, CookingPotIcon, ShirtIcon } from "lucide-react";
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import { CartContext } from "../../contextProviders/cartcontext";
@@ -16,6 +16,7 @@ const NavBar = () => {
   const {isLoggedIn,setIsLoggedIn, user, setUser, showSearchPage, setShowSearchPage} = useContext(GeneralContext)
   const {cart, setCart, totalItems, totalPrice, setTotalItems, setTotalPrice} = useContext(CartContext)
   const router = useRouter()
+  const [store, setStore] = useState<any>(null)
 
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
@@ -32,8 +33,16 @@ const NavBar = () => {
     router.push('/authpages/signin')
   }
 
+  useEffect(()=>{
+    if(user && user.store){
+      setStore(user.store)
+    }
+  }, [user, store])
+
+
+
   return (
-    <div className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm py-2 px-2 md:px-4 z-50">
+    <div className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm py-2  md:px-4 z-50">
       <div className="flex justify-between items-center">
 
         {/* Home */}
@@ -88,17 +97,21 @@ const NavBar = () => {
           </button>
         </a>
 
-        {/* createstorelandingpage */}
-        <a href='/createstorelandingpage'>
+        {/* Store */}
+        <a href={store ? '/dashboard/storepage' : '/createstorelandingpage'}
+         className="relative"
+        >
           <button
             onClick={() => handleTabClick("createstorelandingpage")}
-            className={`flex flex-col items-center p-2 transition-colors duration-200 ${
+            className={`absolute top-[-28px] right-[-25px] flex flex-col items-center p-2 transition-colors duration-200 ${
               activeTab === "createstorelandingpage" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
             }`}
           >
             <FaShoppingBag className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
-            <span className="text-xs mt-1">Sell</span>
+            <span className="text-xs mt-1">{store ? 'Store' : 'Sell'}</span>
           </button>
+          <p className="absolute bg-green-600 text-white rounded-2xl px-2 left-[8px] top-[-26px]">
+            {store?.orders?.currentOrders?.length > 0 ? store.orders.currentOrders.length : null}</p>
         </a>
 
 

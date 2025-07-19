@@ -7,10 +7,10 @@ import SalesSummary from './(storecomponents)/salesSummary';
 import { useContext, useEffect, useState } from 'react';
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider';
 import { capitalize } from '../../../../../components/utils';
-import StoreProducts from './(storecomponents)/storeProducts';
 import RecentStoreOrders from './(storecomponents)/storeOrders/recentOrders';
 import { deleteStore } from '../../../../../components/api/store';
 import { updateLocalUser } from '../../../../../components/utils';
+import AllListedProducts from './(storecomponents)/allListedProducts';
 
 
 
@@ -83,16 +83,16 @@ const StorePage = () => {
           <SalesSummary lastOrders={lastOrders} currentOrders={currentOrders} />
         </div>
       </div>
-        <StoreProducts />
+        <AllListedProducts />
         <RecentStoreOrders  />
 
 
                  <div >
              
 
-            {/* Delete Account Card */}
+            {/* Delete Store Card */}
             { isDeleted ? <p className="text-gray-600">message</p>:
-              <div className="bg-white rounded-lg shadow-md p-6 border border-red-100">
+              <div className="bg-white rounded-lg shadow-md p-6 mt-12 border border-red-100">
               <h2 className="text-xl font-semibold text-gray-800 mb-2">Delete Store</h2>
               <p className="text-red-600 mb-6">{errorMessage}</p>
               
@@ -106,7 +106,7 @@ const StorePage = () => {
             }
 
 
-             {/* Delete Account Modal */}
+             {/* Delete Store Modal */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">

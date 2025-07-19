@@ -81,44 +81,28 @@ export const updateStore = async (payload : CreateStoreProps)=>{
 
 
 
-export const changeOrderStatus = (cart: ProductProps[], newStatus: string, eta: string)=>{
-    const updatedItems = cart.map((item)=>{
-       const updatedItem = {
-        ...item,
-        eta: eta,
-         orderStatus: newStatus,
-         income: (item.price * item.quantity)
-       }
-       return updatedItem
-    })
-    return updatedItems // Array
-}
-
-
-
-export const updateStoreOrder = async (cart: ProductProps[], buyerId: number, eta: string, newStatus: string)=>{
-    if(cart?.length === 0) return 
+    export const deleteStoreOrder = async (storeName: string, orderId: string, buyerId: string) => {
+      
         try{
-    const items = changeOrderStatus(cart, newStatus, eta)
-    if(items?.length === 0) return 
-
-    const response = await fetch(`${BASE_URL}/store/updateorder`, {
-       mode: 'cors',
-       method: 'PUT',
-       headers: {
-        'Content-Type': 'application/json',
-
-       },
-       body: JSON.stringify({items, buyerId})
-    })
-    if(!response) return 'No response from server'
-    const data: any = await response.json()
-    return data
+       
+        const response = await fetch(`${BASE_URL}/store/deletestoreorder`, {
+          mode: 'cors',
+          method: 'DELETE',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({storeName, orderId, buyerId})
+        })
+        if(!response) {
+          console.log('No response from server')
+          return 'No response from server'
+        }
     
-}catch(err){
-    console.log(err)
-}
-}
+        const data = await response.json()
+        return data
+      }catch(err){
+        console.log(err)
+      }
+      };
+
 
 
 // Function gets single store

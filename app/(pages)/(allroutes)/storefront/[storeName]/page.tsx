@@ -75,7 +75,7 @@ const StoreFront = () => {
       </div>
 
       {/* Products Section */}
-      <div className="max-w-3xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
         {store.items?.length > 0 ? (
           <div>
            

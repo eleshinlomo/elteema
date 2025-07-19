@@ -25,7 +25,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
   const { cart } = useContext(CartContext);
   const { user } = useContext(GeneralContext);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 10;
+  const productsPerPage = 12;
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -89,40 +89,41 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
     <>
       {/* Product Preview Section */}
       <div className="mb-4 w-full px-4">
-        <h2 className="text-2xl font-semibold mb-2 text-center py-4">{text}</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-          {currentProducts?.map((item) => (
-            <div
-              key={item._id}
-              onClick={() => onOpen(item)}
-              className="cursor-pointer border rounded-md overflow-hidden hover:shadow-md transition-all flex flex-col h-full"
-            >
-              <div className="relative aspect-square w-full">
-                <Image
-                  src={Array.isArray(item.imageUrls) ? item.imageUrls[0] : item.imageUrls}
-                  alt={item.productName}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
-                />
-              </div>
-              
-              <div className="flex flex-col justify-between flex-1 p-2">
-                <h3 className="text-xs font-semibold text-gray-900 line-clamp-2">
-                  {item?.productName?.toUpperCase()}
-                </h3>
-                <div className="flex items-center justify-between mt-1">
-                  <span className="text-xs font-bold text-gray-900">
-                    ₦{item?.price?.toLocaleString()}
-                  </span>
-                  <span className="text-[10px] bg-green-100 text-green-800 px-1 py-0.5 rounded">
-                    in {item.category}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+  <h2 className="text-2xl font-semibold mb-2 text-center py-4">{text}</h2>
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-3">
+    {currentProducts?.map((item) => (
+      <div
+        key={item._id}
+        onClick={() => onOpen(item)}
+        className="cursor-pointer border rounded-md overflow-hidden hover:shadow-md transition-all flex flex-col h-full"
+      >
+        <div className="relative aspect-square w-full">
+          <Image
+            src={Array.isArray(item.imageUrls) ? item.imageUrls[0] : item.imageUrls}
+            alt={item.productName}
+            fill
+            className="object-cover"
+            sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+          />
         </div>
+        
+        <div className="flex flex-col justify-between flex-1 p-2">
+          <h3 className="text-xs md:text-sm font-medium text-gray-900 line-clamp-2">
+            {item?.productName?.toUpperCase()}
+          </h3>
+          <div className="flex items-center justify-between mt-1">
+            <span className="text-xs md:text-sm font-bold text-gray-900">
+              ₦{item?.price?.toLocaleString()}
+            </span>
+            <span className="text-[10px] md:text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
+              in {item.category}
+            </span>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
 
         {/* Pagination */}
         {productArray?.length > productsPerPage && (

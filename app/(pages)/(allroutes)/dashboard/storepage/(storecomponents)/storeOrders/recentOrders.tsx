@@ -1,13 +1,14 @@
 'use client';
 
-import { useContext, useState, useEffect, useCallback } from "react";
+import { useContext, useState, useEffect, useCallback, ChangeEvent } from "react";
 import { ProductProps } from "../../../../../../../components/api/product";
 import { GeneralContext } from "../../../../../../../contextProviders/GeneralProvider";
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'; 
-import { formatCurrency } from "../../../../../../../components/utils";
+import { formatCurrency, updateLocalUser } from "../../../../../../../components/utils";
+import { deleteStoreOrder } from "../../../../../../../components/api/store";
 
 interface RecentOrdersProps {
   currentOrders: any[]
@@ -17,27 +18,19 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 const RecentStoreOrders = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const { user } = useContext(GeneralContext);
+  const { user, setUser, setUserOrders } = useContext(GeneralContext);
   const [selectedOrder, setSelectedOrder] = useState<ProductProps | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [status, setStatus] = useState('');
-  const [currentOrders, setCurrentOrders] = useState([])
-  
-  let userAddress = '';
+  const [newOrderStatus, setNewOrderStatus] = useState('');
+  const [currentOrders, setCurrentOrders] = useState<ProductProps[]>([]);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [error, setError] = useState('')
 
-  useEffect(()=>{
-
-     if(user) {
-    const store = user.store
-    const orders = store.orders
-    const currentorders = orders.currentOrders
-    setCurrentOrders(currentorders)
-    console.log('CURRENT ORDERS', currentorders)
-  }
-
-  }, [user])
- 
-   
+  useEffect(() => {
+    if (user && user.store) {
+      setCurrentOrders(user?.store?.orders.currentOrders)
+    }
+  }, [user]);
 
   const orderStatusOptions = [
     'processing',
@@ -52,10 +45,43 @@ const RecentStoreOrders = () => {
     console.log("Editing order:", order);
   }, []);
 
-  const handleCancel = useCallback((order: ProductProps) => {
+  const handleModalOpen = (order: ProductProps) => {
     setSelectedOrder(order);
     setIsDeleteModalOpen(true);
-  }, []);
+  };
+
+  const handleCancel = async () => {
+    if (!selectedOrder) return;
+    
+    try {
+      setIsDeleting(true);
+      const store = user.store;
+      const orderId = selectedOrder._id;
+      const buyerId = user?._id;
+      
+      const response = await deleteStoreOrder(store.storeName, orderId, buyerId);
+      
+      if(response.ok){
+        const updatedUser = response.data
+        setUser(updatedUser)
+        updateLocalUser(updatedUser)
+        setIsDeleteModalOpen(false)
+      }else{
+        setError(response.error)
+      }
+       
+    } catch (error) {
+      console.error('Error deleting order:', error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleUpdateStoreOrder = (orderId: string, e: ChangeEvent<HTMLSelectElement>) => {
+    const orderStatusValue = e.target.value;
+    // Implement your order status update logic here
+    console.log(`Updating order ${orderId} to status: ${orderStatusValue}`);
+  };
 
   const defaultColDef = {
     flex: 1,
@@ -114,7 +140,7 @@ const RecentStoreOrders = () => {
       field: 'destination', 
       headerName: 'Destination', 
       minWidth: 250,
-      valueGetter: () => userAddress || '',
+      valueGetter: (params: any) => params.data.destination || '',
       cellStyle: { 'white-space': 'normal' }
     },
     { 
@@ -154,16 +180,17 @@ const RecentStoreOrders = () => {
         return (
           <div className="flex flex-col space-y-1">
             <select 
-              onChange={(e) => setStatus(e.target.value)}
+              onChange={(e) => handleUpdateStoreOrder(order._id, e)}
               className="text-sm p-1 border rounded"
+              defaultValue=""
             >
-              <option>Update status</option>
+              <option value="" disabled>Update status</option>
               {orderStatusOptions.map(option => (
                 <option key={option} value={option}>{option}</option>
               ))}
             </select>
             <button
-              onClick={() => handleCancel(order)}
+              onClick={() => handleModalOpen(order)}
               className="text-red-600 hover:text-red-900 text-sm"
             >
               Cancel
@@ -175,11 +202,11 @@ const RecentStoreOrders = () => {
   ];
 
   return (
-    <div className="pt-4 overflow-hidden">
+    <div className="pt-4 ">
       <div className="w-full md:max-w-7xl mx-auto">
         <h6 className="text-xl font-bold text-gray-800 mb-6">Your Recent Store Orders</h6>
 
-        {currentOrders.length > 0 ? (
+        {currentOrders?.length > 0 ? (
           <div 
             className="ag-theme-alpine" 
             style={{ 
@@ -242,16 +269,27 @@ const RecentStoreOrders = () => {
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <h3 className="text-lg leading-6 font-medium text-gray-900">Cancel Order</h3>
                       <div className="mt-2">
-                        <p className="text-sm text-gray-500">Are you sure you want to cancel this order? This action cannot be undone.</p>
+                        <p className="text-sm text-gray-500"> 
+                        {error ? error : 'Are you sure you want to cancel this order? This action cannot be undone.'}</p>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                  <button type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
-                    Confirm Cancel
+                  <button 
+                    type="button" 
+                    onClick={handleCancel}
+                    disabled={isDeleting}
+                    className={`w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm ${isDeleting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  >
+                    {isDeleting ? 'Canceling...' : 'Confirm Cancel'}
                   </button>
-                  <button onClick={() => setIsDeleteModalOpen(false)} type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                  <button 
+                    onClick={() => setIsDeleteModalOpen(false)} 
+                    type="button" 
+                    disabled={isDeleting}
+                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  >
                     Go Back
                   </button>
                 </div>

@@ -140,6 +140,45 @@ export const register = async ({email, username} : RegisterProps)=>{
     };
 
 
+    export const changeOrderStatus = (cart: ProductProps[], newStatus: string, eta: string)=>{
+        const updatedCart = cart.map((item)=>{
+           const updatedItem = {
+            ...item,
+            eta: eta,
+             orderStatus: newStatus,
+           }
+           return updatedItem
+        })
+        return updatedCart // Array
+    }
+    
+    
+    
+    export const createUserOrder = async (cart: ProductProps[], buyerId: string, eta: string, newStatus: string)=>{
+        if(cart?.length === 0) return 
+            try{
+        const items = changeOrderStatus(cart, newStatus, eta)
+        if(items?.length === 0) return 
+    
+        const response = await fetch(`${BASE_URL}/users/createuserorder`, {
+           mode: 'cors',
+           method: 'PUT',
+           headers: {
+            'Content-Type': 'application/json',
+    
+           },
+           body: JSON.stringify({items, buyerId})
+        })
+        if(!response) return 'No response from server'
+        const data: any = await response.json()
+        return data
+        
+    }catch(err){
+        console.log(err)
+    }
+    }
+
+
     //   Delete User order
       export const deleteUserOrder = async (userId: string, orderId: string) => {
       
@@ -163,7 +202,8 @@ export const register = async ({email, username} : RegisterProps)=>{
       }
       };
 
-
+   
+      // Delete user
     export const deleteUser = async (userId: string) => {
   
     try{

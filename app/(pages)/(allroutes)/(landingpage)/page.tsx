@@ -17,6 +17,8 @@ import FabricProducts from '../../../../components/product/fabricProduct';
 import VegetableProducts from '../../../../components/product/vegetable';
 import ProcessedFoodProducts from '../../../../components/product/processedFoods';
 import NewSearch from '../../../../components/product/newSearch';
+import OtherProducts from '../../../../components/product/others';
+import FruitProducts from '../../../../components/product/fruits';
 
 export default function Home() {
   const { page, setPage, showSearchPage, setShowSearchPage } = useContext(GeneralContext);
@@ -55,8 +57,10 @@ export default function Home() {
             <HotMobilePreview />
           </div>
           <FabricProducts />
+          <FruitProducts />
+          <ProcessedFoodProducts />
          <VegetableProducts />
-         <ProcessedFoodProducts />
+         <OtherProducts />
 
          
         </div>
