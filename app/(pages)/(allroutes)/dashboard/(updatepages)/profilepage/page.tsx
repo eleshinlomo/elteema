@@ -6,7 +6,7 @@ import { BotIcon, Edit, File, FolderClosed, InfoIcon, ShieldClose } from 'lucide
 import { cities, states } from '../../../../../../components/data/locations';
 import { capitalize } from '../../../../../../components/utils';
 import { updateUser } from '../../../../../../components/api/users';
-import DashSideBar from '../../dashSidebar';
+import DashSideBar from '../../dashNavs/dashSidebar';
 import Cart from '../../../../../../components/cart/cart';
 
 const CustomerDashboard = () => {

@@ -91,14 +91,15 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
          
       } catch(err) {
           console.error(err)
-          setIsLoading(false)
+      }finally{
+         setIsLoading(true)
       }
   }
   
 
   // Persistent Auth
   const verifyPersistentLogin = async () => {
-
+    setIsLoading(true)
     try {
       if(!email && !code){
         console.log('VERIFYING TOKEN IN USE EFFECT...');
@@ -123,6 +124,8 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
     }
     } catch(err) {
       console.log(err);
+    }finally{
+       setIsLoading(false)
     }
   };
 

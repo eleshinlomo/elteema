@@ -1,20 +1,31 @@
-import { useEffect } from "react";
-import { UserProps } from "../../../../components/api/users";
+'use client'
+import { useContext, useEffect } from "react";
+import { UserProps } from "../../../../../components/api/users";
 import { Home, User, CreditCard, Store, Settings, ShoppingBag } from "lucide-react"
+import { ProductProps } from "../../../../../components/api/product";
+import NavButton from "./navButtons";
+import { GeneralContext } from "../../../../../contextProviders/GeneralProvider";
+
+
+
 
 interface DashNavProps {
-  href: string; 
-  icon: React.ReactNode; 
-  label: string;
+  user: UserProps;
+  userOrders: ProductProps[]
 }
 
 
-const DashNavBar = ({ user }: { user: UserProps | null }) => {
+
+const DashNavBar = ({user, userOrders}: DashNavProps) => {
+
+  // const {userOrders} = useContext(GeneralContext)
+
+
   return (
     <nav className="bg-white shadow-sm rounded-lg p-4 mb-6">
       <div className="flex flex-wrap items-center justify-start gap-2 md:gap-4">
         {/* Dashboard Link */}
-        <NavButton 
+        <NavButton
           href="/dashboard" 
           icon={<Home className="w-4 h-4" />}
           label="Dashboard"
@@ -22,9 +33,9 @@ const DashNavBar = ({ user }: { user: UserProps | null }) => {
 
              {/* Orders Link */}
         <NavButton 
-          href="/dashboard/userorderpage" 
+          href="/dashboard/orders/userorderpage" 
           icon={<Home className="w-4 h-4" />}
-          label={`Orders (${user?.orders?.length || 0})`}
+          label={`Orders (${userOrders?.length || 0})`}
         />
         
         {/* Profile Link */}
@@ -60,17 +71,5 @@ const DashNavBar = ({ user }: { user: UserProps | null }) => {
   )
 }
 
-// Reusable NavButton component
-const NavButton = ({ href, icon, label }: DashNavProps) => (
-  <div id='nav-top'>
-  <a href={href} className="group">
-    <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 rounded-lg transition-all
-                      hover:bg-emerald-50 hover:text-emerald-700 group-hover:scale-[1.02]">
-      {icon}
-      <span>{label}</span>
-    </button>
-  </a>
-  </div>
-)
-
 export default DashNavBar
+

@@ -1,74 +1,54 @@
-'use client'
+'use client';
 
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
-import Image from 'next/image'
 import NotLoggedInPage from "../authpages/notLoggedInpage"
-import DashSideBar from "./dashSidebar"
-import DashNavBar from "./dashNavBar"
-
-
+import DashSideBar from "./dashNavs/dashSidebar"
+import DashNavBar from "./dashNavs/dashNavBar"
+import { ProductProps } from "../../../../components/api/product"
 
 interface DashboardProps {
     children: React.ReactNode
 }
 
-
-
-const DashboardLayout = ({children}: DashboardProps)=>{
-
-
-  const {isLoggedIn, user} = useContext(GeneralContext)
-  const router = useRouter()
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true)
-
+const DashboardLayout = ({children}: DashboardProps) => {
+    const {isLoggedIn, user, setUserOrders, isLoading} = useContext(GeneralContext)
+    const router = useRouter()
 
     useEffect(() => {
-        // Simulate auth check delay (replace with actual auth check if needed)
-        const timer = setTimeout(() => {
-            setIsCheckingAuth(false)
-        }, 50)
+        if(user?.orders?.length > 0){
+            setUserOrders(user.orders)
+        }
+    }, [user])
 
-        return () => clearTimeout(timer)
-    }, [isLoggedIn, user])
- 
-   
-    if(isCheckingAuth){
-      return <div className="py-24 text-center w-full">Loading page...</div>
+    if(isLoading){
+        return <div className="py-24 text-center w-full">Loading page...</div>
     }
- 
 
-  if(!isLoggedIn){
-     return <NotLoggedInPage />
-  }
-
-
- 
+    if(!isLoggedIn){
+        return <NotLoggedInPage />
+    }
     
-  return (
-    <div>
-        
-        
-        <div>
-            <div className="flex ">
-                <div className="hidden md:block h-screen  w-1/4 ">
-                    <DashSideBar user={user} />
+    return (
+        <div className="min-h-screen bg-gray-50 py-20">
+            {/* Mobile first approach */}
+            <div className="md:flex">
+                {/* Sidebar - hidden on mobile, shown on desktop */}
+                <div className="hidden md:block md:w-1/4 md:fixed md:h-screen md:overflow-y-auto">
+                    <DashSideBar user={user} userOders={user.orders || []} />
                 </div>
 
-                 <div className=" py-24">
-                    <DashNavBar user={user} />
-                    {children}
+                {/* Main content area */}
+                <div className="w-full md:ml-[25%]">
+                    <DashNavBar user={user} userOrders={user.orders || []} />
+                    <main className="p-4 md:p-8">
+                        {children}
+                    </main>
                 </div>
             </div>
-        
-        
         </div>
-          
-          
-        
-    </div>
-  )
+    )
 }
 
 export default DashboardLayout

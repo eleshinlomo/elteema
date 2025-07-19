@@ -145,7 +145,7 @@ const CheckoutPage = () => {
        setUser(updateResponse.data)
        setTotalItems(0)
        setTotalPrice(0)
-       window.location.href = '/dashboard/userorderpage'
+       window.location.href = '/dashboard/orders/userorderpage'
 
     }
     

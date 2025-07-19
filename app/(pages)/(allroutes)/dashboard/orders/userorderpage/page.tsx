@@ -1,10 +1,10 @@
 'use client'
 
 import { useContext, useState, useEffect, useMemo } from "react";
-import { GeneralContext } from "../../../../../contextProviders/GeneralProvider";
-import { ProductProps } from "../../../../../components/api/product";
-import { capitalize, formatCurrency } from "../../../../../components/utils";
-import { deleteUserOrder } from "../../../../../components/api/users";
+import { GeneralContext } from "../../../../../../contextProviders/GeneralProvider";
+import { ProductProps } from "../../../../../../components/api/product";
+import { capitalize, formatCurrency } from "../../../../../../components/utils";
+import { deleteUserOrder } from "../../../../../../components/api/users";
 
 interface OrderProps {
   title: string;
@@ -13,8 +13,7 @@ interface OrderProps {
 
 const OrderPage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [orders, setOrders] = useState<ProductProps[]>([]);
-  const { user } = useContext(GeneralContext);
+  const { user, userOrders, setUserOrders, isLoading, setIsLoading } = useContext(GeneralContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState<ProductProps | null>(null);
   const itemsPerPage = 10;
@@ -24,13 +23,14 @@ const OrderPage = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [isError, setIsError] = useState(false)
   const [message, setMessage] = useState('Are you sure you want to cancel your order? This action cannot be undone.')
-  const [isLoading, setIsLoading] = useState(true)
+ 
 
   useEffect(() => {
+   
     if (user) {
       const userOrders = user.orders || [];
       if(userOrders?.length > 0){
-        setOrders(userOrders);
+        setUserOrders(userOrders);
         setIsLoading(false);
       }
     }
@@ -38,11 +38,11 @@ const OrderPage = () => {
 
   // Calculate pagination data
   const { currentOrders, totalPages, indexOfFirstItem, indexOfLastItem } = useMemo(() => {
-    const total = orders.length;
+    const total = userOrders.length;
     const totalPages = Math.ceil(total / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentOrders = orders.slice(indexOfFirstItem, indexOfLastItem);
+    const currentOrders = userOrders.slice(indexOfFirstItem, indexOfLastItem);
     
     return {
       currentOrders,
@@ -50,18 +50,18 @@ const OrderPage = () => {
       indexOfFirstItem,
       indexOfLastItem
     };
-  }, [orders, currentPage, itemsPerPage]);
+  }, [userOrders, currentPage, itemsPerPage]);
 
   // Check for sizes to display appropriate table headers
   useEffect(() => {
-    if (orders.length > 0) {
-      const hasShoeSizes = orders.some(order => order.shoeSizes?.length > 0);
-      const hasClotheSizes = orders.some(order => order.clotheSizes?.length > 0);
+    if (userOrders.length > 0) {
+      const hasShoeSizes = userOrders.some(order => order.shoeSizes?.length > 0);
+      const hasClotheSizes = userOrders.some(order => order.clotheSizes?.length > 0);
       
       setIsShoeSize(hasShoeSizes);
       setIsClotheSize(hasClotheSizes);
     }
-  }, [orders]);
+  }, [userOrders]);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
@@ -82,7 +82,9 @@ const OrderPage = () => {
       const response = await deleteUserOrder(user._id, selectedOrder._id);
     
       if (response.ok) {
-        setOrders(response.data.orders || []);
+        const updatedUserOrders = response.data
+        setUserOrders(updatedUserOrders || []);
+
         setMessage(response.message);
         setIsDeleteModalOpen(false);
         setSelectedOrder(null);
@@ -113,7 +115,7 @@ const OrderPage = () => {
         <h2 className="text-2xl font-bold text-gray-800">Your Orders</h2>
         <p className="text-xs mb-6">Items you bought from other stores</p>
 
-        {orders.length > 0 ? (
+        {userOrders.length > 0 ? (
           <div className="bg-white rounded-lg shadow">
             {/* Table */}
             <div className="overflow-x-auto">
@@ -176,8 +178,8 @@ const OrderPage = () => {
                   <div className="mb-4 sm:mb-0">
                     <p className="text-sm text-gray-700">
                       Showing <span className="font-medium">{indexOfFirstItem + 1}</span> to{' '}
-                      <span className="font-medium">{Math.min(indexOfLastItem, orders.length)}</span> of{' '}
-                      <span className="font-medium">{orders.length}</span> results
+                      <span className="font-medium">{Math.min(indexOfLastItem, userOrders.length)}</span> of{' '}
+                      <span className="font-medium">{userOrders.length}</span> results
                     </p>
                   </div>
                   <div className="w-full sm:w-auto">
