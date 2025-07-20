@@ -7,7 +7,7 @@ import { updateLocalUser } from "../../../../../../components/utils";
 import { ProductContext } from "../../../../../../contextProviders/ProductContext";
 
 const AllListedProducts = () => {
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [error, setError] = useState('');
   const { user, setUser } = useContext(GeneralContext);
   const { Products, setProducts } = useContext(ProductContext);
   
@@ -18,7 +18,7 @@ const AllListedProducts = () => {
   // Calculate pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = storeProducts?.slice(indexOfFirstProduct, indexOfLastProduct) || [];
+  let currentProducts = storeProducts?.slice(indexOfFirstProduct, indexOfLastProduct) || [];
   const totalPages = Math.ceil((storeProducts?.length || 0) / productsPerPage);
 
   useEffect(() => {
@@ -28,24 +28,8 @@ const AllListedProducts = () => {
   }, [user]);
 
   const handleDeleteProduct = async (productId: string) => {
-    setErrors(prev => {
-      const newErrors = {...prev};
-      delete newErrors[productId];
-      return newErrors;
-    });
-
-    const items: any[] = user?.store?.items || [];
-    const productIndex = items.findIndex((item) => item._id === productId);
-    const hasPendingOrders = items[productIndex]?.orderStatus;
-    
-    if (hasPendingOrders && hasPendingOrders !== '') {
-      setErrors(prev => ({
-        ...prev,
-        [productId]: 'You cannot delete a product with pending orders'
-      }));
-      return;
-    }
-    
+   
+    setError('')
     const userId = user._id;
     const response = await deleteProduct(userId, productId);
     if (response.ok) {
@@ -54,11 +38,11 @@ const AllListedProducts = () => {
         updateLocalUser(updatedUser);
         setUser(updatedUser);
         setStoreProducts(updatedUser.store.items);
+        currentProducts = (updatedUser.store.items)
+        setProducts(updatedProducts)
       }
-
-      if (updatedProducts?.length > 0) {
-        setProducts(updatedProducts);
-      }
+    }else{
+        setError(response.error)
     }
   };
 
@@ -81,14 +65,14 @@ const AllListedProducts = () => {
       </div>
       
       <div className="space-y-4">
+        {/* Error */}
+         <p className="font-xs text-red-500">{error}</p>
         {currentProducts.length > 0 ? (
           currentProducts
             .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
             .map((product) => (
               <div key={product._id}>
-                {errors[product._id] && (
-                  <p className="text-xs text-red-600 font-bold">{errors[product._id]}</p>
-                )}
+      
                 <div className="flex items-center">
                   <img
                     src={product?.imageUrls[0]}
@@ -100,7 +84,11 @@ const AllListedProducts = () => {
                   />
                   <div className="ml-4 flex-1">
                     <div className="flex justify-between">
-                      <h3 className="text-sm font-medium text-gray-800">{product.productName}</h3>
+                      {/* Product name */}
+                   
+                        <h3 className="text-sm font-medium text-gray-800">{product.productName}</h3>
+                        
+                     
                       <span className="text-sm font-medium text-gray-800">₦{Number(product.price).toFixed(2)}</span>
                     </div>
                     <p className="text-xs text-gray-500">{product.category}</p>

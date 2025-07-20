@@ -522,7 +522,7 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
                 name='quantity'
                 onChange={handleChange}
                 min="1"
-                className="w-16 px-4 py-2 border-t border-b border-gray-300 text-center focus:outline-none"
+                className="w-32 px-4 py-2 border-t border-b border-gray-300 text-center focus:outline-none"
               />
               <button
                 type="button"

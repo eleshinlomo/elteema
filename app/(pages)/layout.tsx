@@ -28,7 +28,7 @@ const PagesLayout = ({children} : PagesRoutesProps)=>{
     
 
     return (
-            <Suspense>
+            <Suspense fallback='loading...'>
             <GeneralProvider>
             <ProductContextProvider>
             <CartProvider>

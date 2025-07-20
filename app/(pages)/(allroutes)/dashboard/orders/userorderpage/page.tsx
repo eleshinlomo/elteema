@@ -24,6 +24,21 @@ const OrderPage = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [isError, setIsError] = useState(false)
   const [message, setMessage] = useState('Are you sure you want to cancel your order? This action cannot be undone.')
+  // Calculate pagination data
+  let { currentOrders, totalPages, indexOfFirstItem, indexOfLastItem } = useMemo(() => {
+    const total = userOrders.length;
+    const totalPages = Math.ceil(total / itemsPerPage);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    let currentOrders = userOrders.slice(indexOfFirstItem, indexOfLastItem);
+    
+    return {
+      currentOrders,
+      totalPages,
+      indexOfFirstItem,
+      indexOfLastItem
+    };
+  }, [userOrders, currentPage, itemsPerPage]);
  
 
   useEffect(() => {
@@ -37,21 +52,7 @@ const OrderPage = () => {
     }
   }, [user, userOrders?.length]);
 
-  // Calculate pagination data
-  const { currentOrders, totalPages, indexOfFirstItem, indexOfLastItem } = useMemo(() => {
-    const total = userOrders.length;
-    const totalPages = Math.ceil(total / itemsPerPage);
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentOrders = userOrders.slice(indexOfFirstItem, indexOfLastItem);
-    
-    return {
-      currentOrders,
-      totalPages,
-      indexOfFirstItem,
-      indexOfLastItem
-    };
-  }, [userOrders, currentPage, itemsPerPage]);
+  
 
   // Check for sizes to display appropriate table headers
   useEffect(() => {
@@ -82,16 +83,21 @@ const OrderPage = () => {
   
   // Handle Delete
   const handleDeleteOrder = async () => {
-    try{
-    setErrorMessage('');
-    setIsDeleting(true)
+  setErrorMessage('');
+  setIsDeleting(true);
+  try {
     if (selectedOrder) {
       const response = await deleteUserOrder(user._id, selectedOrder._id);
-    
       if (response.ok) {
-        const updatedUser = response.data
-        setUser(updatedUser)
-        updateLocalUser(updatedUser)
+        const updatedUser = response.data;
+        setUser(updatedUser);
+        updateLocalUser(updatedUser);
+        setUserOrders(updatedUser.orders);
+
+        // If you removed the last item on the page, go back a page
+        if (userOrders.length % itemsPerPage === 1 && currentPage > 1) {
+          setCurrentPage(currentPage - 1);
+        }
 
         setMessage(response.message);
         setIsDeleteModalOpen(false);
@@ -101,12 +107,15 @@ const OrderPage = () => {
         setIsError(true);
       }
     }
-  }catch(err){
-   console.log(err)
-  }finally{
-    setIsDeleting(false)
+  } catch (err) {
+    console.error(err);
+    setErrorMessage('Something went wrong.');
+    setIsError(true);
+  } finally {
+    setIsDeleting(false);
   }
-  };
+};
+
 
   if (isLoading) {
     return (
@@ -128,7 +137,7 @@ const OrderPage = () => {
         <h2 className="text-2xl font-bold text-gray-800">Your Orders</h2>
         <p className="text-xs mb-6">Items you bought from other stores</p>
 
-        {userOrders.length > 0 ? (
+        {currentOrders.length > 0 ? (
           <div className="bg-white rounded-lg shadow">
             {/* Table */}
             <div className="overflow-x-auto">

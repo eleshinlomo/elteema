@@ -16,7 +16,8 @@ const NavBar = () => {
   const {isLoggedIn,setIsLoggedIn, user, setUser, showSearchPage, setShowSearchPage} = useContext(GeneralContext)
   const {cart, setCart, totalItems, totalPrice, setTotalItems, setTotalPrice} = useContext(CartContext)
   const router = useRouter()
-  const [store, setStore] = useState<any>(null)
+  const store = user?.store
+  const storeOrders = user?.store?.orders
 
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
@@ -33,11 +34,7 @@ const NavBar = () => {
     router.push('/authpages/signin')
   }
 
-  useEffect(()=>{
-    if(user && user.store){
-      setStore(user.store)
-    }
-  }, [user, store])
+  
 
 
 
@@ -98,7 +95,7 @@ const NavBar = () => {
         </a>
 
         {/* Store */}
-        <a href={store ? '/dashboard/storepage' : '/createstorelandingpage'}
+        <a href={user?.store ? '/dashboard/storepage' : '/createstorelandingpage'}
          className="relative"
         >
           <button
@@ -108,10 +105,10 @@ const NavBar = () => {
             }`}
           >
             <FaShoppingBag className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
-            <span className="text-xs mt-1">{store ? 'Store' : 'Sell'}</span>
+            <span className="text-xs mt-1">{user?.store ? 'Store' : 'Sell'}</span>
           </button>
           <p className="absolute bg-green-600 text-white rounded-2xl px-2 left-[8px] top-[-26px]">
-            {store?.orders?.currentOrders?.length > 0 ? store.orders.currentOrders.length : null}</p>
+            {storeOrders?.currentOrders.length > 0 ? storeOrders?.currentOrders?.length : null}</p>
         </a>
 
 
