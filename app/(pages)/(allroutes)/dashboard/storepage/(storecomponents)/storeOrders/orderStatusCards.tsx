@@ -6,7 +6,6 @@ import { useContext, useState, useEffect } from 'react';
 import { FiPackage, FiShoppingCart, FiCheckCircle, FiTruck } from 'react-icons/fi';
 import { GeneralContext } from '../../../../../../../contextProviders/GeneralProvider';
 import { ProductContext } from '../../../../../../../contextProviders/ProductContext';
-import DisplayStoreProducts from '../displayStoreProducts';
 import StatusCard, { StatusCardProps } from './statusCard';
 
 
