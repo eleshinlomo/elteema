@@ -207,7 +207,7 @@ const UpdateProductPage = () => {
     } else {
       setSubmitError(response.error)
       toast.error(response.error || 'Failed to update product')
-      window.location.href = '#updateproduct-top'
+      window.location.href = '#nav-top'
     }
   } catch (error) {
     console.error('Error updating product:', error)
@@ -342,7 +342,7 @@ const UpdateProductPage = () => {
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md" id='updateproduct-top'>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">
-          {isEditing ? 'Edit Product' : 'Product Details'}
+          {isEditing ? 'Updating product details...' : 'Update Product Details'}
         </h2>
         <div className="flex gap-2">
           {!isEditing ? (

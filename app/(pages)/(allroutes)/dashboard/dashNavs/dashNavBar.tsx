@@ -22,7 +22,7 @@ const DashNavBar = ({user, userOrders}: DashNavProps) => {
 
 
   return (
-    <nav className="bg-white shadow-sm rounded-lg p-4 mb-6">
+    <nav className="bg-white shadow-sm rounded-lg p-4 mb-6" id='nav-top'>
       <div className="flex flex-wrap items-center justify-start gap-2 md:gap-4">
         {/* Dashboard Link */}
         <NavButton

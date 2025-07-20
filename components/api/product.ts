@@ -63,7 +63,8 @@ export interface ProductProps {
     clotheSizes: string[];
     category: string;
     description: string;
-    store: StoreProps;  
+    store: StoreProps;
+    storeId: string;  
     storeName: string; 
     storeCity: string; 
     storeState: string; 
@@ -80,28 +81,54 @@ export interface ProductProps {
 
 
 
-export const createProduct = async (formData: FormData, userId: number)=>{
-  
-    try{
-        const response = await fetch(`${BASE_URL}/product/createproduct`, {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'userId': userId?.toString() //Used for the middleware on backend
-          }
-        })
 
-        if(!response){
-            return 'No response from server'
-        }
+export const createProduct = async (formData: FormData, userId: string) => {
+  try {
+ 
+
+    const response = await fetch(`${BASE_URL}/product/createproduct`, {
+      method: 'POST',
+      body: formData, 
+      headers: {
+        'userId': userId // Auth header
+      }
+    });
+
+    if (!response.ok) throw new Error('Failed to create product');
+    return await response.json();
+
+  } catch (err) {
+    console.error('Product creation error:', err);
+    throw err;
+  }
+};
+
+
+
+
+
+// export const createProduct = async (formData: FormData, userId: number)=>{
+  
+//     try{
+//         const response = await fetch(`${BASE_URL}/product/createproduct`, {
+//           method: 'POST',
+//           body: formData,
+//           headers: {
+//             'userId': userId?.toString() //Used for the middleware on backend
+//           }
+//         })
+
+//         if(!response){
+//             return 'No response from server'
+//         }
     
-        const data = await response.json()
-        return data
-    }catch(err){
-       console.log(err)
-       return err
-    }
-}
+//         const data = await response.json()
+//         return data
+//     }catch(err){
+//        console.log(err)
+//        return err
+//     }
+// }
 
 
 // Update Product

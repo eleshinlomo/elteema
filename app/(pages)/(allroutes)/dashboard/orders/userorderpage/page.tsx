@@ -3,7 +3,7 @@
 import { useContext, useState, useEffect, useMemo } from "react";
 import { GeneralContext } from "../../../../../../contextProviders/GeneralProvider";
 import { ProductProps } from "../../../../../../components/api/product";
-import { capitalize, formatCurrency } from "../../../../../../components/utils";
+import { capitalize, formatCurrency, updateLocalUser } from "../../../../../../components/utils";
 import { deleteUserOrder } from "../../../../../../components/api/users";
 
 interface OrderProps {
@@ -13,13 +13,14 @@ interface OrderProps {
 
 const OrderPage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const { user, userOrders, setUserOrders, isLoading, setIsLoading } = useContext(GeneralContext);
+  const { user, setUser, userOrders, setUserOrders, isLoading, setIsLoading } = useContext(GeneralContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState<ProductProps | null>(null);
   const itemsPerPage = 10;
   const [isEditing, setIsEditing] = useState(false);
   const [isClotheSize, setIsClotheSize] = useState(false);
   const [isShoeSize, setIsShoeSize] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [isError, setIsError] = useState(false)
   const [message, setMessage] = useState('Are you sure you want to cancel your order? This action cannot be undone.')
@@ -34,7 +35,7 @@ const OrderPage = () => {
         setIsLoading(false);
       }
     }
-  }, [user]);
+  }, [user, userOrders?.length]);
 
   // Calculate pagination data
   const { currentOrders, totalPages, indexOfFirstItem, indexOfLastItem } = useMemo(() => {
@@ -61,7 +62,7 @@ const OrderPage = () => {
       setIsShoeSize(hasShoeSizes);
       setIsClotheSize(hasClotheSizes);
     }
-  }, [userOrders]);
+  }, [userOrders?.length]);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
@@ -70,20 +71,27 @@ const OrderPage = () => {
     setIsEditing(true);
     console.log("Editing order:", order);
   };
+   
 
+  // Handle Cancel
   const handleCancel = async (order: ProductProps) => {
+    
     setSelectedOrder(order);
     setIsDeleteModalOpen(true);
   };
-
+  
+  // Handle Delete
   const handleDeleteOrder = async () => {
+    try{
     setErrorMessage('');
+    setIsDeleting(true)
     if (selectedOrder) {
       const response = await deleteUserOrder(user._id, selectedOrder._id);
     
       if (response.ok) {
-        const updatedUserOrders = response.data
-        setUserOrders(updatedUserOrders || []);
+        const updatedUser = response.data
+        setUser(updatedUser)
+        updateLocalUser(updatedUser)
 
         setMessage(response.message);
         setIsDeleteModalOpen(false);
@@ -93,6 +101,11 @@ const OrderPage = () => {
         setIsError(true);
       }
     }
+  }catch(err){
+   console.log(err)
+  }finally{
+    setIsDeleting(false)
+  }
   };
 
   if (isLoading) {
@@ -268,7 +281,7 @@ const OrderPage = () => {
                   className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:col-start-2 sm:text-sm"
                   disabled={isError}
                 >
-                  Yes, cancel order
+                  {isDeleting ? 'Deleting...' : `Yes, cancel order`}
                 </button>
                 <button
                   type="button"

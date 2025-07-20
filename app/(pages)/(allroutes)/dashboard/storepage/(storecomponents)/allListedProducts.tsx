@@ -101,7 +101,7 @@ const AllListedProducts = () => {
                   <div className="ml-4 flex-1">
                     <div className="flex justify-between">
                       <h3 className="text-sm font-medium text-gray-800">{product.productName}</h3>
-                      <span className="text-sm font-medium text-gray-800">₦{product.price.toFixed(2)}</span>
+                      <span className="text-sm font-medium text-gray-800">₦{Number(product.price).toFixed(2)}</span>
                     </div>
                     <p className="text-xs text-gray-500">{product.category}</p>
                     <div className="mt-1 flex justify-between">

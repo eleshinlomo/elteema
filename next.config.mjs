@@ -14,6 +14,7 @@ const nextConfig = {
       "elteemaserver-production.up.railway.app",
       "elteema.vercel.app",
       "elteema.com",
+      "elteema.s3.amazonaws.com",
       "store.myafros.com"
     ],
   }
