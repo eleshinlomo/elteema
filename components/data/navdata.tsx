@@ -28,18 +28,18 @@ const navData: NavProps[] = [
     newTab: false,
   },
 
-       {
-        id: 7,
-        title: "Restaurants",
-        path:`/restaurantpage`,
-        newTab: false,
-      },
-       {
-        id: 7,
-        title: "Hotels",
-        path:`/hotelpage`,
-        newTab: false,
-      },
+      //  {
+      //   id: 7,
+      //   title: "Restaurants",
+      //   path:`/restaurantpage`,
+      //   newTab: false,
+      // },
+      //  {
+      //   id: 7,
+      //   title: "Hotels",
+      //   path:`/hotelpage`,
+      //   newTab: false,
+      // },
       {
     id: 4,
     title: "Faq",
