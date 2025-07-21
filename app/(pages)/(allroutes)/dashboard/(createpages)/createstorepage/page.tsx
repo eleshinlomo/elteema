@@ -2,7 +2,7 @@
 import { useState, useEffect, FormEvent, useContext, ChangeEvent } from "react"
 import { GeneralContext } from "../../../../../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
-import { updateLocalUser } from "../../../../../../components/data/userdata"
+import { updateLocalUser } from "../../../../../../components/utils"
 import { cities, countries, states } from "../../../../../../components/data/locations"
 import { createStore, CreateStoreProps } from "../../../../../../components/api/store"
 import { capitalize } from "../../../../../../components/utils"
@@ -295,10 +295,10 @@ const CreateStorePage = () => {
             </select>
           </div>
 
-            {/* Store bank account name */}
-            <div>
+          {/* Store bank account name */}
+            {/* <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Bank account name for your store
+              Bank account name for your business
             </label>
             <input
               id="bankAccountName"
@@ -310,12 +310,11 @@ const CreateStorePage = () => {
               placeholder="Enter store bank account name"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
             />
-          </div>
-            
-              {/* Store bank account number */}
-            <div>
+          </div> */}
+           
+            {/* <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Bank account number for your store
+              Bank account number for your business
             </label>
             <input
               id="bankAccountNumber"
@@ -327,10 +326,10 @@ const CreateStorePage = () => {
               placeholder="Enter store bank account number"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
             />
-          </div>
+          </div> */}
 
-            {/* BVN */}
-            <div>
+           
+            {/* <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Your bvn
             </label>
@@ -343,8 +342,8 @@ const CreateStorePage = () => {
               onChange={handleChange}
               placeholder="Enter your bvn"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-            />
-          </div>
+            /> 
+          </div> */}
 
           <div>
             <button

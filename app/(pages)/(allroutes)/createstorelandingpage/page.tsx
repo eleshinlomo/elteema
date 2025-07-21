@@ -1,6 +1,12 @@
+'use client'
+import { useState } from "react"
 import Hero from "../../../../components/hero"
 
 const CreateStoreLandingPage = () => {
+
+  const [isIndividual, setIsIndividual] = useState('individual')
+
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-16 space-y-8">
       <Hero />
