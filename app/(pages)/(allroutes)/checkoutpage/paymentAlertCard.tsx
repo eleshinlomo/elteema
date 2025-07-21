@@ -4,10 +4,11 @@ interface AlertProps {
   message: string;
   submit: () => void;
   openWarning: boolean;
+  isProcessingOrder: boolean
   setOpenWarning: (value: boolean) => void;
 }
 
-const AlertCard = ({ message, submit, openWarning, setOpenWarning }: AlertProps) => {
+const AlertCard = ({ message, submit, openWarning, setOpenWarning, isProcessingOrder }: AlertProps) => {
   const handleClose = () => {
     setOpenWarning(false);
   };
@@ -35,7 +36,7 @@ const AlertCard = ({ message, submit, openWarning, setOpenWarning }: AlertProps)
         onClick={submit}
         className="z-10 mt-10 bg-green-600 rounded-2xl py-3 px-8 text-white text-xl font-semibold hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-green-400/50"
       >
-        Pay
+        {isProcessingOrder ? 'Processing...' : 'Complete order'}
       </button>
     </div>
   );

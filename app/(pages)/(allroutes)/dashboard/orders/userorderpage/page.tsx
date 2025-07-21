@@ -132,7 +132,17 @@ const OrderPage = () => {
   }
 
   return (
-    <div className="pt-16 overflow-hidden">
+    <div className="pt-6 overflow-hidden">
+
+      {/* Payment warning */}
+
+      {currentOrders?.length > 0 && <div className="p-4 mb-4 bg-red-500 text-white">
+      <p className="">
+        We are currently unable to process card payments. Please wait for the store to contact 
+        you directly or you may contact them to complete your order by phone.</p>
+      </div>
+      }
+
       <div className="max-w-sm md:max-w-7xl mx-auto">
         <h2 className="text-2xl font-bold text-gray-800">Your Orders</h2>
         <p className="text-xs mb-6">Items you bought from other stores</p>

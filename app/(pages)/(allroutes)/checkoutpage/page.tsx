@@ -23,6 +23,7 @@ const CheckoutPage = () => {
   const [totalPricePlusTax, setTotalPricePlusTax] = useState(0)
   const [paymentMethodError, setPaymentMethodError] = useState('')
   const [error, setError] = useState('')
+  const [isProcessingOrder, setIsProcessingOrder] = useState(false)
 
   
  const handlePaymentPopUp = async () => {
@@ -106,6 +107,8 @@ const CheckoutPage = () => {
   // Make payment
   const handlePayment = async () => {
     setPaymentMethodError('')
+    setIsProcessingOrder(true)
+    try{
     if (typeof window === 'undefined') return;
     if (!cart || cart?.length === 0) {
       setMessage('Your cart is empty')
@@ -129,16 +132,16 @@ const CheckoutPage = () => {
       setOpenWarning(true)
       return
     }
-    if(!user.paymentEmail){
-      setPaymentMethodError('Go to your dashboard and update your payment method on file')
-      window.location.href = '#payment-top'
-      return
-    }
+    // if(!user.paymentEmail){
+    //   setPaymentMethodError('Go to your dashboard and update your payment method on file')
+    //   window.location.href = '#payment-top'
+    //   return
+    // }
     
   
     const newStatus = 'pending'
     const updateResponse = await createUserOrder(cart, user._id, eta, newStatus)
-    console.log('ORDER UPDATE', updateResponse)
+  
     if(updateResponse.ok){
        setCart([]) // Needed to clear local state. Although the updated user still comes with an empty cart.
        updateLocalUser(updateResponse.data)
@@ -148,6 +151,11 @@ const CheckoutPage = () => {
        window.location.href = '/dashboard/orders/userorderpage'
 
     }
+  }catch(err){
+    console.log('Order processing error', err)
+  }finally{
+    setIsProcessingOrder(false)
+  }
     
     return
   }
@@ -269,18 +277,27 @@ const CheckoutPage = () => {
                 <p className="text-gray-700">Subtotal</p>
                 <div className='flex flex-col gap-2'>
                 <div className='flex justify-between'>
-                  <p>Tax:</p>
-                <p className="text-gray-900">N{calculatePercentagePrice(totalPriceForCustomer(cart), 7.5)}</p>
+                  {/* <p>Tax:</p> */}
+                {/* <p className="text-gray-900">N{calculatePercentagePrice(totalPriceForCustomer(cart), 7.5)}</p> */}
                 </div>
                 <p className="text-gray-900">N{totalPriceForCustomer(cart).toFixed(2)}</p>
                 </div>
               </div>
               <div className="flex justify-between items-center py-4">
                 <p className="font-semibold text-gray-900">Total</p>
-                <p className="text-xl font-bold text-green-600">{formatCurrency('NGN', totalPricePlusTax)}</p>
+                <p className="text-xl font-bold text-green-600">{formatCurrency('NGN', totalPriceForCustomer(cart))}</p>
               </div>
+
+                <div className="max-w-md md:max-w-lg mx-auto p-4 bg-green-50 rounded-lg shadow-sm border border-green-100 flex justify-center items-center text-center">
+  <p className="text-green-800 font-medium leading-relaxed">
+    Currently, you do not require a payment card to place an order.
+    <br />
+    After you place your order, you will be redirected to your order page to complete this purchase.
+  </p>
+</div>
               
               <PaymentAlertCard 
+              isProcessingOrder={isProcessingOrder}
                 message={message} 
                 submit={handlePayment} 
                 openWarning={openWarning} 
