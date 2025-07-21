@@ -88,15 +88,20 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
   return (
     <>
       {/* Product Preview Section */}
-      <div className="mb-4 w-full px-4">
+       <div className="mb-4 w-full px-4">
   <h2 className="text-2xl font-semibold mb-2 text-center py-4">{text}</h2>
   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-3">
-    {currentProducts?.map((item) => (
+    {currentProducts?.sort((a,b)=>new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((item, index) => (
       <div
         key={item._id}
         onClick={() => onOpen(item)}
-        className="cursor-pointer border rounded-md overflow-hidden hover:shadow-md transition-all flex flex-col h-full"
+        className="cursor-pointer border rounded-md overflow-hidden hover:shadow-md transition-all flex flex-col h-full relative"
       >
+        {index < 5 && (
+          <div className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full z-10">
+            New
+          </div>
+        )}
         <div className="relative aspect-square w-full">
           <Image
             src={Array.isArray(item.imageUrls) ? item.imageUrls[0] : item.imageUrls}
@@ -123,6 +128,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
       </div>
     ))}
   </div>
+
 
 
         {/* Pagination */}

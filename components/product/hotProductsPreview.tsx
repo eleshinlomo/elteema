@@ -82,61 +82,66 @@ const HotProductsPreview = () => {
     <>
       {/* Horizontal product scroll preview */}
       <div className="px-4 pt-4 relative">
-        <h3 className="text-2xl text-center font-bold text-gray-800 mb-2">Super Deals</h3>
-        
-        <div className="relative group">
-          {showLeftArrow && (
-            <button
-              onClick={() => scroll('left')}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-md hover:bg-gray-100 transition-all duration-300 opacity-0 group-hover:opacity-100"
-              aria-label="Scroll left"
-            >
-              <FiChevronLeft className="text-gray-700" size={20} />
-            </button>
+  <h3 className="text-2xl text-center font-bold text-gray-800 mb-2">Super Deals</h3>
+  
+  <div className="relative group">
+    {showLeftArrow && (
+      <button
+        onClick={() => scroll('left')}
+        className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-md hover:bg-gray-100 transition-all duration-300 opacity-0 group-hover:opacity-100"
+        aria-label="Scroll left"
+      >
+        <FiChevronLeft className="text-gray-700" size={20} />
+      </button>
+    )}
+    
+    <div
+      ref={scrollContainerRef}
+      className="flex space-x-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory"
+      onScroll={checkScrollPosition}
+    >
+      {hotProducts?.sort((a,b)=>new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((product, index) => (
+        <div
+          key={index}
+          className="min-w-[150px] rounded-lg border bg-white shadow cursor-pointer snap-start hover:shadow-md transition-shadow relative"
+          onClick={() => openModal(product)}
+        >
+          {index < 5 && (
+            <div className="absolute top-1 left-1 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-10">
+              New
+            </div>
           )}
-          
-          <div
-            ref={scrollContainerRef}
-            className="flex space-x-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory"
-            onScroll={checkScrollPosition}
-          >
-            {hotProducts?.map((product, index) => (
-              <div
-                key={index}
-                className="min-w-[150px] rounded-lg border bg-white shadow cursor-pointer snap-start hover:shadow-md transition-shadow"
-                onClick={() => openModal(product)}
-              >
-                <div className="relative w-full h-28 rounded-t-lg overflow-hidden">
-                  <Image
-                    src={product.imageUrls[0]}
-                    alt={product.productName}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-2">
-                  <h4 className="text-xs font-semibold text-gray-800 truncate">
-                    {product.productName}
-                  </h4>
-                  <p className="text-xs text-green-600 font-bold">
-                    {formatCurrency('NGN', product.price)}
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div className="relative w-full h-28 rounded-t-lg overflow-hidden">
+            <Image
+              src={product.imageUrls[0]}
+              alt={product.productName}
+              fill
+              className="object-cover"
+            />
           </div>
-          
-          {showRightArrow && (
-            <button
-              onClick={() => scroll('right')}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-md hover:bg-gray-100 transition-all duration-300 opacity-0 group-hover:opacity-100"
-              aria-label="Scroll right"
-            >
-              <FiChevronRight className="text-gray-700" size={20} />
-            </button>
-          )}
+          <div className="p-2">
+            <h4 className="text-xs font-semibold text-gray-800 truncate">
+              {product.productName}
+            </h4>
+            <p className="text-xs text-green-600 font-bold">
+              {formatCurrency('NGN', product.price)}
+            </p>
+          </div>
         </div>
-      </div>
+      ))}
+    </div>
+    
+    {showRightArrow && (
+      <button
+        onClick={() => scroll('right')}
+        className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-md hover:bg-gray-100 transition-all duration-300 opacity-0 group-hover:opacity-100"
+        aria-label="Scroll right"
+      >
+        <FiChevronRight className="text-gray-700" size={20} />
+      </button>
+    )}
+  </div>
+</div>
 
       {/* Mobile Modal */}
       {isOpen && selectedProduct && (
