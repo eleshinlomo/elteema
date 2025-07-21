@@ -77,6 +77,7 @@ export interface ProductProps {
     orderStatus: string[];
     productPageVisits: 256
     unitCost: number;
+    createdAt: any;
 }
 
 
