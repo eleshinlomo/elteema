@@ -11,6 +11,7 @@ export const categories = [
     'computers',
     'education',
     'electronics',
+    'foodstuff',
     'fabrics & textiles',
     'farm crops',
     'farm livestock',
@@ -29,7 +30,6 @@ export const categories = [
     'men shoes',
     'men ankara',
     'men accessories',
-    'processed foods',
     'poultry',
     'vegetable & spice',
     'tuber',
@@ -53,6 +53,7 @@ export const foodCategories = [
     'poultry',
     'vegetable & spice',
     'tuber',
+    'foodstuff',
     'restaurant',
 ]
 

@@ -95,7 +95,7 @@ const NavBar = () => {
         </a>
 
         {/* Store */}
-        <a href={user?.store ? '/dashboard/storepage' : '/createstorelandingpage'}
+        <a href='/dashboard/storepage'
          className="relative"
         >
           <button

@@ -1,35 +1,38 @@
 'use client';
-import { useState, FormEvent, useEffect, useContext} from 'react';
+import { useState, FormEvent, useEffect, useContext, ChangeEvent } from 'react';
 import { GeneralContext } from '../../../../../../contextProviders/GeneralProvider';
-import { updateLocalUser} from '../../../../../../components/data/userdata';
+import { updateLocalUser } from '../../../../../../components/utils';
 import { BotIcon, Edit, File, FolderClosed, InfoIcon, ShieldClose } from 'lucide-react';
-import { cities, states } from '../../../../../../components/data/locations';
+import { countries } from '../../../../../../components/data/locations';
 import { capitalize } from '../../../../../../components/utils';
 import { updateUser } from '../../../../../../components/api/users';
 import DashSideBar from '../../dashNavs/dashSidebar';
 import Cart from '../../../../../../components/cart/cart';
 
 const CustomerDashboard = () => {
-
-  const [error, setError] = useState('')
+  const [error, setError] = useState('');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [firstname, setFirstname] = useState('')
-  const [lastname, setLastname] = useState('')
-  const [city, setCity] = useState('')
-  const [state, setState] = useState('')
-  const [gender, setGender] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [address, setAddress] = useState('')
-  const [isEditing, setIsEditing] = useState(false)
-  const [isNewsletter, setIsNewsLetter] = useState(true)
-  const generalContext = useContext(GeneralContext)
-  const {user, setUser} = generalContext
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [gender, setGender] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [country, setCountry] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [isNewsletter, setIsNewsLetter] = useState(true);
+  const [availableStates, setAvailableStates] = useState<Array<{name: string, cities: string[], country: string}>>([]);
+  const [availableCities, setAvailableCities] = useState<string[]>([]);
+  
+  const generalContext = useContext(GeneralContext);
+  const {user, setUser} = generalContext;
 
   const handleUpdateUser = async (e: FormEvent) => {
-    e.preventDefault()
-    setError('')
-    try{
+    e.preventDefault();
+    setError('');
+    try {
       const payload: any = {
         id: user._id,
         cart: user.cart,
@@ -41,28 +44,57 @@ const CustomerDashboard = () => {
         address,
         gender,
         city,
-        state
-      }
+        state,
+        country
+      };
 
-      const data = await updateUser(payload)
+      const data = await updateUser(payload);
       if(data.ok){
-        const newUser = data.data
-        const updatedUser = {...newUser, ...user.cart, cart: user.cart} //Making sure we retain the old user cart
-        updateLocalUser(updatedUser)
-        setUser(data.data)
-        setIsEditing(false)
-      }else{
-        console.log(data.error)
-        setError('Unable to update at the moment.')
+        const newUser = data.data;
+        const updatedUser = {...newUser, ...user.cart, cart: user.cart}; //Making sure we retain the old user cart
+        updateLocalUser(updatedUser);
+        setUser(data.data);
+        setIsEditing(false);
+      } else {
+        console.log(data.error);
+        setError('Unable to update at the moment.');
       }
-      return
-    }catch(err){
-      setError('Something went wrong!')
-      console.log(err)
+      return;
+    } catch(err) {
+      setError('Something went wrong!');
+      console.log(err);
     }
   };
 
-  useEffect(()=>{
+  const handleLocationChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    
+    if (name === 'country') {
+      // Find the selected country
+      const selectedCountry = countries.find(c => c.name === value);
+      
+      // Set available states for the selected country
+      const statesForCountry = selectedCountry ? selectedCountry.state : [];
+      setAvailableStates(statesForCountry);
+      setAvailableCities([]);
+      setCountry(value);
+      setState('');
+      setCity('');
+    } else if (name === 'state') {
+      // Find the selected state
+      const selectedState = availableStates.find(s => s.name === value);
+      
+      // Set available cities for the selected state
+      const citiesForState = selectedState ? selectedState.cities : [];
+      setAvailableCities(citiesForState);
+      setState(value);
+      setCity('');
+    } else if (name === 'city') {
+      setCity(value);
+    }
+  };
+
+  useEffect(() => {
     if(user){
       setFirstname(user.firstname || '');
       setLastname(user.lastname || '');
@@ -71,24 +103,27 @@ const CustomerDashboard = () => {
       setAddress(user.address || '');
       setCity(user.city || '');
       setState(user.state || '');
+      setCountry(user.country || '');
       setGender(user.gender || '');
-      setIsNewsLetter(user.isNewsletter || false)
-    }
-  }, [user])
+      setIsNewsLetter(user.isNewsletter || false);
 
-  const handleDeleteAccount = () => {
-    setIsDeleteModalOpen(false);
-  };
+      // Initialize available states and cities based on current user data
+      if (user.country) {
+        const selectedCountry = countries.find(c => c.name === user.country);
+        setAvailableStates(selectedCountry ? selectedCountry.state : []);
+        
+        if (user.state) {
+          const selectedState = selectedCountry?.state.find(s => s.name === user.state);
+          setAvailableCities(selectedState ? selectedState.cities : []);
+        }
+      }
+    }
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 sm:px-6 pt-16 pb-8 w-full">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar - Uncomment if needed */}
-          {/* <div className="lg:w-1/4">
-            <DashSideBar />
-          </div> */}
-          
           {/* Main Content */}
           <div className="flex-1">
             {/* Profile Information Card */}
@@ -211,37 +246,66 @@ const CustomerDashboard = () => {
                     />
                   </div>
 
+                  {/* Country */}
                   <div className="w-full">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
                     <select
-                      name="city"
-                      value={city}
-                      onChange={(e)=>setCity(e.target.value)}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
-                      focus:border-emerald-500 transition"
+                      name="country"
+                      value={country}
+                      onChange={handleLocationChange}
+                      className={`w-full px-4 py-2 border ${isEditing ? 'border-gray-300' : 'border-transparent bg-gray-50'} rounded-lg focus:ring-2 focus:ring-emerald-500 
+                      focus:border-emerald-500 transition`}
                       disabled={!isEditing}
+                      required
                     >
-                      <option>Select a city</option>
-                      {cities?.map((cityOption, index)=><option key={index} value={cityOption}>{cityOption}</option>)}
+                      <option value="">Select country</option>
+                      {countries.map((country, index) => (
+                        <option key={index} value={country.name}>{country.name}</option>
+                      ))}
                     </select>
                   </div>
 
-                  <div className="w-full">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
-                    <select
-                      name="state"
-                      value={state}
-                      onChange={(e)=>setState(e.target.value)}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 
-                      focus:border-emerald-500 transition"
-                      disabled={!isEditing}
-                    >
-                      <option>Select a state</option>
-                      {states?.map((stateOption, index)=><option key={index} value={stateOption}>{stateOption}</option>)}
-                    </select>
-                  </div>
+                  {/* State - only shown when a country is selected */}
+                  {country && (
+                    <div className="w-full">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                      <select
+                        name="state"
+                        value={state}
+                        onChange={handleLocationChange}
+                        className={`w-full px-4 py-2 border ${isEditing ? 'border-gray-300' : 'border-transparent bg-gray-50'} rounded-lg focus:ring-2 focus:ring-emerald-500 
+                        focus:border-emerald-500 transition`}
+                        disabled={!isEditing}
+                        required
+                      >
+                        <option value="">Select state</option>
+                        {availableStates.map((state, index) => (
+                          <option key={index} value={state.name}>{state.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {/* City - only shown when a state is selected */}
+                  {state && (
+                    <div className="w-full">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                      <select
+                        name="city"
+                        value={city}
+                        onChange={handleLocationChange}
+                        className={`w-full px-4 py-2 border ${isEditing ? 'border-gray-300' : 'border-transparent bg-gray-50'} rounded-lg focus:ring-2 focus:ring-emerald-500 
+                        focus:border-emerald-500 transition`}
+                        disabled={!isEditing}
+                        required
+                      >
+                        <option value="">Select city</option>
+                        {availableCities.map((city, index) => (
+                          <option key={index} value={city}>{capitalize(city)}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
                   
                   <div className="md:col-span-2 w-full">
                     <div className="flex items-center">

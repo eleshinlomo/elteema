@@ -40,7 +40,7 @@ const HotProductsPreview = () => {
   }, [cart, selectedProduct]);
 
   useEffect(() => {
-    setHotProducts(Products?.slice(0, 10));
+    setHotProducts(Products);
     checkScrollPosition();
   }, [Products?.length]);
 

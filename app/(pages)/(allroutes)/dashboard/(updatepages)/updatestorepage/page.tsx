@@ -1,22 +1,22 @@
 'use client'
-
 import { useState, useEffect, FormEvent, useContext, ChangeEvent } from "react"
 import { GeneralContext } from "../../../../../../contextProviders/GeneralProvider"
 import { useRouter } from "next/navigation"
-import { updateLocalUser } from "../../../../../../components/data/userdata"
-import { cities, countries, states } from "../../../../../../components/data/locations"
+import { updateLocalUser } from "../../../../../../components/utils"
+import { countries } from "../../../../../../components/data/locations"
 import { CreateStoreProps, StoreProps, updateStore } from "../../../../../../components/api/store"
 import { capitalize } from "../../../../../../components/utils"
 import { industries } from "../../../../../../components/data/industries"
 
-
-const CreateStorePage = () => {
+const EditStorePage = () => {
   const [isLoading, setIsLoading] = useState(false)                          
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  const {user, setUser}= useContext(GeneralContext)
+  const {user, setUser} = useContext(GeneralContext)
   const [isEditing, setIsEditing] = useState(false)
   const [store, setStore] = useState<StoreProps | null>(null)
+  const [availableStates, setAvailableStates] = useState<Array<{name: string, cities: string[], country: string}>>([])
+  const [availableCities, setAvailableCities] = useState<string[]>([])
 
   const [formData, setFormData] = useState<CreateStoreProps>({
     userId: user._id,
@@ -43,7 +43,7 @@ const CreateStorePage = () => {
         userId: user._id,
         bankAccountName: store.bankAccountName || '',
         bankAccountNumber: store.bankAccountNumber || '',
-        bvn: store.bvn ||  '',
+        bvn: store.bvn || '',
         storeName: store.storeName || '',
         tagline: store.tagline || '',
         logo: store.logo || '',
@@ -55,6 +55,16 @@ const CreateStorePage = () => {
         state: store.state || '',
         country: store.country || ''
       })
+      // Also reset available states and cities based on current country
+      if (store.country) {
+        const selectedCountry = countries.find(c => c.name === store.country)
+        setAvailableStates(selectedCountry ? selectedCountry.state : [])
+        
+        if (store.state) {
+          const selectedState = selectedCountry?.state.find(s => s.name === store.state)
+          setAvailableCities(selectedState ? selectedState.cities : [])
+        }
+      }
     }
   }
 
@@ -66,7 +76,6 @@ const CreateStorePage = () => {
 
     try {
       const response = await updateStore(formData)
-      console.log(response)
       if(response.ok){
         setSuccess(response.message)
         const updatedUser = response.data
@@ -75,12 +84,11 @@ const CreateStorePage = () => {
         setIsEditing(false)
         window.location.href='#create-store-top'
       } else {
-        console.log(response)
         setError(response.error)
         window.location.href='#create-store-top'
       }
     } catch (err) {
-      setError('Failed to create store. Please try again.')
+      setError('Failed to update store. Please try again.')
       console.error(err)
       window.location.href='#create-store-top'
     } finally {
@@ -90,21 +98,52 @@ const CreateStorePage = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
+    
+    if (name === 'country') {
+      // Find the selected country
+      const selectedCountry = countries.find(c => c.name === value)
+      
+      // Set available states for the selected country
+      const statesForCountry = selectedCountry ? selectedCountry.state : []
+      setAvailableStates(statesForCountry)
+      setAvailableCities([])
+      
+      setFormData(prev => ({
+        ...prev,
+        [name]: value,
+        state: '', // Reset state when country changes
+        city: '' // Reset city when country changes
+      }))
+    } else if (name === 'state') {
+      // Find the selected state
+      const selectedState = availableStates.find(s => s.name === value)
+      
+      // Set available cities for the selected state
+      const citiesForState = selectedState ? selectedState.cities : []
+      setAvailableCities(citiesForState)
+      
+      setFormData(prev => ({
+        ...prev,
+        [name]: value,
+        city: '' // Reset city when state changes
+      }))
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }))
+    }
   }
 
   useEffect(() => {
     if(user && user.store){
       setStore(user.store)
-      setFormData({
+      const initialData = {
         userId: user._id,
         storeName: user.store.storeName || '',
         bankAccountName: user.store.bankAccountName || '',
         bankAccountNumber: user.store.bankAccountNumber || '',
-        bvn: user.store.bvn ||  '',
+        bvn: user.store.bvn || '',
         tagline: user.store.tagline || '',
         logo: user.store.logo || '',
         phone: user.store.phone || '',
@@ -114,7 +153,19 @@ const CreateStorePage = () => {
         city: user.store.city || '',
         state: user.store.state || '',
         country: user.store.country || ''
-      })
+      }
+      setFormData(initialData)
+
+      // Initialize available states and cities based on current store data
+      if (user.store.country) {
+        const selectedCountry = countries.find(c => c.name === user.store.country)
+        setAvailableStates(selectedCountry ? selectedCountry.state : [])
+        
+        if (user.store.state) {
+          const selectedState = selectedCountry?.state.find(s => s.name === user.store.state)
+          setAvailableCities(selectedState ? selectedState.cities : [])
+        }
+      }
     }
   }, [user])
 
@@ -224,79 +275,43 @@ const CreateStorePage = () => {
             />
           </div>
 
-             {/* Product/Services */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">What do you or your business do?</label>
-                <select
-                  value={formData.industry}
-                  name='industry'
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  required
-                >
-                  <option value=''>Select Industry</option>
-              
-                  {industries?.map((industry, index)=><option value={industry} key={index}>{capitalize(industry)}</option>)}
-            
-                </select>
-              </div>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">What do you or your business do?</label>
+            <select
+              value={formData.industry}
+              name='industry'
+              onChange={handleChange}
+              disabled={!isEditing}
+              className={`w-full px-4 py-2 border ${isEditing ? 'border-gray-300' : 'border-transparent bg-gray-50'} rounded-md focus:outline-none focus:ring-2 focus:ring-green-500`}
+              required
+            >
+              <option value=''>Select Industry</option>
+              {industries?.map((industry, index) => (
+                <option value={industry} key={index}>{capitalize(industry)}</option>
+              ))}
+            </select>
+          </div>
 
-            {/* Address */}
-            <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <div>
+            <label htmlFor="address" className="block text-sm font-medium text-gray-700">
               Store Address
             </label>
             <input
               id="address"
               name="address"
-              type="address"
+              type="text"
               required
               value={formData.address}
               onChange={handleChange}
+              disabled={!isEditing}
               placeholder="Enter store address"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+              className={`mt-1 block w-full px-3 py-2 border ${isEditing ? 'border-gray-300' : 'border-transparent bg-gray-50'} rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500`}
             />
           </div>
-           
-           {/* City */}
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Which city is your store located?</label>
-            <select
-              value={formData.city}
-              name='city'
-              onChange={handleChange}
-              disabled={!isEditing}
-              className={`w-full px-4 py-2 border ${isEditing ? 'border-gray-300' : 'border-transparent bg-gray-50'} rounded-md focus:outline-none focus:ring-2 focus:ring-green-500`}
-              required
-            >
-              <option value=''>Select city</option>
-              {cities?.map((city, index) => (
-                <option key={index} value={city}>{capitalize(city)}</option>
-              ))}
-            </select>
-          </div>
-          
-          {/* State */}
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Which state is your store located?</label>
-            <select
-              value={formData.state}
-              name='state'
-              onChange={handleChange}
-              disabled={!isEditing}
-              className={`w-full px-4 py-2 border ${isEditing ? 'border-gray-300' : 'border-transparent bg-gray-50'} rounded-md focus:outline-none focus:ring-2 focus:ring-green-500`}
-              required
-            >
-              <option value=''>Select state</option>
-              {states?.map((state, index) => (
-                <option key={index} value={state}>{state}</option>
-              ))}
-            </select>
-          </div>
 
-             {/* Country */}
+          {/* Country */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Which country is your store located?</label>
+            <label className="block text-sm font-medium text-gray-700">Which Country is your store located?</label>
             <select
               value={formData.country}
               name='country'
@@ -306,63 +321,51 @@ const CreateStorePage = () => {
               required
             >
               <option value=''>Select country</option>
-              {countries?.map((country, index) => (
-                <option key={index} value={country}>{country}</option>
+              {countries.map((country, index) => (
+                <option value={country.name} key={index}>{country.name}</option>
               ))}
             </select>
           </div>
 
-          
-            {/* Store bank account name */}
-            <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Bank account name for your store
-            </label>
-            <input
-              id="bankAccountName"
-              name="bankAccountName"
-              type="bankAccountName"
-              required
-              value={formData.bankAccountName}
-              onChange={handleChange}
-              placeholder="Enter store bank account name"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-            />
-          </div>
-            
-              {/* Store bank account number */}
-            <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Bank account number for your store
-            </label>
-            <input
-              id="bankAccountNumber"
-              name="bankAccountNumber"
-              type="bankAccountNumber"
-              required
-              value={formData.bankAccountNumber}
-              onChange={handleChange}
-              placeholder="Enter store bank account number"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-            />
-          </div>
+          {/* State - only shown when a country is selected */}
+          {formData.country && (
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">Which state is your store located?</label>
+              <select
+                value={formData.state}
+                name='state'
+                onChange={handleChange}
+                disabled={!isEditing}
+                className={`w-full px-4 py-2 border ${isEditing ? 'border-gray-300' : 'border-transparent bg-gray-50'} rounded-md focus:outline-none focus:ring-2 focus:ring-green-500`}
+                required
+              >
+                <option value=''>Select state</option>
+                {availableStates.map((state, index) => (
+                  <option value={state.name} key={index}>{state.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
 
-            {/* BVN */}
-            <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Your bvn
-            </label>
-            <input
-              id="bvn"
-              name="bvn"
-              type="bvn"
-              required
-              value={formData.bvn}
-              onChange={handleChange}
-              placeholder="Enter your bvn"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-            />
-          </div>
+          {/* City - only shown when a state is selected */}
+          {formData.state && (
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">Which city is your store located?</label>
+              <select
+                value={formData.city}
+                name='city'
+                onChange={handleChange}
+                disabled={!isEditing}
+                className={`w-full px-4 py-2 border ${isEditing ? 'border-gray-300' : 'border-transparent bg-gray-50'} rounded-md focus:outline-none focus:ring-2 focus:ring-green-500`}
+                required
+              >
+                <option value=''>Select city</option>
+                {availableCities.map((city, index) => (
+                  <option value={city} key={index}>{capitalize(city)}</option>
+                ))}
+              </select>
+            </div>
+          )}
 
           {isEditing && (
             <div>
@@ -382,4 +385,4 @@ const CreateStorePage = () => {
   )
 }
 
-export default CreateStorePage
+export default EditStorePage

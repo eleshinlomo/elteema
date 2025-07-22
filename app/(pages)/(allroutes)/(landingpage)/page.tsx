@@ -19,6 +19,7 @@ import ProcessedFoodProducts from '../../../../components/product/processedFoods
 import NewSearch from '../../../../components/product/newSearch';
 import OtherProducts from '../../../../components/product/others';
 import FruitProducts from '../../../../components/product/fruits';
+import FoodStuff from '../../../../components/product/foodStuff';
 
 export default function Home() {
   const { page, setPage, showSearchPage, setShowSearchPage } = useContext(GeneralContext);
@@ -57,10 +58,11 @@ export default function Home() {
             <HotMobilePreview />
           </div>
           <FabricProducts />
+          <FoodStuff />
+          <VegetableProducts />
           <FruitProducts />
-          <ProcessedFoodProducts />
-         <VegetableProducts />
-         <OtherProducts />
+         
+        
 
          
         </div>
