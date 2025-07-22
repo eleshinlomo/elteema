@@ -75,7 +75,7 @@ const CheckoutPage = () => {
   useEffect(() => {
     if (user?.address) {
       setCustomerStateOfResidence(user.state)
-      setFormattedAddress(`${user.address}, ${user.city?.toUpperCase()}, ${user.state?.toUpperCase()}`)
+      setFormattedAddress(`${user.address}, ${user.city?.toUpperCase()}, ${user.state?.toUpperCase()}, ${user.country?.toUpperCase()}`)
       
     }else{
       setFormattedAddress(linkToUpdateProfile)
