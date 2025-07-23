@@ -119,7 +119,7 @@ const NewSearch = () => {
           </div>
 
           {showModal && (
-            <div className="absolute z-10 w-full mt-2 bg-white rounded-xl shadow-xl overflow-hidden transition-all duration-300 transform origin-top max-h-96 overflow-y-auto">
+            <div className="absolute z-20 w-full mt-2 bg-white rounded-xl shadow-xl overflow-hidden transition-all duration-300 transform origin-top max-h-96 overflow-y-auto">
               {searchResults.length > 0 && (
                 <div className="divide-y divide-gray-100">
                   <div className="px-4 py-2 bg-gray-50 text-sm font-medium text-gray-500 flex items-center">

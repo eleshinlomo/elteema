@@ -169,7 +169,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
 
       {/* Responsive Modal */}
       {isOpen && selectedProduct && (
-        <div className="fixed inset-0 z-[100]">
+        <div className="fixed inset-0 z-[50]">
           <div
             className="fixed inset-0 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
@@ -278,7 +278,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
                   </div>
 
                   {/* Additional Product Info */}
-                  <div className="border-t mt-2 sm:mt-3 pt-2 sm:pt-3 text-xs sm:text-sm text-gray-600 space-y-1">
+                  <div className="border-t mt-2 sm:mt-3 pt-2 pb-16 sm:pt-3 text-xs sm:text-sm text-gray-600 space-y-2 ">
                     <p><strong>Sold by:</strong> {capitalize(selectedProduct.storeName)}</p>
                     <p><strong>Returns:</strong> No returns</p>
                     <p className="font-bold">Customer Reviews</p>
