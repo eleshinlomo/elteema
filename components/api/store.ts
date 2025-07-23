@@ -1,5 +1,4 @@
 
-import { ProductProps } from "./product";
 
 
 export interface CreateStoreProps {
@@ -13,7 +12,7 @@ export interface CreateStoreProps {
  bankAccountName: string;
  bankAccountNumber: string;
  industry: string;
- address: '',
+ address: string,
  city: string;
  state: string;
  country: string;
@@ -31,7 +30,7 @@ export interface StoreProps {
  phone: string,
  email: string;
  industry: string;
- address: '',
+ address: string,
  city: string;
  state: string;
  country: string;

@@ -64,7 +64,8 @@ export interface ProductProps {
     category: string;
     description: string;
     store: StoreProps;
-    storeId: string;  
+    storeId: string; 
+    storeAddress: string; 
     storeName: string; 
     storeCity: string; 
     storeState: string; 
@@ -74,7 +75,7 @@ export interface ProductProps {
     totalSales: number;
     numOfItemsSold: number;
     isAdded: boolean;
-    orderStatus: string[];
+    orderStatus: string;
     productPageVisits: 256
     unitCost: number;
     createdAt: any;

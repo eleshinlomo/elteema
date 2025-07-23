@@ -52,7 +52,7 @@ const StorePage = () => {
     }
   }, [user])
 
-    if(!user.store){
+    if(!user?.store){
     return <div className='mt-16 p-4 text-2xl text-center bg-green-600 rounded-2xl text-white'>You have not created a store</div>
   }
 
@@ -60,8 +60,7 @@ const StorePage = () => {
   return (
     <div className="min-h-screen bg-gray-50  px-2">
       <header className="mb-2">
-        <h3 className="text-xl font-bold text-gray-800">Welcome back <span className='font-extrabold'>
-          {capitalize(user?.username)}</span>! Here&apos;s what&apos;s happening with your store today.
+        <h3 className="text-xl font-bold text-gray-800">Here&apos;s what&apos;s happening with your store today.
         </h3>
       </header>
 
@@ -69,7 +68,9 @@ const StorePage = () => {
         
         <div className="lg:col-span-2">
           <OrderStatusCards />
+           <RecentStoreOrders  />
         </div>
+       
         <div className="lg:col-span-1">
           <StoreInfo />
         </div>
@@ -84,7 +85,7 @@ const StorePage = () => {
         </div>
       </div>
         <AllListedProducts />
-        <RecentStoreOrders  />
+        
 
 
                  <div >

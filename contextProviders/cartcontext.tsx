@@ -140,41 +140,42 @@ export const CartProvider = ({ children }: ContextProps) => {
     };
 
    
-    const addToCart = async (targetId: string, size: string) => {
-    const productExists = cart?.length > 0 && cart.find((product) => product._id === targetId);
-    
-    if (productExists) {
-        return; // No need to return cart since we're using state updates
-    }
+   const addToCart = async (targetId: string, size: string) => {
+  const productExists = cart?.length > 0 && 
+    cart.find((product) => product._id === targetId);
 
-    const productToAdd = Products.find(product => product._id === targetId); 
-    if(!productToAdd) return
+  if (productExists) return;
 
-            const updatedCart = [...cart, { 
-                ...productToAdd, 
-                quantity: 1, 
-                isAdded: true,
-                size: size 
-            }];
-            
-           
-            
-            // Calculate totals
-            const totalItems = updatedCart.reduce((sum, item) => sum + item.quantity, 0);
-            const totalPrice = Number(updatedCart.reduce(
-                (sum, item) => sum + item.price * item.quantity, 0
-            ).toFixed(2));
-            
-            setTotalItems(totalItems);
-            setTotalPrice(totalPrice);
-            
-    setCart(updatedCart)
-     updateLocalCart(updatedCart);
-     
-    //  We update the database with updated cart
-     if(user && user._id) {
-        await updateCart(user._id, updatedCart)
-     }
+  const productToAdd = Products.find(product => product._id === targetId);
+  if (!productToAdd) return;
+
+  const updatedCart = [...cart, {
+    ...productToAdd,
+    quantity: 1,
+    isAdded: true,
+    size: size
+  }];
+
+  // Validate numbers before calculations
+  const totalItems = updatedCart.reduce((sum, item) => {
+    const qty = Number(item.quantity) || 0;
+    return sum + qty;
+  }, 0);
+
+  const totalPrice = Number(updatedCart.reduce((sum, item) => {
+    const price = Number(item.price) || 0;
+    const qty = Number(item.quantity) || 0;
+    return sum + (price * qty);
+  }, 0).toFixed(2));
+
+  setTotalItems(totalItems);
+  setTotalPrice(totalPrice);
+  setCart(updatedCart);
+  updateLocalCart(updatedCart);
+
+  if (user && user._id) {
+    await updateCart(user._id, updatedCart);
+  }
 };
 
 

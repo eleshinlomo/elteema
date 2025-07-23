@@ -32,12 +32,11 @@ const UpdateProductPage = () => {
   
   const params = useParams()
   const productId = params?.productId?.toString()
-  
 
   const [productToUpdate, setProductToUpdate] = useState<UpdateProductProps>({
     productId: productId,
-    userId: user._id,
-    addedBy: user.username,
+    userId: user?._id,
+    addedBy: user?.username,
     colors: [] as string[],
     imageFiles: [] as File[],
     imageUrls: [] as string[],
@@ -67,7 +66,7 @@ const UpdateProductPage = () => {
         imageUrls: productExists.imageUrls || [],
         colors: Array.isArray(productExists.colors) ? productExists.colors : [],
         productName: productExists.productName,
-        imageFiles: Array.isArray(productExists.imageFiles)  ? productExists.imageFiles : [],
+        imageFiles: Array.isArray(productExists.imageFiles) ? productExists.imageFiles : [],
         price: productExists.price || 0,
         condition: productExists.condition,
         deliveryMethod: productExists.deliveryMethod,
@@ -113,8 +112,7 @@ const UpdateProductPage = () => {
     })
   }
 
-
-    const handleClotheSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleClotheSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target
     setProductToUpdate(prev => {
       const newSizes = checked
@@ -124,101 +122,107 @@ const UpdateProductPage = () => {
     })
   }
 
-
   const handleUpdateProduct = async (e: FormEvent) => {
-  e.preventDefault()
-  setSubmitError('')
-  setIsSubmitting(true)
-  setSubmitError(null)
-  setSuccess('')
+    e.preventDefault()
+    setSubmitError('')
+    setIsSubmitting(true)
+    setSubmitError(null)
+    setSuccess('')
 
-  try {
-    if (!existingProduct) {
-      throw new Error('Product not found')
-    }
+    try {
+      if (!existingProduct) {
+        throw new Error('Product not found')
+      }
 
-    if (!productToUpdate.productName || !productToUpdate.price || !productToUpdate.description) {
-      throw new Error('Please fill in all required fields')
-    }
+      if (!productToUpdate.productName || !productToUpdate.price || !productToUpdate.description) {
+        throw new Error('Please fill in all required fields')
+      }
 
-    const formData = new FormData()
+      const formData = new FormData()
 
-    formData.append('productId', existingProduct._id.toString())
-    formData.append('userId', user._id.toString())
+      formData.append('productId', existingProduct._id)
+      formData.append('userId', user._id)
 
-    // ✅ Only append imageUrls that are NOT marked for removal
-    existingProduct.imageUrls
-      .filter(url => !imagesToRemove.includes(url))
-      .forEach(url => {
-        formData.append('imageUrls', url)
+      // Append existing images that aren't marked for removal
+      existingImages
+        .filter(url => !imagesToRemove.includes(url))
+        .forEach(url => {
+          formData.append('existingImageUrls', url)
+        })
+
+      // Append images to remove
+      imagesToRemove.forEach(url => {
+        formData.append('imagesToRemove', url)
       })
 
-    formData.append('addedBy', existingProduct.addedBy)
-    formData.append('productName', productToUpdate.productName)
-    formData.append('price', productToUpdate.price.toString())
-    formData.append('unitCost', productToUpdate.unitCost.toString())
-    formData.append('condition', productToUpdate.condition)
-    formData.append('deliveryMethod', productToUpdate.deliveryMethod)
-    formData.append('quantity', productToUpdate.quantity.toString())
-    formData.append('category', productToUpdate.category)
-    formData.append('description', productToUpdate.description)
+      // Append product data
+      formData.append('addedBy', productToUpdate.addedBy)
+      formData.append('productName', productToUpdate.productName)
+      formData.append('price', productToUpdate.price.toString())
+      formData.append('unitCost', productToUpdate.unitCost.toString())
+      formData.append('condition', productToUpdate.condition)
+      formData.append('deliveryMethod', productToUpdate.deliveryMethod)
+      formData.append('quantity', productToUpdate.quantity.toString())
+      formData.append('category', productToUpdate.category)
+      formData.append('description', productToUpdate.description)
 
-   console.log('Product COLORS', productToUpdate.colors)
+      // Append arrays
+      productToUpdate.colors.forEach(color => {
+        formData.append('colors', color)
+      })
 
-    productToUpdate.colors.forEach(color => {
-      formData.append('colors', color)
-      
-    })
+      productToUpdate.shoeSizes.forEach(size => {
+        formData.append('shoeSizes', size)
+      })
 
-    
+      productToUpdate.clotheSizes.forEach(size => {
+        formData.append('clotheSizes', size)
+      })
 
-    productToUpdate?.shoeSizes.forEach(size => {
-      formData.append('shoeSizes', size)
-    })
+      // Append new images
+      imageFiles.forEach(file => {
+        formData.append('images', file)
+      })
 
-     productToUpdate?.clotheSizes.forEach(size => {
-      formData.append('clotheSizes', size)
-    })
+      const response = await updateProduct(formData, user?._id)
 
-    imageFiles?.forEach(file => {
-      formData.append('images', file)
-    })
-
-    imagesToRemove?.forEach(image => {
-      formData.append('imagesToRemove', image)
-    })
-
-    const response: any = await updateProduct(formData, user._id)
-
-    if (response.ok) {
-      const updatedProducts = await getAllProducts()
-      if (updatedProducts?.length > 0) {
-        setProducts(updatedProducts)
+      if (response.ok) {
+        // Update local state with new images
+        const updatedProduct = response.data.updatedProduct
+        setExistingImages(updatedProduct?.imageUrls || [])
+        
+        // Reset image states
+        setImagePreviews([])
+        setImageFiles([])
+        setImagesToRemove([])
+        
+        // Update global state
+        const updatedProducts = await getAllProducts()
+        if (updatedProducts?.length > 0) {
+          setProducts(updatedProducts)
+        }
+        
+        // Update user context
+        updateLocalUser(response.data.updatedUser)
+        setUser(response.data.updatedUser)
+        
+        setSuccess('Product updated successfully!')
+        toast.success('Product updated successfully!')
+        setIsEditing(false)
+      } else {
+        setSubmitError(response.error)
+        window.location.href = '#updateproduct-top'
       }
-      setSuccess(response.message)
-      toast.success('Product updated successfully!')
-      setIsEditing(false)
-      updateLocalUser(response.data)
-      setUser(response.data)
-      setImagePreviews([])
-      setImageFiles([])
-      setImagesToRemove([])
+    } catch (error) {
+      console.error('Error updating product:', error)
+      const errorMsg = error instanceof Error ? error.message : 'Failed to update product'
+      setSubmitError(errorMsg)
+      toast.error(errorMsg)
       window.location.href = '#updateproduct-top'
-    } else {
-      setSubmitError(response.error)
-      toast.error(response.error || 'Failed to update product')
-      window.location.href = '#nav-top'
+    } finally {
+      setIsSubmitting(false)
     }
-  } catch (error) {
-    console.error('Error updating product:', error)
-    setSubmitError(error instanceof Error ? error.message : 'Failed to update product')
-    toast.error(error instanceof Error ? error.message : 'Failed to update product')
-    window.location.href = '#updateproduct-top'
-  } finally {
-    setIsSubmitting(false)
   }
-}
-
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -271,12 +275,11 @@ const UpdateProductPage = () => {
     }
   }
 
-     const incrementUnitCost = () => {
-
+  const incrementUnitCost = () => {
     setProductToUpdate(prev => ({ ...prev, unitCost: Number(prev.unitCost) + 1 }))
   }
 
-  const decrementUnitCost= () => {
+  const decrementUnitCost = () => {
     if (productToUpdate.unitCost > 1) {
       setProductToUpdate(prev => ({ ...prev, unitCost: Number(prev.unitCost) - 1 }))
     }
@@ -331,12 +334,10 @@ const UpdateProductPage = () => {
     }))
   ]
 
-
-    const customerSalesIncome = ()=>{
-       const commission = calculatePercentagePrice(Number(productToUpdate.price), 5)
-       const salesIncome = Number(productToUpdate.price) - commission
-       return salesIncome
-    }
+  const customerSalesIncome = () => {
+    const commission = calculatePercentagePrice(Number(productToUpdate.price), 5)
+    return Number(productToUpdate.price) - commission
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md" id='updateproduct-top'>

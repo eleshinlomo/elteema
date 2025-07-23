@@ -66,7 +66,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
                   const existingUserCart = existingUser?.cart
                     let mergedCart: any = []
                     if(existingUserCart && verifiedUser){
-                       mergedCart = [...existingUserCart, verifiedUser.cart]
+                      mergedCart = [...existingUserCart, ...verifiedUser.cart]
                         updateCart(verifiedUser._id, mergedCart)
                        
                     }else{

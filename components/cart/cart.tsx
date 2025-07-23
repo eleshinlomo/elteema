@@ -125,8 +125,8 @@ const Cart = () => {
         {/* Cart Items */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {cart && cart.length > 0 ? (
-            cart.map((item) => (
-              <div key={item._id} className="border rounded-lg p-4 bg-white shadow-sm">
+            cart.map((item, index) => (
+              <div key={index} className="border rounded-lg p-4 bg-white shadow-sm">
                 <div className="flex justify-between items-center">
                   <div>
                     <a href={`/productpage/${item._id}`}>

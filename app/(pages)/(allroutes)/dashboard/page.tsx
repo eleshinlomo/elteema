@@ -4,6 +4,8 @@ import { useContext, useState } from "react";
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider";
 import { MessageCircleIcon } from "lucide-react";
 import { FaRobot } from "react-icons/fa";
+import StorePage from "./storepage/page";
+import { capitalize } from "../../../../components/utils";
 
 
 
@@ -26,13 +28,20 @@ const DashboardPage = () => {
        {!alert && 
        <>
         <h2 className=' font-extrabold text-xl'>WELCOME TO YOUR DASHBOARD PAGE</h2>
-       <p className="font-tiny py-4">Omo, how market now ?</p>
+       <p className="font-tiny py-4"><span className="font-extrabold">{capitalize(user?.username)}</span>, how market now ?</p>
+       
+
+       {/* Store */}
+       <div>
+        <StorePage />
+       </div>
+{/* 
        <button className="text-2xl"><MessageCircleIcon className="text-2xl" /></button>
        <p className="font-tiny flex justify-center gap-1"><FaRobot />My name is Kokoro, I am your AI CEO</p>
-       <p className="font-tiny flex justify-center gap-1"><FaRobot /> Can we talk about your store performance and suggestions ?</p>
+       <p className="font-tiny flex justify-center gap-1"><FaRobot /> Can we talk about your store performance and suggestions ?</p> */}
        </>
         }
-       <button className="mt-2 bg-green-700 rounded-2xl py-1 px-4 text-white" onClick={alert ? hideAlert : showAlert}>{alert ? 'Ok' : 'Yes'}</button>
+       {/* <button className="mt-2 bg-green-700 rounded-2xl py-1 px-4 text-white" onClick={alert ? hideAlert : showAlert}>{alert ? 'Ok' : 'Yes'}</button>
        {alert && 
        <div className="mt-4 pt-3 px-6 bg-green-50 rounded-lg border border-green-100">
           <p className="text-center text-sm text-green-700">
@@ -46,7 +55,7 @@ const DashboardPage = () => {
           <button className="mt-2 bg-green-700 rounded-2xl py-1 px-4 text-white">Submit</button>
           </div>
         </div>
-        }
+        } */}
 
     </div>
   );
