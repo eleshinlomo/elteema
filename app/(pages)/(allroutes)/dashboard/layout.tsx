@@ -36,7 +36,7 @@ const DashboardLayout = ({children}: DashboardProps) => {
             <div className="md:flex">
                 {/* Sidebar - hidden on mobile, shown on desktop */}
                 <div className="hidden md:block md:w-1/4 md:fixed md:h-screen md:overflow-y-auto">
-                    <DashSideBar user={user} userOders={user?.orders || []} />
+                    <DashSideBar user={user} userOrders={user?.orders || []} />
                 </div>
 
                 {/* Main content area */}

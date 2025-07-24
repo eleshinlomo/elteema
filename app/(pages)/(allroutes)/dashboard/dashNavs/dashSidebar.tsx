@@ -7,10 +7,10 @@ import { StoreIcon } from 'lucide-react';
 
 interface DashSideBarProps {
   user: UserProps;
-  userOders: ProductProps[]
+  userOrders: ProductProps[]
 }
 
-const DashSideBar = ({user, userOders}: DashSideBarProps) => {
+const DashSideBar = ({user, userOrders}: DashSideBarProps) => {
   return (
     <div className="w-full h-full p-4 bg-white border-r border-gray-200">
       <div className="sticky top-0 pt-6">
@@ -42,7 +42,7 @@ const DashSideBar = ({user, userOders}: DashSideBarProps) => {
                 <a href="/dashboard/orders/userorderpage" className="flex items-center p-3 rounded-lg bg-emerald-50 text-emerald-700 font-medium">
                   <StoreIcon className='w-5 h-5 mr-3' />
                   Orders
-                  <span className="ml-2">({userOders?.length || 0})</span>
+                  <span className="ml-2">({userOrders?.length || 0})</span>
                 </a>
               </li>
               

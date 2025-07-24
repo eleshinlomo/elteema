@@ -80,7 +80,7 @@ export const updateStore = async (payload : CreateStoreProps)=>{
 
 
 
-    export const deleteStoreOrder = async (storeName: string, orderId: string, buyerId: string) => {
+    export const deleteStoreOrder = async (storeName: string, orderId: string, buyerId: string, reason: string) => {
       
         try{
        
@@ -88,7 +88,7 @@ export const updateStore = async (payload : CreateStoreProps)=>{
           mode: 'cors',
           method: 'DELETE',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({storeName, orderId, buyerId})
+          body: JSON.stringify({storeName, orderId, buyerId, reason})
         })
         if(!response) {
           console.log('No response from server')

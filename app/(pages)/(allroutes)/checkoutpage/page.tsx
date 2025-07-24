@@ -229,44 +229,59 @@ const CheckoutPage = () => {
             </div>
             
             {cart && cart.length > 0 ? (
-              <ul className="divide-y divide-gray-100">
+              <ul className="divide-y divide-gray-200">
                 {cart.map((item: any, index: number) => (
-                  <div key={index}>
-                    <li  className="p-6 hover:bg-gray-50 transition-colors duration-200">
-                    <div className="flex flex-col sm:flex-row justify-between">
-                      <div className="flex-1">
-                        <div className='flex gap-4'>
-                        <h3 className="text-lg font-medium text-gray-900">
-                          {capitalize(item.productName)}
-                        </h3>
-                        <div className='relative h-10 w-10 border border-green-800'>
-                          <Image src={item?.imageUrls? item.imageUrls[0] : ''} alt='Item image' fill />
-                        </div>
-                        </div>
-                        <p className="text-sm text-gray-500 mt-1">
-                          Quantity: {item.quantity}
-                        </p>
-                        <a className='text-blue-500' href={`/storefront/${item.storeName}`}>Visit {item.storeName}</a>
-                      </div>
-                      <div className="mt-2 sm:mt-0">
-                        <p className="text-lg font-semibold text-green-600">
-                          N{(item.price * item.quantity).toFixed(2)}
-                        </p>
-                      </div>
-                    </div>
-                  </li></div>
-                ))}
-              </ul>
-            ) : (
-              <div className="p-8 text-center">
-                <div className="text-gray-400 mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <p className="text-gray-500">Your cart is empty</p>
-              </div>
-            )}
+                  <li key={index} className="py-4 px-2 hover:bg-gray-50 transition-colors duration-200">
+                  <div className="grid grid-cols-12 gap-4 items-center">
+                  {/* Image - Fixed width */}
+                  <div className="col-span-2 sm:col-span-1">
+                  <div className="relative aspect-square w-full rounded-md overflow-hidden border border-gray-200">
+              <Image 
+                src={item?.imageUrls?.[0] || ''} 
+                alt={item.productName}
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 50px, 80px"
+              />
+            </div>
+          </div>
+          
+          {/* Product Info - Flexible width */}
+          <div className="col-span-7 sm:col-span-8">
+            <h3 className="text-sm sm:text-base font-medium text-gray-900 line-clamp-2">
+              {capitalize(item.productName)}
+            </h3>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
+              Quantity: {item.quantity}
+            </p>
+            <a 
+              href={`/storefront/${item.storeName}`} 
+              className="text-xs sm:text-sm text-blue-500 hover:text-blue-600 hover:underline inline-block mt-1"
+            >
+              Visit {item.storeName}
+            </a>
+          </div>
+          
+          {/* Price - Fixed width */}
+          <div className="col-span-3 sm:col-span-3 text-right">
+            <p className="text-base sm:text-lg font-semibold text-green-600 whitespace-nowrap">
+              N{(item.price * item.quantity).toFixed(2)}
+            </p>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ul>
+) : (
+  <div className="p-8 text-center">
+    <div className="text-gray-400 mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+    </div>
+    <p className="text-gray-500">Your cart is empty</p>
+  </div>
+)}
 
             {/* Order Summary */}
             <div className="bg-gray-50 p-6 border-t border-gray-200">

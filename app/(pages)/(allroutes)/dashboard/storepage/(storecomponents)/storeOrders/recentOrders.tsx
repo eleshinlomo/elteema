@@ -25,6 +25,7 @@ const RecentStoreOrders = () => {
   const [currentOrders, setCurrentOrders] = useState<ProductProps[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('')
+  const [reason, setReason] = useState('')
 
   useEffect(() => {
     if (user && user.store) {
@@ -36,7 +37,6 @@ const RecentStoreOrders = () => {
     'processing',
     'awaiting pick-up',
     'shipped',
-    'cancel'
   ];
 
   const handleEdit = useCallback((order: ProductProps) => {
@@ -59,7 +59,7 @@ const RecentStoreOrders = () => {
       const orderId = selectedOrder._id;
       const buyerId = user?._id;
       
-      const response = await deleteStoreOrder(store.storeName, orderId, buyerId);
+      const response = await deleteStoreOrder(store.storeName, orderId, buyerId, reason);
       
       if(response.ok){
         const updatedUser = response.data
@@ -210,10 +210,10 @@ const RecentStoreOrders = () => {
           <div 
             className="ag-theme-alpine" 
             style={{ 
-              height: 600, 
               width: '100%',
               '--ag-cell-horizontal-padding': '16px',
-              '--ag-cell-vertical-padding': '12px'
+              '--ag-cell-vertical-padding': '12px',
+              '--ag-grid-height': '100%',
             } as React.CSSProperties}
           >
             <AgGridReact
@@ -250,7 +250,8 @@ const RecentStoreOrders = () => {
             <p className="mt-1 text-sm text-gray-500">No one bought from your store yet.</p>
           </div>
         )}
-
+        
+        {/* Modal open */}
         {isDeleteModalOpen && (
           <div className="fixed z-10 inset-0 overflow-y-auto">
             <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -270,7 +271,15 @@ const RecentStoreOrders = () => {
                       <h3 className="text-lg leading-6 font-medium text-gray-900">Cancel Order</h3>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500"> 
-                        {error ? error : 'Are you sure you want to cancel this order? This action cannot be undone.'}</p>
+                        {error ? error : 'Are you sure you want to cancel this order? This action cannot be undone.'}
+                        </p>
+                        {/* Reason for cancellation */}
+                        <select value={reason} onChange={(e)=>setReason(e.target.value)} className="mt-4">
+                           <option>Reason for cancelling</option>
+                           <option value='Out of stock'>Out of stock</option>
+                           <option value='Payment declined'>Payment declined</option>
+                           <option value='Cannot find a Driver for Delivery'>Cannot find a Driver for Delivery</option>
+                        </select>
                       </div>
                     </div>
                   </div>
