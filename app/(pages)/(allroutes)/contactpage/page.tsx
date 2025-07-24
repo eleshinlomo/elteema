@@ -9,6 +9,7 @@ const ContactPage = () => {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('We will get back to you as soon as possible')
   const [name, setName] = useState('')
+  const [subject, setSubject] = useState('')
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const generalContext = useContext(GeneralContext)
@@ -30,6 +31,7 @@ const ContactPage = () => {
     setError('')
     const payload = {
        name,
+       subject,
        email,
        message
     }
@@ -46,6 +48,7 @@ const ContactPage = () => {
     if(!response){
       setError('No response from server')
       setIsSubmitting(false)
+      window.location.href='#message-top'
       return
     }
 
@@ -58,23 +61,26 @@ const ContactPage = () => {
       setName('')
       setEmail('')
       setMessage('')
+      window.location.href='#message-top'
     }else{
       setError('Server error. Unable to send message now')
       console.log(data.error)
       setIsSubmitting(false)
+      window.location.href='#message-top'
     }
 
     }catch(err){
       console.log(err)
       setIsSubmitting(false)
       setError('Server error. Message not sent')
+      window.location.href='#message-top'
     }
     return
 
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-green-50 py-12 my-6 px-4 sm:px-6 lg:px-8">
+    <div id='message-top' className="min-h-screen bg-gradient-to-br from-gray-50 to-green-50 py-24 my-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-extrabold text-gray-900  sm:tracking-tight ">
@@ -133,6 +139,26 @@ const ContactPage = () => {
                 </div>
               </div>
 
+                <div>
+                <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
+                  Subject
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <select
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 placeholder-gray-400 transition duration-150"
+                    required
+                  > 
+                   <option value='Technical problem'>Technical problem</option>
+                   <option value='Payment problem'>Payment problem</option>
+                   <option value='Order problem'>Order problem</option>
+                   <option value='Partnership'>Partnership</option>
+                   <option value='Others'>Others</option>
+                  </select>
+                </div>
+              </div>
+
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700">
                   Your Message
@@ -185,7 +211,7 @@ const ContactPage = () => {
           <div className="mt-4 md:flex justify-center space-x-6">
             <div className="bg-white p-4 rounded-lg shadow-md">
               <span className="text-green-600 font-bold block">Email</span>
-              <span className="text-gray-600">support@petrolagegroup.com</span>
+              <span className="text-gray-600">support@elteema.com</span>
             </div>
             <div className="bg-white p-4 rounded-lg shadow-md">
               <span className="text-green-600 font-bold block">Phone</span>

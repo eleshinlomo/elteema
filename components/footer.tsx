@@ -21,8 +21,8 @@ const Footer = ()=>{
               <Image src='/images/logos/elteema_logo.png' alt='logo' fill />
             </div>
             <div className="text-sm text-white">
-              <a href="terms" className="  hover:underline transition duration-150 ease-in-out">Terms</a> · 
-              <Link href="/privacy" className="  
+              <a href="/policies/terms" className="  hover:underline transition duration-150 ease-in-out">Terms</a> · 
+              <Link href="/policies/privacypolicy" className="  
               hover:underline transition duration-150 ease-in-out">Privacy Policy</Link>
             </div>
           </div>
@@ -70,7 +70,7 @@ const Footer = ()=>{
                 <a href="#0" className=" hover:text-green-400  transition duration-150 ease-in-out">Blog</a>
               </li>
               <li className="mb-2">
-                <a href="#0" className="hover:text-green-400  transition duration-150 ease-in-out">Support Center</a>
+                <a href="/faqpage" className="hover:text-green-400  transition duration-150 ease-in-out">Support Center</a>
               </li>
               <li className="mb-2">
                 <a href="#0" className=" hover:text-green-400  transition duration-150 ease-in-out">Partners</a>
@@ -97,7 +97,7 @@ const Footer = ()=>{
                 <a href="#0" className=" hover:text-green-400  transition duration-150 ease-in-out">Pricing</a>
               </li>
               <li className="mb-2">
-                <Link href="/privacy" className=" hover:text-green-400 
+                <Link href="/policies/privacypolicy" className=" hover:text-green-400 
                 transition duration-150 ease-in-out">Privacy Policy</Link>
               </li>
             </ul>

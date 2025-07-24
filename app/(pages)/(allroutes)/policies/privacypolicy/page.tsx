@@ -80,7 +80,7 @@ const PrivacyPolicy = () => {
           <h3 className="font-bold text-green-800 mb-2">Contact Us</h3>
           <p className="text-green-700">
             For privacy concerns or requests, contact our Data Protection Officer at:<br />
-            <span className="font-medium">support@petrolage.tech</span>
+            <span className="font-medium">support@elteema.com</span>
           </p>
         </div>
       </div>
