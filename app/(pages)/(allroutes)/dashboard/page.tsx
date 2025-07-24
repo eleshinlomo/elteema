@@ -57,7 +57,7 @@ const DashboardPage = () => {
                 <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold text-gray-800 mb-2">Welcome to Your Dashboard</h2>
                     <p className="text-lg text-gray-600">
-                        Hello <span className="font-semibold text-emerald-600">{capitalize(user?.username)}</span>, how's the market today?
+                        Hello <span className="font-semibold text-emerald-600">{capitalize(user?.username)}</span>, how&apos;s the market today?
                     </p>
                 </div>
 
