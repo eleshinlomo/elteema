@@ -30,6 +30,7 @@ export const categories = [
     'men shoes',
     'men ankara',
     'men accessories',
+    'pastry & cakes',
     'poultry',
     'vegetable & spice',
     'tuber',

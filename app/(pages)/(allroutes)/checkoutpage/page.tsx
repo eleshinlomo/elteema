@@ -45,7 +45,7 @@ const CheckoutPage = () => {
 //   }
 // };
 
-if(!isLoggedIn) return <SigninPage />
+
 
 
   const linkToUpdateProfile = (
@@ -70,6 +70,8 @@ if(!isLoggedIn) return <SigninPage />
     
   }, [cart])
 
+
+  
  
 
  
@@ -184,6 +186,12 @@ if(!isLoggedIn) return <SigninPage />
     setIsProcessingOrder(false);
   }
 };
+
+
+if(!isLoggedIn){
+     return <SigninPage />
+  }
+
 
   
 
