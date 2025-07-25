@@ -99,6 +99,8 @@ const RecentStoreOrders = () => {
     }
   };
 
+
+ console.log('ORDERS', currentOrders)
   const columnDefs: any = [
     { 
       field: 'productName', 
@@ -125,22 +127,22 @@ const RecentStoreOrders = () => {
       valueFormatter: (params: any) => `${formatCurrency('NGN', params.value)}` 
     },
     { 
-      field: 'buyer', 
+      field: 'buyerName', 
       headerName: 'Buyer', 
       minWidth: 150,
-      valueGetter: () => user?.firstname || '' 
+      valueFormatter: (params: any) => `${params.value}` || '' 
     },
     { 
-      field: 'phone', 
+      field: 'buyerPhone', 
       headerName: 'Phone', 
       minWidth: 150,
-      valueGetter: () => user?.phone || '' 
+      valueFormatter: (params: any) => `${params.value}` || '' 
     },
     { 
-      field: 'destination', 
-      headerName: 'Destination', 
+      field: 'buyerAddress', 
+      headerName: 'Address', 
       minWidth: 250,
-      valueGetter: (params: any) => params.data.destination || '',
+      valueFormatter: (params: any) => params.value || '',
       cellStyle: { 'white-space': 'normal' }
     },
     { 
@@ -205,6 +207,16 @@ const RecentStoreOrders = () => {
     <div className="pt-4 ">
       <div className="w-full md:max-w-7xl mx-auto">
         <h6 className="text-xl font-bold text-gray-800 mb-6">Your Recent Store Orders</h6>
+
+         {/* Payment warning */}
+      {currentOrders?.length > 0 && (
+        <div className="p-4 mb-6 bg-red-500 text-white rounded-lg mx-4 md:mx-0">
+          <p className="text-sm">
+            We are currently unable to process card payments. Please contact 
+            the customers directly to complete your orders by phone.
+          </p>
+        </div>
+      )}
 
         {currentOrders?.length > 0 ? (
           <div 

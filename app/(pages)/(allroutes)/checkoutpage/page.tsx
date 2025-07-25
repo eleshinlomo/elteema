@@ -6,10 +6,9 @@ import SigninPage from '../authpages/signin/page'
 import { calculatePercentagePrice, capitalize, formatCurrency, totalPriceForCustomer} from '../../../../components/utils'
 import { CartContext } from '../../../../contextProviders/cartcontext'
 import { updateLocalUser } from '../../../../components/utils'
-import PaymentAlertCard from './paymentAlertCard'
-import { launchPaymentPopup,} from './payments/paymentFunctions'
 import Image from 'next/image'
 import { createUserOrder } from '../../../../components/api/users'
+import AlertCard from './paymentAlertCard'
 
 const CheckoutPage = () => {
   const { isLoggedIn, user, setUser } = useContext(GeneralContext)
@@ -26,24 +25,24 @@ const CheckoutPage = () => {
   const [isProcessingOrder, setIsProcessingOrder] = useState(false)
 
   
- const handlePaymentPopUp = async () => {
-  if (typeof window !== 'undefined') {
-    const { launchPaymentPopup } = await import('./payments/paymentFunctions');
+//  const handlePaymentPopUp = async () => {
+//   if (typeof window !== 'undefined') {
+//     const { launchPaymentPopup } = await import('./payments/paymentFunctions');
    
-    if (totalPricePlusTax) {
-      const priceInKobo = totalPricePlusTax * 100;
+//     if (totalPricePlusTax) {
+//       const priceInKobo = totalPricePlusTax * 100;
       
-         const payload = {
-         email: user?.paymentEmail, 
-         amount: `${priceInKobo}`,
-         callback_url: '/'
-      }
+//          const payload = {
+//          email: user?.paymentEmail, 
+//          amount: `${priceInKobo}`,
+//          callback_url: '/'
+//       }
    
-      const response = await launchPaymentPopup(payload);
-      return response;
-    }
-  }
-};
+//       const response = await launchPaymentPopup(payload);
+//       return response;
+//     }
+//   }
+// };
 
 
   const linkToUpdateProfile = (
@@ -106,59 +105,82 @@ const CheckoutPage = () => {
 
   // Make payment
   const handlePayment = async () => {
-    setPaymentMethodError('')
-    setIsProcessingOrder(true)
-    try{
+  setPaymentMethodError('');
+  setIsProcessingOrder(true);
+  
+  try {
     if (typeof window === 'undefined') return;
-    if (!cart || cart?.length === 0) {
-      setMessage('Your cart is empty')
-      setOpenWarning(true)
-      return
+    
+    // Validate cart
+    if (!Array.isArray(cart) || cart.length === 0) {
+      setMessage('Your cart is empty');
+      setOpenWarning(true);
+      return;
     }
 
-   
-    if (!user.address) {
-      setMessage('Please update your address')
-      setOpenWarning(true)
-      return
+    // Validate user info
+    if (!user?.address) {
+      setMessage('Please update your address');
+      setOpenWarning(true);
+      return;
     }
-    if (!user.phone) {
-      setMessage('Please enter phone number')
-      setOpenWarning(true)
-      return
-    }
-    if (!user.state) {
-      setMessage('Please enter your current state of residence')
-      setOpenWarning(true)
-      return
-    }
-    // if(!user.paymentEmail){
-    //   setPaymentMethodError('Go to your dashboard and update your payment method on file')
-    //   window.location.href = '#payment-top'
-    //   return
-    // }
     
-  
+    if (!user?.phone) {
+      setMessage('Please enter phone number');
+      setOpenWarning(true);
+      return;
+    }
+    
+    if (!user?.state) {
+      setMessage('Please enter your current state of residence');
+      setOpenWarning(true);
+      return;
+    }
     const newStatus = 'pending'
-    const updateResponse = await createUserOrder(cart, user._id, eta, newStatus)
-  
-    if(updateResponse.ok){
-       setCart([]) // Needed to clear local state. Although the updated user still comes with an empty cart.
-       updateLocalUser(updateResponse.data)
-       setUser(updateResponse.data)
-       setTotalItems(0)
-       setTotalPrice(0)
-       window.location.href = '/dashboard/orders/userorderpage'
+    // Prepare cart items with additional info
+    const updatedCart = cart.map(item => ({
+      ...item,
+      orderStatus: newStatus,
+      buyerName: `${user?.firstname} ${user?.lastname}`,
+      buyerPhone: user?.phone,
+      buyerAddress: `${user?.address}, ${user?.city}, ${user?.state}`,
+    }));
 
-    }
-  }catch(err){
-    console.log('Order processing error', err)
-  }finally{
-    setIsProcessingOrder(false)
-  }
+    const payload: any = {
+      buyerId: user?._id,
+      cart: updatedCart,
+      newStatus: 'pending',
+      eta
+    };
+
+    const response = await createUserOrder(payload);
     
-    return
+    // Handle response (assuming createUserOrder returns the data directly)
+    if (response && !response.error) {
+      // Success case
+      setCart([]);
+      setTotalItems(0);
+      setTotalPrice(0);
+      
+      if (response.data) {
+        updateLocalUser(response.data);
+        setUser(response.data);
+      }
+      
+      window.location.href = '/dashboard/orders/userorderpage';
+    } else {
+      // Error case
+      setError(response?.error || 'Failed to create order');
+      console.error('Order creation failed:', response?.error);
+    }
+    
+  } catch (err) {
+    console.error('Order processing error:', err);
+    setError('An unexpected error occurred during payment processing');
+  } finally {
+    setIsProcessingOrder(false);
   }
+};
 
   
 
@@ -311,10 +333,10 @@ const CheckoutPage = () => {
   </p>
 </div>
               
-              <PaymentAlertCard 
+              <AlertCard
               isProcessingOrder={isProcessingOrder}
                 message={message} 
-                submit={handlePayment} 
+                handlePayment={handlePayment} 
                 openWarning={openWarning} 
                 setOpenWarning={setOpenWarning} 
               />
@@ -322,7 +344,7 @@ const CheckoutPage = () => {
           </div>
         </div>
       ) : (
-        <SigninPage />
+        <p>Loading...</p>
       )}
     </div>
   )

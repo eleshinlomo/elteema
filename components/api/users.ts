@@ -42,6 +42,16 @@ export interface UserProps {
     
 }
 
+interface ChangeOrderStatusProps {
+  buyerId: string;
+  cart: ProductProps[]; 
+  newStatus: string;
+  eta: string;
+  buyerName: string;
+  buyerPhone: string;
+  buyerAddress: string;
+}
+
   
 export const register = async ({email, username} : RegisterProps)=>{
   const payload = {
@@ -140,43 +150,50 @@ export const register = async ({email, username} : RegisterProps)=>{
     };
 
 
-    export const changeOrderStatus = (cart: ProductProps[], newStatus: string, eta: string)=>{
-        const updatedCart = cart.map((item)=>{
-           const updatedItem = {
-            ...item,
-            eta: eta,
-             orderStatus: newStatus,
-           }
-           return updatedItem
-        })
-        return updatedCart // Array
-    }
+
+    export const changeOrderStatus = (cart: ProductProps[], eta: string) => {
+  console.log('CART', cart)
+  
+  if (!cart || cart.length === 0) return []; // Return empty array if cart is empty
+  
+  return cart?.map((item) => ({
+    ...item,
+    eta: eta,
+  }));
+}
+
     
     
     
-    export const createUserOrder = async (cart: ProductProps[], buyerId: string, eta: string, newStatus: string)=>{
-        if(cart?.length === 0) return 
-            try{
-        const items = changeOrderStatus(cart, newStatus, eta)
-        if(items?.length === 0) return 
+    export const createUserOrder = async (payload: ChangeOrderStatusProps) => {
+  const { buyerId, cart, eta } = payload;
+
+  if (!cart || cart.length === 0) return 'No cart found';
+  
+  try {
+    const items = changeOrderStatus(cart, eta);
+    console.log('ITEMS', items);
     
-        const response = await fetch(`${BASE_URL}/users/createuserorder`, {
-           mode: 'cors',
-           method: 'PUT',
-           headers: {
-            'Content-Type': 'application/json',
+    if (items.length === 0) return 'No item status updated';
     
-           },
-           body: JSON.stringify({items, buyerId})
-        })
-        if(!response) return 'No response from server'
-        const data: any = await response.json()
-        return data
-        
-    }catch(err){
-        console.log(err)
-    }
-    }
+    const response = await fetch(`${BASE_URL}/users/createuserorder`, {
+      mode: 'cors',
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({items, buyerId})
+    });
+    
+    if (!response.ok) throw new Error('No response from server');
+    
+    const data: any = await response.json();
+    return data;
+  } catch(err) {
+    console.log(err);
+    throw err; // Consider re-throwing or returning an error object
+  }
+}
 
 
     //   Delete User order

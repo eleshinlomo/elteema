@@ -2,16 +2,17 @@ import { useState } from "react";
 
 interface AlertProps {
   message: string;
-  submit: () => void;
+  handlePayment: () => void;
   openWarning: boolean;
   isProcessingOrder: boolean
   setOpenWarning: (value: boolean) => void;
 }
 
-const AlertCard = ({ message, submit, openWarning, setOpenWarning, isProcessingOrder }: AlertProps) => {
+const AlertCard = ({ message, handlePayment, openWarning, setOpenWarning, isProcessingOrder }: AlertProps) => {
   const handleClose = () => {
     setOpenWarning(false);
   };
+
 
   return (
     <div className="relative flex flex-col items-center justify-center  bg-gray-50 p-6">
@@ -33,7 +34,7 @@ const AlertCard = ({ message, submit, openWarning, setOpenWarning, isProcessingO
 
       {/* Pay Button */}
       <button
-        onClick={submit}
+        onClick={handlePayment}
         className="z-10 mt-10 bg-green-600 rounded-2xl py-3 px-8 text-white text-xl font-semibold hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-green-400/50"
       >
         {isProcessingOrder ? 'Processing...' : 'Complete order'}
