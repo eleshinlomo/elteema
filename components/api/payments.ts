@@ -40,3 +40,17 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
       method: 'POST'
     })
   }
+
+  export const testStripe = async ()=>{
+       const response = await fetch(`${BASE_URL}/payments/makepayment`, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {'Content-Type': 'application/json'}
+       })
+
+       if(!response) return 'No response from server'
+
+       const data = await response.json()
+       console.log('STRIPE RESPONSE', data)
+       return data
+  }

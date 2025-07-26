@@ -6,6 +6,7 @@ import { MessageCircleIcon, StoreIcon, UserIcon, CreditCardIcon, ShoppingBagIcon
 import { FaRobot } from "react-icons/fa";
 import StorePage from "./storepage/page";
 import { capitalize } from "../../../../components/utils";
+import { testStripe } from "../../../../components/api/payments";
 
 const DashboardPage = () => {
     const {user, userOrders} = useContext(GeneralContext)
@@ -50,6 +51,11 @@ const DashboardPage = () => {
             textColor: "text-amber-700"
         }] : [])
     ]
+    
+    const handleTest = async ()=>{
+        await testStripe()
+    }
+
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-8">
@@ -90,6 +96,8 @@ const DashboardPage = () => {
                     </div>
                 )}
             </div>
+
+           
         </div>
     );
 };

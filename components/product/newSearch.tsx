@@ -1,6 +1,9 @@
 import { ChangeEvent, useEffect, useState, useRef, useContext } from "react";
 import { FiSearch, FiX, FiClock, FiShoppingBag, FiTag } from "react-icons/fi";
 import { ProductContext } from "../../contextProviders/ProductContext";
+import Image from "next/image";
+// import m from '../../public/images/logos/elteema_logo.png'
+
 
 interface Product {
   productName: string;
@@ -88,8 +91,17 @@ const NewSearch = () => {
   }, []);
 
   return (
-    <div className="w-full py-12 bg-gradient-to-br from-green-50 to-emerald-50">
+    <div className="w-full pt-6 mb-2 bg-gradient-to-br from-green-50 to-emerald-50">
       <div className="max-w-2xl mx-auto px-4" ref={searchRef}>
+
+          <div className="flex justify-center items-center">
+            <div className="relative h-12 w-12">
+              <Image src={'/images/logos/elteema_logo.png'} alt='logo' fill />
+            </div>
+            <p>ELTEEMA</p>
+          </div>
+        
+
         <div className="relative">
           <div
             className={`flex items-center border-2 rounded-full px-4 py-3 transition-all duration-300 ${
