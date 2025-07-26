@@ -10,6 +10,7 @@ import Image from "next/image";
 import Cart from "../cart/cart";
 import MenuButton from "./menuButton";
 import { FaShoppingBag } from "react-icons/fa";
+import PWAInstallButton from "../PWADownloadButton";
 
 const NavBar = () => {
   const [activeTab, setActiveTab] = React.useState("home");
@@ -99,9 +100,9 @@ const NavBar = () => {
          className="relative"
         >
           <button
-            onClick={() => handleTabClick("createstorelandingpage")}
+            onClick={() => handleTabClick("store")}
             className={`absolute top-[-28px] right-[-25px] flex flex-col items-center p-2 transition-colors duration-200 ${
-              activeTab === "createstorelandingpage" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
+              activeTab === "store" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
             }`}
           >
             <FaShoppingBag className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
@@ -142,10 +143,10 @@ const NavBar = () => {
         </div>
         
         {/* App install desktop mode */}
-        {/* <div className="hidden md:flex">
+        <div className="hidden md:flex">
           <PWAInstallButton />
         </div>
-     */}
+    
      
         {/* Cart - shows only in desktop mode */}
         <div className="hidden md:flex">

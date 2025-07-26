@@ -7,6 +7,7 @@ import { CartProvider} from '../../contextProviders/cartcontext'
 import { GeneralProvider } from "../../contextProviders/GeneralProvider"
 import { useSearchParams } from "next/navigation"
 import { ProductContextProvider } from "../../contextProviders/ProductContext"
+import GoogleAnalytics from "../../components/google/googleAnalytics"
 
 
 
@@ -29,6 +30,7 @@ const PagesLayout = ({children} : PagesRoutesProps)=>{
 
     return (
             <Suspense fallback='loading...'>
+            <GoogleAnalytics />
             <GeneralProvider>
             <ProductContextProvider>
             <CartProvider>
