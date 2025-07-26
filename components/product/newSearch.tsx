@@ -117,7 +117,7 @@ const NewSearch = () => {
               onKeyDown={handleKeyDown}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              placeholder="Search for products..."
+              placeholder="Find products in local stores..."
               value={inputValue}
             />
             {inputValue && (

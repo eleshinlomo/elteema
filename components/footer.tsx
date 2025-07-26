@@ -118,23 +118,9 @@ const Footer = ()=>{
 
           {/* Social as */}
           <ul className="flex mb-4 md:order-1 md:ml-4 md:mb-0">
-            <li>
-              <a href="#0" className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out" aria-label="Twitter">
-                <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                  <path d="m13.063 9 3.495 4.475L20.601 9h2.454l-5.359 5.931L24 23h-4.938l-3.866-4.893L10.771 23H8.316l5.735-6.342L8 9h5.063Zm-.74 1.347h-1.457l8.875 11.232h1.36l-8.778-11.232Z" />
-                </svg>
-              </a>
-            </li>
-            <li className="ml-4">
-              <a href="#0" className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out" aria-label="Instagram">
-                <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23.2 5H8.8C6.7 5 5 6.7 5 8.8v14.4c0 2.1 1.7 3.8 3.8 3.8h14.4c2.1 0 3.8-1.7 3.8-3.8V8.8c0-2.1-1.7-3.8-3.8-3.8zM16 21.7c-3.1 0-5.7-2.5-5.7-5.7s2.5-5.7 5.7-5.7 5.7 2.5 5.7 5.7-2.6 5.7-5.7 5.7zm6.3-10.3c-.7 0-1.3-.6-1.3-1.3s.6-1.3 1.3-1.3 1.3.6 1.3 1.3-.6 1.3-1.3 1.3z" />
-                  <circle cx="16" cy="16" r="4.4" />
-                </svg>
-              </a>
-            </li>
-            <li className="ml-4">
-              <a href="https://www.facebook.com/elteemastore" target='_blank' className="flex justify-center items-center
+            {/* Facebook */}
+                <li className="ml-4">
+              <a href="https://www.facebook.com/elteemaecommerce" target='_blank' className="flex justify-center items-center
                text-gray-600 hover:text-gray-900 bg-white 
                hover:bg-white-100 rounded-full shadow transition 
                duration-150 ease-in-out" aria-label="Facebook">
@@ -144,6 +130,39 @@ const Footer = ()=>{
                 </svg>
               </a>
             </li>
+            
+              {/* Youtube */}
+            <li>
+                <a
+                  href="https://www.youtube.com/@elteema"
+                  className="flex justify-center items-center text-gray-600 hover:text-red-600 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out"
+                  aria-label="YouTube"
+                >
+                <svg
+                  className="w-8 h-8 fill-current"
+                  viewBox="0 0 576 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                <path d="M549.7 124.1c-6.3-23.8-25-42.5-48.8-48.9C458.2 64 288 64 288 64s-170.2 0-212.9 11.2c-23.8 6.3-42.5 25-48.8 48.9C16 167.8 16 256 16 256s0 88.2 10.3 131.9c6.3 23.8 25 42.5 48.8 48.9C117.8 448 288 448 288 448s170.2 0 212.9-11.2c23.8-6.3 42.5-25 48.8-48.9 10.3-43.7 10.3-131.9 10.3-131.9s0-88.2-10.3-131.9zM232 334V178l142 78-142 78z"/>
+                </svg>
+                </a>
+            </li>
+
+            
+             {/* Linkedin */}
+            <li>
+               <a 
+                href="https://www.linkedin.com/company/elteema" 
+                target='_blank'
+                className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out" 
+                aria-label="LinkedIn"
+              >
+              <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <path d="M26.2 4H5.8C4.8 4 4 4.8 4 5.7v20.5c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V5.7c0-.9-.8-1.7-1.8-1.7ZM11.1 24.4H7.6V13h3.5v11.4Zm-1.7-13c-1.1 0-2.1-.9-2.1-2.1 0-1.1.9-2.1 2.1-2.1 1.1 0 2.1.9 2.1 2.1 0 1.2-.9 2.1-2.1 2.1Zm15.3 13h-3.5v-6.2c0-1.4 0-3.2-2-3.2s-2.3 1.5-2.3 3v6.4h-3.5V13h3.3v1.7h.1c.5-.9 1.7-2 3.4-2 3.6 0 4.3 2.4 4.3 5.5v6.2Z"/>
+              </svg>
+              </a>
+            </li>
+            
           </ul>
 
           {/* Copyrights note */}
@@ -152,7 +171,7 @@ const Footer = ()=>{
 
         </div>
 
-        <div className='text-center pb-3'>Built by <a href='https://myafros.com' className='text-blue-500'>myafros.com</a></div>
+        <div className='text-center pb-3'><a href='#' className='text-blue-500'>&copy; {year} Elteema</a></div>
 
       </div>
     </footer>
