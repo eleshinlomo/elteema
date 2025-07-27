@@ -131,22 +131,20 @@ const Footer = ()=>{
               </a>
             </li>
             
-              {/* Youtube */}
-            <li>
-                <a
-                  href="https://www.youtube.com/@elteema"
-                  className="flex justify-center items-center text-gray-600 hover:text-red-600 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out"
-                  aria-label="YouTube"
-                >
-                <svg
-                  className="w-8 h-8 fill-current"
-                  viewBox="0 0 576 512"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                <path d="M549.7 124.1c-6.3-23.8-25-42.5-48.8-48.9C458.2 64 288 64 288 64s-170.2 0-212.9 11.2c-23.8 6.3-42.5 25-48.8 48.9C16 167.8 16 256 16 256s0 88.2 10.3 131.9c6.3 23.8 25 42.5 48.8 48.9C117.8 448 288 448 288 448s170.2 0 212.9-11.2c23.8-6.3 42.5-25 48.8-48.9 10.3-43.7 10.3-131.9 10.3-131.9s0-88.2-10.3-131.9zM232 334V178l142 78-142 78z"/>
-                </svg>
-                </a>
-            </li>
+              {/* Instagram */}
+       <li>
+  <a 
+    href="https://www.instagram.com/elteemaecommerce/" 
+    target="_blank"
+    className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out" 
+    aria-label="Instagram"
+  >
+    <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 7.2c2.4 0 2.7 0 3.6.1 2.4.1 3.6 1.3 3.7 3.7.1.9.1 1.2.1 3.6s0 2.7-.1 3.6c-.1 2.4-1.3 3.6-3.7 3.7-.9.1-1.2.1-3.6.1s-2.7 0-3.6-.1c-2.4-.1-3.6-1.3-3.7-3.7-.1-.9-.1-1.2-.1-3.6s0-2.7.1-3.6c.1-2.4 1.3-3.6 3.7-3.7.9-.1 1.2-.1 3.6-.1m0-2.2c-2.5 0-2.8 0-3.8.1-3.3.1-5.4 2.2-5.6 5.6C6.4 12.3 6.4 12.7 6.4 16s0 2.8.1 3.8c.1 3.3 2.2 5.4 5.6 5.6 1 .1 1.3.1 3.8.1s2.8 0 3.8-.1c3.3-.1 5.4-2.2 5.6-5.6.1-1 .1-1.3.1-3.8s0-2.8-.1-3.8c-.1-3.3-2.2-5.4-5.6-5.6-1-.1-1.3-.1-3.8-.1Zm0 5.8a4.2 4.2 0 1 0 0 8.4 4.2 4.2 0 0 0 0-8.4Zm0 6.9a2.7 2.7 0 1 1 0-5.4 2.7 2.7 0 0 1 0 5.4Zm5.4-7.1a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
+    </svg>
+  </a>
+</li>
+
 
             
              {/* Linkedin */}

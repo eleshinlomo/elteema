@@ -2,12 +2,13 @@
 import { useContext, useEffect, useState } from "react";
 import { deleteUser } from "../../../../../components/api/users";
 import { GeneralContext } from "../../../../../contextProviders/GeneralProvider";
-import { updateLocalUser } from "../../../../../components/data/userdata";
+import { CartContext } from "../../../../../contextProviders/cartcontext";
 
 const SettingsPage = ()=>{
 
       const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
       const {user, setUser} = useContext(GeneralContext)
+      const {setCart} = useContext(CartContext)
       const [message, setMessage] = useState('')
       const [errorMessage, setErrorMessage] = useState('Once you delete your account, there is no going back. Please be certain.')
       const [isDeleted, setIsDeleted] = useState(false)
@@ -21,6 +22,7 @@ const SettingsPage = ()=>{
           setMessage(response.message)
           setIsDeleteModalOpen(false);
           const updatedUser: any = null
+          setCart([])
           setUser(updatedUser)
           localStorage.removeItem('ptlgUser')
           setIsDeleted(true)

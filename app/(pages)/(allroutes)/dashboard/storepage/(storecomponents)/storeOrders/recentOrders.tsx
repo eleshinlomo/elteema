@@ -287,7 +287,6 @@ const RecentStoreOrders = () => {
                         </p>
                         {/* Reason for cancellation */}
                         <select value={reason} onChange={(e)=>setReason(e.target.value)} className="mt-4">
-                           <option>Reason for cancelling</option>
                            <option value='Out of stock'>Out of stock</option>
                            <option value='Payment declined'>Payment declined</option>
                            <option value='Cannot find a Driver for Delivery'>Cannot find a Driver for Delivery</option>
