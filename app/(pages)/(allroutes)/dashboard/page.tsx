@@ -7,6 +7,7 @@ import { FaRobot } from "react-icons/fa";
 import StorePage from "./storepage/page";
 import { capitalize } from "../../../../components/utils";
 import { testStripe } from "../../../../components/api/payments";
+import LoadingState from "../../../../components/LoadingState";
 
 const DashboardPage = () => {
     const {user, userOrders} = useContext(GeneralContext)
@@ -59,6 +60,9 @@ const DashboardPage = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-8">
+
+            {cardItems?.length > 0  ? 
+            
             <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold text-gray-800 mb-2">Welcome to Your Dashboard</h2>
@@ -89,13 +93,15 @@ const DashboardPage = () => {
                         </a>
                     ))}
                 </div>
+            </div>:
+                <LoadingState />
+                 
+            }
 
-                {alert && (
-                    <div className="mt-8 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200">
-                        Alert message goes here
-                    </div>
-                )}
-            </div>
+                
+
+           
+
 
            
         </div>
