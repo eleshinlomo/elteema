@@ -9,7 +9,7 @@ import { updateLocalUser } from '../../../../components/utils'
 import Image from 'next/image'
 import { createUserOrder } from '../../../../components/api/users'
 import AlertCard from './paymentAlertCard'
-import NotLoggedInPage from '../authpages/notLoggedInpage'
+
 
 const CheckoutPage = () => {
   const { isLoggedIn, user, setUser } = useContext(GeneralContext)
