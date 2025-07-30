@@ -3,7 +3,6 @@
 import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider";
 import { useRouter } from "next/navigation";
-import NotLoggedInPage from "../authpages/notLoggedInpage";
 import DashSideBar from "./dashNavs/dashSidebar";
 import DashNavBar from "./dashNavs/dashNavBar";
 import { ProductProps } from "../../../../components/api/product";

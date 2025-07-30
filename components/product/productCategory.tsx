@@ -9,6 +9,8 @@ import { ProductContext } from '../../contextProviders/ProductContext'
 import ProductDetails from './productdetails'
 import { GeneralContext } from '../../contextProviders/GeneralProvider'
 import LoadingState from '../LoadingState'
+import { useRouter } from 'next/navigation'
+
 
 interface CategoryProps {
   category: string;
@@ -19,52 +21,44 @@ const ProductCategory = ({ category }: CategoryProps) => {
   const { isLoading, setIsLoading } = useContext(GeneralContext)
   const { Products } = useContext(ProductContext)
   const [categoryStatus, setCategoryStatus] = useState<'loading' | 'found' | 'not-found'>('loading')
+  const router = useRouter()
 
-  useEffect(() => {
-    setIsLoading(true)
-    setCategoryStatus('loading')
-    
-    if (Products) {
-      const items = Products.filter(item => 
-        item.category.toLowerCase() === decodeURIComponent(category.toLowerCase()) || 
-        item.productName.toLowerCase() === decodeURIComponent(category).toLowerCase()
-      )
-      
-      if (items?.length > 0) {
-        setCategoryItems(items)
-        setCategoryStatus('found')
-      } else {
-        setCategoryStatus('not-found')
-      }
-      setIsLoading(false)
-    }
-  }, [Products, category])
+useEffect(() => {
+  if (!Products || Products.length === 0) return; // Prevent premature action
 
-  // Show loading state while checking
-  if (categoryStatus === 'loading' || isLoading) {
-    return (
-      <div className="py-32">
-        <SkeletonPage message={`Loading ${decodeURIComponent(category)} items...`} />
-      </div>
-    )
+  setIsLoading(true)
+  setCategoryStatus('loading')
+
+  const decodedCategory = decodeURIComponent(category.toLowerCase())
+  const items = Products.filter(item =>
+    item.category.toLowerCase() === decodedCategory ||
+    item.productName.toLowerCase() === decodedCategory
+  )
+
+  if (items.length > 0) {
+    setCategoryItems(items)
+    setCategoryStatus('found')
+  } else {
+    setCategoryStatus('not-found')
+    router.push(`/categorynotfoundpage/${encodeURIComponent(category)}`)
   }
 
-  // Show not found page only after confirmation
-  if (categoryStatus === 'not-found') {
-    return (
-      <div className="py-8">
-        <CategoryNotFound category={category} />
-      </div>
-    )
-  }
+  setIsLoading(false)
+}, [Products, category])
 
+
+ 
   // Show products
   return (
     <div className="pb-8">
+      {categoryItems?.length > 0 ? 
+      
       <ProductDetails 
         productArray={categoryItems} 
         text={`Shop for ${decodeURIComponent(category)}`} 
-      />
+      />:
+      <LoadingState />
+      }
     </div>
   )
 }

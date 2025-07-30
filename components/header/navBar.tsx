@@ -57,7 +57,7 @@ const NavBar = () => {
         </a>
 
         {/* Fabrics */}
-        <a href={`/categorypage/${'fabrics & textiles'}`}>
+        <a href={`/categorypage/${encodeURIComponent('fabrics & textiles')}`}>
           <button
             onClick={() => handleTabClick("fabric")}
             className={`flex flex-col items-center p-2 transition-colors duration-200 ${
@@ -70,7 +70,7 @@ const NavBar = () => {
         </a>
 
         {/* Spices */}
-        <a href={`/categorypage/${'vegetable & spice'}`}>
+        <a href={`/categorypage/${encodeURIComponent('vegetable & spice')}`}>
           <button
             onClick={() => handleTabClick("spices")}
             className={`flex flex-col items-center p-2 transition-colors duration-200 ${

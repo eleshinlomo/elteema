@@ -129,7 +129,7 @@ const CustomerDashboard = () => {
   }, [user]);
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 sm:px-6 pt-16 pb-8 w-full">
+    <div className="min-h-screen bg-gray-50 px-4 sm:px-6  pb-8 w-full">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1">
