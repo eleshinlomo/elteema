@@ -9,13 +9,28 @@ import DashNavBar from "./dashNavs/dashNavBar";
 import { ProductProps } from "../../../../components/api/product";
 import LoadingState from "../../../../components/LoadingState";
 
+
 interface DashboardProps {
     children: React.ReactNode
 }
 
 const DashboardLayout = ({children}: DashboardProps) => {
-    const {isLoggedIn, user, setUserOrders, isLoading} = useContext(GeneralContext);
+    const {isLoggedIn, user, setUserOrders, isLoading, setIsLoading} = useContext(GeneralContext);
     const [authChecked, setAuthChecked] = useState(false);
+    const router = useRouter()
+
+   
+    
+  useEffect(()=>{
+    const localUserString: any = localStorage.getItem('ptlgUser')
+    const parsedUser = JSON.parse(localUserString)
+    if(parsedUser?.isLoggedIn){
+        setAuthChecked(true)
+    }else{
+        router.push('/authpages/notloggedinpage')
+    }
+  }, [authChecked])
+
 
     useEffect(() => {
         if (user?.orders?.length > 0) {
@@ -23,25 +38,15 @@ const DashboardLayout = ({children}: DashboardProps) => {
         }
     }, [user]);
 
-    useEffect(() => {
-        // This effect will run when isLoggedIn changes from undefined to true/false
-        if (isLoggedIn !== undefined) {
-            setAuthChecked(true);
-        }
-    }, [isLoggedIn]);
+  
 
-    // Show loading state until auth is confirmed
-    if (!authChecked || isLoading) {
-        return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <LoadingState />
-            </div>
-        );
-    }
+ 
+
+   
 
     return (
         <div className="min-h-screen bg-gray-50 pb-24 pt-16">
-            {isLoggedIn ? (
+            {authChecked ? (
                 <div className="md:flex">
                     <div className="hidden md:block md:w-1/4 md:fixed md:h-screen md:overflow-y-auto">
                         <DashSideBar user={user} userOrders={user?.orders || []} />
@@ -54,7 +59,7 @@ const DashboardLayout = ({children}: DashboardProps) => {
                     </div>
                 </div>
             ) : (
-                <NotLoggedInPage />
+                <LoadingState />
             )}
         </div>
     );

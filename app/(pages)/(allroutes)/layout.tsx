@@ -107,7 +107,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
   
         if (localUser && localUser.authCode && localUser.email) {
           const confirmedUser = await persistLogin(localUser.authCode, localUser.email)
-            console.log('Confirmed User', confirmedUser)
+          
           if(confirmedUser.ok){
             setIsLoggedIn(confirmedUser.data.isLoggedIn);
             setUser(confirmedUser.data);
