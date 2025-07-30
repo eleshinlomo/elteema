@@ -35,16 +35,22 @@ useEffect(() => {
     item.productName.toLowerCase() === decodedCategory
   )
 
-  if (items.length > 0) {
+  if (items?.length > 0) {
     setCategoryItems(items)
     setCategoryStatus('found')
   } else {
     setCategoryStatus('not-found')
-    router.push(`/categorynotfoundpage/${encodeURIComponent(category)}`)
   }
 
   setIsLoading(false)
 }, [Products, category])
+
+
+useEffect(()=>{
+  if(categoryStatus === 'not-found'){
+      router.push(`/categorynotfoundpage/${encodeURIComponent(category)}`)
+  }
+}, [categoryStatus])
 
 
  
