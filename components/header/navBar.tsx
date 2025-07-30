@@ -1,158 +1,148 @@
-'use client'
-import React, { useContext, useEffect, useState } from "react";
-import { Home, Search, BarChart2, ShoppingBag, LogOutIcon, LogInIcon, WineIcon, HotelIcon, MenuIcon, PartyPopperIcon, HomeIcon, ForkKnifeCrossedIcon, SplineIcon, CookingPotIcon, ShirtIcon } from "lucide-react";
+'use client';
+
+import React, { useContext } from "react";
+import { BarChart2, LogOutIcon, LogInIcon, HomeIcon, CookingPotIcon, ShirtIcon } from "lucide-react";
+import { FaShoppingBag } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import { CartContext } from "../../contextProviders/cartcontext";
 import { logout } from "../api/auth";
 import { fetchCart } from "../utils";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
 import Cart from "../cart/cart";
 import MenuButton from "./menuButton";
-import { FaShoppingBag } from "react-icons/fa";
 import PWAInstallButton from "../PWADownloadButton";
 
 const NavBar = () => {
   const [activeTab, setActiveTab] = React.useState("home");
-  const {isLoggedIn,setIsLoggedIn, user, setUser, showSearchPage, setShowSearchPage} = useContext(GeneralContext)
-  const {cart, setCart, totalItems, totalPrice, setTotalItems, setTotalPrice} = useContext(CartContext)
-  const router = useRouter()
-  const store = user?.store
-  const storeOrders = user?.store?.orders
+  const { isLoggedIn, setIsLoggedIn, user } = useContext(GeneralContext);
+  const { setCart, setTotalItems, setTotalPrice } = useContext(CartContext);
+  const router = useRouter();
+  const storeOrders = user?.store?.orders;
 
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
 
   const handleLogout = async () => {
-    setIsLoggedIn(false)
-    const response = await logout(user?.email, user?.isCookieAccepted)
-    console.log(response)
-    const newCart = fetchCart()
-    setCart(newCart)
-    setTotalItems(0)
-    setTotalPrice(0)
-    router.push('/authpages/signin')
-  }
+    setIsLoggedIn(false);
+    await logout(user?.email, user?.isCookieAccepted);
+    setCart(fetchCart());
+    setTotalItems(0);
+    setTotalPrice(0);
+    router.push('/authpages/signin');
+  };
 
-  
-
-
+  const NavButton = ({
+    href,
+    tabName,
+    icon: Icon,
+    label,
+    showBadge,
+    badgeCount
+  }: {
+    href: string;
+    tabName: string;
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+    showBadge?: boolean;
+    badgeCount?: number;
+  }) => (
+    <div className="w-[70px] text-center shrink-0">
+      <a href={href} className="block w-full">
+        <button
+          onClick={() => handleTabClick(tabName)}
+          className={`flex flex-col items-center justify-center w-full p-2 transition-colors duration-200 text-xs ${
+            activeTab === tabName ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
+          }`}
+        >
+          <div className="relative">
+            <Icon className="w-6 h-6 mx-auto shrink-0" />
+            <span
+              className={`absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center transition-opacity duration-200 ${
+                showBadge && badgeCount ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              {badgeCount || 0}
+            </span>
+          </div>
+          <span className="mt-1">{label}</span>
+        </button>
+      </a>
+    </div>
+  );
 
   return (
-    <div className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm py-2  md:px-4 z-50">
-      <div className="flex justify-between items-center">
-
-        {/* Home */}
-        <a href='/'>
-          <button
-            onClick={() => handleTabClick("home")}
-            className={`hidden md:flex flex-col items-center p-2 transition-colors duration-200 ${
-              activeTab === "home" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
-            }`}
-          >
-            <HomeIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 for consistency */}
-            <span className="text-xs mt-1">Home</span>
-          </button>
-        </a>
+    <div className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm py-2 md:px-4 z-50">
+      <div className="flex items-center justify-between overflow-x-hidden flex-nowrap">
+        {/* Home - hidden on mobile */}
+        <div className="hidden md:block">
+          <NavButton href="/" tabName="home" icon={HomeIcon} label="Home" />
+        </div>
 
         {/* Fabrics */}
-        <a href={`/categorypage/${encodeURIComponent('fabrics & textiles')}`}>
-          <button
-            onClick={() => handleTabClick("fabric")}
-            className={`flex flex-col items-center p-2 transition-colors duration-200 ${
-              activeTab === "fabric" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
-            }`}
-          >
-            <ShirtIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 for consistency */}
-            <span className="text-xs mt-1">Fabric</span>
-          </button>
-        </a>
+        <NavButton
+          href={`/categorypage/${encodeURIComponent('fabrics & textiles')}`}
+          tabName="fabric"
+          icon={ShirtIcon}
+          label="Fabric"
+        />
 
         {/* Spices */}
-        <a href={`/categorypage/${encodeURIComponent('vegetable & spice')}`}>
-          <button
-            onClick={() => handleTabClick("spices")}
-            className={`flex flex-col items-center p-2 transition-colors duration-200 ${
-              activeTab === "spices" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
-            }`}
-          >
-            <CookingPotIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
-            <span className="text-xs mt-1">Spices</span>
-          </button>
-        </a>
+        <NavButton
+          href={`/categorypage/${encodeURIComponent('vegetable & spice')}`}
+          tabName="spices"
+          icon={CookingPotIcon}
+          label="Spices"
+        />
 
-        {/* Dashboard */}
-        <a href='/dashboard'>
-          <button
-            onClick={() => handleTabClick("dashboard")}
-            className={`hidden md:flex flex-col items-center p-2 transition-colors duration-200 ${
-              activeTab === "dashboard" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
-            }`}
-          >
-            <BarChart2 className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
-            <span className="text-xs mt-1">Dashboard</span>
-          </button>
-        </a>
+        {/* Dashboard - hidden on mobile */}
+        <div className="hidden md:block">
+          <NavButton href="/dashboard" tabName="dashboard" icon={BarChart2} label="Dashboard" />
+        </div>
 
         {/* Store */}
-        <a href='/dashboard/storepage'
-         className="relative"
-        >
-          <button
-            onClick={() => handleTabClick("store")}
-            className={`absolute top-[-28px] right-[-25px] flex flex-col items-center p-2 transition-colors duration-200 ${
-              activeTab === "store" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
-            }`}
-          >
-            <FaShoppingBag className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
-            <span className="text-xs mt-1">{user?.store ? 'Store' : 'Sell'}</span>
-          </button>
-          <p className="absolute bg-green-600 text-white rounded-2xl px-2 left-[8px] top-[-26px]">
-            {storeOrders?.currentOrders.length > 0 ? storeOrders?.currentOrders?.length : null}</p>
-        </a>
+        <NavButton
+          href="/dashboard/storepage"
+          tabName="store"
+          icon={FaShoppingBag}
+          label={user?.store ? "Store" : "Sell"}
+          showBadge={true}
+          badgeCount={storeOrders?.currentOrders.length}
+        />
 
-
-   
-  
-
-        {/* Auth */}
-        <div>
-          {!isLoggedIn ?
-            <a href='/authpages/signin'>
-              <button
-                onClick={() => handleTabClick("signin")}
-                className={`hidden md:flex flex-col items-center p-2 transition-colors duration-200 ${
-                  activeTab === "signin" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
-                }`}
-              >
-                <LogInIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
-                <span className="text-xs mt-1">Sign in</span>
-              </button>
-            </a> :
+        {/* Auth - hidden on mobile */}
+        <div className="hidden md:block w-[70px] text-center shrink-0">
+          {!isLoggedIn ? (
+            <NavButton
+              href="/authpages/signin"
+              tabName="signin"
+              icon={LogInIcon}
+              label="Sign in"
+            />
+          ) : (
             <button
               onClick={handleLogout}
-              className={`hidden md:flex flex-col items-center p-2 transition-colors duration-200 ${
+              className={`flex flex-col items-center justify-center w-full p-2 transition-colors duration-200 text-xs ${
                 activeTab === "signout" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
               }`}
             >
-              <LogOutIcon className="w-6 h-6" /> {/* Changed from w-5 h-5 */}
-              <span className="text-xs mt-1">Sign out</span>
+              <LogOutIcon className="w-6 h-6 mx-auto shrink-0" />
+              <span className="mt-1">Sign out</span>
             </button>
-          }
+          )}
         </div>
-        
-        {/* App install desktop mode */}
-        <div className="hidden md:flex">
+
+        {/* App install - hidden on mobile */}
+        <div className="hidden md:flex w-[70px] justify-center shrink-0">
           <PWAInstallButton />
         </div>
-    
-     
-        {/* Cart - shows only in desktop mode */}
-        <div className="hidden md:flex">
+
+        {/* Cart - hidden on mobile */}
+        <div className="hidden md:flex w-[70px] justify-center shrink-0">
           <button
             onClick={() => handleTabClick("cart")}
-            className={`flex flex-col items-center p-2 transition-colors duration-200 ${
+            className={`flex flex-col items-center justify-center w-full p-2 transition-colors duration-200 text-xs ${
               activeTab === "cart" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
             }`}
           >
@@ -160,19 +150,22 @@ const NavBar = () => {
           </button>
         </div>
 
-        {/* Menu - shows always */}
-          <div className="w-16 flex-shrink-0">
-          <button
-            onClick={() => handleTabClick("menu")}
-            className={`flex flex-col items-center p-2 transition-colors duration-200 ${
-              activeTab === "menu" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
-            }`}
-          >
-            <MenuButton />
-            <span className="text-xs">Menu</span>
-          </button>
-        </div>
-      
+        {/* Menu - always visible */}
+        <div className="w-[70px] shrink-0 text-center">
+  <button
+    onClick={() => handleTabClick("menu")}
+    className={`flex flex-col items-center justify-center w-full p-2 transition-colors duration-200 text-xs ${
+      activeTab === "menu" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
+    }`}
+  >
+    <div className="w-6 h-6 mx-auto flex items-center justify-center">
+      <MenuButton />
+    </div>
+    <span className="mt-1 block">Menu</span>
+  </button>
+</div>
+
+
       </div>
     </div>
   );
