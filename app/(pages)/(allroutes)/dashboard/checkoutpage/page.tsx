@@ -9,6 +9,7 @@ import { updateLocalUser } from '../../../../../components/utils'
 import Image from 'next/image'
 import { createUserOrder } from '../../../../../components/api/users'
 import AlertCard from './paymentAlertCard'
+import { useRouter } from "next/navigation";
 
 
 const CheckoutPage = () => {
@@ -24,6 +25,14 @@ const CheckoutPage = () => {
   const [paymentMethodError, setPaymentMethodError] = useState('')
   const [error, setError] = useState('')
   const [isProcessingOrder, setIsProcessingOrder] = useState(false)
+
+  const router = useRouter()
+  const localUserString = localStorage.getItem('ptlgUser')
+  const parsedUser = localUserString ? JSON.parse(localUserString) : null
+
+  if(!parsedUser?.isLoggedIn){
+     router.push('/authpages/signin')
+  }
 
   
 //  const handlePaymentPopUp = async () => {
@@ -189,9 +198,7 @@ const CheckoutPage = () => {
 };
 
 
-if(!isLoggedIn){
-     return <SigninPage />
-  }
+
 
 
   

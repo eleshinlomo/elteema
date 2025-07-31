@@ -20,7 +20,7 @@ const CreateStorePage = () => {
   }
 
   const [formData, setFormData] = useState<CreateStoreProps>({
-    userId: user._id,
+    userId: user?._id,
     bankAccountName: '',
     bankAccountNumber: '',
     bvn: '',
@@ -50,7 +50,7 @@ const CreateStorePage = () => {
         updateLocalUser(updatedUser)
         setUser(updatedUser)
         setFormData({
-          userId: user._id,
+          userId: user?._id,
           bankAccountName: '',
           bankAccountNumber: '',
           bvn: '',
