@@ -70,7 +70,7 @@ const SignupPage = () => {
                                     className="w-12 dark:hidden"
                                   />
                 </div>
-                <div className="text-center mb-8">
+                <div className="text-center mb-2">
                   <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     {!isRegistered ? 'Create Your Account' : 'Please sign in'}
                   </h1>
@@ -79,7 +79,7 @@ const SignupPage = () => {
                   </p>: null}
                 </div>
 
-                <div className={`mb-6 text-center text-md font-medium ${
+                <div className={`mb-3 text-center text-md font-medium ${
                   error ? "text-red-600 dark:text-red-400" : "text-green-800 font-extrabold dark:text-gray-400"
                 }`}>
                   {error || message}

@@ -10,6 +10,7 @@ import { ProductProps } from '../api/product'
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import { ProductContext } from "../../contextProviders/ProductContext";
 import PopularBadge from "./popularBadge";
+import CheckoutButton from "../cart/checkoutButton";
 
 interface ProductDetailsProps {
   productArray: ProductProps[];
@@ -268,12 +269,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
                         />
                       </>
                     ) : (
-                      <a
-                        href="/checkoutpage"
-                        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-sm text-center"
-                      >
-                        Go to Checkout
-                      </a>
+                      <CheckoutButton />
                     )}
                   </div>
 

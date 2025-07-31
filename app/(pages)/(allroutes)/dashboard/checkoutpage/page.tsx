@@ -1,13 +1,13 @@
 'use client'
 
 import { useContext, useState, useEffect, useCallback } from 'react'
-import { GeneralContext } from '../../../../contextProviders/GeneralProvider'
-import SigninPage from '../authpages/signin/page'
-import { calculatePercentagePrice, capitalize, formatCurrency, totalPriceForCustomer} from '../../../../components/utils'
-import { CartContext } from '../../../../contextProviders/cartcontext'
-import { updateLocalUser } from '../../../../components/utils'
+import { GeneralContext } from '../../../../../contextProviders/GeneralProvider'
+import SigninPage from '../../authpages/signin/page'
+import { calculatePercentagePrice, capitalize, formatCurrency, totalPriceForCustomer} from '../../../../../components/utils'
+import { CartContext } from '../../../../../contextProviders/cartcontext'
+import { updateLocalUser } from '../../../../../components/utils'
 import Image from 'next/image'
-import { createUserOrder } from '../../../../components/api/users'
+import { createUserOrder } from '../../../../../components/api/users'
 import AlertCard from './paymentAlertCard'
 
 
@@ -141,6 +141,7 @@ const CheckoutPage = () => {
       setOpenWarning(true);
       return;
     }
+    
     const newStatus = 'pending'
     // Prepare cart items with additional info
     const updatedCart = cart.map(item => ({
@@ -196,7 +197,7 @@ if(!isLoggedIn){
   
 
   return (
-    <div className="min-h-screen bg-gray-50 py-24" id='payment-top'>
+    <div className="min-h-screen bg-gray-50 " id='payment-top'>
       {user && isLoggedIn ? (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
           {/* Header */}
@@ -214,7 +215,7 @@ if(!isLoggedIn){
               </p>
             }
             <div className='md:flex justify-center items-center gap-2'>
-            <a href="/supermarketpage">
+            <a href="/">
               <button className="mt-6 bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
                 Continue shopping
               </button>

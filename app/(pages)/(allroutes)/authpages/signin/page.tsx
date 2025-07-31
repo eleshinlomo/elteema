@@ -62,7 +62,7 @@ const SigninPage = () => {
           <div className="flex flex-wrap justify-center">
             <div className="w-full max-w-md">
               <div className="shadow-lg rounded-xl bg-white/90 backdrop-blur-sm px-8 py-12 dark:bg-gray-900/80">
-                <div className="text-center mb-8">
+                <div className="text-center mb-2">
                   <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     Welcome Back
                   </h1>
@@ -71,7 +71,7 @@ const SigninPage = () => {
                   </p>
                 </div>
 
-                <div className={`mb-6 text-center text-md font-medium ${
+                <div className={`mb-3 text-center text-md font-medium ${
                   error ? "text-red-600 dark:text-red-400" : "text-green-900 "
                 }`}>
                   {error ? error : <ReactMarkdown>{message}</ReactMarkdown>}

@@ -16,24 +16,26 @@ const DashboardLayout = ({children}: DashboardProps) => {
     const router = useRouter();
     const [authChecked, setAuthChecked] = useState(false);
 
-    useEffect(() => {
-        if (isLoading) return;
+  useEffect(() => {
+    const checkAuth = () => {
+        if (isLoading) return; // Wait for auth check to finish
 
-        // Check both context and localStorage for auth status
         const localUserString = localStorage.getItem('ptlgUser');
         const localUser = localUserString ? JSON.parse(localUserString) : null;
-        
-        if (!isLoggedIn || !user || !localUser?.isLoggedIn) {
-            router.push('/authpages/notloggedinpage');
-            return;
-        }
 
-        // If we get here, user is authenticated
-        setAuthChecked(true);
-        if (user?.orders?.length > 0) {
-            setUserOrders(user.orders);
+        if (!localUser?.isLoggedIn) {
+            router.push('/authpages/notloggedinpage');
+        } else {
+            setAuthChecked(true);
+            if (user?.orders?.length > 0) {
+                setUserOrders(user.orders);
+            }
         }
-    }, [isLoggedIn, user, isLoading, router, setUserOrders]);
+    };
+
+    checkAuth();
+}, [isLoggedIn, user, isLoading]);
+
 
     if (isLoading || !authChecked) {
         return <LoadingState />;

@@ -9,6 +9,7 @@ import { capitalize, formatCurrency } from '../utils';
 import { ProductProps } from '../api/product';
 import BuyNowButton from '../cart/buyNowBtn';
 import { FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
+import CheckoutButton from '../cart/checkoutButton';
 
 const HotProductsPreview = () => {
   const { cart } = useContext(CartContext);
@@ -34,7 +35,7 @@ const HotProductsPreview = () => {
 
   useEffect(() => {
     if (selectedProduct) {
-      const productInCart = cart.some(item => item._id === selectedProduct._id);
+      const productInCart = cart?.some(item => item._id === selectedProduct._id);
       setIsAdded(productInCart);
     }
   }, [cart, selectedProduct]);
@@ -262,12 +263,7 @@ const HotProductsPreview = () => {
                     />
                   </>
                 ) : (
-                  <a
-                    href="/checkoutpage"
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-sm text-center transition-colors"
-                  >
-                    Go to Checkout
-                  </a>
+                <CheckoutButton />
                 )}
               </div>
 
@@ -404,12 +400,7 @@ const HotProductsPreview = () => {
                       />
                     </>
                   ) : (
-                    <a
-                      href="/checkoutpage"
-                      className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 text-center transition-colors"
-                    >
-                      Go to Checkout
-                    </a>
+                    <CheckoutButton />
                   )}
                 </div>
 

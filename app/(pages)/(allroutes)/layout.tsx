@@ -63,6 +63,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
              const data: any = await verifyCode(code, email)
               if(data.ok){
                 let verifiedUser: any = data.data
+                  setIsLoggedIn(true)
                   const existingUser: any = getLocalUser() //Exisiting user is for guest user. Usually with no id.
                   const existingUserCart = existingUser?.cart
                     let mergedCart: any = []
@@ -71,12 +72,14 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
                         updateCart(verifiedUser._id, mergedCart)
                        
                     }else{
+                    
                       const userCart = verifiedUser?.cart
                       mergedCart = userCart
                     }
                     const updatedUser = {...verifiedUser, cart: mergedCart}
                     updateLocalUser(updatedUser)
                     setUser(updatedUser)
+                    setIsLoggedIn(true)
                   
                     code = ''
                     email = ''
@@ -85,7 +88,6 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
                   
               
               } 
-             
               return
           }
           

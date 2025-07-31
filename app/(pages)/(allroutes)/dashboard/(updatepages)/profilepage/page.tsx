@@ -8,6 +8,7 @@ import { capitalize } from '../../../../../../components/utils';
 import { updateUser } from '../../../../../../components/api/users';
 import DashSideBar from '../../dashNavs/dashSidebar';
 import Cart from '../../../../../../components/cart/cart';
+import CheckoutButton from '../../../../../../components/cart/checkoutButton';
 
 const CustomerDashboard = () => {
   const [error, setError] = useState('');
@@ -148,11 +149,7 @@ const CustomerDashboard = () => {
                 </div>
 
                 <div className='flex gap-3 my-4'>
-                  <a href='/checkoutpage'>
-                    <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white'>
-                      Continue checkout
-                    </button>
-                  </a>
+                 <CheckoutButton />
                   <a href='/'>
                     <button className='text-xs py-1 px-2 rounded bg-green-600 hover:bg-green-700 text-white '>
                       Continue shopping

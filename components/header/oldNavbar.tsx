@@ -51,7 +51,7 @@ const OldNavBar = () => {
       <header
        className={`header fixed  left-0 top-0 z-40 w-full flex justify-between px-6 ${
           sticky
-            ? "text-white bg-gradient-to-r from-green-900 to-black/50   !bg-opkdrop-blur-sm transition"
+            ? "text-white bg-gradient-to-r from-black/80 to-black/50   !bg-opkdrop-blur-sm transition"
             : "absolute bg-white/80 text-green-800 "
         }`}
       >
