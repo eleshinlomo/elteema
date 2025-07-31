@@ -8,6 +8,7 @@ import { CartContext } from "../../contextProviders/cartcontext";
 import { fetchCart } from "../utils";
 import PWAInstallButton from "../PWADownloadButton";
 import Cart from "../cart/cart";
+import MenuButton from "./menuButton";
 
 const NavRightSide = () => {
   const cartContext = useContext(CartContext)
@@ -37,7 +38,7 @@ const NavRightSide = () => {
     <div className=" flex gap-4">
     
     {/* Right side buttons */}
-    <div className="hidden md:flex items-center gap-4">
+    <div className="hidden md:flex items-center gap-4 pr-12">
       {isLoggedIn && user ? (
         <>
         <Link
@@ -78,9 +79,12 @@ const NavRightSide = () => {
       )}
       </div>
       {/* pwa display */}
-      <div className="mt-6"><PWAInstallButton /></div>
+      <div className="flex justifify-between">
+        <PWAInstallButton />
        {/* Cart - Always visible */}
-              <Cart />
+              <div className="hidden md:flex"><Cart /></div>
+              <MenuButton />
+        </div>
     </div>
   )
 }

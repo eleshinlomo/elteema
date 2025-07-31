@@ -8,6 +8,7 @@ import { GeneralProvider } from "../../contextProviders/GeneralProvider"
 import { useSearchParams } from "next/navigation"
 import { ProductContextProvider } from "../../contextProviders/ProductContext"
 import GoogleAnalytics from "../../components/google/googleAnalytics"
+import NavBar from "../../components/header/navBar"
 
 
 

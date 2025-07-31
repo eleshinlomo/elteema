@@ -73,7 +73,7 @@ const NavBar = () => {
   );
 
   return (
-    <div className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm py-2 md:px-4 z-50">
+    <div className="fixed w-full top-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm py-2 md:px-4 z-50">
       <div className="flex items-center justify-between overflow-x-hidden flex-nowrap">
         {/* Home - hidden on mobile */}
         <div className="hidden md:block">
@@ -152,18 +152,18 @@ const NavBar = () => {
 
         {/* Menu - always visible */}
         <div className="w-[70px] shrink-0 text-center">
-  <button
-    onClick={() => handleTabClick("menu")}
-    className={`flex flex-col items-center justify-center w-full p-2 transition-colors duration-200 text-xs ${
-      activeTab === "menu" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
-    }`}
-  >
-    <div className="w-6 h-6 mx-auto flex items-center justify-center">
-      <MenuButton />
-    </div>
-    <span className="mt-1 block">Menu</span>
-  </button>
-</div>
+          <button
+            onClick={() => handleTabClick("menu")}
+            className={`flex flex-col items-center justify-center w-full p-2 transition-colors duration-200 text-xs ${
+            activeTab === "menu" ? "text-teal-500" : "text-gray-400 hover:text-gray-600"
+            }`}
+          >
+        
+          <MenuButton />
+{/* 
+          <span className="mt-1 block">Menu</span> */}
+        </button>
+      </div>
 
 
       </div>

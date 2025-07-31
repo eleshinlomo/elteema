@@ -82,7 +82,7 @@ const Cart = () => {
 
       {/* Overlay */}
       {isDrawerOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40" />
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-100" />
       )}
 
       {/* Drawer */}

@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from "next/navigation";
 import { CartContext } from '../../contextProviders/cartcontext';
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
-import HeaderAlert from "../header/headeralert";
 import { MenuIcon, ShieldCloseIcon, SidebarClose, SidebarCloseIcon } from "lucide-react";
 import { formatCurrency } from '../utils';
 import MenuContent from './menuContent';
@@ -79,12 +78,12 @@ const MenuButton = () => {
         aria-label="Open menu"
         suppressHydrationWarning
       >
-        <MenuIcon className="w-5 h-5" />
+        <MenuIcon className="w-8 h-8 mt-6 mx-3" />
       </button>
 
       {/* Overlay */}
       {isDrawerOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40" />
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-100"/>
       )}
 
       {/* Drawer */}

@@ -91,7 +91,7 @@ const NewSearch = () => {
   }, []);
 
   return (
-    <div className="w-full pt-6 mb-2 bg-gradient-to-br from-green-50 to-emerald-50">
+    <div className="w-full pt-2 mb-2 bg-gradient-to-br from-green-50 to-emerald-50">
       <div className="max-w-2xl mx-auto px-4" ref={searchRef}>
 
           <div className="flex justify-center items-center">

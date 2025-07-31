@@ -45,14 +45,14 @@ const OldNavBar = () => {
   };
 
   return (
-    <div className="relative  pb-16 w-full">
+    <div className="relative   w-full">
       {/* <div className="fixed  w-full"><HeaderAlert /></div> */}
 
       <header
-       className={`header fixed z-[8000] left-0 top-0 z-40 w-full flex justify-between px-6 ${
+       className={`header fixed  left-0 top-0 z-40 w-full flex justify-between px-6 ${
           sticky
             ? "text-white bg-gradient-to-r from-green-900 to-black/50   !bg-opkdrop-blur-sm transition"
-            : "absolute bg-black/80 text-white "
+            : "absolute bg-white/80 text-green-800 "
         }`}
       >
         <div className="w-full max-w-7xl  ">

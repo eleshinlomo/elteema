@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation"
 import NavBar from "../../../components/header/navBar"
 import Featured from "../../../components/product/featured"
 import { updateCart } from "../../../components/api/cart"
+import OldNavBar from "../../../components/header/oldNavbar"
 
 
 interface AllRoutesProps {
@@ -141,7 +142,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
     <Suspense>
       <div>
           {/* <NavBar /> */}
-          <NavBar />
+          <OldNavBar />
           {children}
           {showSearchPage ? <Featured /> : null}
           <ScrollTopButton />
