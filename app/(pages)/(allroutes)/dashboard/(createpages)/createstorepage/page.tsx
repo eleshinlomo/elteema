@@ -1,5 +1,5 @@
 'use client'
-import { useState, FormEvent, useContext, ChangeEvent } from "react"
+import { useState, useEffect, FormEvent, useContext, ChangeEvent } from "react"
 import { GeneralContext } from "../../../../../../contextProviders/GeneralProvider"
 import { updateLocalUser } from "../../../../../../components/utils"
 import { countries } from "../../../../../../components/data/locations"
@@ -15,9 +15,11 @@ const CreateStorePage = () => {
   const [availableStates, setAvailableStates] = useState<Array<{name: string, cities: string[], country: string}>>([])
   const [availableCities, setAvailableCities] = useState<string[]>([])
 
-  if(user?.store){
+
+    if(user?.store){
     window.location.href = '/dashboard/storepage'
   }
+
 
   const [formData, setFormData] = useState<CreateStoreProps>({
     userId: user?._id,

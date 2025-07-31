@@ -15,13 +15,14 @@ const DashboardLayout = ({children}: DashboardProps) => {
     const { isLoggedIn, user, setUserOrders, isLoading } = useContext(GeneralContext);
     const router = useRouter();
     const [authChecked, setAuthChecked] = useState(false);
+    const [localUser, setLocalUser] = useState<any>(null)
 
   useEffect(() => {
     const checkAuth = () => {
         if (isLoading) return; // Wait for auth check to finish
 
         const localUserString = localStorage.getItem('ptlgUser');
-        const localUser = localUserString ? JSON.parse(localUserString) : null;
+        setLocalUser(localUserString ? JSON.parse(localUserString) : null);
 
         if (!localUser?.isLoggedIn) {
             router.push('/authpages/notloggedinpage');
@@ -34,7 +35,7 @@ const DashboardLayout = ({children}: DashboardProps) => {
     };
 
     checkAuth();
-}, [isLoggedIn, user, isLoading]);
+}, [isLoggedIn, user, isLoading, localUser]);
 
 
     if (isLoading || !authChecked) {
