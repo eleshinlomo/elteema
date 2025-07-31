@@ -61,7 +61,7 @@ const OldNavBar = () => {
             {/* Logo - Made larger */}
             <div className=" ">
               <Link href="/" className={`header-logo block w-full ${sticky ? "py-2 lg:py-2" : "py-2"}`}>
-                <div className="relative h-16 w-16"> {/* Increased size */}
+                <div className="relative w-12 h-12"> 
                   <Image
                     src="/images/logos/elteema_logo.png"
                     alt="logo"
@@ -90,13 +90,19 @@ const OldNavBar = () => {
                     {menuItem.path ? (
                       
                           
-                          <Link
-                            href={menuItem.path}
-                            className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 hover:text-green-400 transition-colors duration-200`}
-                            
-                            >
-                            {menuItem.title}
-                          </Link>
+                        <Link
+                          href={
+                          menuItem.title === 'Fabrics'
+                            ? `/categorypage/${encodeURIComponent('fabrics & textiles')}`
+                          : menuItem.title === 'Spices'
+                          ? `/categorypage/${encodeURIComponent('vegetable & spice')}`
+                          : menuItem.path
+                          }
+                          className="flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 hover:text-green-400 transition-colors duration-200"
+                          >
+                          {menuItem.title}
+                        </Link>
+
                       
                     ) : (
                       <>

@@ -95,9 +95,6 @@ const NewSearch = () => {
       <div className="max-w-2xl mx-auto px-4" ref={searchRef}>
 
           <div className="flex justify-center items-center">
-            <div className="relative h-12 w-12">
-              <Image src={'/images/logos/elteema_logo.png'} alt='logo' fill />
-            </div>
             <p>ELTEEMA</p>
           </div>
         

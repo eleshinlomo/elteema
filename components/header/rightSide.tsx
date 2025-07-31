@@ -80,7 +80,7 @@ const NavRightSide = () => {
       </div>
       {/* pwa display */}
       <div className="flex justifify-between">
-        <PWAInstallButton />
+        <div className="hidden md:flex"><PWAInstallButton /></div>
        {/* Cart - Always visible */}
               <div className="hidden md:flex"><Cart /></div>
               <MenuButton />

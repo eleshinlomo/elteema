@@ -93,7 +93,7 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
       } catch(err) {
           console.error(err)
       }finally{
-         setIsLoading(true)
+         setIsLoading(false)
       }
   }
   

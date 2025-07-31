@@ -1,4 +1,5 @@
 'use client';
+
 import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../../contextProviders/GeneralProvider";
 import { useRouter } from "next/navigation";
@@ -16,27 +17,25 @@ const DashboardLayout = ({children}: DashboardProps) => {
     const [authChecked, setAuthChecked] = useState(false);
 
     useEffect(() => {
-        // First check localStorage for quick initial auth check
-        const localUserString = localStorage.getItem('ptlgUser');
-        const parsedUser = localUserString ? JSON.parse(localUserString) : null;
+        if (isLoading) return;
 
-        if (parsedUser?.isLoggedIn) {
-            // If we have a logged in user in localStorage, wait for context to sync
-            if (isLoggedIn && user) {
-                setAuthChecked(true);
-                if (user?.orders?.length > 0) {
-                    setUserOrders(user.orders);
-                }
-            }
-        } else {
-            // No user in localStorage or not logged in
-            if (!isLoading) { // Only redirect after we're sure loading is complete
-                router.push('/authpages/notloggedinpage');
-            }
+        // Check both context and localStorage for auth status
+        const localUserString = localStorage.getItem('ptlgUser');
+        const localUser = localUserString ? JSON.parse(localUserString) : null;
+        
+        if (!isLoggedIn || !user || !localUser?.isLoggedIn) {
+            router.push('/authpages/notloggedinpage');
+            return;
+        }
+
+        // If we get here, user is authenticated
+        setAuthChecked(true);
+        if (user?.orders?.length > 0) {
+            setUserOrders(user.orders);
         }
     }, [isLoggedIn, user, isLoading, router, setUserOrders]);
 
-    if (!authChecked || isLoading) {
+    if (isLoading || !authChecked) {
         return <LoadingState />;
     }
 

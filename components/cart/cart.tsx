@@ -140,7 +140,7 @@ const Cart = () => {
                     >
                       -
                     </button>
-                    <span className="w-6 text-center">{item.quantity}</span>
+                    <span className="w-6 text-center text-green-900">{item.quantity}</span>
                     <button
                       onClick={() => handleQuantityIncrease(item._id)}
                       className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full"

@@ -78,7 +78,7 @@ const MenuButton = () => {
         aria-label="Open menu"
         suppressHydrationWarning
       >
-        <MenuIcon className="w-8 h-8 mt-6 mx-3" />
+        <MenuIcon className="w-8 h-8 mt-3 md:mt-6 mx-3" />
       </button>
 
       {/* Overlay */}

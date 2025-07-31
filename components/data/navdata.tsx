@@ -15,18 +15,8 @@ const navData: NavProps[] = [
     path: "/",
     newTab: false,
   },
-  {
-    id: 2,
-    title: "Contact",
-    path: "/contactpage",
-    newTab: false,
-  },
-    {
-    id: 3,
-    title: "About",
-    path: "/aboutpage",
-    newTab: false,
-  },
+  
+ 
 
       //  {
       //   id: 7,
@@ -42,8 +32,14 @@ const navData: NavProps[] = [
       // },
       {
     id: 4,
-    title: "Faq",
-    path: "/faqpage",
+    title: "Spices",
+    path: `categorypage`,
+    newTab: false,
+  },
+     {
+    id: 4,
+    title: "Fabrics",
+    path: `categorypage`,
     newTab: false,
   },
       
@@ -61,8 +57,13 @@ const navData: NavProps[] = [
     newTab: false,
     submenu: [
 
-  
       {
+    id: 2,
+    title: "Contact",
+    path: "/contactpage",
+    newTab: false,
+  },
+  {
     id: 3,
     title: "About",
     path: "/aboutpage",
@@ -83,12 +84,12 @@ const navData: NavProps[] = [
         newTab: false,
       },
     
-      {
-        id: 7,
-        title: "Deliver for Elteema",
-        path:`/driverpage`,
-        newTab: false,
-      },
+      // {
+      //   id: 7,
+      //   title: "Deliver for Elteema",
+      //   path:`/driverpage`,
+      //   newTab: false,
+      // },
       //   {
       //   id: 7,
       //   title: "Video Sales",
