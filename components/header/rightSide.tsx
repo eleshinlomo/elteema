@@ -90,7 +90,7 @@ const NavRightSide = () => {
         <div className="hidden md:flex"><PWAInstallButton /></div>
        {/* Cart - Always visible */}
               <div className="hidden md:flex"><Cart /></div>
-              {/* <MenuButton /> */}
+           
         </div>
 
         

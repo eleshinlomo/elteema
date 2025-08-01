@@ -91,6 +91,7 @@ const Cart = () => {
         className={`fixed top-0 right-0 h-screen w-full max-w-md bg-white z-50 shadow-xl transform transition-transform duration-300 ease-in-out flex flex-col ${
           isDrawerOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
+        
       >
         {/* Header */}
         <div className="flex  justify-between p-4 bg-green-800 text-white">

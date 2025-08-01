@@ -30,7 +30,7 @@ export default function Home() {
 
 
   return (
-    <div id='top' className=" py-24  bg-gray-50">
+    <div id='top' className=" py-24  ">
    
          <NewSearch />
         {/* Main Content (Supermarket) */}
