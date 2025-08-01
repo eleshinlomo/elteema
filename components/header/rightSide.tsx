@@ -12,10 +12,9 @@ import MenuButton from "./menuButton";
 import { CookingPot, ShirtIcon } from "lucide-react";
 
 const NavRightSide = () => {
-  const cartContext = useContext(CartContext)
-  const {cart, setCart, totalItems, totalPrice, setTotalItems, setTotalPrice} = cartContext
-  const generalContext = useContext(GeneralContext)
-  const {isLoggedIn, setIsLoggedIn, user, setUser}: GeneralContextInitialProps = generalContext
+
+  const {cart, setCart, totalItems, totalPrice, setTotalItems, setTotalPrice} =  useContext(CartContext)
+  const {isLoggedIn, setIsLoggedIn, user, setUser}: GeneralContextInitialProps = useContext(GeneralContext)
   
   const router = useRouter()
 
@@ -91,7 +90,7 @@ const NavRightSide = () => {
         <div className="hidden md:flex"><PWAInstallButton /></div>
        {/* Cart - Always visible */}
               <div className="hidden md:flex"><Cart /></div>
-              <MenuButton />
+              {/* <MenuButton /> */}
         </div>
 
         

@@ -28,23 +28,6 @@ export default function Home() {
   const [itemsToSort, setItemsToSort] = useState<ProductProps[]>([])
   const [sortItems, setSortItems] = useState<ProductProps[]>([])
 
-  const handleItemToSort = (category: string)=>{
-     if(category){
-      const products = Products.filter((product)=>product.category.toLowerCase() === category.toLowerCase())
-      if(products){
-        setSortItems([])
-        setItemsToSort(products)
-      }
-     }
-  }
-
-  useEffect(()=>{
-    if(itemsToSort?.length > 0){
-      setSortItems(itemsToSort)
-    }else{
-    setSortItems(Products)
-    }
-  }, [sortItems, Products, itemsToSort])
 
   return (
     <div id='top' className=" py-24  bg-gray-50">
@@ -62,14 +45,8 @@ export default function Home() {
           <VegetableProducts />
           <FruitProducts />
          
-        
-
-         
         </div>
 
-
-        
-        
 
       <CookiePolicy />
     </div>

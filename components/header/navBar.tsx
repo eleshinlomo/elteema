@@ -73,7 +73,7 @@ const NavBar = () => {
   );
 
   return (
-    <div className="fixed w-full top-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm py-2 md:px-4 z-[10000]">
+    <div className="fixed w-full top-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm py-2 md:px-4 z-100">
       <div className="flex items-center justify-between overflow-x-hidden flex-nowrap">
         {/* Home - hidden on mobile */}
         <div className="hidden md:block">

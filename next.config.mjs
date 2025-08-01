@@ -1,3 +1,5 @@
+import withPWA from 'next-pwa';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
@@ -7,21 +9,44 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV !== "development",
   },
   images: {
-    domains: [
-      "oaidalleapiprodscus.blob.core.windows.net",
-      "via.placeholder.com",
-      "localhost",
-      "elteemaserver-production.up.railway.app",
-      "elteema.vercel.app",
-      "elteema.com",
-      "elteema.s3.amazonaws.com",
-      "store.myafros.com"
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'oaidalleapiprodscus.blob.core.windows.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        // Optional: add port if you're using non-standard ports
+        port: '3000',
+      },
+      {
+        protocol: 'https',
+        hostname: 'elteemaserver-production.up.railway.app',
+      },
+      {
+        protocol: 'https',
+        hostname: 'elteema.vercel.app',
+      },
+      {
+        protocol: 'https',
+        hostname: 'elteema.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'elteema.s3.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'store.myafros.com',
+      }
     ],
   }
 };
-
-// Import next-pwa using ES Modules syntax
-import withPWA from 'next-pwa';
 
 const pwaConfig = withPWA({
   dest: "public",
