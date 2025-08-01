@@ -22,11 +22,7 @@ interface PagesRoutesProps {
 
 const PagesLayout = ({children} : PagesRoutesProps)=>{
     const pathname = usePathname()
-  
 
-    
-
-    
     
 
     return (

@@ -23,6 +23,7 @@ export function formatNumber(num: number): string {
 }
 
 
+// Needs amount and symbol and it will format price toFixed
 export const formatCurrency = (symbol:string, amount: number)=>{
   const currency = new Intl.NumberFormat('en-US', {
     currency: symbol,
@@ -54,19 +55,16 @@ export const saveSearchedProduct = (itemToSearch: string)=>{
 }
 
 
-export const getLocalUser = ()=>{
-    
-    if(typeof window !== 'undefined'){
-        const userString = localStorage.getItem('ptlgUser')
-        if(userString){
-           return JSON.parse(userString) 
-        }else{
-            return null
-        }
-        
+export const getLocalUser = (): any | null => {
+  if (typeof window !== 'undefined') {
+    const userString = localStorage.getItem('ptlgUser');
+    if (userString) {
+      return JSON.parse(userString);
     }
-    return null
-}
+  }
+  return null;
+};
+
 
 
 // Must setUser(updatedUser) everytime updateUser fucntion runs

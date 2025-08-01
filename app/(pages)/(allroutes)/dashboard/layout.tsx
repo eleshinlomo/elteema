@@ -6,42 +6,55 @@ import { useRouter } from "next/navigation";
 import DashSideBar from "./dashNavs/dashSidebar";
 import DashNavBar from "./dashNavs/dashNavBar";
 import LoadingState from "../../../../components/LoadingState";
+import { getLocalUser } from "../../../../components/utils";
 
 interface DashboardProps {
     children: React.ReactNode
 }
 
 const DashboardLayout = ({children}: DashboardProps) => {
-    const { isLoggedIn, user, setUserOrders, isLoading } = useContext(GeneralContext);
+    const { isLoggedIn, user, setUserOrders, isLoading, setIsLoading } = useContext(GeneralContext);
     const router = useRouter();
     const [authChecked, setAuthChecked] = useState(false);
-    const [localUser, setLocalUser] = useState<any>(null)
 
-  useEffect(() => {
-    const checkAuth = () => {
-        if (isLoading) return; // Wait for auth check to finish
+      
 
-        const localUserString = localStorage.getItem('ptlgUser');
-        setLocalUser(localUserString ? JSON.parse(localUserString) : null);
 
-        if (!localUser?.isLoggedIn) {
+
+  const checkAuth = ()=>{
+          
+    setIsLoading(true)
+   
+    // Check localStorage only once on initial render
+        const localUser = getLocalUser()
+
+       if (!localUser?.isLoggedIn || !isLoggedIn) {
             router.push('/authpages/notloggedinpage');
-        } else {
-            setAuthChecked(true);
+            return
+        }
+
+          setAuthChecked(true);
             if (user?.orders?.length > 0) {
                 setUserOrders(user.orders);
             }
-        }
-    };
+        
+     setIsLoading(false)
 
-    checkAuth();
-}, [isLoggedIn, user, isLoading, localUser]);
+  }
+            
 
+    useEffect(() => {
+    
+          checkAuth()
+     
+    }, [authChecked]); // Only depend on isLoggedIn
 
-    if (isLoading || !authChecked) {
+    if (isLoading) {
         return <LoadingState />;
     }
 
+   
+   
     return (
         <div className="min-h-screen bg-gray-50 pb-24 pt-16">
             <div className="md:flex">

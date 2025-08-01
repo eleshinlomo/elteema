@@ -85,7 +85,6 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
                     email = ''
                     setIsLoading(false)
                     router.push('/')
-                  
               
               } 
               return
@@ -136,9 +135,6 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
     verifyPersistentLogin()
     
   }, [email, code, isLoggedIn])
-  
-
- 
 
   return (
     <Suspense>
@@ -146,7 +142,6 @@ const AllroutesLayout = ({children}: AllRoutesProps)=>{
           {/* <NavBar /> */}
           <OldNavBar />
           {children}
-          {showSearchPage ? <Featured /> : null}
           <ScrollTopButton />
           {/* Mobile footer */}
           <MobileFooter />

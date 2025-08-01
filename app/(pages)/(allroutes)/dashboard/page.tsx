@@ -53,9 +53,7 @@ const DashboardPage = () => {
         }] : [])
     ]
     
-    const handleTest = async ()=>{
-        await testStripe()
-    }
+  
 
 
     return (

@@ -4,6 +4,7 @@ import { FeedProps } from "../components/api/feed";
 import { ProductProps } from "../components/api/product";
 import { UserProps } from "../components/api/users";
 import { usePathname } from "next/navigation";
+import { getLocalUser } from "../components/utils";
 
 interface GeneralProps {
     children: React.ReactNode
@@ -68,6 +69,13 @@ export const GeneralProvider = ({children}: GeneralProps)=>{
 
     const path = usePathname()
     
+    useEffect(() => {
+    const localUser = getLocalUser();
+    if (localUser && localUser.isLoggedIn) {
+      setIsLoggedIn(true);
+      setUser(localUser);
+    }
+  }, []);
   
     
 
