@@ -8,6 +8,7 @@ import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import { MenuIcon, ShieldCloseIcon, SidebarClose, SidebarCloseIcon } from "lucide-react";
 import { formatCurrency } from '../utils';
 import MenuContent from './menuContent';
+import OldNavBar from './oldNavbar';
 
 const MenuButton = () => {
   const {
@@ -105,7 +106,7 @@ const MenuButton = () => {
           </button>
         </div>
 
-      <MenuContent setDrawerOpen={setDrawerOpen} />
+      <OldNavBar />
       </div>
       
      

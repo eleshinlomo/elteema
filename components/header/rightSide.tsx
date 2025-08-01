@@ -9,6 +9,7 @@ import { fetchCart } from "../utils";
 import PWAInstallButton from "../PWADownloadButton";
 import Cart from "../cart/cart";
 import MenuButton from "./menuButton";
+import { CookingPot, ShirtIcon } from "lucide-react";
 
 const NavRightSide = () => {
   const cartContext = useContext(CartContext)
@@ -79,12 +80,21 @@ const NavRightSide = () => {
       )}
       </div>
       {/* pwa display */}
-      <div className="flex justifify-between">
+      <div className="flex justify-between items-center gap-10 ">
+
+        {/* Shows only on mobile view */}
+        <div className="md:hidden flex items-center justify-between gap-10  ">
+          <a href={`/categorypage/${'fabrics & textiles'}`}><ShirtIcon /></a>
+          <a href={`/categorypage/${'vegetable & spice'}`}><CookingPot /></a>
+        </div>
+        
         <div className="hidden md:flex"><PWAInstallButton /></div>
        {/* Cart - Always visible */}
               <div className="hidden md:flex"><Cart /></div>
               <MenuButton />
         </div>
+
+        
     </div>
   )
 }

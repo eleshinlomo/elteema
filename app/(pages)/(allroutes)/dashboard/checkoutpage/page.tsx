@@ -27,13 +27,7 @@ const CheckoutPage = () => {
   const [isProcessingOrder, setIsProcessingOrder] = useState(false)
 
   const router = useRouter()
-  const localUserString = localStorage.getItem('ptlgUser')
-  const parsedUser = localUserString ? JSON.parse(localUserString) : null
-
-  if(!parsedUser?.isLoggedIn){
-     router.push('/authpages/signin')
-  }
-
+ 
   
 //  const handlePaymentPopUp = async () => {
 //   if (typeof window !== 'undefined') {

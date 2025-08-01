@@ -4,7 +4,7 @@ import { UserProps } from "../../../../../components/api/users";
 import { Home, User, CreditCard, Store, Settings, ShoppingBag } from "lucide-react"
 import { ProductProps } from "../../../../../components/api/product";
 import NavButton from "./navButtons";
-import { GeneralContext } from "../../../../../contextProviders/GeneralProvider";
+import {useRouter} from 'next/navigation'
 
 
 
@@ -18,7 +18,7 @@ interface DashNavProps {
 
 const DashNavBar = ({user, userOrders}: DashNavProps) => {
 
-  // const {userOrders} = useContext(GeneralContext)
+const router = useRouter()
 
 
   return (
@@ -26,7 +26,7 @@ const DashNavBar = ({user, userOrders}: DashNavProps) => {
       <div className="flex flex-wrap items-center justify-start gap-2 md:gap-4">
         {/* Dashboard Link */}
         <NavButton
-          href="/dashboard" 
+          href="/dashboard"
           icon={<Home className="w-4 h-4" />}
           label="Dashboard"
         />
