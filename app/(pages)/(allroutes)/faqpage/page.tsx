@@ -43,7 +43,7 @@ const FaqPage = () => {
       questions: [
         {
           question: "How long does delivery take?",
-          answer: "Delivery typically takes 3-5 business days for domestic orders. International orders may take 15-30 business days depending on the destination and the store."
+          answer: "Delivery typically takes 3-7 business days for domestic orders. International orders may take 15-30 business days depending on the destination and the store."
         },
         {
           question: "Can I track my order?",
@@ -104,7 +104,7 @@ const FaqPage = () => {
       questions: [
         {
           question: "What is your email?",
-          answer: "We advise that you should first reach out to the store before escalating matters to our team. You can message us on support@petrolagegroup.com."
+          answer: "We advise that you should first reach out to the store before escalating matters to our team. You can message us on support@elteema.com."
         },
       ]
     },
@@ -133,15 +133,15 @@ const FaqPage = () => {
       questions: [
         {
           question: "What is your return policy?",
-          answer: "We do not offer returns. Please inspect all delivered product before accepting. Most stores on Elteema are small businesses and cannot handle the problems of returns."
+          answer: "Please inspect all delivered product before accepting. Returns are handled by sellers but not Elteema. We can help mitigate disputes with any order."
         },
         {
           question: "How do I initiate a refund?",
-          answer: "If you have rejected an item delivered to you, you will need to also cancel the order online and your fund will be refunded immediately."
+          answer: "If you have rejected an item delivered to you or cancelled your pending order, you will need to also cancel the order online and your fund will be refunded within 5-7 business days."
         },
         {
           question: "How long do refunds take to process?",
-          answer: "Once we receive your request, refunds are processed within 3-5 business days. It may take additional time for your bank to post the credit."
+          answer: "Once we receive your request, refunds are processed within 5-7 business days. It may take additional time for your bank to post the credit."
         }
       ]
     }
@@ -182,7 +182,7 @@ const FaqPage = () => {
   }, [question]);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-28 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-16">

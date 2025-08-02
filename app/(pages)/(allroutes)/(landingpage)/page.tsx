@@ -31,8 +31,8 @@ export default function Home() {
 
 
   return (
-    <div id='top' className=" py-24  ">
-          <HotProductFlash />
+    <div id='top' className=" py-[60px]  ">
+          {/* <HotProductFlash /> */}
           <Hero />
         {/* Main Content (Supermarket) */}
         
