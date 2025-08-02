@@ -20,6 +20,7 @@ import NewSearch from '../../../../components/product/newSearch';
 import OtherProducts from '../../../../components/product/others';
 import FruitProducts from '../../../../components/product/fruits';
 import FoodStuff from '../../../../components/product/foodStuff';
+import Hero from '../../../../components/hero';
 
 export default function Home() {
   const { page, setPage, showSearchPage, setShowSearchPage } = useContext(GeneralContext);
@@ -31,11 +32,11 @@ export default function Home() {
 
   return (
     <div id='top' className=" py-24  ">
-   
-         <NewSearch />
+          <HotProductFlash />
+          <Hero />
         {/* Main Content (Supermarket) */}
-        <div className="col-span-1 md:col-span-2">
-           <HotProductFlash />
+        
+           
 
           <div className="">
             <HotMobilePreview />
@@ -45,7 +46,7 @@ export default function Home() {
           <VegetableProducts />
           <FruitProducts />
          
-        </div>
+
 
 
       <CookiePolicy />

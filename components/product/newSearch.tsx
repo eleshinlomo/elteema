@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState, useRef, useContext } from "react";
 import { FiSearch, FiX, FiClock, FiShoppingBag, FiTag } from "react-icons/fi";
 import { ProductContext } from "../../contextProviders/ProductContext";
 import Image from "next/image";
+import { GeneralContext } from "../../contextProviders/GeneralProvider";
 // import m from '../../public/images/logos/elteema_logo.png'
 
 
@@ -20,6 +21,7 @@ const NewSearch = () => {
   const searchRef = useRef<HTMLDivElement>(null);
 
   const { Products } = useContext(ProductContext);
+  const { sticky } = useContext(GeneralContext);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -91,12 +93,12 @@ const NewSearch = () => {
   }, []);
 
   return (
-    <div className="w-full pt-2 mb-2 bg-gradient-to-br from-green-50 to-emerald-50">
+    <div className={`w-full  ${!sticky ? 'text-black' : 'text-white'}`}>
       <div className="max-w-2xl mx-auto px-4" ref={searchRef}>
 
-          <div className="flex justify-center items-center">
+          {/* <div className="flex justify-center items-center">
             <p>ELTEEMA</p>
-          </div>
+          </div> */}
         
 
         <div className="relative">
@@ -109,12 +111,12 @@ const NewSearch = () => {
           >
             <FiSearch className="text-gray-500 mr-2" size={20} />
             <input
-              className="w-full outline-none bg-transparent text-gray-700 placeholder-gray-400"
+              className="w-full  outline-none bg-transparent"
               onChange={handleChange}
               onKeyDown={handleKeyDown}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              placeholder="Find products in local stores..."
+              placeholder="Find products..."
               value={inputValue}
             />
             {inputValue && (

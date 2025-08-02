@@ -88,6 +88,9 @@ const OldNavBar = () => {
                             ? `/categorypage/${encodeURIComponent('fabrics & textiles')}`
                             : menuItem.title === 'Spices'
                             ? `/categorypage/${encodeURIComponent('vegetable & spice')}`
+                            : menuItem.title === 'Foodstuff' ?
+                             `/categorypage/${encodeURIComponent('foodstuff')}`
+
                             : menuItem.path
                         }
                         className="flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 hover:text-green-400 transition-colors duration-200"
@@ -162,7 +165,7 @@ const OldNavBar = () => {
             style={{
             // Ensure it covers the entire viewport
             width: '100vw',
-            height: '80vh',
+            height: '90vh',
             // Start from the right when closed
             right: navbarOpen ? '0' : '-100vw'
               }}

@@ -39,7 +39,7 @@ const Hero = () => {
     };
 
     return (
-        <div className="relative w-full h-[200px] md:h-[300px] lg:h-[400px] overflow-hidden group" suppressHydrationWarning>
+        <div className="relative w-full h-[300px] md:h-[500px] lg:h-[500px] overflow-hidden group" suppressHydrationWarning>
             {/* Slides */}
             {HeroData.map((hero, index) => (
                 <div 
@@ -57,11 +57,11 @@ const Hero = () => {
                         <p className="text-white text-2xl md:text-4xl font-extrabold mb-4 px-4">
                             {hero.content}
                         </p>
-                        {/* <a href={hero.path}>
-                            <button className="bg-green-600 hover:bg-green-700 text-white font-extrabold py-3 px-6 text-lg transition-all duration-300 transform hover:scale-105">
-                                SHOP NOW
+                        <a href={hero.path}>
+                            <button className={`bg-${hero.color}-600 hover:bg-green-700 text-white font-extrabold py-3 px-6 text-lg transition-all duration-300 transform hover:scale-105`}>
+                                {hero.text?.toUpperCase()}
                             </button>
-                        </a> */}
+                        </a>
                     </div>
                 </div>
             ))}

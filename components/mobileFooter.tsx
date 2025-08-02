@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Cart from "./cart/cart";
 import PWAInstallButton from "./PWADownloadButton";
+import { FaMoneyBill } from "react-icons/fa";
 
 const MobileFooter = () => {
   const [activeTab, setActiveTab] = React.useState("home");
@@ -66,6 +67,8 @@ const MobileFooter = () => {
     
       
       {/* Dashboard */}
+      {user ? 
+      
       <a href='/dashboard'><button
         onClick={() => handleTabClick("dashboard")}
         className={`flex flex-col items-center p-2 ${
@@ -75,7 +78,18 @@ const MobileFooter = () => {
         <BarChart2 className="w-5 h-5" />
         <span className="text-xs mt-1">Dashboard</span>
       </button>
+      </a>:
+            <a href='/dashboard/createstorepage'><button
+        onClick={() => handleTabClick("dashboard")}
+        className={`flex flex-col items-center p-2 ${
+          activeTab === "sell" ? "text-green-600" : "text-gray-500"
+        }`}
+      >
+        <FaMoneyBill className="w-5 h-5" />
+        <span className="text-xs mt-1">Sell</span>
+      </button>
       </a>
+      }
       
       {/* Auth */}
       <div>

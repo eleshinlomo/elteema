@@ -9,7 +9,8 @@ import { fetchCart } from "../utils";
 import PWAInstallButton from "../PWADownloadButton";
 import Cart from "../cart/cart";
 import MenuButton from "./menuButton";
-import { CookingPot, ShirtIcon } from "lucide-react";
+import { CookingPot, ShirtIcon, ShoppingBag } from "lucide-react";
+import NewSearch from "../product/newSearch";
 
 const NavRightSide = () => {
 
@@ -36,9 +37,10 @@ const NavRightSide = () => {
 
   return (
     <div className=" flex gap-4">
+       <NewSearch />
     
     {/* Right side buttons */}
-    <div className="hidden md:flex items-center gap-4 pr-12">
+    <div className="hidden md:flex justify-right items-center gap-4 pr-12">
       {isLoggedIn && user ? (
         <>
         <Link
@@ -78,14 +80,15 @@ const NavRightSide = () => {
         </>
       )}
       </div>
-      {/* pwa display */}
-      <div className="flex justify-between items-center gap-10 ">
+     
+      <div className="flex justify-between items-center gap-5 ">
+
+       
 
         {/* Shows only on mobile view */}
-        <div className="md:hidden flex items-center justify-between gap-10  ">
-          <a href={`/categorypage/${'fabrics & textiles'}`}><ShirtIcon /></a>
-          <a href={`/categorypage/${'vegetable & spice'}`}><CookingPot /></a>
-        </div>
+          
+          <a href={`/supermarketpage`}><ShoppingBag /></a>
+      
         
         <div className="hidden md:flex"><PWAInstallButton /></div>
        {/* Cart - Always visible */}
