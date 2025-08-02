@@ -2,7 +2,7 @@
 import slide1 from '../../public/images/hero/market_women.png'
 import slide2 from '../../public/images/hero/nigerian_women.png'
 import slide3  from '../../public/images/hero/shoes.jpg'
-import slide4 from '../../public/images/hero/robot_ai.jpg'
+import slide4 from '../../public/images/hero/female_ai.jpg'
 import slide5 from '../../public/images/hero/vegetables.jpg'
 
 
@@ -30,9 +30,9 @@ export const HeroData = [
   },
     {
     
-    content: 'Bring your shop online! Sell On Elteema!',
+    content: 'Bring your shop online!',
     path: '/dashboard/createstorepage',
-    text: 'sell products',
+    text: 'sell on elteema',
     src: slide3,
     color: 'green'
   },

@@ -24,6 +24,7 @@ const DashboardLayout = ({children}: DashboardProps) => {
     if(!localUser?.isLoggedIn){
         router.push('/authpages/notloggedinpage')
     }
+    setAuthChecked(true)
     },[])
 
 
@@ -35,13 +36,13 @@ const DashboardLayout = ({children}: DashboardProps) => {
    
     return (
         <div className="min-h-screen bg-gray-50 pb-24 pt-16">
-            {isLoggedIn &&  user ? <div className="md:flex">
+            {isLoggedIn &&  user?.isLoggedIn ? <div className="md:flex">
                 <div className="hidden md:block md:w-1/4 md:fixed md:h-screen md:overflow-y-auto">
                     <DashSideBar user={user} userOrders={user?.orders || []} />
                 </div>
                 <div className="w-full md:ml-[25%]">
                     <DashNavBar user={user} userOrders={user?.orders || []} />
-                    <main className="p-4 md:p-8">
+                    <main className="">
                         {children}
                     </main>
                 </div>

@@ -94,14 +94,14 @@ const NewSearch = () => {
 
   return (
     <div className={`w-full  ${!sticky ? 'text-black' : 'text-white'}`}>
-      <div className="max-w-2xl mx-auto px-4" ref={searchRef}>
+      <div className="max-w-4xl mx-auto px-4" ref={searchRef} >
 
           {/* <div className="flex justify-center items-center">
             <p>ELTEEMA</p>
           </div> */}
         
 
-        <div className="relative">
+        <div className="relative w-full">
           <div
             className={`flex items-center border-2 rounded-full px-4 py-3 transition-all duration-300 ${
               isFocused
