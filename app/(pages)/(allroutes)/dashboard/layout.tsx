@@ -19,21 +19,21 @@ const DashboardLayout = ({children}: DashboardProps) => {
     const router = useRouter();
     const [authChecked, setAuthChecked] = useState(false);
 
+    
+  
+   useEffect(()=>{
+
      if (isLoading) {
         <LoadingState />;
     }
 
-  
-   useEffect(()=>{
-
-    
 
     const localUser = getLocalUser()
-    if(!localUser?.isLoggedIn){
+    if(!isLoggedIn){
         router.push('/authpages/notloggedinpage')
     }
     setAuthChecked(true)
-    },[])
+    },[isLoading, isLoggedIn, authChecked])
 
 
    
