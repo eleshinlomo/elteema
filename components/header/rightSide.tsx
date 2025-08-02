@@ -36,7 +36,7 @@ const NavRightSide = () => {
   }, [totalItems, totalPrice, cart])
 
   return (
-    <div className=" flex gap-4">
+    <div className=" w-full flex  gap-2">
        <NewSearch />
     
     {/* Right side buttons */}
@@ -81,13 +81,13 @@ const NavRightSide = () => {
       )}
       </div>
      
-      <div className="flex justify-between items-center gap-5 ">
+      <div className="hidden md:flex justify-between items-center gap-5 ">
 
        
 
         {/* Shows only on mobile view */}
           
-          <a href={`/supermarketpage`}><ShoppingBag /></a>
+          <a href={`/supermarketpage`} className="hidden md:flex"><ShoppingBag /></a>
       
         
         <div className="hidden md:flex"><PWAInstallButton /></div>
