@@ -25,6 +25,7 @@ const CheckoutPage = () => {
   const [paymentMethodError, setPaymentMethodError] = useState('')
   const [error, setError] = useState('')
   const [isProcessingOrder, setIsProcessingOrder] = useState(false)
+  
 
   const router = useRouter()
  

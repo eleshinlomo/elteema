@@ -39,7 +39,7 @@ const BuyNowButton = ({
         setError('')
         addToCart(targetid, oldSize)
         setError('')
-        router.push('/checkoutpage')
+        router.push('/dashboard/checkoutpage')
     }
     
 

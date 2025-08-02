@@ -197,7 +197,7 @@ export const register = async ({email, username} : RegisterProps)=>{
 
 
     //   Delete User order
-      export const deleteUserOrder = async (userId: string, orderId: string) => {
+      export const deleteUserOrder = async (userId: string, orderId: string, reason: string) => {
       
         try{
        
@@ -205,7 +205,7 @@ export const register = async ({email, username} : RegisterProps)=>{
           mode: 'cors',
           method: 'DELETE',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({userId, orderId})
+          body: JSON.stringify({userId, orderId, reason})
         })
         if(!response) {
           console.log('No response from server')

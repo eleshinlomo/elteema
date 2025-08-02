@@ -11,6 +11,7 @@ import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import { ProductContext } from "../../contextProviders/ProductContext";
 import PopularBadge from "./popularBadge";
 import CheckoutButton from "../cart/checkoutButton";
+import ContinueShoppingButton from "../cart/continueShoppingBtn";
 
 interface ProductDetailsProps {
   productArray: ProductProps[];
@@ -269,7 +270,9 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
                         />
                       </>
                     ) : (
+                   
                       <CheckoutButton />
+                
                     )}
                   </div>
 

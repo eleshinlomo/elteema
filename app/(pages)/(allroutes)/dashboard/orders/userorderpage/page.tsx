@@ -16,6 +16,7 @@ const OrderPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState('Are you sure you want to cancel your order? This action cannot be undone.');
+  const [reason, setReason] = useState('')
 
   // Calculate pagination data
   const { currentOrders, totalPages, indexOfFirstItem, indexOfLastItem } = useMemo(() => {
@@ -54,8 +55,12 @@ const OrderPage = () => {
     setErrorMessage('');
     setIsDeleting(true);
     try {
+      if(!reason){
+        setErrorMessage('Please give a reason')
+        return
+      }
       if (selectedOrder) {
-        const response = await deleteUserOrder(user._id, selectedOrder._id);
+        const response = await deleteUserOrder(user._id, selectedOrder._id, reason);
         if (response.ok) {
           const updatedUser = response.data;
           setUser(updatedUser);
@@ -265,9 +270,20 @@ const OrderPage = () => {
                 </div>
                 <h3 className="mt-3 text-lg font-medium text-gray-900">Cancel Order</h3>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">
+                  <p className={`text-md ${errorMessage ? 'text-red-500' : 'text-gray-500'}`}>
                     {errorMessage ? errorMessage : message}
                   </p>
+
+                    {/* Reason for cancellation */}
+                        <select value={reason} onChange={(e)=>setReason(e.target.value)} className="mt-4">
+                          <option>Reason for cancellation</option>
+                           <option value='Changed my mind'>Changed my mind</option>
+                           <option value='Found a cheaper one'>Found a cheaper one</option>
+                           <option value='Delivery date too long'>Delivery date too long</option>
+                            <option value='No communication from seller'>No communication from seller</option>
+                           <option value='Seller was rude'>Seller was rude</option>
+                            <option value='Nothing! Just window shopping'>Nothing! Just window shopping</option>
+                        </select>
                 </div>
               </div>
               <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">

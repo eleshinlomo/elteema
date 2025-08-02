@@ -62,11 +62,10 @@ const AllroutesLayout = ({ children }: AllRoutesProps) => {
   const verifyPersistentLogin = async () => {
     try {
       const localUser = getLocalUser();
-      console.log('LOC USER', localUser)
 
       if (localUser?.authCode && localUser?.email) {
         const result = await persistLogin(localUser.authCode, localUser.email);
-         console.log('RESULT', result)
+   
 
         if (result.ok) {
          
