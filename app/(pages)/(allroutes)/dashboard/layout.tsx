@@ -18,12 +18,16 @@ const DashboardLayout = ({children}: DashboardProps) => {
     const { isLoggedIn, user, setUserOrders, isLoading, setIsLoading } = useContext(GeneralContext);
     const router = useRouter();
     const [authChecked, setAuthChecked] = useState(false);
-  
-   useEffect(()=>{
 
      if (isLoading) {
         <LoadingState />;
     }
+
+  
+   useEffect(()=>{
+
+    
+
     const localUser = getLocalUser()
     if(!localUser?.isLoggedIn){
         router.push('/authpages/notloggedinpage')
@@ -33,12 +37,11 @@ const DashboardLayout = ({children}: DashboardProps) => {
 
 
    
-
    
    
     return (
         <div className="min-h-screen bg-gray-50 pb-24 pt-16">
-            {isLoggedIn &&  user?.isLoggedIn ? <div className="md:flex">
+            {authChecked && user && <div className="md:flex">
                 <div className="hidden md:block md:w-1/4 md:fixed md:h-screen md:overflow-y-auto">
                     <DashSideBar user={user} userOrders={user?.orders || []} />
                 </div>
@@ -48,8 +51,8 @@ const DashboardLayout = ({children}: DashboardProps) => {
                         {children}
                     </main>
                 </div>
-            </div>:
-            <LoadingState />
+            </div>
+           
              }
         </div>
     );
