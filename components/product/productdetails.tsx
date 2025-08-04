@@ -71,15 +71,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  if (isLoading) {
-    return (
-      <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/50">
-        <div className="animate-pulse bg-white p-8 rounded-xl shadow-lg">
-          <p className="text-gray-500 text-lg">Loading product details...</p>
-        </div>
-      </div>
-    );
-  }
+
 
   const productImages = selectedProduct 
     ? Array.isArray(selectedProduct.imageUrls)
@@ -176,6 +168,17 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
       }
       handleEta()
        }, [user])
+
+
+         if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/50">
+        <div className="animate-pulse bg-white p-8 rounded-xl shadow-lg">
+          <p className="text-gray-500 text-lg">Loading product details...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -405,10 +408,10 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
        </div>
      </div>
    )}
-                     </div>
+      </div>
    
                   
-                  <div className="flex flex-col space-y-2 p-3 bg-gray-50 rounded-lg">
+    <div className="flex flex-col space-y-2 p-3 bg-gray-50 rounded-lg">
      {hasCondition && (
        <div className="flex items-center space-x-2">
          <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center">
