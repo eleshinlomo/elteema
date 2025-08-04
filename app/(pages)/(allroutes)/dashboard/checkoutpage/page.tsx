@@ -30,7 +30,7 @@ const CheckoutPage = () => {
 
   const router = useRouter()
  
-  
+
 //  const handlePaymentPopUp = async () => {
 //   if (typeof window !== 'undefined') {
 //     const { launchPaymentPopup } = await import('./payments/paymentFunctions');
@@ -65,7 +65,10 @@ const CheckoutPage = () => {
 
 
   useEffect(()=>{
-    
+     if(user){
+      const address = `${user.address}, ${user.city}, ${user.state}`
+      setFormattedAddress(address)
+     }
       const totalPrice = totalPriceForCustomer(cart)
       const tax = calculatePercentagePrice(totalPrice, 7.5)
       
@@ -123,7 +126,6 @@ const CheckoutPage = () => {
       buyerId: user?._id,
       cart: updatedCart,
       newStatus: 'pending',
-      eta
     };
 
     const response = await createUserOrder(payload);
@@ -211,11 +213,11 @@ const CheckoutPage = () => {
                   <span className="font-semibold text-gray-700">Phone number:</span>
                   <span className="text-gray-900">{user.phone ? user.phone : linkToUpdateProfile}</span>
                 </div>
-                <div className="mt-8 p-4 bg-gradient-to-r from-green-100 to-green-200 rounded-lg border border-green-200">
+                {/* <div className="mt-8 p-4 bg-gradient-to-r from-green-100 to-green-200 rounded-lg border border-green-200">
                   <p className="font-bold text-gray-800">
-                    <span className="text-green-700">Estimated delivery time (ETA):</span> {eta}
+                    <span className="text-green-700">:</span> 
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

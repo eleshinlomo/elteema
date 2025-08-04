@@ -52,6 +52,10 @@ const RecentStoreOrders = () => {
 
   const handleCancel = async () => {
     if (!selectedOrder) return;
+    if(!reason){
+      setError('You must select a reason')
+      return
+    }
     
     try {
       setIsDeleting(true);
@@ -146,13 +150,13 @@ const RecentStoreOrders = () => {
       cellStyle: { 'white-space': 'normal' }
     },
     { 
-      field: 'size', 
+      field: 'selectedSize', 
       headerName: 'Size', 
       minWidth: 120,
       valueFormatter: (params: any) => params.value ? params.value : 'NA' 
     },
     { 
-      field: 'color', 
+      field: 'selectedColor', 
       headerName: 'Color',
       minWidth: 150,
       cellRenderer: (params: any) => {
@@ -287,6 +291,7 @@ const RecentStoreOrders = () => {
                         </p>
                         {/* Reason for cancellation */}
                         <select value={reason} onChange={(e)=>setReason(e.target.value)} className="mt-4">
+                           <option>Choose a reason</option>
                            <option value='Out of stock'>Out of stock</option>
                            <option value='Payment declined'>Payment declined</option>
                            <option value='Cannot find a Driver for Delivery'>Cannot find a Driver for Delivery</option>

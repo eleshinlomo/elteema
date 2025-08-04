@@ -152,14 +152,12 @@ export const register = async ({email, username} : RegisterProps)=>{
 
 
 
-    export const changeOrderStatus = (cart: ProductProps[], eta: string) => {
-  console.log('CART', cart)
+    export const changeOrderStatus = (cart: ProductProps[]) => {
   
   if (!cart || cart.length === 0) return []; // Return empty array if cart is empty
   
   return cart?.map((item) => ({
     ...item,
-    eta: eta,
   }));
 }
 
@@ -167,13 +165,12 @@ export const register = async ({email, username} : RegisterProps)=>{
     
     
     export const createUserOrder = async (payload: ChangeOrderStatusProps) => {
-  const { buyerId, cart, eta } = payload;
+  const { buyerId, cart} = payload;
 
   if (!cart || cart.length === 0) return 'No cart found';
   
   try {
-    const items = changeOrderStatus(cart, eta);
-    console.log('ITEMS', items);
+    const items = changeOrderStatus(cart);
     
     if (items.length === 0) return 'No item status updated';
     

@@ -221,6 +221,7 @@ const UpdateProductPage = () => {
       window.location.href = '#updateproduct-top'
     } finally {
       setIsSubmitting(false)
+      window.location.href = '#updateproduct-top'
     }
   }
 

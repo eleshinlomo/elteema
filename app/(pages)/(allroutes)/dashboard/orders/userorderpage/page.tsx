@@ -161,7 +161,7 @@ const OrderPage = () => {
                           </svg>
                           <span>ETA: {order.eta || 'Not specified'}</span>
                         </div>
-                        
+                        <p className="bg-green-500 text-center text-white font-extrabold">Store Info</p>
                         <div className="flex items-center text-sm text-gray-600">
                           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -181,20 +181,20 @@ const OrderPage = () => {
 
                     <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
                       <div className="flex items-center">
-                        {order.colors?.[0] && (
+                        {order.selectedColor &&
                           <div className="flex items-center mr-4">
                             <div 
                               className="w-4 h-4 rounded-full mr-2 border border-gray-300" 
-                              style={{ backgroundColor: order.colors[0] }} 
+                              style={{ backgroundColor: order.selectedColor }} 
                             />
-                            <span className="text-xs text-gray-600">{order.colors[0] || 'NA'}</span>
+                            <span className="text-xs text-gray-600">{order.selectedColor || 'NA'}</span>
                           </div>
-                        )}
-                        {(order.shoeSizes?.[0] || order.clotheSizes?.[0]) && (
+                        }
+                        {order.selectedSize &&
                           <div className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-700">
-                            Size: {order.shoeSizes?.[0] || order.clotheSizes?.[0]}
+                            Size: {order.selectedSize}
                           </div>
-                        )}
+                        }
                       </div>
                       <button
                         onClick={() => handleCancel(order)}
@@ -280,8 +280,14 @@ const OrderPage = () => {
                            <option value='Changed my mind'>Changed my mind</option>
                            <option value='Found a cheaper one'>Found a cheaper one</option>
                            <option value='Delivery date too long'>Delivery date too long</option>
+                           <option value='Ordered the wrong item'>Ordered the wrong item</option>
+                           <option value='Duplicate order'>Duplicate order</option>
+                           <option value='Shipping address was incorrect'>Shipping address was incorrect</option>
+                            <option value='Shipping cost is too high'>Shipping cost is too high</option>
+                           <option value='Need item by a specific date'>Need item by a specific date</option>
+                           <option value='Accidental purchase'>Accidental purchase</option>
+                           <option value='Item is not as described'>Item is not as described</option>
                             <option value='No communication from seller'>No communication from seller</option>
-                           <option value='Seller was rude'>Seller was rude</option>
                             <option value='Nothing! Just window shopping'>Nothing! Just window shopping</option>
                         </select>
                 </div>
