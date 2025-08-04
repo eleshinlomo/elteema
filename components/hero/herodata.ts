@@ -4,6 +4,7 @@ import slide2 from '../../public/images/hero/nigerian_women.png'
 import slide3  from '../../public/images/hero/shoes.jpg'
 import slide4 from '../../public/images/hero/female_ai.jpg'
 import slide5 from '../../public/images/hero/vegetables.jpg'
+import slide6 from '../../public/images/hero/movie_hood_rats.png'
 
 
 
@@ -36,6 +37,14 @@ export const HeroData = [
     src: slide3,
     color: 'green'
   },
+   {
+    
+    content: 'Are you ready for Diety December ?',
+    path: '#' + decodeURIComponent('foodstuff'),
+    text: 'Shop like a prince',
+    src: slide6,
+    color: 'green'
+  },
 
    {
     
@@ -55,6 +64,7 @@ export const HeroData = [
     src: slide5,
     color: 'green'
   },
+   
 
    
   

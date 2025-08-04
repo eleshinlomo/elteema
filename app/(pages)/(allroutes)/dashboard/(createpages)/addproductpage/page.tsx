@@ -336,7 +336,8 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     'blue',
     'yellow',
     'green',
-    'silver'
+    'silver',
+    'multicolor(color color)'
   ]
 
    const customerSalesIncome = ()=>{

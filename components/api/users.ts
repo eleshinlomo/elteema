@@ -33,6 +33,7 @@ export interface UserProps {
     address:  string;
     city: string;
     state: string;
+    country: string;
     newsletter: boolean;
     store: StoreProps;
     paymentEmail: string;

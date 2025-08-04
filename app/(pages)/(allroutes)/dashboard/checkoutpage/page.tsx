@@ -10,6 +10,7 @@ import Image from 'next/image'
 import { createUserOrder } from '../../../../../components/api/users'
 import AlertCard from './paymentAlertCard'
 import { useRouter } from "next/navigation";
+import { color } from 'framer-motion'
 
 
 const CheckoutPage = () => {
@@ -63,8 +64,6 @@ const CheckoutPage = () => {
   )
 
 
- 
-
   useEffect(()=>{
     
       const totalPrice = totalPriceForCustomer(cart)
@@ -74,42 +73,6 @@ const CheckoutPage = () => {
     
   }, [cart])
 
-
-  
- 
-
- 
-  // Track address
-  useEffect(() => {
-    if (user?.address) {
-      setCustomerStateOfResidence(user.state)
-      setFormattedAddress(`${user.address}, ${user.city?.toUpperCase()}, ${user.state?.toUpperCase()}, ${user.country?.toUpperCase()}`)
-      
-    }else{
-      setFormattedAddress(linkToUpdateProfile)
-    }
-  }, [user?.address])
-
-  
-  // Update ETA
-  useEffect(() => {
-    const findEta = () => {
-      if (!user) return
-      if (user.state === 'lagos') {
-        setEta('2 days')
-      }  if (user.state !== 'lagos') {
-        setEta('5 days')
-      }
-      else if (user.state === 'Outside Nigeria') {
-        setEta('1 month')
-      } else if (!user.state) {
-        setEta('Please update state of residence so we can calculate your ETA')
-      } else {
-        setEta('2 weeks')
-      }
-    }
-    findEta()
-  }, [user?.state])
 
 
   // Make payment
@@ -290,16 +253,32 @@ const CheckoutPage = () => {
             <p className="text-xs sm:text-sm text-gray-500 mt-1">
               Quantity: {item.quantity}
             </p>
-            <a 
+            <div className='flex flex-col text-sm'>
+          
+            {item?.selectedColor && (
+  <p
+    className="w-6 h-6 rounded-full border border-gray-300"
+    style={{ backgroundColor: item.selectedColor }}
+  >
+
+  </p>
+)}
+
+            {item?.selectedSize && <span>Size: {item?.selectedSize}</span>}
+            <span>Estimated Delivery: {item?.eta}</span>
+              <a 
               href={`/storefront/${item.storeName}`} 
               className="text-xs sm:text-sm text-blue-500 hover:text-blue-600 hover:underline inline-block mt-1"
             >
               Visit {item.storeName}
             </a>
+            </div>
+            
           </div>
           
+          
           {/* Price - Fixed width */}
-          <div className="col-span-3 sm:col-span-3 text-right">
+          <div className="col-span-3 sm:col-span-3 text-right pr-4">
             <p className="text-base sm:text-lg font-semibold text-green-600 whitespace-nowrap">
               N{(item.price * item.quantity).toFixed(2)}
             </p>

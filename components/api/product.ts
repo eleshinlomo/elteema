@@ -59,6 +59,8 @@ export interface ProductProps {
     imageFiles: File[];
     imageUrls: string[]; // Image array received from server
     quantity: number;
+    selectedSize: string;
+    selectedColor: string;
     shoeSizes: string[];
     clotheSizes: string[];
     category: string;

@@ -21,6 +21,7 @@ import OtherProducts from '../../../../components/product/others';
 import FruitProducts from '../../../../components/product/fruits';
 import FoodStuff from '../../../../components/product/foodStuff';
 import Hero from '../../../../components/hero';
+import Clothing from '../../../../components/product/clothing';
 
 export default function Home() {
   const { page, setPage, showSearchPage, setShowSearchPage } = useContext(GeneralContext);
@@ -44,6 +45,7 @@ export default function Home() {
           <FabricProducts />
           <FoodStuff />
           <VegetableProducts />
+          <Clothing />
           <FruitProducts />
          
 

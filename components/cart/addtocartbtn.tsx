@@ -8,42 +8,29 @@ import { GeneralContext } from "../../contextProviders/GeneralProvider";
 interface AddToCartBtnProps {
     targetid: string,
     isAdded: boolean;
+    selectedSize: string;
+    selectedColor: string;
+    eta: string;
     setIsAdded: (value: boolean)=>void
     setError: (value: string)=>void
-    oldSize: string;
-    showClotheSizeInput: boolean
-     showShoeSizeInput: boolean
+  
 
-    
 }
 
-const AddToCartButton = ({ 
-    targetid, 
-    oldSize, 
-    isAdded, 
-    setIsAdded, 
-    setError,
-    showClotheSizeInput,
-    showShoeSizeInput,
-}: AddToCartBtnProps) => {
+const AddToCartButton = ({ targetid, isAdded, setIsAdded, setError, selectedSize, selectedColor, eta}: AddToCartBtnProps) => {
+
+    console.log('ITEMS TO ADD', selectedSize, selectedColor, eta)
+
     const [buttonText, setButtonText] = useState('Add To Cart')
     const [isAnimating, setIsAnimating] = useState(false)
     const { addToCart, cart} = useContext(CartContext)
     const {user} = useContext(GeneralContext)
      
 
-    
-   
-
     const handleAddToCart = () => {
     
-         if(!oldSize && showClotheSizeInput || !oldSize && showShoeSizeInput){
-            setError('Please choose a size')
-            return
-        }
-       
         setError('')
-        addToCart(targetid, oldSize)
+        addToCart(targetid, selectedSize, selectedColor, eta)
         setError('')
         setIsAdded(true)
         setButtonText('Added ✓')

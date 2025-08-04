@@ -6,22 +6,23 @@ import { ProductProps } from "../api/product"
 import { useRouter } from "next/navigation"
 
 interface AddToCartBtnProps {
-    targetid: string,
-    setError: (value: string)=>void
-    oldSize: string;
-    showClotheSizeInput: boolean
-     showShoeSizeInput: boolean
+    targetId: string;
+    setError: (value: string)=>void;
+    selectedSize: string;
+    selectedColor: string;
+    eta: string;
   
     
 }
 
 const BuyNowButton = ({ 
-    targetid, 
-    oldSize, 
+    targetId, 
     setError, 
-    showClotheSizeInput,
-    showShoeSizeInput,
+    selectedSize, 
+    selectedColor, 
+    eta
 }: AddToCartBtnProps) => {
+
     const [buttonText, setButtonText] = useState('Buy Now')
     const [isAdded, setIsAdded] = useState<ProductProps | null>(null)
     const [isAnimating, setIsAnimating] = useState(false)
@@ -30,28 +31,24 @@ const BuyNowButton = ({
 
     const router = useRouter()
 
-    const handleBuyNow = () => {
-        if(!oldSize && showClotheSizeInput || !oldSize && showShoeSizeInput){
-          setError('Please choose a size')
-          return
-        }
-
+   
+    const handleBuyNow = ()=>{
         setError('')
-        addToCart(targetid, oldSize)
+        addToCart(targetId, selectedSize, selectedColor, eta)
         setError('')
         router.push('/dashboard/checkoutpage')
     }
     
 
     useEffect(() => {
-      const added = cart?.find((item) => item._id === targetid && item.isAdded)
+      const added = cart?.find((item) => item._id === targetId && item.isAdded)
 
         if (added && added?.isAdded) {
             setButtonText('Checkout')
         } else {
             setButtonText('Buy now')
         }
-    }, [targetid, isAdded, cart])
+    }, [targetId, isAdded, cart])
    
 
     return (

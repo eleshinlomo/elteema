@@ -2,11 +2,12 @@
 'use client'
 import React, { createContext, SetStateAction, useContext, useEffect, useState } from "react";
 import { ProductProps } from "../components/api/product";
-import {  fetchCart, updateLocalCart, updateProductSize } from "../components/utils";
+import { updateLocalCart} from "../components/utils";
 import { GeneralContext } from "./GeneralProvider";
 import { ProductContext } from "./ProductContext";
 import { updateCart } from "../components/api/cart";
 import { getLocalUser } from "../components/utils";
+import { shoeCategories } from "../components/data/categories";
 
 interface ContextProps {
   children: React.ReactNode,
@@ -22,7 +23,7 @@ interface ContextDefaultProps {
     setCart: (value: ProductProps[])=>void;
     handleQuantityIncrease: (targetId: string) => void;
     handleQuantityDecrease: (targetId: string) => void;
-    addToCart: (targetId: string, size: string) => void;
+    addToCart: (targetId: string, selectedSize: string, selectedColor: string, eta: string) => void;
     removeItem: (targetId: string) => void;
     totalItems: number;
     setTotalItems: (value: number)=>void;
@@ -140,7 +141,7 @@ export const CartProvider = ({ children }: ContextProps) => {
     };
 
    
-   const addToCart = async (targetId: string, size: string) => {
+   const addToCart = async (targetId: string, selectedSize: string, selectedColor: string, eta: string) => {
   const productExists = cart?.length > 0 && 
     cart.find((product) => product._id === targetId);
 
@@ -148,13 +149,21 @@ export const CartProvider = ({ children }: ContextProps) => {
 
   const productToAdd = Products.find(product => product._id === targetId);
   if (!productToAdd) return;
+  let size = ''
+  if(shoeCategories.includes(productToAdd?.category)){
 
+  }
   const updatedCart = [...cart, {
     ...productToAdd,
     quantity: 1,
     isAdded: true,
-    size: size
+    selectedSize: selectedSize,
+    selectedColor: selectedColor,
+    eta: eta
+
   }];
+
+  console.log('UPDATED PRODUCT', updatedCart)
 
   // Validate numbers before calculations
   const totalItems = updatedCart.reduce((sum, item) => {

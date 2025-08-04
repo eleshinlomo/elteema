@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, ChangeEvent } from "react";
 import Image from 'next/image';
 import AddToCartButton from "../cart/addtocartbtn";
 import { CartContext } from "../../contextProviders/cartcontext";
-import { capitalize, formatCurrency, getItemQuantity } from "../utils";
+import { calculateETA, capitalize, formatCurrency, getItemQuantity } from "../utils";
 import BuyNowButton from "../cart/buyNowBtn";
 import { ProductProps } from '../api/product'
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
@@ -12,6 +12,7 @@ import { ProductContext } from "../../contextProviders/ProductContext";
 import PopularBadge from "./popularBadge";
 import CheckoutButton from "../cart/checkoutButton";
 import ContinueShoppingButton from "../cart/continueShoppingBtn";
+import { clothingCategories, fabricAndTextileCategories, foodCategories, shoeCategories } from "../data/categories";
 
 interface ProductDetailsProps {
   productArray: ProductProps[];
@@ -19,7 +20,7 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
-  const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<ProductProps | any>(null);
   const [error, setError] = useState('');
   const [selectedImage, setSelectedImage] = useState(0);
   const [isAdded, setIsAdded] = useState<boolean>(false);
@@ -29,15 +30,19 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
   const [isLoading, setIsLoading] = useState(false);
+  const [hasColor, setHasColor] = useState(false)
+  const [hasCondition, setHasCondition] = useState(false)
+  const [hasYard, setHasYard] = useState(false)
+  const [hasClothingSize, setHasClothingSize] = useState(false)
+  const [hasShoeSize, setHasShoeSize] = useState(false)
+  const [category, setCategory] = useState('')
+  const [selectedClotheSize, setSelectedClotheSize] = useState('')
+  const [selectedShoeSize, setSelectedShoeSize] = useState('')
+  const [selectedColor, setSelectedColor] = useState('')
+  const [eta, setEta] = useState('')
+  const [selectedSize, setSelectedSize] = useState('')
 
-  const {
-    oldSize,
-    setOldSize,
-    showClotheSizeInput,
-    setShowClotheSizeInput,
-    showShoeSizeInput,
-    setShowShoeSizeInput
-  } = useContext(ProductContext);
+
 
   useEffect(() => {
     if (selectedProduct) {
@@ -78,7 +83,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
 
   const productImages = selectedProduct 
     ? Array.isArray(selectedProduct.imageUrls)
-      ? selectedProduct.imageUrls.map((img, index) => ({
+      ? selectedProduct.imageUrls.map((img: any, index: any) => ({
           src: img,
           label: ['Front View', 'Back View', 'Side View', 'Detail View'][index] || 'Product Image'
         }))
@@ -86,6 +91,91 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
     : [];
 
   const mainImage = productImages[selectedImage]?.src || productImages[0]?.src;
+
+
+  useEffect(()=>{
+    
+        const isFoundInFood = foodCategories.includes(selectedProduct?.category)
+        const isFoundInClothing = clothingCategories.includes(selectedProduct?.category)
+        const isFoundInShoes = shoeCategories.includes(selectedProduct?.category)
+        const isFoundInFabric = fabricAndTextileCategories.includes(selectedProduct?.category)
+    
+      // Clothing
+      if(isFoundInClothing){
+        setHasClothingSize(true)
+        setHasColor(true)
+        setHasShoeSize(false)
+        setHasYard(false)
+        setHasCondition(true)
+        
+      }
+     // food
+      else if(isFoundInFood){
+        setHasShoeSize(false)
+        setHasColor(false)
+        setHasClothingSize(false)
+         setHasYard(false)
+         setHasCondition(false)
+      }// Shoe
+      else if(isFoundInShoes){
+        setHasShoeSize(true)
+        setHasColor(true)
+        setHasClothingSize(false)
+         setHasYard(false)
+         setHasCondition(true)
+      }
+     // Textile & fabric
+      else if(isFoundInFabric){
+        setHasYard(true)
+         setHasColor(true)
+         setHasShoeSize(false)
+         setHasCondition(true)
+      }else{
+        setHasShoeSize(false)
+        setHasColor(false)
+        setHasClothingSize(false)
+         setHasYard(false)
+         setHasCondition(false)
+      }
+    
+    }, [selectedProduct?.category])
+
+
+ 
+        // Handle Change
+      const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { value, name } = e.target;
+      
+        if (name === 'clotheSize') {
+          setSelectedClotheSize(value);
+          setSelectedShoeSize('');
+          setSelectedSize(value);
+        } 
+        
+        else if (name === 'ShoeSize') {
+          setSelectedShoeSize(value);
+          setSelectedClotheSize('');
+          setSelectedSize(value);
+        } 
+        
+         else if (name === 'color') {
+          setSelectedColor(value);
+        }
+      };
+
+    
+      // Handle ETA
+      useEffect(()=>{
+    
+      const handleEta = ()=>{
+        if(!user) return
+         const etaValue = calculateETA(user)
+         if(etaValue){
+         setEta(etaValue)
+         }
+      }
+      handleEta()
+       }, [user])
 
   return (
     <>
@@ -99,11 +189,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
         onClick={() => onOpen(item)}
         className="cursor-pointer border rounded-md overflow-hidden hover:shadow-md transition-all flex flex-col h-full relative"
       >
-        {index < 5 && (
-          <div className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full z-10">
-            New
-          </div>
-        )}
+     
         <div className="relative aspect-square w-full">
           <Image
             src={Array.isArray(item.imageUrls) ? item.imageUrls[0] : item.imageUrls}
@@ -201,7 +287,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
                     />
                   </div>
                   <div className="flex gap-2 mt-3 overflow-x-auto py-1">
-                    {productImages.map((img, index) => (
+                    {productImages.map((img: any, index: any) => (
                       <button
                         key={index}
                         onClick={() => setSelectedImage(index)}
@@ -246,28 +332,131 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
                     </p>
                   </div>
 
-                  {/* Size Selector */}
+                    {/* Sizes */}
+                  <div className="space-y-3 my-3">
+                       {/* Clothing Sizes */}
+                       {hasClothingSize && selectedProduct.clotheSizes?.length > 0 && (
+                         <div>
+                           <h3 className="font-medium mb-2">Select Size:</h3>
+                           <div className="flex flex-wrap gap-2">
+                             {selectedProduct.clotheSizes.map((size: string, index: number) => (
+                               <label key={index} className="flex items-center gap-1">
+                                 <input
+                                   type="radio"
+                                   name="clotheSize"
+                                   value={size}
+                                   checked={selectedClotheSize === size}
+                                   onChange={handleChange}
+                                   className="h-4 w-4"
+                                 />
+                                 <span>{size}</span>
+                               </label>
+                             ))}
+                           </div>
+                         </div>
+                       )}
+   
+                       {/* Shoe Sizes */}
+                       {hasShoeSize && selectedProduct.shoeSizes?.length > 0 && (
+                         <div>
+                           <h3 className="font-medium mb-2">Select Size:</h3>
+                           <div className="flex flex-wrap gap-2">
+                             {selectedProduct.shoeSizes.map((size: string, index: number) => (
+                               <label key={index} className="flex items-center gap-1">
+                                 <input
+                                   type="radio"
+                                   name="shoeSize"
+                                   value={size}
+                                   checked={selectedShoeSize === size}
+                                   onChange={handleChange}
+                                   className="h-4 w-4"
+                                 />
+                                 <span>{size}</span>
+                               </label>
+                             ))}
+                           </div>
+                         </div>
+                       )}
+   
+                       {/* Colors */}
+    {hasColor && selectedProduct.colors?.length > 0 && (
+     <div>
+       <h3 className="font-medium mb-2">Select Color:</h3>
+       <div className="flex flex-wrap gap-3">
+         {selectedProduct.colors.map((color: string, index: number) => (
+           <label key={index} className="flex flex-col items-center gap-1 cursor-pointer">
+             <input
+               type="radio"
+               name="color"
+               value={color}
+               checked={selectedColor === color}
+               onChange={handleChange}
+               className="hidden"
+             />
+             <span 
+               className={`w-6 h-6 rounded-full ${
+                 selectedColor === color ? 'ring-2 ring-offset-1 ring-blue-500' : ''
+               }`}
+               style={{ backgroundColor: color.toLowerCase() }}
+             />
+             <span className="text-xs text-center">{color}</span>
+           </label>
+         ))}
+       </div>
+     </div>
+   )}
+                     </div>
+   
+                  
+                  <div className="flex flex-col space-y-2 p-3 bg-gray-50 rounded-lg">
+     {hasCondition && (
+       <div className="flex items-center space-x-2">
+         <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center">
+           <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+         </div>
+         <span className="text-sm text-gray-700">
+           <span className="font-medium">Condition:</span> 
+           <span className="text-green-600 ml-1">{capitalize(selectedProduct.condition)}</span>
+         </span>
+       </div>
+     )}
+     
+     {eta && (
+       <div className="flex items-center space-x-2">
+         <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center">
+           <svg className="w-3 h-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+           </svg>
+         </div>
+         <span className="text-sm text-gray-700">
+           <span className="font-medium">Est. Delivery:</span> 
+           <span className="text-blue-600 ml-1">{eta} days</span>
+         </span>
+       </div>
+     )}
+   </div>
                 
                   {/* Action Buttons */}
                   <div className="flex flex-col sm:flex-row gap-2 mt-auto pt-2 sm:pt-3">
                     {!isAdded ? (
                       <>
                         <AddToCartButton
-                          targetid={selectedProduct._id}
-                          oldSize={oldSize}
-                          isAdded={isAdded}
-                          setIsAdded={setIsAdded}
-                          setError={setError}
-                          showClotheSizeInput={showClotheSizeInput}
-                          showShoeSizeInput={showShoeSizeInput}
-                        />
-                        <BuyNowButton
-                          targetid={selectedProduct._id}
-                          oldSize={oldSize}
-                          setError={setError}
-                          showClotheSizeInput={showClotheSizeInput}
-                          showShoeSizeInput={showShoeSizeInput}
-                        />
+                            targetid={selectedProduct._id}
+                                           isAdded={isAdded}
+                                           setIsAdded={setIsAdded}
+                                           setError={setError}
+                                           selectedSize={selectedSize}
+                                           selectedColor={selectedColor}
+                                           eta={eta}
+                                         
+                                         />
+                                         <BuyNowButton
+                                           targetId={selectedProduct._id}
+                                           setError={setError}
+                                           selectedSize={selectedSize}
+                                           selectedColor={selectedColor}
+                                           eta={eta}
+                                         />
                       </>
                     ) : (
                    
@@ -276,13 +465,53 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
                     )}
                   </div>
 
-                  {/* Additional Product Info */}
-                  <div className="border-t mt-2 sm:mt-3 pt-2 pb-16 sm:pt-3 text-xs sm:text-sm text-gray-600 space-y-2 ">
-                    <p><strong>Sold by:</strong> {capitalize(selectedProduct.storeName)}</p>
-                    <p><strong>Returns:</strong> No returns</p>
-                    <p className="font-bold">Customer Reviews</p>
-                    <p>No reviews yet.</p>
-                  </div>
+                  
+                  <div className="border-t border-gray-200 pt-6 mt-6 space-y-4">
+  {/* Seller Info */}
+  <div className="bg-gray-50 p-4 rounded-lg">
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex items-center gap-3">
+        <div className="bg-blue-100 text-blue-600 w-9 h-9 rounded-full flex items-center justify-center font-bold">
+          S
+        </div>
+        <div>
+          <p className="font-medium text-gray-700">Sold by</p>
+          <p className="text-gray-900 font-semibold">{capitalize(selectedProduct.storeName)}</p>
+        </div>
+      </div>
+      <a
+        href={`/storefront/${selectedProduct.storeName}`}
+        className="px-4 py-2 bg-white border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors font-medium text-sm"
+      >
+        Visit Store
+      </a>
+    </div>
+  </div>
+
+  {/* Return Policy */}
+  <div className="bg-gray-50 p-4 rounded-lg">
+    <div className="flex items-center gap-3 mb-3">
+      <div className="bg-purple-100 text-purple-600 w-9 h-9 rounded-full flex items-center justify-center font-bold">
+        R
+      </div>
+      <p className="font-medium text-gray-700">Return Policy</p>
+    </div>
+    <p className="text-gray-700 pl-12">{selectedProduct?.return || 'No returns accepted'}</p>
+  </div>
+
+  {/* Reviews */}
+  <div className="bg-gray-50 p-4 rounded-lg">
+    <div className="flex items-center gap-3 mb-3">
+      <div className="bg-amber-100 text-amber-600 w-9 h-9 rounded-full flex items-center justify-center font-bold">
+        ★
+      </div>
+      <p className="font-medium text-gray-700">Customer Reviews</p>
+    </div>
+    <p className="text-gray-500 pl-12">No reviews yet. Be the first to review!</p>
+  </div>
+</div>
+
+
                 </div>
               </div>
             </div>

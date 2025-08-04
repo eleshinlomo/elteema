@@ -32,6 +32,37 @@ export const formatCurrency = (symbol:string, amount: number)=>{
   return currency
 }
 
+export const fetchCart = ()=>{
+    if(typeof window !== 'undefined'){
+        const existingUser: any = getLocalUser()
+        if(existingUser){
+            return existingUser.cart 
+        }
+    }
+    return []
+}
+
+
+export const calculateETA = (user: UserProps)=>{
+     let eta = ''
+       if (!user) return
+      if (user.state === 'Lagos') {
+        eta ='3 days'
+      }  else if (user.state !== 'Lagos') {
+        eta = '7 days'
+      }
+      else if (user.country === 'Nigeria') {
+        eta = '1 month'
+      } else if (!user.state) {
+        eta = 'Please update state of residence so we can calculate your ETA'
+      } else {
+        eta = '2 weeks'
+      }
+
+      return eta
+}
+
+
 export const totalPriceForCustomer = (cart: Array<{price: number, quantity: number}>): number => {
     return cart?.reduce((sum: number, item: {price: number, quantity: number}) => sum + (item.price * item.quantity), 0) || 0
  }
@@ -78,17 +109,6 @@ export const updateLocalUser = (updatedUser: UserProps)=>{
 
 
 
-export const fetchCart = ()=>{
-    if(typeof window !== 'undefined'){
-        const existingUser: any = getLocalUser()
-        if(existingUser){
-            return existingUser.cart 
-        }
-    }
-    return []
-}
-
-
   
 
 export const updateLocalCart = (newCart: ProductProps[])=>{
@@ -111,21 +131,7 @@ export const updateLocalCart = (newCart: ProductProps[])=>{
    
 }
 
-// Runs after cart has been updated
-export const updateProductSize = (targetid: string, cart: ProductProps[], newSize: string)=>{
-   if(!newSize || !targetid || !cart) {
-    console.log('Missing values for: cart, targetId, and size')
-    return
-   }
-   
-   const itemIndex = cart.findIndex((item)=>item._id === targetid)
-   if(itemIndex !== -1){
-    const updatedCart = [...cart, {...cart[itemIndex], size: newSize}]
-    updateLocalCart(updatedCart)
-   }
-    
-    return 
-}
+
 
 export const searchSingleProduct = (item: string, originalItems: any[])=>{
     saveSearchedProduct(item)

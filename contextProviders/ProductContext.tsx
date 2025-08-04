@@ -9,32 +9,20 @@ interface ProductContextProps {
 interface InitialValuesProps {
     Products: ProductProps[];
     setProducts: (value: [])=>void;
-    oldSize: string; 
-    setOldSize: (value: string) => void; 
-    showClotheSizeInput: boolean;
-    setShowClotheSizeInput: (value: boolean) => void;
-    showShoeSizeInput: boolean;
-    setShowShoeSizeInput: (value: boolean) => void;
+   
 }
 
 const initialValues: InitialValuesProps = {
     Products: [],
     setProducts: (value: [])=>{},
-    oldSize: '',
-    setOldSize: () => {},
-    showClotheSizeInput: false,
-    setShowClotheSizeInput: () => {},
-    showShoeSizeInput: false,
-    setShowShoeSizeInput: () => {}
+
 };
 
 export const ProductContext = createContext<InitialValuesProps>(initialValues);
 
 export const ProductContextProvider = ({ children }: ProductContextProps) => {
     const [Products, setProducts] = useState<ProductProps[]>([]);
-    const [oldSize, setOldSize] = useState<string>(''); 
-    const [showClotheSizeInput, setShowClotheSizeInput] = useState(false);
-    const [showShoeSizeInput, setShowShoeSizeInput] = useState(false);
+    
 
     // New function to handle per-product sizes
     // const setProductSize = (productId: number, size: string) => {
@@ -63,12 +51,8 @@ export const ProductContextProvider = ({ children }: ProductContextProps) => {
     const values: InitialValuesProps = {
         Products, 
         setProducts,
-        oldSize, 
-        setOldSize, 
-        showClotheSizeInput,
-        setShowClotheSizeInput,
-        showShoeSizeInput,
-        setShowShoeSizeInput
+    
+
     };
     
     return (
