@@ -43,7 +43,7 @@ export const fetchCart = ()=>{
 }
 
 
-export const calculateETA = (user: UserProps, store: any)=>{
+export const calculateETA = (user: UserProps)=>{
      let eta = ''
        if (!user) return
       if (user.state === 'Lagos') {
