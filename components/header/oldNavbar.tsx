@@ -188,6 +188,8 @@ const OldNavBar = () => {
                           ? `/categorypage/${encodeURIComponent('fabrics & textiles')}`
                           : menuItem.title === 'Spices'
                           ? `/categorypage/${encodeURIComponent('vegetable & spice')}`
+                           : menuItem.title === 'Foodstuff'
+                          ? `/categorypage/${encodeURIComponent('foodstuff')}`
                           : menuItem.path
                       }
                       onClick={navbarToggleHandler}

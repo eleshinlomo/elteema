@@ -21,7 +21,7 @@ const DashboardLayout = ({ children }: DashboardProps) => {
         const checkAuth = () => {
             const localUser = getLocalUser();
             if (!localUser || !localUser?.isLoggedIn || !user) {
-                router.push('/authpages/notloggedinpage');
+                router.push('/authpages/signin');
             } else {
                 setAuthChecked(true);
             }

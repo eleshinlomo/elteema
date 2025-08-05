@@ -130,6 +130,12 @@ const RecentStoreOrders = () => {
       minWidth: 120,
       valueFormatter: (params: any) => `${formatCurrency('NGN', params.value)}` 
     },
+       { 
+      field: 'quantity', 
+      headerName: 'Qunatity', 
+      minWidth: 150,
+      valueFormatter: (params: any) => `${params.value}` || '' 
+    },
     { 
       field: 'buyerName', 
       headerName: 'Buyer', 
@@ -294,6 +300,9 @@ const RecentStoreOrders = () => {
                            <option>Choose a reason</option>
                            <option value='Out of stock'>Out of stock</option>
                            <option value='Payment declined'>Payment declined</option>
+                            <option value='Incomplete address'>Incomplete address</option>
+                            <option value='Outside shipping area'>Outside shipping area</option>
+                           <option value='Unable to reach user on the phone'>Unable to reach buyer on the phone</option>
                            <option value='Cannot find a Driver for Delivery'>Cannot find a Driver for Delivery</option>
                         </select>
                       </div>
