@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext, useState, useEffect, useCallback } from 'react'
+import { useContext, useState, useEffect, useCallback, ChangeEvent } from 'react'
 import { GeneralContext } from '../../../../../contextProviders/GeneralProvider'
 import SigninPage from '../../authpages/signin/page'
 import { calculatePercentagePrice, capitalize, formatCurrency, totalPriceForCustomer} from '../../../../../components/utils'
@@ -24,6 +24,7 @@ const CheckoutPage = () => {
   const [formattedAddress, setFormattedAddress] = useState<any>('')
   const [totalPricePlusTax, setTotalPricePlusTax] = useState(0)
   const [paymentMethodError, setPaymentMethodError] = useState('')
+  const [paymentMethod, setPaymentMethod] = useState('Not selected')
   const [error, setError] = useState('')
   const [isProcessingOrder, setIsProcessingOrder] = useState(false)
   
@@ -51,7 +52,11 @@ const CheckoutPage = () => {
 // };
 
 
-
+const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
+    const value = e.target.value
+      setPaymentMethod(value)
+    
+  }
 
   const linkToUpdateProfile = (
     <div className="animate-pulse hover:animate-none">
@@ -120,12 +125,12 @@ const CheckoutPage = () => {
       buyerName: `${user?.firstname} ${user?.lastname}`,
       buyerPhone: user?.phone,
       buyerAddress: `${user?.address}, ${user?.city}, ${user?.state}`,
+      paymentMethod: paymentMethod
     }));
 
     const payload: any = {
       buyerId: user?._id,
       cart: updatedCart,
-      newStatus: 'pending',
     };
 
     const response = await createUserOrder(payload);
@@ -154,6 +159,7 @@ const CheckoutPage = () => {
     setError('An unexpected error occurred during payment processing');
   } finally {
     setIsProcessingOrder(false);
+    window.location.href = '#payment-top'
   }
 };
 
@@ -274,6 +280,7 @@ const CheckoutPage = () => {
             >
               Visit {item.storeName}
             </a>
+            <span>Payment Method: {capitalize(paymentMethod)}</span>
             </div>
             
           </div>
@@ -319,13 +326,20 @@ const CheckoutPage = () => {
                 <p className="font-semibold text-gray-900">Total</p>
                 <p className="text-xl font-bold text-green-600">{formatCurrency('NGN', totalPriceForCustomer(cart))}</p>
               </div>
-
-                <div className="max-w-md md:max-w-lg mx-auto p-4 bg-green-50 rounded-lg shadow-sm border border-green-100 flex justify-center items-center text-center">
-  <p className="text-green-800 font-medium leading-relaxed">
-    Currently, you do not require a payment card to place an order.
-    <br />
-    After you place your order, you will be redirected to your order page to complete this purchase.
-  </p>
+              
+              {/* Payment method */}
+               <h3 className='text-center bg-green-200 '>Payment Method</h3>
+             <div className='flex justify-between pt-3'>
+ 
+  <span className='flex gap-2'>
+    <input type='radio' name='paymentMethod' value='cash' checked={paymentMethod === 'cash'} onChange={handlePaymentMethodChange} />Cash
+  </span>
+  <span className='flex gap-2'>
+    <input type='radio' name='paymentMethod' value='debit' checked={paymentMethod === 'debit'} onChange={handlePaymentMethodChange} />Debit Card
+  </span>
+  <span className='flex gap-2'>
+    <input type='radio' name='paymentMethod' value='bank' checked={paymentMethod === 'bank'} onChange={handlePaymentMethodChange} />Bank Transfer
+  </span>
 </div>
               
               <AlertCard

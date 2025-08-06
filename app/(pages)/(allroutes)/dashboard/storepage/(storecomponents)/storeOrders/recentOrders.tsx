@@ -7,8 +7,10 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'; 
-import { formatCurrency, updateLocalUser } from "../../../../../../../components/utils";
+import { capitalize, formatCurrency, updateLocalUser } from "../../../../../../../components/utils";
 import { deleteStoreOrder } from "../../../../../../../components/api/store";
+import { OrderProps } from "../../../../../../../components/api/users";
+import { PathParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
 
 interface RecentOrdersProps {
   currentOrders: any[]
@@ -19,10 +21,10 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 const RecentStoreOrders = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { user, setUser, setUserOrders } = useContext(GeneralContext);
-  const [selectedOrder, setSelectedOrder] = useState<ProductProps | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<OrderProps | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [newOrderStatus, setNewOrderStatus] = useState('');
-  const [currentOrders, setCurrentOrders] = useState<ProductProps[]>([]);
+  const [currentOrders, setCurrentOrders] = useState<OrderProps[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('')
   const [reason, setReason] = useState('')
@@ -39,13 +41,13 @@ const RecentStoreOrders = () => {
     'shipped',
   ];
 
-  const handleEdit = useCallback((order: ProductProps) => {
+  const handleEdit = useCallback((order: OrderProps) => {
     setSelectedOrder(order);
     setIsEditing(true);
     console.log("Editing order:", order);
   }, []);
 
-  const handleModalOpen = (order: ProductProps) => {
+  const handleModalOpen = (order: OrderProps) => {
     setSelectedOrder(order);
     setIsDeleteModalOpen(true);
   };
@@ -61,7 +63,7 @@ const RecentStoreOrders = () => {
       setIsDeleting(true);
       const store = user.store;
       const orderId = selectedOrder._id;
-      const buyerId = user?._id;
+      const buyerId = selectedOrder?.buyerId;
       
       const response = await deleteStoreOrder(store.storeName, orderId, buyerId, reason);
       
@@ -104,30 +106,53 @@ const RecentStoreOrders = () => {
   };
 
 
- console.log('ORDERS', currentOrders)
+ 
   const columnDefs: any = [
     { 
       field: 'productName', 
-      headerName: 'Product', 
+      headerName: 'Product Name', 
       minWidth: 250,
       cellStyle: { 'white-space': 'normal' }
     },
     { 
       field: 'orderStatus', 
       headerName: 'Status',
-      minWidth: 150,
-      cellStyle: (params: any) => ({
-        fontWeight: 'bold',
-        color: params.value === 'processing' ? '#d97706' : 
+      minWidth: 120,
+      cellStyle: (params: any) => {
+        return {
+          fontWeight: 'bold',
+          color: params.value === 'processing' ? '#d97706' : 
               params.value === 'awaiting pick-up' ? '#2563eb' : 
               '#059669',
-        'white-space': 'normal'
-      })
+              'white-space': 'normal',
+          paddingTop:'20px'
+        }
+      }
+    },
+     { 
+      field: 'paymentStatus', 
+      headerName: 'Payment Status', 
+      minWidth: 150,
+      cellStyle: (params: any)=> {
+        return {
+          color: params.value === 'unpaid' ? 'red' : 'green',
+          paddingTop:'20px'
+        }
+        },
+      valueFormatter: (params: any) => `${capitalize(params.value)}` || 'NA' 
+      
+    },
+     { 
+      field: 'paymentMethod', 
+      headerName: 'Payment Method', 
+      minWidth: 150,
+      valueFormatter: (params: any) => `${params.value}` || 'NA' 
+      
     },
     { 
       field: 'price', 
       headerName: 'Price', 
-      minWidth: 120,
+      minWidth: 150,
       valueFormatter: (params: any) => `${formatCurrency('NGN', params.value)}` 
     },
        { 

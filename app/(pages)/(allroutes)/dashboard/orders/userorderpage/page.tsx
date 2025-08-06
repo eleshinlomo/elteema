@@ -4,13 +4,13 @@ import { useContext, useState, useEffect, useMemo } from "react";
 import { GeneralContext } from "../../../../../../contextProviders/GeneralProvider";
 import { ProductProps } from "../../../../../../components/api/product";
 import { capitalize, formatCurrency, updateLocalUser } from "../../../../../../components/utils";
-import { deleteUserOrder } from "../../../../../../components/api/users";
+import { deleteUserOrder, OrderProps } from "../../../../../../components/api/users";
 
 const OrderPage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { user, setUser, userOrders, setUserOrders, isLoading, setIsLoading } = useContext(GeneralContext);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedOrder, setSelectedOrder] = useState<ProductProps | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<OrderProps | null>(null);
   const itemsPerPage = 6;
   const [isDeleting, setIsDeleting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -24,7 +24,7 @@ const OrderPage = () => {
     const totalPages = Math.ceil(total / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    let currentOrders = userOrders.slice(indexOfFirstItem, indexOfLastItem);
+    let currentOrders: any = userOrders.slice(indexOfFirstItem, indexOfLastItem);
     
     return {
       currentOrders,
@@ -46,7 +46,7 @@ const OrderPage = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const handleCancel = async (order: ProductProps) => {
+  const handleCancel = async (order: OrderProps) => {
     setSelectedOrder(order);
     setIsDeleteModalOpen(true);
   };
@@ -89,7 +89,7 @@ const OrderPage = () => {
   };
 
   const getStatusColor = (status: string) => {
-    switch(status.toLowerCase()) {
+    switch(status?.toLowerCase()) {
       case 'pending':
         return 'bg-yellow-100 text-yellow-800';
       case 'completed':
@@ -138,13 +138,18 @@ const OrderPage = () => {
         {currentOrders.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {currentOrders.map((order, index) => (
+              {currentOrders.map((order: any, index: any) => (
                 <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300">
                   <div className="p-5">
                     <div className="flex justify-between items-start">
                       <div>
                         <h3 className="text-lg font-semibold text-gray-800 line-clamp-1">{order.productName}</h3>
                         <p className="text-sm text-gray-500 mt-1">{order.storeName}</p>
+                        <div>
+                          <p className="text-sm  mt-1">Payment Status: 
+                            <span className='px-2 py-1 text-xs font-medium rounded-full bg-red-600 text-white'> {capitalize(order.paymentStatus)}</span></p>
+                          <p className="text-sm  mt-1">Payment method: {capitalize(order.paymentMethod)}</p>
+                        </div>
                       </div>
                       <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(order.orderStatus)}`}>
                         {order.orderStatus}

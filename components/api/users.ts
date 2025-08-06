@@ -40,7 +40,50 @@ export interface UserProps {
     paymentMethod: string;
     orders: []
     
-    
+}
+
+
+export interface OrderProps {
+
+    userId: number;
+    _id: string;
+    buyerId: string;
+    addedBy: string;
+    eta: string;
+    src: string;
+    paymentMethod: string;
+    paymentStatus: string;
+    productName: string;
+    price: number;
+    colors: string[]; 
+    condition: string;
+    deliveryMethod: string;
+    imageFiles: File[];
+    imageUrls: string[]; // Image array received from server
+    quantity: number;
+    selectedSize: string;
+    selectedColor: string;
+    shoeSizes: string[];
+    clotheSizes: string[];
+    category: string;
+    description: string;
+    store: StoreProps;
+    storeId: string; 
+    storeAddress: string; 
+    storeName: string; 
+    storeCity: string; 
+    storeState: string; 
+    storePhone: number;     
+    star: number;
+    totalVotes: number;
+    totalSales: number;
+    numOfItemsSold: number;
+    isAdded: boolean;
+    orderStatus: string;
+    productPageVisits: 256
+    unitCost: number;
+    createdAt: any;
+
 }
 
 interface ChangeOrderStatusProps {
@@ -152,12 +195,13 @@ export const register = async ({email, username} : RegisterProps)=>{
 
 
 
-    export const changeOrderStatus = (cart: ProductProps[]) => {
+    export const changeOrderStatus = (cart: ProductProps[], buyerId: string) => {
   
   if (!cart || cart.length === 0) return []; // Return empty array if cart is empty
   
   return cart?.map((item) => ({
     ...item,
+    buyerId: buyerId
   }));
 }
 
@@ -170,7 +214,7 @@ export const register = async ({email, username} : RegisterProps)=>{
   if (!cart || cart.length === 0) return 'No cart found';
   
   try {
-    const items = changeOrderStatus(cart);
+    const items = changeOrderStatus(cart, buyerId);
     
     if (items.length === 0) return 'No item status updated';
     

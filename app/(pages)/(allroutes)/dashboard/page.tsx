@@ -35,7 +35,7 @@ const DashboardPage = () => {
             href: "/dashboard/orders/userorderpage",
             color: "bg-blue-50 hover:bg-blue-100",
             textColor: "text-blue-700",
-            badge: userOrders?.length || 0
+            badge: user?.orders?.length || 0
         },
         {
             title: "Payment Methods",
