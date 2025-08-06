@@ -24,7 +24,7 @@ const CheckoutPage = () => {
   const [formattedAddress, setFormattedAddress] = useState<any>('')
   const [totalPricePlusTax, setTotalPricePlusTax] = useState(0)
   const [paymentMethodError, setPaymentMethodError] = useState('')
-  const [paymentMethod, setPaymentMethod] = useState('Not selected')
+  const [paymentMethod, setPaymentMethod] = useState('cash')
   const [error, setError] = useState('')
   const [isProcessingOrder, setIsProcessingOrder] = useState(false)
   
@@ -331,16 +331,16 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
                <h3 className='text-center bg-green-200 '>Payment Method</h3>
              <div className='flex justify-between pt-3'>
  
-  <span className='flex gap-2'>
-    <input type='radio' name='paymentMethod' value='cash' checked={paymentMethod === 'cash'} onChange={handlePaymentMethodChange} />Cash
-  </span>
-  <span className='flex gap-2'>
-    <input type='radio' name='paymentMethod' value='debit' checked={paymentMethod === 'debit'} onChange={handlePaymentMethodChange} />Debit Card
-  </span>
-  <span className='flex gap-2'>
-    <input type='radio' name='paymentMethod' value='bank' checked={paymentMethod === 'bank'} onChange={handlePaymentMethodChange} />Bank Transfer
-  </span>
-</div>
+              <span className='flex gap-2'>
+              <input type='radio' name='paymentMethod' value='cash' checked={paymentMethod === 'cash'} onChange={handlePaymentMethodChange} />Cash
+            </span>
+            <span className='flex gap-2'>
+            <input disabled={true} type='radio' name='paymentMethod' value='debit' checked={paymentMethod === 'debit'} onChange={handlePaymentMethodChange} />Debit Card
+            </span>
+            <span className='flex gap-2'>
+            <input disabled={true} type='radio' name='paymentMethod' value='bank' checked={paymentMethod === 'bank'} onChange={handlePaymentMethodChange} />Bank Transfer
+            </span>
+          </div>
               
               <AlertCard
               isProcessingOrder={isProcessingOrder}
