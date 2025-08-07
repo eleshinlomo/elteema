@@ -183,7 +183,7 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
   return (
     <>
       {/* Product Preview Section */}
-       <div className="mb-4 w-full px-4">
+       <div className="mb-4 w-full px-2">
   <h2 className="text-2xl font-semibold mb-2 text-center py-4">{text}</h2>
   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-3">
     {currentProducts?.sort((a,b)=>new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((item, index) => (
