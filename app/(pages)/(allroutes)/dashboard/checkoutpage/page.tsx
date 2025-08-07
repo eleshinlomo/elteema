@@ -123,6 +123,7 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
       ...item,
       orderStatus: newStatus,
       buyerName: `${user?.firstname} ${user?.lastname}`,
+      buyerEmail: user?.email,
       buyerPhone: user?.phone,
       buyerAddress: `${user?.address}, ${user?.city}, ${user?.state}`,
       paymentMethod: paymentMethod
