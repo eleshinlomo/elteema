@@ -44,7 +44,6 @@ const RecentStoreOrders = () => {
   const handleEdit = useCallback((order: OrderProps) => {
     setSelectedOrder(order);
     setIsEditing(true);
-    console.log("Editing order:", order);
   }, []);
 
   const handleModalOpen = (order: OrderProps) => {
@@ -67,7 +66,7 @@ const RecentStoreOrders = () => {
       
       const response = await deleteStoreOrder(store.storeName, orderId, buyerId, reason);
       
-      if(response.ok){
+      if(response?.ok){
         const updatedUser = response.data
         setUser(updatedUser)
         updateLocalUser(updatedUser)
