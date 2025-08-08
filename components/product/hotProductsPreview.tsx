@@ -229,7 +229,14 @@ useEffect(() => {
             className="flex space-x-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory"
             onScroll={checkScrollPosition}
           >
-            {hotProducts?.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 10).map((product, index) => (
+            {hotProducts
+            .sort((a, b) => {
+              const aLatest = Math.max(new Date(a.createdAt).getTime(), new Date(a.updatedAt).getTime());
+              const bLatest = Math.max(new Date(b.createdAt).getTime(), new Date(b.updatedAt).getTime());
+              return bLatest - aLatest;
+              })
+
+            .slice(0, 10).map((product, index) => (
               <div
                 key={index}
                 className="min-w-[150px] rounded-lg border bg-white shadow cursor-pointer snap-start hover:shadow-md transition-shadow relative"

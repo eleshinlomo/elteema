@@ -186,7 +186,13 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
        <div className="mb-4 w-full px-2">
   <h2 className="text-2xl font-semibold mb-2 text-center py-4">{text}</h2>
   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-3">
-    {currentProducts?.sort((a,b)=>new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((item, index) => (
+    {currentProducts
+    .sort((a, b) => {
+  const aLatest = Math.max(new Date(a.createdAt).getTime(), new Date(a.updatedAt).getTime());
+  const bLatest = Math.max(new Date(b.createdAt).getTime(), new Date(b.updatedAt).getTime());
+  return bLatest - aLatest;
+      })
+    .map((item, index) => (
       <div
         key={item._id}
         onClick={() => onOpen(item)}

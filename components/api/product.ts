@@ -81,6 +81,7 @@ export interface ProductProps {
     productPageVisits: 256
     unitCost: number;
     createdAt: any;
+    updatedAt: any;
 }
 
 
