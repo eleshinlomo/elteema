@@ -120,15 +120,17 @@ const AddProductPage = () => {
     })
   }
 
-    const handleClotheSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target
-    setProduct(prev => {
-      const newSizes = checked
-        ? [...prev.clotheSizes, value]
-        : prev.shoeSizes.filter(size => size !== value)
-      return { ...prev, clotheSizes: newSizes }
-    })
-  }
+   const handleClotheSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const { value, checked } = e.target
+  console.log('Clothe size changed:', value, checked)
+  setProduct(prev => {
+    const newSizes = checked
+      ? [...prev.clotheSizes, value]
+      : prev.clotheSizes.filter(size => size !== value)
+    console.log('New clothe sizes:', newSizes)
+    return { ...prev, clotheSizes: newSizes }
+  })
+}
 
       const handleShoeSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target

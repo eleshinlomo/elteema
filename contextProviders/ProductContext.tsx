@@ -46,7 +46,7 @@ export const ProductContextProvider = ({ children }: ProductContextProps) => {
 
     useEffect(() => {
         handleGetAllProducts()
-    }, []);
+    }, [Products?.length]);
     
     const values: InitialValuesProps = {
         Products, 

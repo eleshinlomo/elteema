@@ -102,25 +102,30 @@ const UpdateProductPage = () => {
     })
   }
 
-  const handleShoeSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target
-    setProductToUpdate(prev => {
-      const newSizes = checked
-        ? [...prev.shoeSizes, value]
-        : prev.shoeSizes.filter(size => size !== value)
-      return { ...prev, shoeSizes: newSizes }
-    })
-  }
 
+
+    const handleShoeSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const { value, checked } = e.target
+  console.log('Clothe size changed:', value, checked)
+  setProductToUpdate(prev => {
+    const newSizes = checked
+      ? [...prev.shoeSizes, value]
+      : prev.shoeSizes.filter(size => size !== value)
+    return { ...prev, shoeSizes: newSizes }
+  })
+}
+
+ 
   const handleClotheSizeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target
-    setProductToUpdate(prev => {
-      const newSizes = checked
-        ? [...prev.clotheSizes, value]
-        : prev.clotheSizes.filter(size => size !== value)
-      return { ...prev, clotheSizes: newSizes }
-    })
-  }
+  const { value, checked } = e.target
+  console.log('Clothe size changed:', value, checked)
+  setProductToUpdate(prev => {
+    const newSizes = checked
+      ? [...prev.clotheSizes, value]
+      : prev.clotheSizes.filter(size => size !== value)
+    return { ...prev, clotheSizes: newSizes }
+  })
+}
 
   const handleUpdateProduct = async (e: FormEvent) => {
     e.preventDefault()
@@ -585,24 +590,24 @@ const UpdateProductPage = () => {
           </div>}
 
           {/* Shoe Sizes */}
-          {productToUpdate.shoeSizes?.length > 0 && <div className="md:col-span-2 space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Available Sizes</label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {shoeSizes.map((size, index) => (
-                <label key={index} className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    value={size.value}
-                    checked={productToUpdate.shoeSizes.includes(size.value)}
-                    onChange={handleShoeSizeChange}
-                    className="rounded text-green-600 focus:ring-green-500"
-                    disabled={!isEditing}
-                  />
-                  <span className={!isEditing ? 'text-gray-500' : ''}>{size.text}</span>
-                </label>
-              ))}
-            </div>
-          </div>}
+    {productToUpdate.shoeSizes?.length > 0 && <div className="md:col-span-2 space-y-2">
+  <label className="block text-sm font-medium text-gray-700">Available Sizes</label>
+  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+    {clotheSizes.map((size, index) => (
+      <label key={index} className="flex items-center space-x-2">
+        <input
+          type="checkbox"
+          value={size}
+          checked={productToUpdate.shoeSizes.includes(size)}
+          onChange={handleShoeSizeChange}
+          className="rounded text-green-600 focus:ring-green-500"
+          disabled={!isEditing}
+        />
+        <span className={!isEditing ? 'text-gray-500' : ''}>{size}</span>
+      </label>
+    ))}
+  </div>
+</div>}
 
              {/* Clothe Sizes */}
           {productToUpdate.clotheSizes?.length > 0 &&<div className="md:col-span-2 space-y-2">
@@ -613,7 +618,7 @@ const UpdateProductPage = () => {
                   <input
                     type="checkbox"
                     value={size}
-                    checked={productToUpdate.shoeSizes.includes(size)}
+                    checked={productToUpdate.clotheSizes.includes(size)}
                     onChange={handleClotheSizeChange}
                     className="rounded text-green-600 focus:ring-green-500"
                     disabled={!isEditing}

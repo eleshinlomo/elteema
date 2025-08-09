@@ -108,7 +108,7 @@ useEffect(() => {
       setSelectedColor(selectedProduct.colors[0]);
     }
   }
-}, [selectedProduct]);
+}, [selectedProduct?.length, Products?.length]);
 
 
 
