@@ -20,7 +20,7 @@ const AddProductPage = () => {
   const [imagePreviews, setImagePreviews] = useState<string[]>([])
   const [imageFiles, setImageFiles] = useState<File[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [submitError, setSubmitError] = useState<string>('')
   const [success, setSuccess] = useState('')
   const [hasColor, setHasColor] = useState(false)
   const [hasCondition, setHasCondition] = useState(false)
@@ -147,7 +147,6 @@ const AddProductPage = () => {
   e.preventDefault()
   setSubmitError('')
   setIsSubmitting(true)
-  setSubmitError(null)
   setSuccess('')
 
   
