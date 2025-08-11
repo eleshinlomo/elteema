@@ -14,7 +14,7 @@ const StoreFront = () => {
   const storeName = decodeURIComponent(params?.storeName?.toString()) || ''
   const [store, setStore] = useState<StoreProps | null>(null)
   const [error, setError] = useState('')
-  const storeAddress = store ? `${store.address}, ${capitalize(store.city)}, ${capitalize(store.state)}, ${store.country}` : ''
+  const storeAddress = store ? ` ${capitalize(store.city)}, ${capitalize(store.state)}, ${store.country}` : ''
   
 
   useEffect(() => {
@@ -80,7 +80,9 @@ const StoreFront = () => {
           <div>
            
               {/* Product Info */}
-                  <ProductDetails productArray={store.items} text={`${store?.storeName?.toUpperCase()} BESTSELLERS`} />
+                  <ProductDetails productArray={store.items} text={`${store?.storeName?.toUpperCase()} BESTSELLERS`} 
+                  productsPerPage={6}
+                  />
           </div>
         ) : (
           <div className="text-center py-12">

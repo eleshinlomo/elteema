@@ -11,7 +11,7 @@ const Clothing = ()=>{
       return (
 
         <div>
-            {filterClothing?.length > 0 && <ProductDetails productArray={filterClothing} text='Clothing' />}
+            {filterClothing?.length > 0 && <ProductDetails productArray={filterClothing} text='Clothing' productsPerPage={6} />}
         </div>
       )
 }

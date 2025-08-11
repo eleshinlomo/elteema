@@ -49,6 +49,7 @@ export interface ProductProps {
     userId: number;
     _id: string;
     addedBy: string;
+    isHidden: boolean;
     eta: string;
     src: string;
     productName: string;
@@ -92,6 +93,7 @@ export const createProduct = async (formData: FormData, userId: string) => {
  
 
     const response = await fetch(`${BASE_URL}/product/createproduct`, {
+      mode: 'cors',
       method: 'POST',
       body: formData, 
       headers: {
@@ -112,35 +114,12 @@ export const createProduct = async (formData: FormData, userId: string) => {
 
 
 
-// export const createProduct = async (formData: FormData, userId: number)=>{
-  
-//     try{
-//         const response = await fetch(`${BASE_URL}/product/createproduct`, {
-//           method: 'POST',
-//           body: formData,
-//           headers: {
-//             'userId': userId?.toString() //Used for the middleware on backend
-//           }
-//         })
-
-//         if(!response){
-//             return 'No response from server'
-//         }
-    
-//         const data = await response.json()
-//         return data
-//     }catch(err){
-//        console.log(err)
-//        return err
-//     }
-// }
-
-
 // Update Product
 export const updateProduct = async (formData: any, userId: string)=>{
 
      try{
         const response = await fetch(`${BASE_URL}/product/updateproduct`, {
+          mode: 'cors',
           method: 'PUT',
           body: formData,
           headers: {
@@ -161,6 +140,28 @@ export const updateProduct = async (formData: any, userId: string)=>{
 
 }
 
+// Used to change other properties except images
+export const modifyProduct = async (payload: null)=>{
+   
+      try{
+        const response = await fetch(`${BASE_URL}/product/modifyproduct`, {
+          mode: 'cors',
+          method: 'PUT',
+          body: JSON.stringify(payload),
+          headers: {"Content-Type": "application/json"}
+        })
+
+        if(!response){
+            return 'No response from server'
+        }
+    
+        const data = await response.json()
+        return data
+    }catch(err){
+       console.log(err)
+       return err
+    }
+}
 
 
 // All products

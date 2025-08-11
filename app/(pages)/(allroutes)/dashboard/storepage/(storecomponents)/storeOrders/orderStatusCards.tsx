@@ -18,7 +18,6 @@ const OrderStatusCards = () => {
     const userStore = user?.store
     if(userStore){
       const storeItems = userStore.items
-      console.log('STPRE ITEMS', storeItems)
     }
 
     let pendingOrders = []

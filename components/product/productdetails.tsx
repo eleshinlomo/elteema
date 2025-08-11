@@ -17,9 +17,10 @@ import { clothingCategories, fabricAndTextileCategories, foodCategories, shoeCat
 interface ProductDetailsProps {
   productArray: ProductProps[];
   text: string;
+  productsPerPage: number;
 }
 
-const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
+const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsProps) => {
   const [selectedProduct, setSelectedProduct] = useState<ProductProps | any>(null);
   const [error, setError] = useState('');
   const [selectedImage, setSelectedImage] = useState(0);
@@ -28,7 +29,6 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
   const { cart } = useContext(CartContext);
   const { user } = useContext(GeneralContext);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
   const [isLoading, setIsLoading] = useState(false);
   const [hasColor, setHasColor] = useState(false)
   const [hasCondition, setHasCondition] = useState(false)
@@ -42,11 +42,18 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
   const [eta, setEta] = useState('')
   const [selectedSize, setSelectedSize] = useState('')
 
-
+  // Filter out hidden products and sort by latest first
+  const visibleProducts = productArray
+    .filter(p => !p.isHidden)
+    // .sort((a, b) => {
+    //   const aLatest = Math.max(new Date(a.createdAt).getTime(), new Date(a.updatedAt).getTime());
+    //   const bLatest = Math.max(new Date(b.createdAt).getTime(), new Date(b.updatedAt).getTime());
+    //   return bLatest - aLatest;
+    // });
 
   useEffect(() => {
     if (selectedProduct) {
-      const item = cart?.find((item) => item._id === selectedProduct._id);
+      const item = cart?.find((item) => item._id === selectedProduct._id && !selectedProduct.isHidden);
       setIsAdded(!!item?.isAdded);
     }
   }, [cart, productArray, selectedProduct]);
@@ -63,15 +70,13 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
     document.body.style.overflow = 'hidden';
   };
 
-  // Pagination logic
+  // Pagination logic using visibleProducts
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = productArray?.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(productArray?.length / productsPerPage);
+  const currentProducts = visibleProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(visibleProducts.length / productsPerPage);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-
 
   const productImages = selectedProduct 
     ? Array.isArray(selectedProduct.imageUrls)
@@ -84,93 +89,82 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
 
   const mainImage = productImages[selectedImage]?.src || productImages[0]?.src;
 
-
   useEffect(()=>{
-    
-        const isFoundInFood = foodCategories.includes(selectedProduct?.category)
-        const isFoundInClothing = clothingCategories.includes(selectedProduct?.category)
-        const isFoundInShoes = shoeCategories.includes(selectedProduct?.category)
-        const isFoundInFabric = fabricAndTextileCategories.includes(selectedProduct?.category)
-    
-      // Clothing
-      if(isFoundInClothing){
-        setHasClothingSize(true)
-        setHasColor(true)
-        setHasShoeSize(false)
-        setHasYard(false)
-        setHasCondition(true)
-        
+    const isFoundInFood = foodCategories.includes(selectedProduct?.category)
+    const isFoundInClothing = clothingCategories.includes(selectedProduct?.category)
+    const isFoundInShoes = shoeCategories.includes(selectedProduct?.category)
+    const isFoundInFabric = fabricAndTextileCategories.includes(selectedProduct?.category)
+
+    // Clothing
+    if(isFoundInClothing){
+      setHasClothingSize(true)
+      setHasColor(true)
+      setHasShoeSize(false)
+      setHasYard(false)
+      setHasCondition(true)
+    }
+    // food
+    else if(isFoundInFood){
+      setHasShoeSize(false)
+      setHasColor(false)
+      setHasClothingSize(false)
+      setHasYard(false)
+      setHasCondition(false)
+    }// Shoe
+    else if(isFoundInShoes){
+      setHasShoeSize(true)
+      setHasColor(true)
+      setHasClothingSize(false)
+      setHasYard(false)
+      setHasCondition(true)
+    }
+    // Textile & fabric
+    else if(isFoundInFabric){
+      setHasYard(true)
+      setHasColor(true)
+      setHasShoeSize(false)
+      setHasCondition(true)
+    }else{
+      setHasShoeSize(false)
+      setHasColor(false)
+      setHasClothingSize(false)
+      setHasYard(false)
+      setHasCondition(false)
+    }
+  }, [selectedProduct?.category])
+
+  // Handle Change
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+  
+    if (name === 'clotheSize') {
+      setSelectedClotheSize(value);
+      setSelectedShoeSize('');
+      setSelectedSize(value);
+    } 
+    else if (name === 'ShoeSize') {
+      setSelectedShoeSize(value);
+      setSelectedClotheSize('');
+      setSelectedSize(value);
+    } 
+    else if (name === 'color') {
+      setSelectedColor(value);
+    }
+  };
+
+  // Handle ETA
+  useEffect(()=>{
+    const handleEta = ()=>{
+      if(!user) return
+      const etaValue = calculateETA(user)
+      if(etaValue){
+      setEta(etaValue)
       }
-     // food
-      else if(isFoundInFood){
-        setHasShoeSize(false)
-        setHasColor(false)
-        setHasClothingSize(false)
-         setHasYard(false)
-         setHasCondition(false)
-      }// Shoe
-      else if(isFoundInShoes){
-        setHasShoeSize(true)
-        setHasColor(true)
-        setHasClothingSize(false)
-         setHasYard(false)
-         setHasCondition(true)
-      }
-     // Textile & fabric
-      else if(isFoundInFabric){
-        setHasYard(true)
-         setHasColor(true)
-         setHasShoeSize(false)
-         setHasCondition(true)
-      }else{
-        setHasShoeSize(false)
-        setHasColor(false)
-        setHasClothingSize(false)
-         setHasYard(false)
-         setHasCondition(false)
-      }
-    
-    }, [selectedProduct?.category])
+    }
+    handleEta()
+  }, [user])
 
-
- 
-        // Handle Change
-      const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { value, name } = e.target;
-      
-        if (name === 'clotheSize') {
-          setSelectedClotheSize(value);
-          setSelectedShoeSize('');
-          setSelectedSize(value);
-        } 
-        
-        else if (name === 'ShoeSize') {
-          setSelectedShoeSize(value);
-          setSelectedClotheSize('');
-          setSelectedSize(value);
-        } 
-        
-         else if (name === 'color') {
-          setSelectedColor(value);
-        }
-      };
-
-    
-      // Handle ETA
-      useEffect(()=>{
-    
-      const handleEta = ()=>{
-        if(!user) return
-         const etaValue = calculateETA(user)
-         if(etaValue){
-         setEta(etaValue)
-         }
-      }
-      handleEta()
-       }, [user])
-
-
-         if (isLoading) {
+  if (isLoading) {
     return (
       <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/50">
         <div className="animate-pulse bg-white p-8 rounded-xl shadow-lg">
@@ -183,53 +177,53 @@ const ProductDetails = ({ productArray, text }: ProductDetailsProps) => {
   return (
     <>
       {/* Product Preview Section */}
-       <div className="mb-4 w-full px-2">
-  <h2 className="text-2xl font-semibold mb-2 text-center py-4">{text}</h2>
-  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-3">
-    {currentProducts
-    .sort((a, b) => {
-  const aLatest = Math.max(new Date(a.createdAt).getTime(), new Date(a.updatedAt).getTime());
-  const bLatest = Math.max(new Date(b.createdAt).getTime(), new Date(b.updatedAt).getTime());
-  return bLatest - aLatest;
-      })
-    .map((item, index) => (
-      <div
-        key={item._id}
-        onClick={() => onOpen(item)}
-        className="cursor-pointer border rounded-md overflow-hidden hover:shadow-md transition-all flex flex-col h-full relative"
-      >
-     
-        <div className="relative aspect-square w-full">
-          <Image
-            src={Array.isArray(item.imageUrls) ? item.imageUrls[0] : item.imageUrls}
-            alt={item.productName}
-            fill
-            className="object-cover"
-            sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
-          />
-        </div>
-        
-        <div className="flex flex-col justify-between flex-1 p-2">
-          <h3 className="text-xs md:text-sm font-medium text-gray-900 line-clamp-2">
-            {item?.productName?.toUpperCase()}
-          </h3>
-          <div className="flex items-center justify-between mt-1">
-            <span className="text-xs md:text-sm font-bold text-gray-900">
-              ₦{item?.price?.toLocaleString()}
-            </span>
-            <span className="text-[10px] md:text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
-              in {item.category}
-            </span>
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
+      <div className="mb-4 w-full px-2">
+        <h2 className="text-2xl font-semibold mb-2 text-center py-4">{text}</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-3">
+          {currentProducts.map((item, index) => (
+            <div
+              key={item._id}
+              onClick={() => onOpen(item)}
+              className="cursor-pointer border rounded-md overflow-hidden hover:shadow-md transition-all flex flex-col h-full relative"
+            >
+              <div className="relative aspect-square w-full">
+                <Image
+                  src={Array.isArray(item.imageUrls) ? item.imageUrls[0] : item.imageUrls}
+                  alt={item.productName}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                />
+              </div>
+              
+              <div className="flex flex-col justify-between flex-1 p-2">
+                <h3 className="text-xs md:text-sm font-medium text-gray-900 line-clamp-2">
+                  {item?.productName?.toUpperCase()}
+                </h3>
+                <div className="flex items-center justify-between mt-1">
+                  <span className="text-xs md:text-sm font-bold text-gray-900">
+                    ₦{item?.price?.toLocaleString()}
+                  </span>
+                  <span className="text-[10px] md:text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
+                    in {item.category}
+                  </span>
+                </div>
 
-
+                  <div className='flex justify-between'>
+                    <p className="text-xs pt-1 font-bold">
+                    {item.storeCity}
+                  </p>
+                   <p className="text-xs pt-1 font-bold">
+                    {item.storeState}
+                  </p>
+                  </div>
+              </div>
+            </div>
+          ))}
+        </div>
 
         {/* Pagination */}
-        {productArray?.length > productsPerPage && (
+        {visibleProducts.length > productsPerPage && (
           <div className="flex justify-center mt-4">
             <nav className="inline-flex rounded-md shadow-sm">
               <button

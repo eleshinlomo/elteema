@@ -48,7 +48,7 @@ const HotProductsPreview = () => {
   }, [cart, selectedProduct]);
 
   useEffect(() => {
-    setHotProducts(Products);
+    setHotProducts(Products.filter((p)=>!p.isHidden));
     checkScrollPosition();
   }, [Products?.length]);
 
@@ -242,7 +242,7 @@ useEffect(() => {
                 className="min-w-[150px] rounded-lg border bg-white shadow cursor-pointer snap-start hover:shadow-md transition-shadow relative"
                 onClick={() => openModal(product)}
               >
-                {index < 10 && (
+                {index < 10  && (
                   <div className="absolute top-1 left-1 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-10">
                     New
                   </div>
@@ -262,6 +262,14 @@ useEffect(() => {
                   <p className="text-xs text-green-600 font-bold">
                     {formatCurrency('NGN', product.price)}
                   </p>
+                  <div className='flex justify-between'>
+                    <p className="text-xs pt-1 font-bold">
+                    {product.storeCity}
+                  </p>
+                   <p className="text-xs pt-1 font-bold">
+                    {product.storeState}
+                  </p>
+                  </div>
                 </div>
               </div>
             ))}

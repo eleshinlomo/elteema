@@ -42,11 +42,11 @@ export default function Home() {
           <div className="">
             <HotMobilePreview />
           </div>
-          <FabricProducts />
+          {/* <FabricProducts /> */}
           <FoodStuff />
-          <VegetableProducts />
-          <Clothing />
-          <FruitProducts />
+          {/* <VegetableProducts /> */}
+          {/* <Clothing />  */}
+          {/* <FruitProducts />  */}
          
 
 

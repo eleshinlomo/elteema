@@ -71,7 +71,7 @@ const Featured = () => {
                         <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">
                             Search Results for <span className="text-green-600">{itemToSearch}</span>
                         </h2>
-                        <ProductDetails productArray={searchedItemList} text={'Searched items'} />
+                        <ProductDetails productArray={searchedItemList} text={'Searched items'} productsPerPage={6} />
                     </motion.div>
                 ) : itemToSearch && !searchedItemFound ? (
                     <motion.div

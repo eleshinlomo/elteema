@@ -2,7 +2,7 @@
 
 import { useContext, useState, useEffect } from "react";
 import { GeneralContext } from "../../../../../../contextProviders/GeneralProvider";
-import { deleteProduct, ProductProps } from "../../../../../../components/api/product";
+import { deleteProduct, modifyProduct, ProductProps } from "../../../../../../components/api/product";
 import { updateLocalUser } from "../../../../../../components/utils";
 import { ProductContext } from "../../../../../../contextProviders/ProductContext";
 
@@ -75,6 +75,49 @@ const AllListedProducts = () => {
     setCurrentPage(1);
   }, [storeProducts]);
 
+
+  const handleHideProduct = async (productId: string)=>{
+    const isHidden = true
+    const payload: any = {
+       isHidden,
+       productId,
+       userId: user?._id
+    }
+
+    const response = await modifyProduct(payload)
+    console.log('RESPONSE', response)
+    const {updatedProducts, updatedUser} = response.data
+    if(response.ok){
+      setProducts(updatedProducts)
+      setUser(updatedUser)
+    }else{
+      console.log(response)
+    }
+     
+  }
+
+
+  const handleUnhideProduct = async (productId: string)=>{
+    const isHidden = false
+    const payload: any = {
+       isHidden,
+       productId,
+       userId: user?._id
+    }
+
+    const response = await modifyProduct(payload)
+    console.log('RESPONSE', response)
+        const {updatedProducts, updatedUser} = response.data
+    if(response.ok){
+      setProducts(updatedProducts)
+      setUser(updatedUser)
+    }else{
+      console.log(response)
+    }
+     
+  }
+
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-6">
@@ -123,6 +166,13 @@ const AllListedProducts = () => {
                     onClick={() => confirmDelete(product._id)}
                   >
                     Delete
+                  </button>
+
+                    <button 
+                    className={`text-xs py-1 px-2 rounded ${product.isHidden ? 'bg-red-300' : 'bg-gray-600'} hover:bg-red-700 text-white`}
+                    onClick={() => product.isHidden ? handleUnhideProduct(product._id) : handleHideProduct(product._id)}
+                  >
+                     {product.isHidden ? 'Display in store' : 'Hide in store'}
                   </button>
                 </div>
               </div>
