@@ -96,7 +96,7 @@ const Search = () => {
                         <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
                             Search Results for <span className="text-green-600">{itemToSearch}</span>
                         </h2>
-                        <ProductDetails productArray={searchedItemList} text='Searched Items' />
+                        <ProductDetails productArray={searchedItemList} text='Searched Items' productsPerPage={6} />
                     </div>
                 ) : itemToSearch && !searchedItemFound ? (
                     <div className="text-center py-16 animate-fadeIn">
@@ -126,7 +126,7 @@ const Search = () => {
                         <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
                             Featured African Products
                         </h2>
-                         <ProductDetails productArray={searchedItemList} text='Searched Items' />
+                         <ProductDetails productArray={searchedItemList} text='Searched Items' productsPerPage={6} />
                     </div>
                 )}
             </div>

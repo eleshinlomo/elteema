@@ -43,7 +43,9 @@ const New = ()=>{
             <div >
     
        
-                {newList && newList.length > 0 ?<ProductDetails productArray={newList.slice(0, 4)} text='New Items' />:
+                {newList && newList.length > 0 ?<ProductDetails productArray={newList.slice(0, 4)} text='New Items'
+                productsPerPage={6}
+                 />:
                 <SkeletonPage message={message} />
                 }
     

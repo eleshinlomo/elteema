@@ -96,7 +96,7 @@ const SwipeProduct = () => {
                         <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">
                             Search Results for <span className="text-green-600">{itemToSearch}</span>
                         </h2>
-                        <ProductDetails productArray={searchedItemList} text='Swipe to claim' />
+                        <ProductDetails productArray={searchedItemList} text='Swipe to claim' productsPerPage={6} />
                     </div>
                 ) : itemToSearch && !searchedItemFound ? (
                     <div className="text-center py-4 animate-fadeIn">
@@ -121,7 +121,7 @@ const SwipeProduct = () => {
                 ) : (
                     <div className="animate-fadeIn">
                        
-                         <ProductDetails productArray={searchedItemList} text='Swipe to claim' />
+                         <ProductDetails productArray={searchedItemList} text='Swipe to claim' productsPerPage={6} />
                     </div>
                 )}
             </div>

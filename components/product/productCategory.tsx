@@ -62,6 +62,7 @@ useEffect(()=>{
       <ProductDetails 
         productArray={categoryItems} 
         text={`Shop for ${decodeURIComponent(category)}`} 
+        productsPerPage={6}
       />:
       <LoadingState />
       }

@@ -14,7 +14,7 @@ const OtherProducts = ()=>{
       return (
 
         <div>
-            {Products?.length > 0 && <ProductDetails productArray={otherItems} text='Others' />}
+            {Products?.length > 0 && <ProductDetails productArray={otherItems} text='Others' productsPerPage={6} />}
         </div>
       )
 }

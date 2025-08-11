@@ -27,7 +27,9 @@ const {Products} = useContext(ProductContext)
     return (
         <div id='bestsellers'>
             <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Bestsellers</h2>
-            {bestsellers && bestsellers.length > 0 ? <ProductDetails productArray={bestsellers.slice(0, 4)} text='Bestsellers' />:
+            {bestsellers && bestsellers.length > 0 ? <ProductDetails productArray={bestsellers.slice(0, 4)} text='Bestsellers' 
+            productsPerPage={6}
+            />:
             <SkeletonPage message={message} />
             }
         

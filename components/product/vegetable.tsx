@@ -10,7 +10,9 @@ const VegetableProducts = ()=>{
       return (
 
         <div>
-            {filteredProducts?.length > 0 && <ProductDetails productArray={filteredProducts} text={`Shop for ${'vegetable & spice'}`} />}
+            {filteredProducts?.length > 0 && <ProductDetails productArray={filteredProducts} text={`Shop for ${'vegetable & spice'}`} 
+            productsPerPage={6}
+            />}
         </div>
       )
 }

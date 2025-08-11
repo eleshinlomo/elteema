@@ -10,7 +10,9 @@ const ProcessedFoodProducts = ()=>{
       return (
 
         <div>
-            {filteredProducts?.length > 0 && <ProductDetails productArray={filteredProducts} text={`Shop for ${'processed foods'}`} />}
+            {filteredProducts?.length > 0 && <ProductDetails productArray={filteredProducts} text={`Shop for ${'processed foods'}`}
+            productsPerPage={6}
+             />}
         </div>
       )
 }
