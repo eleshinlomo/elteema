@@ -252,6 +252,7 @@ useEffect(() => {
                     src={product.imageUrls[0]}
                     alt={product.productName}
                     fill
+                    loading='lazy'
                     className="object-cover"
                   />
                 </div>
