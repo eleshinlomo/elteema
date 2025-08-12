@@ -325,7 +325,7 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
               
               {/* Payment method */}
               <h3 className='text-center text-lg font-medium text-gray-700 mb-4'>Payment Method</h3>
-<div className='flex justify-between space-x-4'>
+<div className='grid grid-cols-2 md:grid-cols-4 text-sm'>
   <label className='flex items-center space-x-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer'>
     <input 
       type='radio' 
@@ -363,6 +363,8 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
     />
     <span className='text-gray-400'>Debit card</span>
   </label>
+
+  
 </div>
               
               <AlertCard

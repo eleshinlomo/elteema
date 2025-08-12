@@ -107,6 +107,34 @@ const RecentStoreOrders = () => {
 
  
   const columnDefs: any = [
+     { 
+      field: 'actions', 
+      headerName: 'Actions',
+      minWidth: 200,
+      cellRenderer: (params: any) => {
+        const order = params.data;
+        return (
+          <div className="flex flex-col space-y-1">
+            <select 
+              onChange={(e) => handleUpdateStoreOrder(order._id, e)}
+              className="text-sm p-1 border rounded"
+              defaultValue=""
+            >
+              <option value="" disabled>Update status</option>
+              {orderStatusOptions.map(option => (
+                <option key={option} value={option}>{option}</option>
+              ))}
+            </select>
+            <button
+              onClick={() => handleModalOpen(order)}
+              className="text-red-600 hover:text-red-900 text-sm"
+            >
+              Cancel
+            </button>
+          </div>
+        );
+      }
+    },
     { 
       field: 'productName', 
       headerName: 'Product Name', 
@@ -207,34 +235,7 @@ const RecentStoreOrders = () => {
       minWidth: 150,
       valueFormatter: (params: any) => params.value ? params.value : 'Unknown' 
     },
-    { 
-      field: 'actions', 
-      headerName: 'Actions',
-      minWidth: 200,
-      cellRenderer: (params: any) => {
-        const order = params.data;
-        return (
-          <div className="flex flex-col space-y-1">
-            <select 
-              onChange={(e) => handleUpdateStoreOrder(order._id, e)}
-              className="text-sm p-1 border rounded"
-              defaultValue=""
-            >
-              <option value="" disabled>Update status</option>
-              {orderStatusOptions.map(option => (
-                <option key={option} value={option}>{option}</option>
-              ))}
-            </select>
-            <button
-              onClick={() => handleModalOpen(order)}
-              className="text-red-600 hover:text-red-900 text-sm"
-            >
-              Cancel
-            </button>
-          </div>
-        );
-      }
-    }
+   
   ];
 
   return (
@@ -242,15 +243,7 @@ const RecentStoreOrders = () => {
       <div className="w-full md:max-w-7xl mx-auto">
         <h6 className="text-xl font-bold text-gray-800 mb-6">Your Recent Store Orders</h6>
 
-         {/* Payment warning */}
-      {currentOrders?.length > 0 && (
-        <div className="p-4 mb-6 bg-red-500 text-white rounded-lg mx-4 md:mx-0">
-          <p className="text-sm">
-            We are currently unable to process card payments. Please contact 
-            the customers directly to complete your orders by phone.
-          </p>
-        </div>
-      )}
+     
 
         {currentOrders?.length > 0 ? (
           <div 
