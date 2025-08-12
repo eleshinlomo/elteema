@@ -45,11 +45,8 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
   // Filter out hidden products and sort by latest first
   const visibleProducts = productArray
     .filter(p => !p.isHidden)
-    // .sort((a, b) => {
-    //   const aLatest = Math.max(new Date(a.createdAt).getTime(), new Date(a.updatedAt).getTime());
-    //   const bLatest = Math.max(new Date(b.createdAt).getTime(), new Date(b.updatedAt).getTime());
-    //   return bLatest - aLatest;
-    // });
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  
 
   useEffect(() => {
     if (selectedProduct) {
@@ -155,8 +152,8 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
   // Handle ETA
   useEffect(()=>{
     const handleEta = ()=>{
-      if(!user) return
-      const etaValue = calculateETA(user)
+      if(!user || !selectedProduct) return
+      const etaValue = calculateETA(user, selectedProduct)
       if(etaValue){
       setEta(etaValue)
       }
@@ -322,12 +319,7 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
                     in {selectedProduct.category}
                   </a>
                     </span>
-                    <a
-                      href={`/storefront/${selectedProduct.storeName}`}
-                      className="text-xs sm:text-sm text-blue-600 underline hover:text-blue-800 block"
-                    >
-                      Visit {selectedProduct.storeName}
-                    </a>
+                 
                     <p className="text-lg sm:text-xl text-green-600 font-semibold">
                       {formatCurrency('NGN', Number(selectedProduct.price))}
                     </p>
@@ -484,7 +476,7 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
         </div>
       </div>
       <a
-        href={`/storefront/${selectedProduct.storeName}`}
+        href={`/storefront/${selectedProduct.storeId}`}
         className="px-4 py-2 bg-white border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors font-medium text-sm"
       >
         Visit Store

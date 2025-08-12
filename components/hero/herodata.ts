@@ -39,7 +39,7 @@ export const HeroData = [
   },
    {
     
-    content: 'Are you ready for Diety December ?',
+    content: 'Are you ready for Detty December ?',
     path: '#' + decodeURIComponent('foodstuff'),
     text: 'Shop like a prince',
     src: slide6,

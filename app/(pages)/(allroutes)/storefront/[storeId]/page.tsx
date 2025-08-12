@@ -11,7 +11,7 @@ import ProductDetails from "../../../../../components/product/productdetails"
 
 const StoreFront = () => {
   const params: any = useParams()
-  const storeName = decodeURIComponent(params?.storeName?.toString()) || ''
+  const storeId = decodeURIComponent(params?.storeId?.toString()) || ''
   const [store, setStore] = useState<StoreProps | null>(null)
   const [error, setError] = useState('')
   const storeAddress = store ? ` ${capitalize(store.city)}, ${capitalize(store.state)}, ${store.country}` : ''
@@ -20,8 +20,8 @@ const StoreFront = () => {
   useEffect(() => {
     const handleGetStore = async () => {
       setError('')
-      if (storeName) {
-        const response = await getStore(storeName)
+      if (storeId) {
+        const response = await getStore(storeId)
     
         if (response.ok) {
           setStore(response.message)
@@ -32,7 +32,7 @@ const StoreFront = () => {
     }
 
     handleGetStore()
-  }, [storeName, store?.storeName])
+  }, [storeId, store])
 
   if (error) {
     return (
@@ -80,7 +80,7 @@ const StoreFront = () => {
           <div>
            
               {/* Product Info */}
-                  <ProductDetails productArray={store.items} text={`${store?.storeName?.toUpperCase()} BESTSELLERS`} 
+                  <ProductDetails productArray={store?.items} text={`${store?.storeName?.toUpperCase()} BESTSELLERS`} 
                   productsPerPage={6}
                   />
           </div>

@@ -19,7 +19,6 @@ interface AddToCartBtnProps {
 
 const AddToCartButton = ({ targetid, isAdded, setIsAdded, setError, selectedSize, selectedColor, eta}: AddToCartBtnProps) => {
 
-    console.log('ITEMS TO ADD', selectedSize, selectedColor, eta)
 
     const [buttonText, setButtonText] = useState('Add To Cart')
     const [isAnimating, setIsAnimating] = useState(false)

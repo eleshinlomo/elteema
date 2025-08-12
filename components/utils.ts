@@ -43,20 +43,22 @@ export const fetchCart = ()=>{
 }
 
 
-export const calculateETA = (user: UserProps)=>{
+export const calculateETA = (buyer: UserProps, product: any)=>{
      let eta = ''
-       if (!user) return
-      if (user.state === 'Lagos') {
-        eta ='3 days'
-      }  else if (user.state !== 'Lagos') {
-        eta = '7 days'
-      }
-      else if (user.country === 'Nigeria') {
+     console.log('buyer', buyer, 'product', product)
+       if (!buyer || !product) return
+     
+       if(buyer.city === product?.storeCity){
+        eta = '2 days'
+       }
+       else if(buyer.state === product?.storeState){
+         eta = '3 days'
+       }
+      else if (buyer.country !== 'Nigeria') {
         eta = '1 month'
-      } else if (!user.state) {
-        eta = 'Please update state of residence so we can calculate your ETA'
-      } else {
-        eta = '2 weeks'
+      } 
+      else {
+        eta = '10 days'
       }
 
       return eta

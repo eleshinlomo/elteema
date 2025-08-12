@@ -163,7 +163,6 @@ export const CartProvider = ({ children }: ContextProps) => {
 
   }];
 
-  console.log('UPDATED PRODUCT', updatedCart)
 
   // Validate numbers before calculations
   const totalItems = updatedCart.reduce((sum, item) => {

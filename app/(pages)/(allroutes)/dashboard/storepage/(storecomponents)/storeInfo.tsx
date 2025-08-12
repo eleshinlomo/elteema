@@ -90,7 +90,7 @@ const StoreInfo = () => {
               <span>{storeAddress}</span>
             </div>
       
-      <a className=' text-blue-700 px-1' href={`/storefront/${store?.storeName}`}>Visit storefront</a>
+      <a className=' text-blue-700 px-1' href={`/storefront/${store?._id}`}>Visit storefront</a>
       <a href='/dashboard/addproductpage'>
       <button className="mt-3 w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition duration-200">
         Add New Item

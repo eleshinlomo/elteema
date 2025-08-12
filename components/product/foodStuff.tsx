@@ -11,7 +11,7 @@ const FoodStuff = ()=>{
       return (
 
         <div>
-            {filterFoodStuff?.length > 0 && <ProductDetails productArray={filterFoodStuff} text='Latest Products' productsPerPage={18} />}
+            {filterFoodStuff?.length > 0 && <ProductDetails productArray={filterFoodStuff} text='Latest Products' productsPerPage={24} />}
         </div>
       )
 }

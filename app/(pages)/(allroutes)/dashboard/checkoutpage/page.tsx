@@ -24,7 +24,7 @@ const CheckoutPage = () => {
   const [formattedAddress, setFormattedAddress] = useState<any>('')
   const [totalPricePlusTax, setTotalPricePlusTax] = useState(0)
   const [paymentMethodError, setPaymentMethodError] = useState('')
-  const [paymentMethod, setPaymentMethod] = useState('cash')
+  const [paymentMethod, setPaymentMethod] = useState('cash on delivery')
   const [error, setError] = useState('')
   const [isProcessingOrder, setIsProcessingOrder] = useState(false)
   
@@ -121,6 +121,7 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
     // Prepare cart items with additional info
     const updatedCart = cart.map(item => ({
       ...item,
+      productId: item._id,
       orderStatus: newStatus,
       buyerName: `${user?.firstname} ${user?.lastname}`,
       buyerEmail: user?.email,
@@ -275,12 +276,6 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
 
             {item?.selectedSize && <span>Size: {item?.selectedSize}</span>}
             <span>Estimated Delivery: {item?.eta}</span>
-              <a 
-              href={`/storefront/${item.storeName}`} 
-              className="text-xs sm:text-sm text-blue-500 hover:text-blue-600 hover:underline inline-block mt-1"
-            >
-              Visit {item.storeName}
-            </a>
             <span>Payment Method: {capitalize(paymentMethod)}</span>
             </div>
             
@@ -288,7 +283,7 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
           
           
           {/* Price - Fixed width */}
-          <div className="col-span-3 sm:col-span-3 text-right pr-4">
+          <div className="col-span-3 sm:col-span-3 text-right pr-8">
             <p className="text-base sm:text-lg font-semibold text-green-600 whitespace-nowrap">
               N{(item.price * item.quantity).toFixed(2)}
             </p>
@@ -329,19 +324,46 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
               </div>
               
               {/* Payment method */}
-               <h3 className='text-center bg-green-200 '>Payment Method</h3>
-             <div className='flex justify-between pt-3'>
- 
-              <span className='flex gap-2'>
-              <input type='radio' name='paymentMethod' value='cash' checked={paymentMethod === 'cash'} onChange={handlePaymentMethodChange} />Cash
-            </span>
-            <span className='flex gap-2'>
-            <input disabled={true} type='radio' name='paymentMethod' value='debit' checked={paymentMethod === 'debit'} onChange={handlePaymentMethodChange} />Debit Card
-            </span>
-            <span className='flex gap-2'>
-            <input disabled={true} type='radio' name='paymentMethod' value='bank' checked={paymentMethod === 'bank'} onChange={handlePaymentMethodChange} />Bank Transfer
-            </span>
-          </div>
+              <h3 className='text-center text-lg font-medium text-gray-700 mb-4'>Payment Method</h3>
+<div className='flex justify-between space-x-4'>
+  <label className='flex items-center space-x-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer'>
+    <input 
+      type='radio' 
+      name='paymentMethod' 
+      value={paymentMethod}
+      checked={paymentMethod === 'cash on delivery'} 
+      onChange={handlePaymentMethodChange}
+      className='h-4 w-4 text-green-500 focus:ring-green-400' 
+    />
+    <span className='text-gray-600'>Cash on delivery</span>
+  </label>
+  
+  <label className='flex items-center space-x-2 p-3 rounded-lg opacity-50'>
+    <input 
+      disabled={true} 
+      type='radio' 
+      name='paymentMethod' 
+      value='debit' 
+      checked={paymentMethod === 'bank transfer'} 
+      onChange={handlePaymentMethodChange}
+      className='h-4 w-4 text-gray-400' 
+    />
+    <span className='text-gray-400'>Bank transfer</span>
+  </label>
+  
+  <label className='flex items-center space-x-2 p-3 rounded-lg opacity-50'>
+    <input 
+      disabled={true} 
+      type='radio' 
+      name='paymentMethod' 
+      value='bank' 
+      checked={paymentMethod === 'debit card'} 
+      onChange={handlePaymentMethodChange}
+      className='h-4 w-4 text-gray-400' 
+    />
+    <span className='text-gray-400'>Debit card</span>
+  </label>
+</div>
               
               <AlertCard
               isProcessingOrder={isProcessingOrder}

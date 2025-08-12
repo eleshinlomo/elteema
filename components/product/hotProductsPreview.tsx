@@ -115,8 +115,8 @@ useEffect(() => {
   // Handle ETA
   useEffect(() => {
     const handleEta = () => {
-      if (!user) return;
-      const etaValue: any = calculateETA(user);
+      if (!user || !selectedProduct) return;
+      const etaValue: any = calculateETA(user, selectedProduct);
       if (etaValue) {
         setEta(etaValue);
       }
@@ -548,7 +548,7 @@ useEffect(() => {
                         </div>
                       </div>
                       <a
-                        href={`/storefront/${selectedProduct.storeName}`}
+                        href={`/storefront/${selectedProduct.storeId}`}
                         className="px-3 py-1.5 md:px-4 md:py-2 bg-white border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors font-medium text-xs md:text-sm"
                       >
                         Visit Store

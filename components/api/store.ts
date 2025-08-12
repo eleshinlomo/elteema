@@ -105,7 +105,7 @@ export const updateStore = async (payload : CreateStoreProps)=>{
 
 
 // Function gets single store
-export const getStore = async (storeName: string)=>{
+export const getStore = async (storeId: string)=>{
 
       const response = await fetch(`${BASE_URL}/store/getstore`, {
        mode: 'cors',
@@ -114,7 +114,7 @@ export const getStore = async (storeName: string)=>{
         'Content-Type': 'application/json',
 
        },
-       body: JSON.stringify({storeName})
+       body: JSON.stringify({storeId})
     })
     if(!response) return 'No response from server'
     
