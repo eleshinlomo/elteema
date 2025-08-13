@@ -139,7 +139,7 @@ const OrderPage = () => {
                         <p className="text-sm text-gray-500 mt-1">{order.storeName}</p>
                         <div>
                           <p className="text-sm  mt-1">Payment Status: 
-                            <span className='px-2 py-1 text-xs font-medium rounded-full bg-red-600 text-white'> {capitalize(order.paymentStatus)}</span></p>
+                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${order.paymentStatus === 'paid' ? 'bg-green-600' : 'bg-red-600'} text-white`}> {capitalize(order.paymentStatus)}</span></p>
                           <p className="text-sm  mt-1">Payment method: {capitalize(order.paymentMethod)}</p>
                         </div>
                       </div>

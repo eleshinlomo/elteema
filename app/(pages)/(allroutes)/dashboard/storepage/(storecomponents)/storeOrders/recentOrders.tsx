@@ -8,7 +8,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'; 
 import { capitalize, formatCurrency, updateLocalUser } from "../../../../../../../components/utils";
-import { deleteStoreOrder } from "../../../../../../../components/api/store";
+import { deleteStoreOrder, updateStoreOrderPaymentStatus, updateStoreOrderStatus } from "../../../../../../../components/api/store";
 import { OrderProps } from "../../../../../../../components/api/users";
 import { PathParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
 
@@ -28,13 +28,26 @@ const RecentStoreOrders = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('')
   const [reason, setReason] = useState('')
+  const [paymentStatus, setPaymentStatus] = useState('')
+  const [message, setMessage] = useState('')
+  const [selectedStatus, setSelectedStatus] = useState('')
 
   useEffect(() => {
     if (user && user.store) {
       setCurrentOrders(user?.store?.orders.currentOrders)
     }
   }, [user]);
-
+ 
+  // useEffect(()=>{
+  //   if(selectedOrder?.paymentMethod === 'cash on delivery'){
+  //     console.log('SELECTED ORDER', selectedOrder)
+  //     setPaymentStatus('update to paid')
+  //   }else{
+  //     setPaymentStatus('')
+  //   }
+    
+  // }, [selectedOrder])
+  
   const orderStatusOptions = [
     'processing',
     'awaiting pick-up',
@@ -82,11 +95,36 @@ const RecentStoreOrders = () => {
     }
   };
 
-  const handleUpdateStoreOrder = (orderId: string, e: ChangeEvent<HTMLSelectElement>) => {
+  const handleUpdateStoreOrder = async (orderId: string, e: ChangeEvent<HTMLSelectElement>) => {
+    setMessage('Updating order status...')
     const orderStatusValue = e.target.value;
-    // Implement your order status update logic here
-    console.log(`Updating order ${orderId} to status: ${orderStatusValue}`);
+       const payload = {orderId, orderStatusValue}
+     const response = await updateStoreOrderStatus(payload)
+     const updatedUser = response.data
+     if(response.ok){
+      setUser(updatedUser)
+      updateLocalUser(updatedUser)
+      setMessage('')
+     }else{
+      setMessage(response.error)
+     }
+     
   };
+
+  const handleUpdateToPaid = async (orderId: string)=>{
+    setMessage('Updating to paid...')
+     const status = 'paid'
+     const payload = {orderId, status}
+     const response = await updateStoreOrderPaymentStatus(payload)
+     const updatedUser = response.data
+     if(response.ok){
+      setUser(updatedUser)
+      updateLocalUser(updatedUser)
+      setMessage('')
+     }else{
+      setMessage(response.error)
+     }
+  }
 
   const defaultColDef = {
     flex: 1,
@@ -118,19 +156,28 @@ const RecentStoreOrders = () => {
             <select 
               onChange={(e) => handleUpdateStoreOrder(order._id, e)}
               className="text-sm p-1 border rounded"
-              defaultValue=""
+              value={selectedStatus}
             >
               <option value="" disabled>Update status</option>
+            
               {orderStatusOptions.map(option => (
                 <option key={option} value={option}>{option}</option>
               ))}
             </select>
+            <div className="flex gap-2">
             <button
               onClick={() => handleModalOpen(order)}
               className="text-red-600 hover:text-red-900 text-sm"
             >
               Cancel
             </button>
+            {order?.paymentMethod === 'cash on delivery' && <button
+              onClick={() => handleUpdateToPaid(order?._id)}
+              className="text-green-700 hover:text-green-900 text-sm"
+            >
+              Update to paid
+            </button>}
+            </div>
           </div>
         );
       }
@@ -176,15 +223,21 @@ const RecentStoreOrders = () => {
       valueFormatter: (params: any) => `${params.value}` || 'NA' 
       
     },
-    { 
-      field: 'price', 
-      headerName: 'Price', 
-      minWidth: 150,
-      valueFormatter: (params: any) => `${formatCurrency('NGN', params.value)}` 
-    },
+   {
+  field: 'price',
+  headerName: 'Amount',
+  minWidth: 150,
+  valueGetter: (params: any) => {
+    const price = params.data.price || 0;
+    const quantity = params.data.quantity || 0;
+    return price * quantity;
+  },
+  valueFormatter: (params: any) => `${formatCurrency('NGN', params.value)}`
+},
+
        { 
       field: 'quantity', 
-      headerName: 'Qunatity', 
+      headerName: 'Quantity', 
       minWidth: 150,
       valueFormatter: (params: any) => `${params.value}` || '' 
     },
@@ -232,8 +285,8 @@ const RecentStoreOrders = () => {
     { 
       field: 'eta', 
       headerName: 'ETA',
-      minWidth: 150,
-      valueFormatter: (params: any) => params.value ? params.value : 'Unknown' 
+      minWidth: 250,
+      valueFormatter: (params: any) => params.value ? `Deliver by ${params.value}` : 'Unknown' 
     },
    
   ];
@@ -241,7 +294,10 @@ const RecentStoreOrders = () => {
   return (
     <div className="pt-4 ">
       <div className="w-full md:max-w-7xl mx-auto">
-        <h6 className="text-xl font-bold text-gray-800 mb-6">Your Recent Store Orders</h6>
+    
+          <h6 className="text-xl font-bold text-gray-800 mb-6">Your Recent Store Orders</h6>
+        
+        <p className="text-red-500 text-sm">{message}</p>
 
      
 

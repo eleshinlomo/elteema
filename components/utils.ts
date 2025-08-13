@@ -43,26 +43,45 @@ export const fetchCart = ()=>{
 }
 
 
-export const calculateETA = (buyer: UserProps, product: any)=>{
-     let eta = ''
-     console.log('buyer', buyer, 'product', product)
-       if (!buyer || !product) return
-     
-       if(buyer.city === product?.storeCity){
-        eta = '2 days'
-       }
-       else if(buyer.state === product?.storeState){
-         eta = '3 days'
-       }
-      else if (buyer.country !== 'Nigeria') {
-        eta = '1 month'
-      } 
-      else {
-        eta = '10 days'
-      }
+// Calculate ETA
+export const calculateETA = (buyer: UserProps, product: any) => {
+  if (!buyer || !product) return;
 
-      return eta
-}
+  let daysToAdd = 0;
+
+  if (buyer.city === product?.storeCity) {
+    daysToAdd = 2;
+  } else if (buyer.state === product?.storeState) {
+    daysToAdd = 3;
+  } else if (buyer.country !== 'Nigeria') {
+    daysToAdd = 30; // approx. 1 month
+  } else {
+    daysToAdd = 10;
+  }
+
+  // Calculate the ETA date
+  const etaDate = new Date();
+  etaDate.setDate(etaDate.getDate() + daysToAdd);
+
+  // Function to add ordinal suffix to day
+  const getDaySuffix = (day: number) => {
+    if (day > 3 && day < 21) return 'th';
+    switch (day % 10) {
+      case 1: return 'st';
+      case 2: return 'nd';
+      case 3: return 'rd';
+      default: return 'th';
+    }
+  };
+
+  const day = etaDate.getDate();
+  const suffix = getDaySuffix(day);
+  const month = etaDate.toLocaleString('default', { month: 'long' });
+
+  // Return in format: (X days), Month DaySuffix
+  return `${month} ${day}${suffix} (in ${daysToAdd} days)`;
+};
+
 
 
 export const totalPriceForCustomer = (cart: Array<{price: number, quantity: number}>): number => {

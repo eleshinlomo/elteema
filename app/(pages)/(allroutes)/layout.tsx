@@ -102,7 +102,7 @@ const AllroutesLayout = ({ children }: AllRoutesProps) => {
       <div>
         <OldNavBar />
         {children}
-        <ScrollTopButton />
+        {/* <ScrollTopButton /> */}
         <MobileFooter />
         <div className="hidden md:block">
           {!pathname.startsWith("/dashboard") && <Footer />}

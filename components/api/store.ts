@@ -79,6 +79,48 @@ export const updateStore = async (payload : CreateStoreProps)=>{
 }
 
 
+// Update Store order status
+export const updateStoreOrderStatus = async (payload : any)=>{
+     
+     const response = await fetch(`${BASE_URL}/store/updatestoreorderstatus`, {
+        
+         mode: 'cors',
+         method: 'PUT',
+         headers: {'Content-Type': 'application/json'},
+         body: JSON.stringify(payload)
+     })
+
+     if(!response){
+        console.log('No response from the server')
+     }
+
+     const data = await response.json()
+     return data
+}
+
+
+// Update Store payment order status
+export const updateStoreOrderPaymentStatus = async (payload : any)=>{
+     
+     const response = await fetch(`${BASE_URL}/store/updatestoreorderpaymentstatus`, {
+        
+         mode: 'cors',
+         method: 'PUT',
+         headers: {'Content-Type': 'application/json'},
+         body: JSON.stringify(payload)
+     })
+
+     if(!response){
+        console.log('No response from the server')
+     }
+
+     const data = await response.json()
+     return data
+}
+
+
+
+
 
     export const deleteStoreOrder = async (storeName: string, orderId: string, buyerId: string, reason: string) => {
       

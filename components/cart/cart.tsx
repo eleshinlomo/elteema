@@ -153,7 +153,7 @@ const Cart = () => {
                 <div className="flex justify-between items-center mt-2">
                   <a href={`/productpage/${item._id}`}>
                     <p className="text-green-800 font-medium">
-                    {formatCurrency('NGN', item.price )}
+                    Unit Price: {formatCurrency('NGN', item.price )}
                     </p>
                   </a>
                   <button

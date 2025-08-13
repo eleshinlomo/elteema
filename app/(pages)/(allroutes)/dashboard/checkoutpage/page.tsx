@@ -121,6 +121,7 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
     // Prepare cart items with additional info
     const updatedCart = cart.map(item => ({
       ...item,
+      buyerId: user._id,
       productId: item._id,
       orderStatus: newStatus,
       buyerName: `${user?.firstname} ${user?.lastname}`,

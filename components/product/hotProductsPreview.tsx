@@ -122,7 +122,7 @@ useEffect(() => {
       }
     };
     handleEta();
-  }, [user]);
+  }, [user, selectedProduct]);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -501,7 +501,7 @@ useEffect(() => {
                       </div>
                       <span className="text-sm text-gray-700">
                         <span className="font-medium">Est. Delivery:</span> 
-                        <span className="text-blue-600 ml-1">{eta} days</span>
+                        <span className="text-blue-600 ml-1">{eta}</span>
                       </span>
                     </div>
                   )}
