@@ -62,7 +62,7 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
     <div className="animate-pulse hover:animate-none">
       <a href={`/dashboard/profilepage`}>
         <button className="bg-gradient-to-r from-red-500 to-red-600 px-1 rounded-lg text-sm text-white font-medium shadow-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
-          Complete Your Profile Information
+          Click here
         </button>
       </a>
     </div>
@@ -162,7 +162,7 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
     setError('An unexpected error occurred during payment processing');
   } finally {
     setIsProcessingOrder(false);
-    window.location.href = '#payment-top'
+    // window.location.href = '#payment-top'
   }
 };
 
@@ -215,7 +215,7 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
           <div className="bg-white rounded-xl shadow-md overflow-hidden">
             <div className="p-6 border-b border-gray-200">
               <h2 className="text-xl font-semibold text-gray-900">Your Order</h2>
-              {message && <p className="text-center text-sm text-gray-600 mt-2">{message}</p>}
+              {message && <p className="text-center text-sm text-red-600 mt-2">{message}</p>}
             </div>
             
             {cart && cart.length > 0 ? (
@@ -349,7 +349,8 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
 </div>
 
       <div className="mt-10 bg-white rounded-xl shadow-sm p-6 max-w-2xl mx-auto">
-              {!user.address && <p className='pb-2 text-red-500 text-center'>Please complete your profile. Takes 1 minute</p>}
+              {!user.address && <p className='pb-2 text-red-500 text-center text-sm font-extrabold'>
+                Please provide shipping information. Takes 1 minute</p>}
               <div className="space-y-4">
                 <div className="flex justify-between items-center border-b pb-2">
                   <span className="font-semibold text-gray-700">Shipping to:</span>

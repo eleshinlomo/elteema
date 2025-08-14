@@ -50,7 +50,6 @@ export const calculateETA = (buyer: UserProps, product: any, locationData: any) 
   const buyerState = buyer?.state || locationData?.state
   const buyerCountry = buyer?.country || locationData?.country
 
-  console.log('Buyer city', buyerCity, 'Buyer State', buyerState, 'buyerCountry', buyerCountry)
 
   let daysToAdd = 0;
 
@@ -61,7 +60,7 @@ export const calculateETA = (buyer: UserProps, product: any, locationData: any) 
   } else if (buyerCountry !== 'Nigeria') {
     daysToAdd = 30; // approx. 1 month
   } else {
-    daysToAdd = 10;
+    daysToAdd = 5;
   }
 
   // Calculate the ETA date
