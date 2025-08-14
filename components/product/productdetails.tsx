@@ -28,6 +28,7 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
   const [isOpen, setIsOpen] = useState(false);
   const { cart } = useContext(CartContext);
   const { user } = useContext(GeneralContext);
+  const {locationData} = useContext(ProductContext)
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasColor, setHasColor] = useState(false)
@@ -152,8 +153,7 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
   // Handle ETA
   useEffect(()=>{
     const handleEta = ()=>{
-      if(!user || !selectedProduct) return
-      const etaValue = calculateETA(user, selectedProduct)
+      const etaValue = calculateETA(user, selectedProduct, locationData)
       if(etaValue){
       setEta(etaValue)
       }

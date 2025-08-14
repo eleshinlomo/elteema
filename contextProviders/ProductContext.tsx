@@ -9,12 +9,16 @@ interface ProductContextProps {
 interface InitialValuesProps {
     Products: ProductProps[];
     setProducts: (value: [])=>void;
+    locationData: null;
+    setLocationData: (value: null)=>void
    
 }
 
 const initialValues: InitialValuesProps = {
     Products: [],
     setProducts: (value: [])=>{},
+    locationData: null,
+    setLocationData: (value: null)=>{},
 
 };
 
@@ -22,6 +26,7 @@ export const ProductContext = createContext<InitialValuesProps>(initialValues);
 
 export const ProductContextProvider = ({ children }: ProductContextProps) => {
     const [Products, setProducts] = useState<ProductProps[]>([]);
+    const [locationData, setLocationData] = useState(null)
     
 
     // New function to handle per-product sizes
@@ -36,8 +41,9 @@ export const ProductContextProvider = ({ children }: ProductContextProps) => {
 
     const handleGetAllProducts = async ()=>{
         const data = await getAllProducts()
-        
-        const products = data?.message
+        const {response, geoData} = data
+        setLocationData(geoData)
+        const products = response?.message
         if(products?.length > 0){
         setProducts(products)
         }
@@ -51,6 +57,8 @@ export const ProductContextProvider = ({ children }: ProductContextProps) => {
     const values: InitialValuesProps = {
         Products, 
         setProducts,
+        locationData,
+        setLocationData
     
     };
     

@@ -208,27 +208,7 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
               <p className='text-sm text-red-500 font-bold'>{error}</p>
             </div>
             
-            <div className="mt-10 bg-white rounded-xl shadow-sm p-6 max-w-2xl mx-auto">
-              <div className="space-y-4">
-                <div className="flex justify-between items-center border-b pb-2">
-                  <span className="font-semibold text-gray-700">Shipping to:</span>
-                  <span className="text-gray-900">{user.firstname && user.lastname ? `${user.firstname} ${user.lastname}` : linkToUpdateProfile}</span>
-                </div>
-                <div className="flex justify-between items-center border-b pb-2">
-                  <span className="font-semibold text-gray-700">Address:</span>
-                  <span className="text-gray-900 text-right">{formattedAddress}</span>
-                </div>
-                <div className="flex justify-between items-center border-b pb-2">
-                  <span className="font-semibold text-gray-700">Phone number:</span>
-                  <span className="text-gray-900">{user.phone ? user.phone : linkToUpdateProfile}</span>
-                </div>
-                {/* <div className="mt-8 p-4 bg-gradient-to-r from-green-100 to-green-200 rounded-lg border border-green-200">
-                  <p className="font-bold text-gray-800">
-                    <span className="text-green-700">:</span> 
-                  </p>
-                </div> */}
-              </div>
-            </div>
+           
           </div>
 
           {/* Cart Items */}
@@ -276,8 +256,8 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
 )}
 
             {item?.selectedSize && <span>Size: {item?.selectedSize}</span>}
-            <span>Estimated Delivery: {item?.eta}</span>
-            <span>Payment Method: {capitalize(paymentMethod)}</span>
+            <div><span className='text-green-800'>Delivery:</span> {item?.eta}</div>
+            <div><span className='text-green-800'>Payment:</span> {capitalize(paymentMethod)}</div>
             </div>
             
           </div>
@@ -367,6 +347,29 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
 
   
 </div>
+
+      <div className="mt-10 bg-white rounded-xl shadow-sm p-6 max-w-2xl mx-auto">
+              {!user.address && <p className='pb-2 text-red-500 text-center'>Please complete your profile. Takes 1 minute</p>}
+              <div className="space-y-4">
+                <div className="flex justify-between items-center border-b pb-2">
+                  <span className="font-semibold text-gray-700">Shipping to:</span>
+                  <span className="text-gray-900">{user.firstname && user.lastname ? `${user.firstname} ${user.lastname}` : linkToUpdateProfile}</span>
+                </div>
+                <div className="flex justify-between items-center border-b pb-2">
+                  <span className="font-semibold text-gray-700">Address:</span>
+                  <span className="text-gray-900 text-right">{user?.address ? formattedAddress :  linkToUpdateProfile}</span>
+                </div>
+                <div className="flex justify-between items-center border-b pb-2">
+                  <span className="font-semibold text-gray-700">Phone number:</span>
+                  <span className="text-gray-900">{user.phone ? user.phone : linkToUpdateProfile}</span>
+                </div>
+                {/* <div className="mt-8 p-4 bg-gradient-to-r from-green-100 to-green-200 rounded-lg border border-green-200">
+                  <p className="font-bold text-gray-800">
+                    <span className="text-green-700">:</span> 
+                  </p>
+                </div> */}
+              </div>
+            </div>
               
               <AlertCard
               isProcessingOrder={isProcessingOrder}

@@ -44,16 +44,21 @@ export const fetchCart = ()=>{
 
 
 // Calculate ETA
-export const calculateETA = (buyer: UserProps, product: any) => {
-  if (!buyer || !product) return;
+export const calculateETA = (buyer: UserProps, product: any, locationData: any) => {
+ 
+  const buyerCity = buyer?.city || locationData?.city
+  const buyerState = buyer?.state || locationData?.state
+  const buyerCountry = buyer?.country || locationData?.country
+
+  console.log('Buyer city', buyerCity, 'Buyer State', buyerState, 'buyerCountry', buyerCountry)
 
   let daysToAdd = 0;
 
-  if (buyer.city === product?.storeCity) {
+  if (buyerCity === product?.storeCity) {
     daysToAdd = 2;
-  } else if (buyer.state === product?.storeState) {
+  } else if (buyerState === product?.storeState) {
     daysToAdd = 3;
-  } else if (buyer.country !== 'Nigeria') {
+  } else if (buyerCountry !== 'Nigeria') {
     daysToAdd = 30; // approx. 1 month
   } else {
     daysToAdd = 10;

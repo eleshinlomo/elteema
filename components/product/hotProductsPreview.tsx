@@ -36,7 +36,7 @@ const HotProductsPreview = () => {
   const [eta, setEta] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
 
-  const { Products } = useContext(ProductContext);
+  const { Products, locationData } = useContext(ProductContext);
 
  
 
@@ -112,17 +112,7 @@ useEffect(() => {
 
 
 
-  // Handle ETA
-  useEffect(() => {
-    const handleEta = () => {
-      if (!user || !selectedProduct) return;
-      const etaValue: any = calculateETA(user, selectedProduct);
-      if (etaValue) {
-        setEta(etaValue);
-      }
-    };
-    handleEta();
-  }, [user, selectedProduct]);
+  
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -206,6 +196,18 @@ useEffect(() => {
       setHasColor(false)
     }
   }, [selectedProduct?.category]);
+
+
+  // Handle ETA
+  useEffect(() => {
+    const handleEta = () => {
+      const etaValue: any = calculateETA(user, selectedProduct, locationData);
+      if (etaValue) {
+        setEta(etaValue);
+      }
+    };
+    handleEta();
+  }, [user, selectedProduct, locationData]);
 
   return (
     <>
