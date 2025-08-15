@@ -6,10 +6,18 @@ interface ProductContextProps {
     children: ReactNode;
 }
 
+interface LocationDataProps {
+    city: string;
+    state: string;
+    country: string
+    regionName: string;
+    ip: string
+}
+
 interface InitialValuesProps {
     Products: ProductProps[];
     setProducts: (value: [])=>void;
-    locationData: null;
+    locationData: LocationDataProps | null;
     setLocationData: (value: null)=>void
    
 }
@@ -26,7 +34,7 @@ export const ProductContext = createContext<InitialValuesProps>(initialValues);
 
 export const ProductContextProvider = ({ children }: ProductContextProps) => {
     const [Products, setProducts] = useState<ProductProps[]>([]);
-    const [locationData, setLocationData] = useState(null)
+    const [locationData, setLocationData] = useState<LocationDataProps | null>(null)
     
 
     // New function to handle per-product sizes
