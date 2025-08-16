@@ -36,12 +36,12 @@ const SettingsPage = ()=>{
 
     return (
 
-        <div className="pt-16">
+        <div className="pt-16 px-2">
             <div >
                 <h2 className="mb-4">SETTINGS PAGE</h2>
 
             {/* Delete Account Card */}
-            { isDeleted ? <p className="text-gray-600">{message}</p>:
+            { isDeleted ? <p className="text-green-600">{message}</p>:
               <div className="bg-white rounded-lg shadow-md p-6 border border-red-100">
               <h2 className="text-xl font-semibold text-gray-800 mb-2">Delete Account</h2>
               <p className="text-red-600 mb-6">{errorMessage}</p>
