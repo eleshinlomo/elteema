@@ -46,7 +46,7 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
   // Filter out hidden products and sort by latest first
   const visibleProducts = productArray
     .filter(p => !p.isHidden)
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    // .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   
 
   useEffect(() => {
@@ -430,7 +430,7 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
            <span className="text-blue-600 ml-1">{eta}</span>
          </span>
        </div>
-       <p className=' py-2 bg-green-100 text-center text-green-900'>Ships to {locationData?.city} from {selectedProduct.storeCity}</p>
+       <p className=' py-2 bg-green-100  text-green-900'>Ships from {selectedProduct.storeCity} to your location in <span className='text-blue-500'>{locationData?.state}</span></p>
        </div>
      )}
    </div>
