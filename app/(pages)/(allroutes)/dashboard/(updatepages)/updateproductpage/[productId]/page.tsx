@@ -12,6 +12,7 @@ import { shoeSizes, clotheSizes } from '../../../../../../../components/data/siz
 import { useParams, useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { availableColors } from '../../../../../../../components/data/availableColors'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -305,17 +306,7 @@ const UpdateProductPage = () => {
     }
   }
 
-  const availableColors = [
-    'black',
-    'white',
-    'pink',
-    'brown',
-    'red',
-    'blue',
-    'yellow',
-    'green',
-    'silver'
-  ]
+
 
   if (!existingProduct) {
     return (

@@ -9,6 +9,7 @@ import { calculatePercentagePrice, updateLocalUser } from '../../../../../../com
 import { ProductContext } from '../../../../../../contextProviders/ProductContext'
 import { categories, clothingCategories, fabricAndTextileCategories, foodCategories, shoeCategories } from '../../../../../../components/data/categories'
 import { shoeSizes, clotheSizes } from '../../../../../../components/data/sizes'
+import { availableColors } from '../../../../../../components/data/availableColors'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -328,18 +329,6 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     }
   }
 
-  const availableColors = [
-    'black',
-    'white',
-    'pink',
-    'brown',
-    'red',
-    'blue',
-    'yellow',
-    'green',
-    'silver',
-    'multicolor(color color)'
-  ]
 
    const customerSalesIncome = ()=>{
      const commission = calculatePercentagePrice(Number(product.price), 5)

@@ -73,7 +73,7 @@ export const clothingCategories = [
     'clothing',
     'agbada', 
     'aso oke',
-     'fashion women',
+    'fashion women',
     'Fashion men',
     'kids clothing',
 
