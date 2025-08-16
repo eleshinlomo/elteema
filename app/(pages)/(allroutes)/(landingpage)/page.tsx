@@ -22,6 +22,7 @@ import FruitProducts from '../../../../components/product/fruits';
 import FoodStuff from '../../../../components/product/foodStuff';
 import Hero from '../../../../components/hero';
 import Clothing from '../../../../components/product/clothing';
+import ProductSuggestionWidget from '../../../../components/product/productSuggestion';
 
 export default function Home() {
   const { page, setPage, showSearchPage, setShowSearchPage } = useContext(GeneralContext);
@@ -39,9 +40,10 @@ export default function Home() {
         
            
 
-          <div className="">
+          
             <HotMobilePreview />
-          </div>
+            {/* <ProductSuggestionWidget /> */}
+          
           {/* <FabricProducts /> */}
           <FoodStuff />
           {/* <VegetableProducts /> */}

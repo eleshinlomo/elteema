@@ -511,7 +511,7 @@ useEffect(() => {
                         <span className="text-blue-600 ml-1">{eta}</span>
                       </span>
                       </div>
-                    <p className=' py-2 bg-green-100 text-center text-green-900'>Ships to {locationData?.city} from {selectedProduct.storeCity}</p>
+                    <p className=' py-2 bg-green-100  text-green-900'>Ships from {selectedProduct.storeCity} to your location in <span className='text-blue-500'>{locationData?.state}</span></p>
                     </div>
                   )}
                 </div>
