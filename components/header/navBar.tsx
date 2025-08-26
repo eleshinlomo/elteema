@@ -26,11 +26,13 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     setIsLoggedIn(false);
-    await logout(user?.email, user?.isCookieAccepted);
+    const response = await logout(user?.email, user?.isCookieAccepted);
+    if(response.ok){
     setCart(fetchCart());
     setTotalItems(0);
     setTotalPrice(0);
     router.push('/authpages/signin');
+    }
   };
 
   const NavButton = ({
