@@ -134,7 +134,7 @@ const Footer = ()=>{
               {/* Instagram */}
        <li>
   <a 
-    href="https://www.instagram.com/elteemaecommerce/" 
+    href="https://www.instagram.com/elteema7/" 
     target="_blank"
     className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out" 
     aria-label="Instagram"
