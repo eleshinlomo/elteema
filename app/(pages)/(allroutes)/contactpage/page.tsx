@@ -6,7 +6,7 @@ import { GeneralContext } from "../../../../contextProviders/GeneralProvider";
 
 const ContactPage = () => {
   const [message, setMessage] = useState('')
-  const [error, setError] = useState('')
+  const [error, setError] = useState('We are currently upgrading our servers. All services are currently inactive.')
   const [success, setSuccess] = useState('We will get back to you as soon as possible')
   const [name, setName] = useState('')
   const [subject, setSubject] = useState('')
@@ -79,6 +79,8 @@ const ContactPage = () => {
 
   }
 
+  
+
   return (
     <div id='message-top' className="min-h-screen bg-gradient-to-br from-gray-50 to-green-50 py-16 my-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-xl mx-auto">
@@ -92,11 +94,11 @@ const ContactPage = () => {
         </div>
 
         <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
-          <div className="bg-gradient-to-r from-green-600 to-emerald-500 p-6 sm:p-8">
+          <div className="bg-gradient-to-r from-black to-black/70 p-6 sm:p-8">
             <h2 className="text-2xl font-bold text-white">
               {error ? 'Oops! Something went wrong' : 'Send us a message'}
             </h2>
-            <p className="mt-2 text-green-100">
+            <p className={`mt-2 ${error ? 'text-red-500' : 'text-white'}`}>
               {error || success}
             </p>
           </div>

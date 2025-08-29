@@ -11,7 +11,7 @@ import LoadingState from "../../../../../components/LoadingState";
 const SigninPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState('We are currently upgrading our servers. All services are currently inactive.');
   const [message, setMessage] = useState('Login to your account for a faster checkout.');
   const generalContextContext = useContext(GeneralContext);
   const { isLoading, setIsLoading} = generalContextContext;
