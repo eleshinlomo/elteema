@@ -24,9 +24,19 @@ const nextConfig = {
         // Optional: add port if you're using non-standard ports
         port: '3000',
       },
+        {
+        protocol: 'http',
+        hostname: 'localhost',
+        // Optional: add port if you're using non-standard ports
+        port: '3001',
+      },
       {
         protocol: 'https',
         hostname: 'elteemaserver-production.up.railway.app',
+      },
+        {
+        protocol: 'https',
+        hostname: 'https://elteemaserver-movm9.ondigitalocean.app',
       },
       {
         protocol: 'https',
