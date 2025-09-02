@@ -58,7 +58,23 @@ const pwaConfig = withPWA({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
   register: true,
-  skipWaiting: true
+  skipWaiting: true,
+  runtimeCaching: [
+    {
+      urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'images',
+        expiration: {
+          maxEntries: 1000,
+          maxAgeSeconds: 365 * 24 * 60 * 60, // 1 year
+        },
+        cacheableResponse: {
+          statuses: [0, 200],
+        },
+      },
+    },
+  ],
 });
 
 export default pwaConfig(nextConfig);
