@@ -10,7 +10,7 @@ import { register } from "../../../../../components/api/users";
 const SignupPage = () => {
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [error, setError] = useState<string>('We are currently upgrading our servers. All services are currently inactive.');
+  const [error, setError] = useState<string>('');
   const [message, setMessage] = useState<string>('It is totally free and super fast');
   const [isRegistered, setIsRegistered] = useState(false)
   const [termsChecked, setTermsChecked] = useState<boolean>(false);

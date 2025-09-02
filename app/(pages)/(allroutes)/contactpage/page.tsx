@@ -6,7 +6,7 @@ import { GeneralContext } from "../../../../contextProviders/GeneralProvider";
 
 const ContactPage = () => {
   const [message, setMessage] = useState('')
-  const [error, setError] = useState('We are currently upgrading our servers. All services are currently inactive.')
+  const [error, setError] = useState('')
   const [success, setSuccess] = useState('We will get back to you as soon as possible')
   const [name, setName] = useState('')
   const [subject, setSubject] = useState('')
