@@ -4,7 +4,7 @@ import withPWA from 'next-pwa';
 const nextConfig = {
   reactStrictMode: false,
   devIndicators: false,
-  swcMinifyMode: true,
+  // swcMinifyMode: true,
   compiler: {
     removeConsole: process.env.NODE_ENV !== "development",
   },
@@ -33,10 +33,6 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'elteemaserver-production.up.railway.app',
-      },
-        {
-        protocol: 'https',
-        hostname: 'https://elteemaserver-movm9.ondigitalocean.app',
       },
       {
         protocol: 'https',
