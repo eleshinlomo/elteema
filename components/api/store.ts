@@ -42,7 +42,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 // Create Store
 export const createStore = async (payload : CreateStoreProps)=>{
-     const response = await fetch(`${BASE_URL}/store/createstore`, {
+     const response = await fetch(`${BASE_URL}/api/store/createstore`, {
         
          mode: 'cors',
          method: 'POST',
@@ -62,7 +62,7 @@ export const createStore = async (payload : CreateStoreProps)=>{
 // Update Store
 export const updateStore = async (payload : CreateStoreProps)=>{
      
-     const response = await fetch(`${BASE_URL}/store/updatestore`, {
+     const response = await fetch(`${BASE_URL}/api/store/updatestore`, {
         
          mode: 'cors',
          method: 'PUT',
@@ -82,7 +82,7 @@ export const updateStore = async (payload : CreateStoreProps)=>{
 // Update Store order status
 export const updateStoreOrderStatus = async (payload : any)=>{
      
-     const response = await fetch(`${BASE_URL}/store/updatestoreorderstatus`, {
+     const response = await fetch(`${BASE_URL}/api/store/updatestoreorderstatus`, {
         
          mode: 'cors',
          method: 'PUT',
@@ -102,7 +102,7 @@ export const updateStoreOrderStatus = async (payload : any)=>{
 // Update Store payment order status
 export const updateStoreOrderPaymentStatus = async (payload : any)=>{
      
-     const response = await fetch(`${BASE_URL}/store/updatestoreorderpaymentstatus`, {
+     const response = await fetch(`${BASE_URL}/api/store/updatestoreorderpaymentstatus`, {
         
          mode: 'cors',
          method: 'PUT',
@@ -126,7 +126,7 @@ export const updateStoreOrderPaymentStatus = async (payload : any)=>{
       
         try{
        
-        const response = await fetch(`${BASE_URL}/store/deletestoreorder`, {
+        const response = await fetch(`${BASE_URL}/api/store/deletestoreorder`, {
           mode: 'cors',
           method: 'DELETE',
           headers: {'Content-Type': 'application/json'},
@@ -149,7 +149,7 @@ export const updateStoreOrderPaymentStatus = async (payload : any)=>{
 // Function gets single store
 export const getStore = async (storeId: string)=>{
 
-      const response = await fetch(`${BASE_URL}/store/getstore`, {
+      const response = await fetch(`${BASE_URL}/api/store/getstore`, {
        mode: 'cors',
        method: 'POST',
        headers: {
@@ -171,7 +171,7 @@ export const getStore = async (storeId: string)=>{
   
     try{
    
-    const response = await fetch(`${BASE_URL}/store/deletestore`, {
+    const response = await fetch(`${BASE_URL}/api/store/deletestore`, {
       mode: 'cors',
       method: 'DELETE',
       headers: {'Content-Type': 'application/json'},

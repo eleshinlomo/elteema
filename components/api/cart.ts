@@ -11,7 +11,7 @@ export const updateCart = async (userId: string, updatedCart: ProductProps[]) =>
     const payload = {userId, updatedCart}
    try{
     // We need to update the database with the new cart
-    const response = await fetch(`${BASE_URL}/users/updatecart`, {
+    const response = await fetch(`${BASE_URL}/api/users/updatecart`, {
         method: 'PUT',
         mode: 'cors',
         headers: {'Content-Type': 'application/json'},

@@ -32,7 +32,7 @@ export const createFeed = async (formData: any, userId: number) => {
 
   
   try {
-    const response = await fetch(`${BASE_URL}/feed/createfeed`, {
+    const response = await fetch(`${BASE_URL}/api/feed/createfeed`, {
       method: 'POST',
       mode: 'cors',
       body: formData,
@@ -62,7 +62,7 @@ export const updateFeed = async (formData: any)=>{
   console.log('FORM DATA',key, value);
 }
      try {
-    const response = await fetch(`${BASE_URL}/feed/updatefeed`, {
+    const response = await fetch(`${BASE_URL}/api/feed/updatefeed`, {
                    
   
       method: 'PUT',
@@ -90,7 +90,7 @@ export const updateFeed = async (formData: any)=>{
 
 export const getFeeds = async ()=>{
     try{
-     const response = await fetch(`${BASE_URL}/feed/getfeeds`, {
+     const response = await fetch(`${BASE_URL}/api/feed/getfeeds`, {
         
          mode: 'cors',
          headers: {'Content-Type': 'application/json'},
@@ -113,7 +113,7 @@ export const getFeeds = async ()=>{
 export const deleteFeed = async (feedId: number)=>{
     
     try{
-    const response = await fetch(`${BASE_URL}/feed/deletefeed`, {
+    const response = await fetch(`${BASE_URL}/api/feed/deletefeed`, {
        mode: 'cors',
        method: 'DELETE',
        headers: {

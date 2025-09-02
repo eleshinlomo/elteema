@@ -7,7 +7,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 export const login = async (email: string)=>{
    try{
-   const response = await fetch(`${BASE_URL}/auth/login`, {
+   const response = await fetch(`${BASE_URL}/api/auth/login`, {
     method: 'POST',
     mode: 'cors',
     headers: {"Content-Type": 'application/json'},
@@ -29,7 +29,7 @@ export const verifyCode = async (authCode: string, authEmail: string)=>{
   return 'authCode and authEmail not found'
 }
   const payload = {authCode, authEmail}
-  const response = await fetch(`${BASE_URL}/auth/verifycode`, {
+  const response = await fetch(`${BASE_URL}/api/auth/verifycode`, {
       method: 'POST',
       mode: 'cors',
       headers: {'Content-Type': 'application/json'},
@@ -58,7 +58,7 @@ export const logout = async (email: string, isCookieAccepted: boolean)=>{
     const guestUser: any = {anonymous: true, isCookieAccepted: isCookieAccepted}
     updateLocalUser(guestUser)
   }
-  const response: any = await fetch(`${BASE_URL}/auth/logout`, {
+  const response: any = await fetch(`${BASE_URL}/api/auth/logout`, {
     method: 'POST',
     mode: 'cors',
     headers: {"Content-Type": "application/json"},
@@ -75,7 +75,7 @@ export const persistLogin = async (token: string, email: string)=>{
   if(!email.trim() || !token) return 'missing email or token'
 
  
-  const response: any = await fetch(`${BASE_URL}/auth/persistlogin`, {
+  const response: any = await fetch(`${BASE_URL}/api/auth/persistlogin`, {
     method: 'POST',
     mode: 'cors',
     headers: {"Content-Type": "application/json"},

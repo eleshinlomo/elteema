@@ -103,7 +103,7 @@ export const register = async ({email, username} : RegisterProps)=>{
     username
   }
  try{
-  const response = await fetch(`${BASE_URL}/users/register`, {
+  const response = await fetch(`${BASE_URL}/api/users/register`, {
    mode: 'cors',
    method: 'POST',
    headers: {"Content-Type": "application/json"},
@@ -123,7 +123,7 @@ export const register = async ({email, username} : RegisterProps)=>{
   
     try{
    
-    const response = await fetch(`${BASE_URL}/users/updateuser`, {
+    const response = await fetch(`${BASE_URL}/api/users/updateuser`, {
       mode: 'cors',
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
@@ -151,7 +151,7 @@ export const register = async ({email, username} : RegisterProps)=>{
     }
       try{
    
-    const response = await fetch(`${BASE_URL}/users/updatecookie`, {
+    const response = await fetch(`${BASE_URL}/api/users/updatecookie`, {
       mode: 'cors',
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
@@ -175,7 +175,7 @@ export const register = async ({email, username} : RegisterProps)=>{
     
       try{
      
-      const response = await fetch(`${BASE_URL}/users/updatepaymentmethod`, {
+      const response = await fetch(`${BASE_URL}/api/users/updatepaymentmethod`, {
         mode: 'cors',
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
@@ -218,7 +218,7 @@ export const register = async ({email, username} : RegisterProps)=>{
     
     if (items.length === 0) return 'No item status updated';
     
-    const response = await fetch(`${BASE_URL}/users/createuserorder`, {
+    const response = await fetch(`${BASE_URL}/api/users/createuserorder`, {
       mode: 'cors',
       method: 'PUT',
       headers: {
@@ -243,7 +243,7 @@ export const register = async ({email, username} : RegisterProps)=>{
       
         try{
        
-        const response = await fetch(`${BASE_URL}/users/deleteuserorder`, {
+        const response = await fetch(`${BASE_URL}/api/users/deleteuserorder`, {
           mode: 'cors',
           method: 'DELETE',
           headers: {'Content-Type': 'application/json'},
@@ -267,7 +267,7 @@ export const register = async ({email, username} : RegisterProps)=>{
   
     try{
    
-    const response = await fetch(`${BASE_URL}/users/deleteuser`, {
+    const response = await fetch(`${BASE_URL}/api/users/deleteuser`, {
       mode: 'cors',
       method: 'DELETE',
       headers: {'Content-Type': 'application/json'},

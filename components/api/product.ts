@@ -92,7 +92,7 @@ export const createProduct = async (formData: FormData, userId: string) => {
   try {
  
 
-    const response = await fetch(`${BASE_URL}/product/createproduct`, {
+    const response = await fetch(`${BASE_URL}/api/product/createproduct`, {
       mode: 'cors',
       method: 'POST',
       body: formData, 
@@ -118,7 +118,7 @@ export const createProduct = async (formData: FormData, userId: string) => {
 export const updateProduct = async (formData: any, userId: string)=>{
 
      try{
-        const response = await fetch(`${BASE_URL}/product/updateproduct`, {
+        const response = await fetch(`${BASE_URL}/api/product/updateproduct`, {
           mode: 'cors',
           method: 'PUT',
           body: formData,
@@ -144,7 +144,7 @@ export const updateProduct = async (formData: any, userId: string)=>{
 export const modifyProduct = async (payload: null)=>{
    
       try{
-        const response = await fetch(`${BASE_URL}/product/modifyproduct`, {
+        const response = await fetch(`${BASE_URL}/api/product/modifyproduct`, {
           mode: 'cors',
           method: 'PUT',
           body: JSON.stringify(payload),
@@ -168,7 +168,7 @@ export const modifyProduct = async (payload: null)=>{
 export const getAllProducts = async ()=>{
 
     try{
-    const response = await fetch(`${BASE_URL}/product/allproducts`, {
+    const response = await fetch(`${BASE_URL}/api/product/allproducts`, {
        mode: 'cors'
     })
     if(!response) return
@@ -184,7 +184,7 @@ export const getAllProducts = async ()=>{
 export const deleteProduct = async (userId: string, productId: string)=>{
     
     try{
-    const response = await fetch(`${BASE_URL}/product/deleteproduct`, {
+    const response = await fetch(`${BASE_URL}/api/product/deleteproduct`, {
        mode: 'cors',
        method: 'DELETE',
        headers: {

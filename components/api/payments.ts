@@ -9,7 +9,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
   // initialize Payment
   export const intializePayment = async (userId: string)=>{
-     const response = await fetch(`${BASE_URL}/payment/initializepayment`, {
+     const response = await fetch(`${BASE_URL}/api/payment/initializepayment`, {
       mode: 'cors',
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
@@ -42,7 +42,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
   }
 
   export const testStripe = async ()=>{
-       const response = await fetch(`${BASE_URL}/payments/makepayment`, {
+       const response = await fetch(`${BASE_URL}/api/payments/makepayment`, {
         method: 'GET',
         mode: 'cors',
         headers: {'Content-Type': 'application/json'}
