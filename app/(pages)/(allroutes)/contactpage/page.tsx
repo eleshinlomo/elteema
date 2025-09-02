@@ -37,7 +37,7 @@ const ContactPage = () => {
     }
 
     
-    const response = await fetch(`${BASE_URL}/message/sendcontactmessage`, {
+    const response = await fetch(`${BASE_URL}/api/message/sendcontactmessage`, {
       mode: 'cors',
       method: 'POST',
       headers: { 'Content-Type': 'application/json'},
