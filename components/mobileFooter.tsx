@@ -79,14 +79,14 @@ const MobileFooter = () => {
         <span className="text-xs mt-1">Dashboard</span>
       </button>
       </a>:
-            <a href='/dashboard/createstorepage'><button
-        onClick={() => handleTabClick("dashboard")}
+            <a href='/supermarketpage'><button
+        onClick={() => handleTabClick("supermaket")}
         className={`flex flex-col items-center p-2 ${
-          activeTab === "sell" ? "text-green-600" : "text-gray-500"
+          activeTab === "Market" ? "text-green-600" : "text-gray-500"
         }`}
       >
-        <FaMoneyBill className="w-5 h-5" />
-        <span className="text-xs mt-1">Sell</span>
+        <ShoppingBag className="w-5 h-5" />
+        <span className="text-xs mt-1">Market</span>
       </button>
       </a>
       }

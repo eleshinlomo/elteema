@@ -22,6 +22,7 @@ import FruitProducts from '../../../../components/product/fruits';
 import FoodStuff from '../../../../components/product/foodStuff';
 import Hero from '../../../../components/hero';
 import Clothing from '../../../../components/product/clothing';
+import Chatbot from '../../../../components/chatbot';
 
 
 export default function Home() {

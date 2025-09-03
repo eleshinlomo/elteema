@@ -11,6 +11,7 @@ import Footer from "../../../components/footer";
 import OldNavBar from "../../../components/header/oldNavbar";
 import { updateCart } from "../../../components/api/cart";
 import LoadingState from "../../../components/LoadingState";
+import Chatbot from "../../../components/chatbot";
 
 interface AllRoutesProps {
   children: React.ReactNode;
@@ -103,6 +104,7 @@ const AllroutesLayout = ({ children }: AllRoutesProps) => {
         <OldNavBar />
         {children}
         {/* <ScrollTopButton /> */}
+        <Chatbot />
         <MobileFooter />
         <div className="hidden md:block">
           {!pathname.startsWith("/dashboard") && <Footer />}

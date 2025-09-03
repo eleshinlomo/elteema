@@ -258,13 +258,16 @@ useEffect(() => {
                     className="object-cover"
                   />
                 </div>
-                <div className="p-2">
+                <div className="p-2 text-xs flex flex-col gap-1">
                   <h4 className="text-xs font-semibold text-gray-800 truncate">
                     {product.productName}
                   </h4>
+                 
+                  <p>Min.order: {product.unitCost} {product.unitCost > 1 ? 'Pieces' : 'Piece'}</p>
                   <p className="text-xs text-green-600 font-bold">
                     {formatCurrency('NGN', product.price)}
                   </p>
+                   
                   <div className='flex justify-between'>
                     <p className="text-xs pt-1 font-bold">
                     {product.storeCity}
