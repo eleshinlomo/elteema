@@ -40,8 +40,8 @@ const Chatbot: React.FC = () => {
     { id: 1, question: 'How can I register?', answer: 'You can register by clicking the Sign Up button on the homepage and filling in your details.' },
     { id: 2, question: 'Is Elteema free to use?', answer: 'Yes! Elteema has a free for both buyers and seller.' },
     { id: 3, question: 'How do I open a store?', answer: (<div>Please visit <a href='/dashboard' className='text-blue-500'>Open Store</a></div>)},
-    { id: 3, question: 'How do I contact someone at Elteema?', answer: (<div>For the most part, our chatbot agent can answer and complete most tasks. However, if you still need to speak with someone, your best bet is to use our online form <a href='/contactpage' className='text-blue-500'>Send message</a>. We will reach out instantly. You can also send emails to <p className='text-blue-500'>support@elteema.com</p></div>)},
-    { id: 4, question: 'How do I reset my password?', answer: 'We use a passwordless system so you do not have to worry about memorizinf password.' },
+    { id: 4, question: 'How do I contact someone at Elteema?', answer: (<div>For the most part, our chatbot agent can answer and complete most tasks. However, if you still need to speak with someone, your best bet is to use our online form <a href='/contactpage' className='text-blue-500'>Send message</a>. We will reach out instantly. You can also send emails to <p className='text-blue-500'>support@elteema.com</p></div>)},
+    { id: 5, question: 'How do I reset my password?', answer: 'We use a passwordless system so you do not have to worry about memorizinf password.' },
   ];
 
   const toggleFaq = (id: number) => {
