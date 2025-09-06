@@ -3,6 +3,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { createWaitList } from './api/waitlist';
+import { chatbot } from './api/ai';
+
 
 interface Message {
   id: string;
@@ -44,7 +46,7 @@ const Chatbot: React.FC = () => {
     }
   };
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (inputText.trim() === '') return;
 
@@ -58,16 +60,25 @@ const Chatbot: React.FC = () => {
     setMessages([...messages, userMessage]);
     setInputText('');
 
-    // Simulate bot response after a short delay
-    setTimeout(() => {
-      const botMessage: Message = {
+   
+    
+    const payload = {
+        userMessage,
+        
+    }
+    const response = await chatbot(payload)
+    console.log('CHATBOT', response)
+    if(response.ok){
+
+        const botMessage: Message = {
         id: Date.now().toString(),
-        text: getBotResponse(inputText),
+        text: response.data,
         sender: 'bot',
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, botMessage]);
-    }, 1000);
+
+    }
   };
 
 
