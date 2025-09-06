@@ -5,7 +5,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createWaitList } from './api/waitlist';
 import { chatbot } from './api/ai';
 
-
 interface Message {
   id: string;
   text: string | any;
@@ -27,8 +26,23 @@ const Chatbot: React.FC = () => {
     },
   ]);
   const [inputText, setInputText] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkIsMobile);
+    };
+  }, []);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -60,16 +74,12 @@ const Chatbot: React.FC = () => {
     setMessages([...messages, userMessage]);
     setInputText('');
 
-   
-    
     const payload = {
         userMessage,
-        
     }
     const response = await chatbot(payload)
     console.log('CHATBOT', response)
     if(response.ok){
-
         const botMessage: Message = {
         id: Date.now().toString(),
         text: response.data,
@@ -77,10 +87,8 @@ const Chatbot: React.FC = () => {
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, botMessage]);
-
     }
   };
-
 
   const handleSubmit = async (email: string)=>{
     const payload = {
@@ -95,7 +103,6 @@ const Chatbot: React.FC = () => {
       }else{
         setError(response.error)
       }
-     
   }
 
   const getBotResponse = (userInput: string | any)=> {
@@ -112,15 +119,15 @@ const Chatbot: React.FC = () => {
     } 
     else if (lowerInput.includes('sell') || lowerInput.includes('store') || lowerInput.includes('open store')) {
       return (<div>Click here to open a store and begin to sell on Elteema 
-        <a href='/dashboard' className='text-blue underline pl-2'>Sell on Elteema</a></div>)
+        <a href='/dashboard' className='text-blue-500 underline pl-2'>Sell on Elteema</a></div>)
     } 
       else if (lowerInput.includes('register') || lowerInput.includes('sign up') || lowerInput.includes('join')) {
       return (<div>To sign up, please visit 
-        <a href='/authpages/signup' className='text-blue underline pl-2'>Join Elteema</a></div>)
+        <a href='/authpages/signup' className='text-blue-500 underline pl-2'>Join Elteema</a></div>)
     } 
       else if (lowerInput.includes('login') || lowerInput.includes('sign in') || lowerInput.includes('dashboard')) {
       return (<div>To sign into your dashboard, please visit 
-        <a href='/authpages/signin' className='text-blue underline pl-2'>Sign in</a></div>)
+        <a href='/authpages/signin' className='text-blue-500 underline pl-2'>Sign in</a></div>)
     } 
     else if (lowerInput.includes('payment') || lowerInput.includes('credit') || lowerInput.includes('cash')) {
       return 'Currently, orders are fulfilled by payment on delivery. Online payment will be activated in few weeks. All payments are securely processed.';
@@ -132,11 +139,13 @@ const Chatbot: React.FC = () => {
          Thank you for your message. Our customer service team will get back to you shortly. 
          <p>Please enter your email below</p>
          <input placeholder='email' 
-         className='border border-green-500 rounded-2xl mt-2 px-2'
+         className='border border-green-500 rounded-2xl mt-2 px-2 py-1'
          onChange={(e)=>setEmail(e.target.value)}
           />
-         <button onClick={()=>handleSubmit(email)}>Submit</button>
-         <p>{error ? error : message}</p>
+         <button 
+           className="ml-2 bg-green-500 text-white px-3 py-1 rounded"
+           onClick={()=>handleSubmit(email)}>Submit</button>
+         <p className="mt-2 text-sm">{error ? error : message}</p>
         </div>)
     }
   };
@@ -146,7 +155,7 @@ const Chatbot: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-24 md:bottom-6 right-6 z-50">
+    <div className={`fixed ${isMobile && isOpen ? 'inset-0 z-50' : 'bottom-24 md:bottom-6 right-6'} z-40`}>
       {/* Chat toggle button */}
       {!isOpen && (
         <button
@@ -164,7 +173,7 @@ const Chatbot: React.FC = () => {
 
       {/* Chat container */}
       {isOpen && (
-        <div className="w-80 h-96 bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden border border-gray-200 animate-fade-in-up">
+        <div className={`${isMobile ? 'fixed inset-0 rounded-none flex flex-col' : 'w-80 h-96 rounded-2xl'} bg-white shadow-xl flex flex-col overflow-hidden border border-gray-200`}>
           {/* Chat header */}
           <div className="bg-gradient-to-r from-blue-600 to-green-500 text-white p-4 flex justify-between items-center">
             <div className="flex items-center space-x-3">
@@ -178,15 +187,15 @@ const Chatbot: React.FC = () => {
             </div>
             <button
               onClick={toggleChat}
-              className="text-white hover:text-green-200 transition-colors"
+              className="text-white hover:text-green-200 transition-colors text-xl"
               aria-label="Close chat"
             >
               <i className="fas fa-times"></i>
             </button>
           </div>
 
-          {/* Messages container */}
-          <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
+          {/* Messages container - with safe area padding for mobile */}
+          <div className={`flex-1 p-4 overflow-y-auto bg-gray-50 ${isMobile ? 'pb-20' : ''}`}>
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -198,20 +207,20 @@ const Chatbot: React.FC = () => {
                     : 'bg-white text-gray-700 border border-gray-200 rounded-bl-none'
                     }`}
                 >
-                  <p className="text-sm">{message.text}</p>
-                  <p
+                  <div className="text-sm">{message.text}</div>
+                  <div
                     className={`text-xs mt-1 ${message.sender === 'user' ? 'text-blue-200' : 'text-gray-500'}`}
                   >
                     {formatTime(message.timestamp)}
-                  </p>
+                  </div>
                 </div>
               </div>
             ))}
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input area */}
-          <form onSubmit={handleSendMessage} className="p-3 border-t border-gray-200 bg-white">
+          {/* Input area - fixed at bottom on mobile */}
+          <form onSubmit={handleSendMessage} className={`border-t border-gray-200 bg-white p-3 ${isMobile ? 'fixed bottom-0 left-0 right-0' : ''}`}>
             <div className="flex items-center">
               <input
                 ref={inputRef}
@@ -224,7 +233,7 @@ const Chatbot: React.FC = () => {
               <button
                 type="submit"
                 disabled={inputText.trim() === ''}
-                className="bg-green-600 text-white px-4 py-3 rounded-r-xl hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-green-600 text-white px-4 py-3 rounded-r-xl hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <i className="fas fa-paper-plane"></i>
               </button>
@@ -232,6 +241,15 @@ const Chatbot: React.FC = () => {
           </form>
         </div>
       )}
+      
+      {/* Add these styles for mobile safe areas */}
+      <style jsx>{`
+        @media (max-width: 768px) {
+          form {
+            padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 12px) !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };
