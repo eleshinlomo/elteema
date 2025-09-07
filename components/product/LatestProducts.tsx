@@ -10,10 +10,10 @@ import { ProductContext } from '../../contextProviders/ProductContext'
 
 
 
-const New = ()=>{
+const LatestProducts = ()=>{
     
     const [newList, setNewList] = useState<ProductProps[]>([])
-    const message = 'Loading new items...'
+    const message = 'Loading new products...'
     // Hooks
     const {Products} = useContext(ProductContext)
     
@@ -21,7 +21,7 @@ const New = ()=>{
 
 
     const getNewItems  = ()=>{
-      const newItems = Products.filter((item)=>item.category === 'new')
+      const newItems = Products.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       if(newItems.length > 0){
          setNewList(newItems)
       }
@@ -43,7 +43,7 @@ const New = ()=>{
             <div >
     
        
-                {newList && newList.length > 0 ?<ProductDetails productArray={newList.slice(0, 4)} text='New Items'
+                {newList && newList.length > 0 ?<ProductDetails productArray={newList.slice(0, 4)} text=''
                 productsPerPage={6}
                  />:
                 <SkeletonPage message={message} />
@@ -55,4 +55,4 @@ const New = ()=>{
     )
 }
 
-export default New
+export default LatestProducts

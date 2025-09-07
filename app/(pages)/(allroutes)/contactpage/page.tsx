@@ -17,6 +17,11 @@ const ContactPage = () => {
 
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
+  const contactDetails = {
+     nigeriaPhone: '(+234) 808-381-7440',
+     usPhone: '(+) 443-265-2442'
+  }
+
   useEffect(() => {
     if (user) {
       setEmail(user.email)
@@ -218,8 +223,8 @@ const ContactPage = () => {
             <div className="bg-white p-4 rounded-lg shadow-md">
               <span className="text-green-600 font-bold block">Phone</span>
               <div>
-              <span className="text-gray-600">Nigeria: (+234) 808-381-7440</span><br/>
-              <span className="text-gray-600">US: (+1) 443-626-9889</span>
+              <span className="text-gray-600">Nigeria: {contactDetails.nigeriaPhone}</span><br/>
+              <span className="text-gray-600">US: {contactDetails.usPhone}</span>
               </div>
             </div>
           </div>

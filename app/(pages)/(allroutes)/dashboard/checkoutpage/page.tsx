@@ -12,7 +12,6 @@ import AlertCard from './paymentAlertCard'
 import { useRouter } from "next/navigation";
 import { color } from 'framer-motion'
 
-
 const CheckoutPage = () => {
   const { isLoggedIn, user, setUser } = useContext(GeneralContext)
   const { cart, setCart, setTotalItems, setTotalPrice }: any = useContext(CartContext)
@@ -24,38 +23,16 @@ const CheckoutPage = () => {
   const [formattedAddress, setFormattedAddress] = useState<any>('')
   const [totalPricePlusTax, setTotalPricePlusTax] = useState(0)
   const [paymentMethodError, setPaymentMethodError] = useState('')
-  const [paymentMethod, setPaymentMethod] = useState('cash on delivery')
+  const [paymentMethod, setPaymentMethod] = useState('cash') // Changed default to 'cash'
   const [error, setError] = useState('')
   const [isProcessingOrder, setIsProcessingOrder] = useState(false)
   
-
   const router = useRouter()
- 
 
-//  const handlePaymentPopUp = async () => {
-//   if (typeof window !== 'undefined') {
-//     const { launchPaymentPopup } = await import('./payments/paymentFunctions');
-   
-//     if (totalPricePlusTax) {
-//       const priceInKobo = totalPricePlusTax * 100;
-      
-//          const payload = {
-//          email: user?.paymentEmail, 
-//          amount: `${priceInKobo}`,
-//          callback_url: '/'
-//       }
-   
-//       const response = await launchPaymentPopup(payload);
-//       return response;
-//     }
-//   }
-// };
-
-
-const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
+  const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
     const value = e.target.value
-      setPaymentMethod(value)
-    
+    setPaymentMethod(value)
+    setPaymentMethodError('') // Clear error when user selects a method
   }
 
   const linkToUpdateProfile = (
@@ -68,7 +45,6 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
     </div>
   )
 
-
   useEffect(()=>{
      if(user){
       const address = `${user.address}, ${user.city}, ${user.state}`
@@ -78,99 +54,95 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
       const tax = calculatePercentagePrice(totalPrice, 7.5)
       
       setTotalPricePlusTax(totalPrice + tax)
-    
   }, [cart])
-
-
 
   // Make payment
   const handlePayment = async () => {
-  setPaymentMethodError('');
-  setIsProcessingOrder(true);
-  
-  try {
-    if (typeof window === 'undefined') return;
-    
-    // Validate cart
-    if (!Array.isArray(cart) || cart.length === 0) {
-      setMessage('Your cart is empty');
-      setOpenWarning(true);
-      return;
-    }
-
-    // Validate user info
-    if (!user?.address) {
-      setMessage('Please update your address');
-      setOpenWarning(true);
+    // Validate payment method
+    if (!paymentMethod) {
+      setPaymentMethodError('Please select a payment method');
       return;
     }
     
-    if (!user?.phone) {
-      setMessage('Please enter phone number');
-      setOpenWarning(true);
-      return;
-    }
+    setPaymentMethodError('');
+    setIsProcessingOrder(true);
     
-    if (!user?.state) {
-      setMessage('Please enter your current state of residence');
-      setOpenWarning(true);
-      return;
-    }
-    
-    const newStatus = 'pending'
-    // Prepare cart items with additional info
-    const updatedCart = cart.map(item => ({
-      ...item,
-      buyerId: user._id,
-      productId: item._id,
-      orderStatus: newStatus,
-      buyerName: `${user?.firstname} ${user?.lastname}`,
-      buyerEmail: user?.email,
-      buyerPhone: user?.phone,
-      buyerAddress: `${user?.address}, ${user?.city}, ${user?.state}`,
-      paymentMethod: paymentMethod
-    }));
-
-    const payload: any = {
-      buyerId: user?._id,
-      cart: updatedCart,
-    };
-
-    const response = await createUserOrder(payload);
-    
-    // Handle response (assuming createUserOrder returns the data directly)
-    if (response && !response.error) {
-      // Success case
-      setCart([]);
-      setTotalItems(0);
-      setTotalPrice(0);
+    try {
+      if (typeof window === 'undefined') return;
       
-      if (response.data) {
-        updateLocalUser(response.data);
-        setUser(response.data);
+      // Validate cart
+      if (!Array.isArray(cart) || cart.length === 0) {
+        setMessage('Your cart is empty');
+        setOpenWarning(true);
+        return;
+      }
+
+      // Validate user info
+      if (!user?.address) {
+        setMessage('Please update your address');
+        setOpenWarning(true);
+        return;
       }
       
-      window.location.href = '/dashboard/orders/userorderpage';
-    } else {
-      // Error case
-      setError(response?.error || 'Failed to create order');
-      console.error('Order creation failed:', response?.error);
+      if (!user?.phone) {
+        setMessage('Please enter phone number');
+        setOpenWarning(true);
+        return;
+      }
+      
+      if (!user?.state) {
+        setMessage('Please enter your current state of residence');
+        setOpenWarning(true);
+        return;
+      }
+      
+      const newStatus = 'pending'
+      // Prepare cart items with additional info
+      const updatedCart = cart.map(item => ({
+        ...item,
+        buyerId: user._id,
+        productId: item._id,
+        orderStatus: newStatus,
+        buyerName: `${user?.firstname} ${user?.lastname}`,
+        buyerEmail: user?.email,
+        buyerPhone: user?.phone,
+        buyerAddress: `${user?.address}, ${user?.city}, ${user?.state}`,
+        paymentMethod: paymentMethod
+      }));
+
+      const payload: any = {
+        buyerId: user?._id,
+        cart: updatedCart,
+      };
+
+      const response = await createUserOrder(payload);
+      
+      // Handle response (assuming createUserOrder returns the data directly)
+      if (response && !response.error) {
+        // Success case
+        setCart([]);
+        setTotalItems(0);
+        setTotalPrice(0);
+        
+        if (response.data) {
+          updateLocalUser(response.data);
+          setUser(response.data);
+        }
+        
+        window.location.href = '/dashboard/orders/userorderpage';
+      } else {
+        // Error case
+        setError(response?.error || 'Failed to create order');
+        console.error('Order creation failed:', response?.error);
+      }
+      
+    } catch (err) {
+      console.error('Order processing error:', err);
+      setError('An unexpected error occurred during payment processing');
+    } finally {
+      setIsProcessingOrder(false);
     }
-    
-  } catch (err) {
-    console.error('Order processing error:', err);
-    setError('An unexpected error occurred during payment processing');
-  } finally {
-    setIsProcessingOrder(false);
-    // window.location.href = '#payment-top'
-  }
-};
-
-
-
-
-
-  
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 " id='payment-top'>
@@ -306,45 +278,48 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
               
               {/* Payment method */}
               <h3 className='text-center text-lg font-medium text-gray-700 mb-4'>Payment Method</h3>
+              {paymentMethodError && (
+                <p className="text-red-500 text-sm text-center mb-2">{paymentMethodError}</p>
+              )}
 <div className='grid grid-cols-2 md:grid-cols-4 text-sm'>
   <label className='flex items-center space-x-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer'>
     <input 
       type='radio' 
       name='paymentMethod' 
-      value={paymentMethod}
-      checked={paymentMethod === 'cash on delivery'} 
+      value='cash'
+      checked={paymentMethod === 'cash'} 
       onChange={handlePaymentMethodChange}
       className='h-4 w-4 text-green-500 focus:ring-green-400' 
     />
     <span className='text-gray-600'>Cash on delivery</span>
   </label>
-  
-  <label className='flex items-center space-x-2 p-3 rounded-lg opacity-50'>
+
+  <label className='flex items-center space-x-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer'>
     <input 
-      disabled={true} 
+      disabled={true}
       type='radio' 
       name='paymentMethod' 
-      value='debit' 
+      value='card' 
+      checked={paymentMethod === 'card'} 
+      onChange={handlePaymentMethodChange}
+      className='h-4 w-4 text-green-500 focus:ring-green-400' 
+    />
+    <span className='text-gray-600'>Debit card</span>
+  </label>
+  
+  <label className='flex items-center space-x-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer'>
+    <input 
+     disabled={true}
+      type='radio' 
+      name='paymentMethod' 
+      value='bank transfer' 
       checked={paymentMethod === 'bank transfer'} 
       onChange={handlePaymentMethodChange}
-      className='h-4 w-4 text-gray-400' 
+      className='h-4 w-4 text-green-500 focus:ring-green-400' 
     />
-    <span className='text-gray-400'>Bank transfer</span>
+    <span className='text-gray-600'>Bank transfer</span>
   </label>
   
-  <label className='flex items-center space-x-2 p-3 rounded-lg opacity-50'>
-    <input 
-      disabled={true} 
-      type='radio' 
-      name='paymentMethod' 
-      value='bank' 
-      checked={paymentMethod === 'debit card'} 
-      onChange={handlePaymentMethodChange}
-      className='h-4 w-4 text-gray-400' 
-    />
-    <span className='text-gray-400'>Debit card</span>
-  </label>
-
   
 </div>
 
@@ -364,11 +339,6 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
                   <span className="font-semibold text-gray-700">Phone number:</span>
                   <span className="text-gray-900">{user.phone ? user.phone : linkToUpdateProfile}</span>
                 </div>
-                {/* <div className="mt-8 p-4 bg-gradient-to-r from-green-100 to-green-200 rounded-lg border border-green-200">
-                  <p className="font-bold text-gray-800">
-                    <span className="text-green-700">:</span> 
-                  </p>
-                </div> */}
               </div>
             </div>
               
@@ -378,6 +348,11 @@ const handlePaymentMethodChange = (e: ChangeEvent<HTMLInputElement>)=>{
                 handlePayment={handlePayment} 
                 openWarning={openWarning} 
                 setOpenWarning={setOpenWarning} 
+                paymentMethod={paymentMethod}
+                amount={(totalPricePlusTax * 100)}
+                name={user.firstname}
+                email={user.email}
+                phone={user.phone}
               />
             </div>
           </div>

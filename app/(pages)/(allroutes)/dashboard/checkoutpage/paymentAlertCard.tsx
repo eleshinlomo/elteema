@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PayStackCheckout from "../../../../../components/Paystack/checkoutpage";
 
 interface AlertProps {
   message: string;
@@ -6,9 +7,24 @@ interface AlertProps {
   openWarning: boolean;
   isProcessingOrder: boolean
   setOpenWarning: (value: boolean) => void;
+  paymentMethod: string;
+  amount: number;
+  name: string;
+  email: string;
+  phone: string;
 }
 
-const AlertCard = ({ message, handlePayment, openWarning, setOpenWarning, isProcessingOrder }: AlertProps) => {
+const AlertCard = ({ 
+  message, handlePayment, 
+  paymentMethod, 
+  openWarning, 
+  setOpenWarning, 
+  isProcessingOrder ,
+  amount,
+  name,
+  email,
+  phone
+}: AlertProps) => {
   const handleClose = () => {
     setOpenWarning(false);
   };
@@ -33,12 +49,19 @@ const AlertCard = ({ message, handlePayment, openWarning, setOpenWarning, isProc
       )}
 
       {/* Pay Button */}
+      {paymentMethod === 'cash' ?
+      
       <button
         onClick={handlePayment}
         className="z-10 mt-10 bg-green-600 rounded-2xl py-3 px-8 text-white text-xl font-semibold hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-green-400/50"
       >
         {isProcessingOrder ? 'Processing...' : 'Complete order'}
-      </button>
+      </button>:
+
+      <PayStackCheckout amount={amount} name={name} email={email} phone={phone} />
+     }
+
+
     </div>
   );
 };

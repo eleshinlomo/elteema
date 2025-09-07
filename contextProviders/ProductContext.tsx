@@ -51,16 +51,17 @@ export const ProductContextProvider = ({ children }: ProductContextProps) => {
         const data = await getAllProducts()
         const {response, geoData} = data
         setLocationData(geoData)
-        const products = response?.message
+        const products: any = response?.message
         if(products?.length > 0){
-        setProducts(products)
+        const filteredProducts = products.filter((p: any)=>!p.isHidden)
+        setProducts(filteredProducts)
         }
         
     }
 
     useEffect(() => {
         handleGetAllProducts()
-    }, []);
+    }, [Products.length]);
     
     const values: InitialValuesProps = {
         Products, 

@@ -13,6 +13,7 @@ import PopularBadge from "./popularBadge";
 import CheckoutButton from "../cart/checkoutButton";
 import ContinueShoppingButton from "../cart/continueShoppingBtn";
 import { clothingCategories, fabricAndTextileCategories, foodCategories, shoeCategories } from "../data/categories";
+import SimilarProducts from "./SimilarProducts";
 
 interface ProductDetailsProps {
   productArray: ProductProps[];
@@ -174,9 +175,9 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
   return (
     <>
       {/* Product Preview Section */}
-      <div className="mb-4 w-full px-2">
+      <div className="mb-4 w-full px-2 ">
         <h2 className="text-2xl font-semibold mb-2 text-center py-4">{text}</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-3">
+        <div className="grid gap-4 justify-center " style={{ gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))" }}>
           {currentProducts.map((item, index) => (
             <div
               key={item._id}
@@ -509,12 +510,16 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
     <p className="text-gray-500 pl-12">No reviews yet. Be the first to review!</p>
   </div>
 </div>
-
+<SimilarProducts product={selectedProduct} productPerPage={6} />
 
                 </div>
+                
               </div>
+              
             </div>
+            
           </div>
+          
         </div>
       )}
     </>

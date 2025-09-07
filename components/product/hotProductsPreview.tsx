@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useContext, useEffect, useRef, ChangeEvent } from 'react';
+import { useState, useContext, useEffect, useRef, ChangeEvent, useMemo } from 'react';
 import { ProductContext } from '../../contextProviders/ProductContext';
 import Image from 'next/image';
 import AddToCartButton from '../cart/addtocartbtn';
@@ -12,6 +12,7 @@ import { FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
 import CheckoutButton from '../cart/checkoutButton';
 import { clothingCategories, fabricAndTextileCategories, foodCategories, shoeCategories } from '../data/categories';
 import { GeneralContext } from '../../contextProviders/GeneralProvider';
+import SimilarProducts from './SimilarProducts';
 
 const HotProductsPreview = () => {
   const { cart } = useContext(CartContext);
@@ -47,10 +48,12 @@ const HotProductsPreview = () => {
     }
   }, [cart, selectedProduct]);
 
-  useEffect(() => {
-    setHotProducts(Products.filter((p)=>!p.isHidden));
-    checkScrollPosition();
-  }, [Products?.length]);
+  
+
+  const shuffledProducts = useMemo(() => {
+      if (!Products || Products.length === 0) return []
+      return [...Products].sort(() => 0.5 - Math.random())
+    }, [Products.length])
 
   const checkScrollPosition = () => {
     if (scrollContainerRef.current) {
@@ -231,14 +234,8 @@ useEffect(() => {
             className="flex space-x-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory"
             onScroll={checkScrollPosition}
           >
-            {hotProducts
-            .sort((a, b) => {
-              const aLatest = Math.max(new Date(a.createdAt).getTime(), new Date(a.updatedAt).getTime());
-              const bLatest = Math.max(new Date(b.createdAt).getTime(), new Date(b.updatedAt).getTime());
-              return bLatest - aLatest;
-              })
-
-            .slice(0, 10).map((product, index) => (
+            {shuffledProducts
+           .map((product, index) => (
               <div
                 key={index}
                 className="min-w-[150px] rounded-lg border bg-white shadow cursor-pointer snap-start hover:shadow-md transition-shadow relative"
@@ -591,6 +588,7 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
+              <SimilarProducts product={selectedProduct} productPerPage={6} />
             </div>
           </div>
         </div>

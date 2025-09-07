@@ -32,7 +32,7 @@ const Search = () => {
 
         const filteredItems = Products?.filter((item)  => 
             
-            item.productName.toLowerCase().includes(itemToSearch.toLowerCase())
+            item.productName.toLowerCase().includes(itemToSearch.toLowerCase().trim()) && !item.isHidden
         )
         
         setSearchItemList(filteredItems)

@@ -51,7 +51,7 @@ const NewSearch = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && inputValue) {
-      window.location.href = `/categorypage/${inputValue}`;
+      window.location.href = `/categorypage/${encodeURIComponent(inputValue)}`;
     }
   };
 

@@ -10,7 +10,7 @@ import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { capitalize, formatCurrency, updateLocalUser } from "../../../../../../../components/utils";
 import { deleteStoreOrder, updateStoreOrderPaymentStatus, updateStoreOrderStatus } from "../../../../../../../components/api/store";
 import { OrderProps } from "../../../../../../../components/api/users";
-import { PathParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
+
 
 interface RecentOrdersProps {
   currentOrders: any[]
@@ -31,6 +31,7 @@ const RecentStoreOrders = () => {
   const [paymentStatus, setPaymentStatus] = useState('')
   const [message, setMessage] = useState('')
   const [selectedStatus, setSelectedStatus] = useState('')
+  const [color, setColor] = useState('gray')
 
   useEffect(() => {
     if (user && user.store) {
@@ -38,15 +39,7 @@ const RecentStoreOrders = () => {
     }
   }, [user]);
  
-  // useEffect(()=>{
-  //   if(selectedOrder?.paymentMethod === 'cash on delivery'){
-  //     console.log('SELECTED ORDER', selectedOrder)
-  //     setPaymentStatus('update to paid')
-  //   }else{
-  //     setPaymentStatus('')
-  //   }
-    
-  // }, [selectedOrder])
+  
   
   const orderStatusOptions = [
     'processing',
@@ -291,6 +284,14 @@ const RecentStoreOrders = () => {
    
   ];
 
+  useEffect(()=>{
+    if(error){
+      setColor('red')
+    }else{
+      setColor('gray')
+    }
+  }, [error])
+
   return (
     <div className="pt-4 ">
       <div className="w-full md:max-w-7xl mx-auto">
@@ -365,7 +366,7 @@ const RecentStoreOrders = () => {
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <h3 className="text-lg leading-6 font-medium text-gray-900">Cancel Order</h3>
                       <div className="mt-2">
-                        <p className="text-sm text-gray-500"> 
+                        <p className={`text-sm text-${color}-600`}> 
                         {error ? error : 'Are you sure you want to cancel this order? This action cannot be undone.'}
                         </p>
                         {/* Reason for cancellation */}

@@ -23,6 +23,8 @@ import FoodStuff from '../../../../components/product/foodStuff';
 import Hero from '../../../../components/hero';
 import Clothing from '../../../../components/product/clothing';
 import Chatbot from '../../../../components/chatbot';
+import AllProducts from '../../../../components/product/AllProdoucts';
+import PayStackCheckout from '../../../../components/Paystack/checkoutpage';
 
 
 export default function Home() {
@@ -37,16 +39,13 @@ export default function Home() {
     <div id='top' className=" py-[60px]  ">
           {/* <HotProductFlash /> */}
           <Hero />
-        {/* Main Content (Supermarket) */}
-        
-           
-
+        {/* Main Content (Supermarket) */}  
           
             <HotMobilePreview />
             {/* <ProductSuggestionWidget /> */}
           
           {/* <FabricProducts /> */}
-          <FoodStuff />
+          <AllProducts />
           {/* <VegetableProducts /> */}
           {/* <Clothing />  */}
           {/* <FruitProducts />  */}

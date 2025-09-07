@@ -21,7 +21,7 @@ const Chatbot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! How can I help you with your Elteema experience today?',
+      text: 'Hello! How can I help you with your Elteema experience today? I am still in BETA version so talking to me helps me learn faster.I speak Yoruba, Igbo, Hausa, English, French and more.',
       sender: 'bot',
       timestamp: new Date(),
     },
@@ -87,9 +87,9 @@ const Chatbot: React.FC = () => {
           </div>
         ))}
         <div className='flex justify-between text-sm text-center text-blue-800 px-4 gap-2'>
-        <a href='/faqpage'>faq</a>
-        <a href='/supermarketpage'>supermarket</a>
-        <a href='/categorypage/fabrics & textiles'>fabrics</a> 
+          <a href='/faqpage'>faq</a>
+          <a href='/supermarketpage'>supermarket</a>
+          <a href='/categorypage/fabrics & textiles'>fabrics</a> 
         </div>
       </div>
     </div>
@@ -176,7 +176,7 @@ const Chatbot: React.FC = () => {
         position: 'fixed',
         ...(isMobileView && isOpen
           ? { inset: 0, height: 'calc(var(--vh, 1vh) * 100)', width: '100%' }
-          : { bottom: '5.5rem', right: '1.5rem' }),
+          : { bottom: isMobileView ? '5.5rem' : '1.5rem', right: '0.5rem' }),
       }}
     >
       {/* Floating button */}
@@ -184,7 +184,7 @@ const Chatbot: React.FC = () => {
         <button
           onClick={toggleChat}
           aria-label="Open chat"
-          className="flex items-center justify-center w-16 h-16 bg-green-600 rounded-full shadow-lg hover:scale-105 transition-transform text-white"
+          className="flex items-center justify-center w-10 h-10 bg-green-600 rounded-full shadow-lg hover:scale-105 transition-transform text-white"
         >
           💬
         </button>

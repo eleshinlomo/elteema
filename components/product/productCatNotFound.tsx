@@ -3,7 +3,7 @@ interface CatNotFoundProps {
 }
 
 const CategoryNotFound = ({ category }: CatNotFoundProps) => {
-    const decodedCategory = decodeURIComponent(category);
+    const decodedCategory = decodeURIComponent(category.toLowerCase());
     
     return (
         <div className="min-h-[60vh] flex items-center justify-center px-4">
