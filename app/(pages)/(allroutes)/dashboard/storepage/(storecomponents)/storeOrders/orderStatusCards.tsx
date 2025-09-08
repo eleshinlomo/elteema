@@ -3,7 +3,7 @@
 
 
 import { useContext, useState, useEffect } from 'react';
-import { FiPackage, FiShoppingCart, FiCheckCircle, FiTruck } from 'react-icons/fi';
+import { FiPackage, FiShoppingCart, FiCheckCircle, FiTruck, FiClock } from 'react-icons/fi';
 import { GeneralContext } from '../../../../../../../contextProviders/GeneralProvider';
 import { ProductContext } from '../../../../../../../contextProviders/ProductContext';
 import StatusCard, { StatusCardProps } from './statusCard';
@@ -41,7 +41,7 @@ const OrderStatusCards = () => {
     const cards = [
     {
       title: 'Pending Orders',
-      text: 'Buyer can cancel order',
+      text: 'Buyer/Seller can cancel order',
       value: pendingOrders.length,
       change: 12,
       Icon: FiPackage,
@@ -50,7 +50,7 @@ const OrderStatusCards = () => {
     },
     {
       title: 'Processing orders',
-      text: 'Buyer can cancel order',
+      text: 'Buyer/Seller can cancel order',
       value: processingOrders.length,
       change: -2,
       Icon: FiShoppingCart,
@@ -59,16 +59,16 @@ const OrderStatusCards = () => {
     },
         {
       title: 'Waiting for pick-up',
-      text: 'Buyer can cancel order',
+      text: 'Buyer/Seller can cancel order',
       value: waitingForPickUp.length,
       change: 8,
-      Icon: FiTruck,
+      Icon: FiClock,
       color: 'border-purple-500',
       iconColor: 'text-purple-500',
     },
     {
       title: 'Shipped orders',
-      text: 'Buyer cannot cancel order',
+      text: 'Shipped orders cannot be canceled',
       value: shippedOrders.length,
       change: 8,
       Icon: FiTruck,

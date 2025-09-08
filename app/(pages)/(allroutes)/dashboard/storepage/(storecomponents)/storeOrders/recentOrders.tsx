@@ -32,6 +32,7 @@ const RecentStoreOrders = () => {
   const [message, setMessage] = useState('')
   const [selectedStatus, setSelectedStatus] = useState('')
   const [color, setColor] = useState('gray')
+  
 
   useEffect(() => {
     if (user && user.store) {
@@ -99,7 +100,8 @@ const RecentStoreOrders = () => {
       updateLocalUser(updatedUser)
       setMessage('')
      }else{
-      setMessage(response.error)
+      setMessage('')
+      setError(response.error)
      }
      
   };
@@ -116,6 +118,7 @@ const RecentStoreOrders = () => {
       setMessage('')
      }else{
       setMessage(response.error)
+      window.location.href = '#recent-order-top'
      }
   }
 
@@ -293,10 +296,13 @@ const RecentStoreOrders = () => {
   }, [error])
 
   return (
-    <div className="pt-4 ">
+    <div className="pt-4 " id='recent-order-top'>
       <div className="w-full md:max-w-7xl mx-auto">
     
-          <h6 className="text-xl font-bold text-gray-800 mb-6">Your Recent Store Orders</h6>
+          <span className="flex gap-3">
+            <h6 className="text-xl font-bold text-gray-800 mb-6">Your Recent Store Orders</h6>
+            <p className="text-red-600 font-bold">{error}</p>
+            </span>
         
         <p className="text-red-500 text-sm">{message}</p>
 

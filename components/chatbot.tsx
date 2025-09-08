@@ -37,28 +37,37 @@ const Chatbot: React.FC = () => {
 
   // Example FAQs
   const faqs: Faq[] = [
-    { id: 1, question: 'How can I register?', 
-      answer: (<div>To register, please visit <a href='/authpages/signup' className='text-blue-500'>Register</a></div>) },
-    { id: 2, question: 'Is Elteema free to use?', 
-      answer: 'Yes! Elteema is free for both buyers and sellers.'},
+  
+    { id: 1, question: 'Is Elteema free to use?', 
+      answer: 'Yes! Elteema is free for both buyers and sellers.'
+    },
     { 
-      id: 3, question: 'Do you accept online payment ?', 
+      id: 2, question: 'Do you accept online payment ?', 
       answer: `Elteema offers various payment methods including, online and pay on delivery payment methods.
        Acceptable payment methods are often determined by the store listed on Elteema.`
     },
-    { 
-      id: 4, question: 'Is Elteema a store ?', 
-      answer: `Elteema is not a store itself, but rather an e-commerce platform that
-       allows anyone in Nigeria to open their own online store and sell products. `
+     { id:3, question: 'How do I delete my account?', 
+      answer: (<div>To delete your account, visit 
+      <a href='/dashboard/settingspage'  className='text-blue-500 px-1'>Settings</a></div>)
+    },
+   { id: 4, question: 'How to see my pending orders and status?', 
+      answer: (<div>To see your orders, visit 
+      <a href='/dashboard/orders/userorderpage'  className='text-blue-500 px-1'>Orders</a></div>)
     },
     { 
       id: 5, question: 'How do I open a store?', 
-      answer: (<div>Please visit <a href='/dashboard' className='text-blue-500'>Open Store</a></div>)
+      answer: (<div>To open a store, visit <a href='/dashboard' className='text-blue-500 px-1'>Open Store</a></div>)
     },
     { id: 6, question: 'How do I contact someone at Elteema?', 
-      answer: (<div>For the most part, our chatbot agent can answer and complete most tasks. However, if you still need to speak with someone, your best bet is to use our online form <a href='/contactpage' className='text-blue-500'>Send message</a>. We will reach out instantly. You can also send emails to <p className='text-blue-500'>support@elteema.com</p></div>)},
-    { id: 7, question: 'How do I reset my password?', 
-      answer: 'We use a passwordless system so you do not have to worry about memorizing  passwords.' },
+      answer: (<div>For the most part, our chatbot agent can answer and complete most tasks. However, if you still need to speak with someone, your best bet is to use our online form <a href='/contactpage' 
+        className='text-blue-500'>Send message</a>. We will reach out instantly. You can also send emails to 
+        <p className='text-blue-500'>support@elteema.com</p></div>)
+    },
+    { id: 7, question: 'How can I register?', 
+      answer: (<div>To register, visit 
+      <a href='/authpages/signup'  className='text-blue-500 px-1'>Register</a></div>)
+    },
+   
   ];
 
   const toggleFaq = (id: number) => {

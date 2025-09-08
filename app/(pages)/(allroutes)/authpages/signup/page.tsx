@@ -111,11 +111,11 @@ const SignupPage = () => {
           </div>
 
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {!isRegistered ? 'Create Your Account' : 'Check Your Email!'}
+            <h1 className="text-xl md:text-3xl font-bold text-gray-900 mb-2">
+              {!isRegistered ? 'Create Your Account' : 'You are now registered!'}
             </h1>
             <p className="text-gray-600">
-              {!isRegistered ? 'Join us today - it\'s free and only takes a minute' : 'We sent a verification link to your email'}
+              {!isRegistered ? 'Join us today - it\'s free and only takes a minute' : 'Begin to shop locally to save money'}
             </p>
           </div>
 

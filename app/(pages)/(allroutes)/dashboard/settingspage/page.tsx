@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { deleteUser } from "../../../../../components/api/users";
 import { GeneralContext } from "../../../../../contextProviders/GeneralProvider";
 import { CartContext } from "../../../../../contextProviders/cartcontext";
+import { updateLocalUser } from "../../../../../components/utils";
 
 const SettingsPage = ()=>{
 
@@ -24,6 +25,7 @@ const SettingsPage = ()=>{
           const updatedUser: any = null
           setCart([])
           setUser(updatedUser)
+          updateLocalUser(updatedUser)
           localStorage.removeItem('ptlgUser')
           setIsDeleted(true)
         }else{
