@@ -6,7 +6,7 @@ import Image from 'next/image';
 import AddToCartButton from '../cart/addtocartbtn';
 import { CartContext } from '../../contextProviders/cartcontext';
 import { calculateETA, capitalize, formatCurrency } from '../utils';
-import { ProductProps } from '../api/product';
+import { ProductProps, updateProductViewsAndLikes } from '../api/product';
 import BuyNowButton from '../cart/buyNowBtn';
 import { FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
 import CheckoutButton from '../cart/checkoutButton';
@@ -36,10 +36,16 @@ const HotProductsPreview = () => {
   const [selectedColor, setSelectedColor] = useState('');
   const [eta, setEta] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
+  const [views, setViews] = useState(0)
+  const [likes, setLikes] = useState(0)
 
   const { Products, locationData } = useContext(ProductContext);
 
+
+
  
+
+
 
   useEffect(() => {
     if (selectedProduct) {
@@ -128,11 +134,34 @@ useEffect(() => {
     }
   };
 
-  const openModal = (product: any) => {
+
+  const handleViews = async ()=>{
+    const id = selectedProduct._id
+    const updatedProduct = {...selectedProduct, views: views + 1} //Just for local update
+    setSelectedProduct(updatedProduct)
+    const payload = {
+      id,
+      likes,
+      views
+    }
+  const response = await updateProductViewsAndLikes(payload)
+  
+   if(response.ok){
+    console.log(response)
+   }else{
+      console.log(response)
+   }
+   return
+ }
+
+
+  const openModal = async (product: any) => {
+    
     setSelectedProduct(product);
     setSelectedImage(0);
     setIsOpen(true);
     setIsAdded(cart.some(item => item._id === product._id));
+    await handleViews()
   };
 
   const closeModal = () => {
@@ -395,6 +424,7 @@ useEffect(() => {
                   >
                     in {selectedProduct.category}
                   </a>
+                  <p>Views: {selectedProduct.views}</p>
                 </span>
                 
                 <p className={`text-green-600 font-semibold ${window.innerWidth >= 768 ? 'text-lg' : 'text-sm'}`}>

@@ -52,6 +52,8 @@ const AddProductPage = () => {
     clotheSizes: [] as string[],
     category: '',
     description: '',
+    views: 0,
+    likes: 0
     
   })
 
@@ -205,10 +207,7 @@ const AddProductPage = () => {
     
     // We handle response
     if(response.ok === true){
-      const updatedUser = response.data
-      updateLocalUser(updatedUser)
-      setUser(updatedUser)
-      const updatedProducts = await getAllProducts()
+      const updatedProducts = response.data
       if(updatedProducts?.length > 0){
       setProducts(updatedProducts)
       }
@@ -230,6 +229,8 @@ const AddProductPage = () => {
         clotheSizes: [],
         category: '',
         description: '',
+        views: 0,
+        likes: 0
         
       })
       setImagePreviews([])

@@ -14,6 +14,7 @@ import CheckoutButton from "../cart/checkoutButton";
 import ContinueShoppingButton from "../cart/continueShoppingBtn";
 import { clothingCategories, fabricAndTextileCategories, foodCategories, shoeCategories } from "../data/categories";
 import SimilarProducts from "./SimilarProducts";
+import { ViewIcon } from "lucide-react";
 
 interface ProductDetailsProps {
   productArray: ProductProps[];
@@ -199,6 +200,7 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
                 <h3 className="text-xs md:text-sm font-medium text-gray-900 line-clamp-2">
                   {item?.productName?.toUpperCase()}
                 </h3>
+                <p className="text-sm">Min.order: {item.unitCost} {item.unitCost > 1 ? 'Pieces' : 'Piece'}</p>
                 <div className="flex items-center justify-between mt-1">
                   <span className="text-xs md:text-sm font-bold text-gray-900">
                     ₦{item?.price?.toLocaleString()}
@@ -319,6 +321,7 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
                       <a href={`/categorypage/${selectedProduct.category}`} className="text-[12px]  bg-green-100 text-green-800 px-1 py-0.5 rounded">
                     in {selectedProduct.category}
                   </a>
+                  <p>Views: {selectedProduct.views}</p>
                     </span>
                  
                     <p className="text-lg sm:text-xl text-green-600 font-semibold">

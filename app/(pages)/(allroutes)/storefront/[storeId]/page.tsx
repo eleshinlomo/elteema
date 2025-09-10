@@ -1,17 +1,22 @@
 'use client'
 
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { getStore, StoreProps } from "../../../../../components/api/store"
 import Image from "next/image"
 import { capitalize } from "../../../../../components/utils"
 import { LocateIcon, TruckIcon } from "lucide-react"
 import ProductDetails from "../../../../../components/product/productdetails"
+import { GeneralContext } from "../../../../../contextProviders/GeneralProvider"
+import { ProductContext } from "../../../../../contextProviders/ProductContext"
+import { ProductProps } from "../../../../../components/api/product"
 
 
 const StoreFront = () => {
   const params: any = useParams()
-  const storeId = decodeURIComponent(params?.storeId?.toString()) || ''
+  const storeId = params?.storeId?.toString() || ''
+  const {Products, setProducts} = useContext(ProductContext)
+  const [storeItems, setStoreItems] = useState<ProductProps | any>([])
   const [store, setStore] = useState<StoreProps | null>(null)
   const [error, setError] = useState('')
   const storeAddress = store ? ` ${capitalize(store.city)}, ${capitalize(store.state)}, ${store.country}` : ''
@@ -21,10 +26,15 @@ const StoreFront = () => {
     const handleGetStore = async () => {
       setError('')
       if (storeId) {
+        
         const response = await getStore(storeId)
+        
     
         if (response.ok) {
-          setStore(response.message)
+          const storeObj = response.data
+          setStore(storeObj)
+          setStoreItems(storeObj.items)
+        
         } else {
           setError(response.error)
         }
@@ -32,7 +42,7 @@ const StoreFront = () => {
     }
 
     handleGetStore()
-  }, [storeId, store])
+  }, [storeId])
 
   if (error) {
     return (
@@ -76,11 +86,11 @@ const StoreFront = () => {
 
       {/* Products Section */}
       <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-        {store.items?.length > 0 ? (
+        {storeItems?.length > 0 ? (
           <div>
            
               {/* Product Info */}
-                  <ProductDetails productArray={store?.items} text={`${store?.storeName?.toUpperCase()} BESTSELLERS`} 
+                  <ProductDetails productArray={storeItems} text={`${store?.storeName?.toUpperCase()} BESTSELLERS`} 
                   productsPerPage={6}
                   />
           </div>

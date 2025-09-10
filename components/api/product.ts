@@ -18,8 +18,10 @@ export interface CreateProductProps {
     category: string;
     description: string;
     unitCost: number;
-     shoeSizes: string[];
+    shoeSizes: string[];
     clotheSizes: string[];
+    views: number;
+    likes: number;
           
 }
 
@@ -41,6 +43,8 @@ export interface UpdateProductProps {
     category: string;
     description: string;
     unitCost: number;
+    views: number;
+    likes: number;
           
 }
 
@@ -83,6 +87,8 @@ export interface ProductProps {
     unitCost: number;
     createdAt: any;
     updatedAt: any;
+    views: number;
+    likes: number;
 }
 
 
@@ -111,6 +117,27 @@ export const createProduct = async (formData: FormData, userId: string) => {
 };
 
 
+// Updates and fetches views
+export const updateProductViewsAndLikes = async (payload: any)=>{
+      try{
+        const response = await fetch(`${BASE_URL}/api/product/updateviews`, {
+          mode: 'cors',
+          method: 'PUT',
+          body: JSON.stringify({payload}),
+          headers: {'Content-Type': 'application/json'}
+        })
+
+        if(!response){
+            return 'No response from server'
+        }
+    
+        const data = await response.json()
+        return data
+    }catch(err){
+       console.log(err)
+       return err
+    }
+}
 
 
 

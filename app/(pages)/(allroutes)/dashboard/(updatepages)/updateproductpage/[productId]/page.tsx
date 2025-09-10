@@ -51,11 +51,13 @@ const UpdateProductPage = () => {
     unitCost: 1,
     category: '',
     description: '',
+    views: 0,
+    likes: 0
   })
 
   const findProduct = () => {
-    const userProducts: ProductProps[] = user?.store?.items || []
-    const productExists = userProducts?.find((p) => p._id === productId)
+  
+    const productExists = Products?.find((p) => p._id === productId)
     if (productExists) {
       setExistingProduct(productExists)
       setExistingImages(productExists.imageUrls || [])
@@ -77,6 +79,8 @@ const UpdateProductPage = () => {
         unitCost: productExists.unitCost || 1,
         category: productExists.category,
         description: productExists.description,
+        views: productExists.views || 0,
+        likes: productExists.likes || 0,
       })
     }
   }
@@ -194,8 +198,9 @@ const UpdateProductPage = () => {
 
       if (response.ok) {
         // Update local state with new images
-        const updatedProduct = response.data.updatedProduct
-        setExistingImages(updatedProduct?.imageUrls || [])
+        const updatedObject = response.data
+        const {updatedUser, updatedProducts} = updatedObject
+        setExistingImages(updatedProducts[0]?.imageUrls || [])
         
         // Reset image states
         setImagePreviews([])
@@ -203,14 +208,13 @@ const UpdateProductPage = () => {
         setImagesToRemove([])
         
         // Update global state
-        const updatedProducts = await getAllProducts()
         if (updatedProducts?.length > 0) {
           setProducts(updatedProducts)
         }
         
         // Update user context
-        updateLocalUser(response.data.updatedUser)
-        setUser(response.data.updatedUser)
+        updateLocalUser(updatedUser)
+        setUser(updatedUser)
         
         setSuccess('Product updated successfully!')
         toast.success('Product updated successfully!')

@@ -25,8 +25,9 @@ const AllListedProducts = () => {
   const totalPages = Math.ceil((storeProducts?.length || 0) / productsPerPage);
 
   useEffect(() => {
-    if (user?.store?.items) {
-      setStoreProducts([...user.store.items.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())]); // Create a new array to ensure reactivity
+    if (Products?.length > 0 && user?.store) {
+      const products = Products.filter((p)=>p.storeId === user.store?._id)
+      setStoreProducts([...products.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())]); // Create a new array to ensure reactivity
     }
   }, [user]);
 
