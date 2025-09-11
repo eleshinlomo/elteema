@@ -91,7 +91,7 @@ const StoreFront = () => {
            
               {/* Product Info */}
                   <ProductDetails productArray={storeItems} text={`${store?.storeName?.toUpperCase()} BESTSELLERS`} 
-                  productsPerPage={6}
+                  productsPerPage={8}
                   />
           </div>
         ) : (

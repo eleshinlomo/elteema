@@ -25,6 +25,7 @@ import Clothing from '../../../../components/product/clothing';
 import Chatbot from '../../../../components/chatbot';
 import AllProducts from '../../../../components/product/AllProdoucts';
 import PayStackCheckout from '../../../../components/Paystack/checkoutpage';
+import MostViewedProducts from '../../../../components/product/MostViewd';
 
 
 export default function Home() {
@@ -42,9 +43,7 @@ export default function Home() {
         {/* Main Content (Supermarket) */}  
           
             <HotMobilePreview />
-            {/* <ProductSuggestionWidget /> */}
-          
-          {/* <FabricProducts /> */}
+            <MostViewedProducts />
           <AllProducts />
           {/* <VegetableProducts /> */}
           {/* <Clothing />  */}

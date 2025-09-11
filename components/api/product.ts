@@ -118,12 +118,12 @@ export const createProduct = async (formData: FormData, userId: string) => {
 
 
 // Updates and fetches views
-export const updateProductViewsAndLikes = async (payload: any)=>{
+export const updateProductViews = async (payload: any)=>{
       try{
         const response = await fetch(`${BASE_URL}/api/product/updateviews`, {
           mode: 'cors',
           method: 'PUT',
-          body: JSON.stringify({payload}),
+          body: JSON.stringify(payload),
           headers: {'Content-Type': 'application/json'}
         })
 
@@ -167,8 +167,8 @@ export const updateProduct = async (formData: any, userId: string)=>{
 
 }
 
-// Used to change other properties except images
-export const modifyProduct = async (payload: null)=>{
+// Used to change other properties except images. Requires no formData
+export const modifyProduct = async (payload: any)=>{
    
       try{
         const response = await fetch(`${BASE_URL}/api/product/modifyproduct`, {
@@ -189,6 +189,9 @@ export const modifyProduct = async (payload: null)=>{
        return err
     }
 }
+
+
+
 
 
 // All products

@@ -6,7 +6,7 @@ import AddToCartButton from "../cart/addtocartbtn";
 import { CartContext } from "../../contextProviders/cartcontext";
 import { calculateETA, capitalize, formatCurrency, getItemQuantity } from "../utils";
 import BuyNowButton from "../cart/buyNowBtn";
-import { ProductProps } from '../api/product'
+import { ProductProps, updateProductViews } from '../api/product'
 import { GeneralContext } from "../../contextProviders/GeneralProvider";
 import { ProductContext } from "../../contextProviders/ProductContext";
 import PopularBadge from "./popularBadge";
@@ -30,7 +30,7 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
   const [isOpen, setIsOpen] = useState(false);
   const { cart } = useContext(CartContext);
   const { user } = useContext(GeneralContext);
-  const {locationData} = useContext(ProductContext)
+  const {locationData, Products, setProducts} = useContext(ProductContext)
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasColor, setHasColor] = useState(false)
@@ -44,6 +44,7 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
   const [selectedColor, setSelectedColor] = useState('')
   const [eta, setEta] = useState('')
   const [selectedSize, setSelectedSize] = useState('')
+  const [views, setViews] = useState(0)
 
   // Filter out hidden products and sort by latest first
   const visibleProducts = productArray
@@ -56,18 +57,47 @@ const ProductDetails = ({ productArray, text, productsPerPage }: ProductDetailsP
       const item = cart?.find((item) => item._id === selectedProduct._id && !selectedProduct.isHidden);
       setIsAdded(!!item?.isAdded);
     }
-  }, [cart, productArray, selectedProduct]);
+  }, [cart, productArray, selectedProduct, Products.length]);
 
   const onClose = () => {
     setIsOpen(false);
     document.body.style.overflow = 'auto';
   };
 
+
+  // Handle views
+    const handleViews = async (product: ProductProps)=>{
+      console.log('Product', product)
+      const productId = product?._id.toString()
+      if(!productId) return 'Product id not found'
+      const updatedProduct = { ...product, views: (product.views || 0) + 1 };
+      setSelectedProduct(updatedProduct)
+      const payload = {
+        productId,
+        views
+        
+      }
+    const response = await updateProductViews(payload)
+    
+     if(response.ok){
+      const {updatedProducts} = response
+      if(updatedProducts?.length > 0){
+        setProducts(updatedProducts)
+      }
+      
+     }else{
+        setError(response.error)
+     }
+     return
+   }
+
+//  Open modal
   const onOpen = (product: ProductProps) => {
     setIsOpen(true);
     setSelectedProduct(product);
     setSelectedImage(0);
     document.body.style.overflow = 'hidden';
+    handleViews(product)
   };
 
   // Pagination logic using visibleProducts

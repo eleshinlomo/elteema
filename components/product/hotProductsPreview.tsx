@@ -6,7 +6,7 @@ import Image from 'next/image';
 import AddToCartButton from '../cart/addtocartbtn';
 import { CartContext } from '../../contextProviders/cartcontext';
 import { calculateETA, capitalize, formatCurrency } from '../utils';
-import { ProductProps, updateProductViewsAndLikes } from '../api/product';
+import { modifyProduct, ProductProps, updateProductViews} from '../api/product';
 import BuyNowButton from '../cart/buyNowBtn';
 import { FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
 import CheckoutButton from '../cart/checkoutButton';
@@ -39,7 +39,7 @@ const HotProductsPreview = () => {
   const [views, setViews] = useState(0)
   const [likes, setLikes] = useState(0)
 
-  const { Products, locationData } = useContext(ProductContext);
+  const { Products, setProducts, locationData } = useContext(ProductContext);
 
 
 
@@ -49,7 +49,7 @@ const HotProductsPreview = () => {
 
   useEffect(() => {
     if (selectedProduct) {
-      const productInCart = cart?.some(item => item._id === selectedProduct._id);
+      const productInCart = cart?.some(item => item?._id === selectedProduct?._id);
       setIsAdded(productInCart);
     }
   }, [cart, selectedProduct]);
@@ -134,22 +134,30 @@ useEffect(() => {
     }
   };
 
-
-  const handleViews = async ()=>{
-    const id = selectedProduct._id
-    const updatedProduct = {...selectedProduct, views: views + 1} //Just for local update
+  
+  // Handle views
+  const handleViews = async (product: ProductProps)=>{
+    console.log('Product', product)
+    const productId = product?._id.toString()
+    if(!productId) return 'Product id not found'
+    const updatedProduct = { ...product, views: (product.views || 0) + 1 };
     setSelectedProduct(updatedProduct)
     const payload = {
-      id,
+      productId,
       likes,
       views
+      
     }
-  const response = await updateProductViewsAndLikes(payload)
+  const response = await updateProductViews(payload)
   
    if(response.ok){
-    console.log(response)
+    const {updatedProducts} = response
+    if(updatedProducts?.length > 0){
+      setProducts(updatedProducts)
+    }
+    
    }else{
-      console.log(response)
+      setError(response.error)
    }
    return
  }
@@ -160,8 +168,8 @@ useEffect(() => {
     setSelectedProduct(product);
     setSelectedImage(0);
     setIsOpen(true);
-    setIsAdded(cart.some(item => item._id === product._id));
-    await handleViews()
+    setIsAdded(cart.some(item => item?._id === product?._id));
+    await handleViews(product)
   };
 
   const closeModal = () => {
@@ -551,7 +559,7 @@ useEffect(() => {
                   {!isAdded ? (
                     <>
                       <AddToCartButton
-                        targetid={selectedProduct._id}
+                        targetid={selectedProduct?._id}
                         isAdded={isAdded}
                         setIsAdded={setIsAdded}
                         setError={setError}
@@ -560,7 +568,7 @@ useEffect(() => {
                         eta={eta}
                       />
                       <BuyNowButton
-                        targetId={selectedProduct._id}
+                        targetId={selectedProduct?._id}
                         setError={setError}
                         selectedSize={selectedSize}
                         selectedColor={selectedColor}
